@@ -1,7 +1,9 @@
 {
   "eslint.validate": [
     "javascript",
-    "javascriptreact"
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
   ],
   "java.configuration.updateBuildConfiguration": "interactive",
   "files.exclude": {
@@ -12,5 +14,6 @@
   },
   "workbench.colorCustomizations": {
     "editorUnnecessaryCode.border": "#dd7aab"
-  }
+  },
+  "java.compile.nullAnalysis.mode": "automatic"
 }
