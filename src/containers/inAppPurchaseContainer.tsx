@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Platform, Alert, EmitterSubscription } from 'react-native';
@@ -75,6 +74,7 @@ class InAppPurchaseContainer extends Component {
 
   // this snippet consumes all previously bought purchases
   // that are set to be consumed yet
+  // eslint-disable-next-line class-methods-use-this
   _consumeAvailablePurchases = async () => {
     try {
       // get available purchase
@@ -82,6 +82,7 @@ class InAppPurchaseContainer extends Component {
       // check consumeable status
       for (let i = 0; i < purchases.length; i++) {
         // consume item using finishTransactionx
+        // eslint-disable-next-line no-await-in-loop
         await IAP.finishTransaction({
           purchase: purchases[i],
           isConsumable: true,
@@ -165,6 +166,7 @@ class InAppPurchaseContainer extends Component {
     });
   };
 
+  // eslint-disable-next-line class-methods-use-this
   _getTitle = (title) => {
     let _title = title.toUpperCase();
     if (_title !== 'FREE POINTS') {
@@ -255,7 +257,7 @@ class InAppPurchaseContainer extends Component {
             },
             {
               text: intl.formatMessage({ id: 'alert.confirm' }),
-              onPress: async () => await this._buyItem(productId),
+              onPress: () => this._buyItem(productId),
             },
           ],
           headerContent: <UserAvatar username={username} size="xl" />,

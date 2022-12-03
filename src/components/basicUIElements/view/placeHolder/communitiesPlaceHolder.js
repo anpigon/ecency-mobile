@@ -6,7 +6,7 @@ import { ThemeContainer } from '../../../../containers';
 
 import styles from './postCardPlaceHolderStyles';
 // TODO: make container for place holder wrapper after alpha
-const PostCardPlaceHolder = () => {
+function PostCardPlaceHolder() {
   return (
     <ThemeContainer>
       {({ isDarkTheme }) => {
@@ -30,5 +30,5 @@ const PostCardPlaceHolder = () => {
       }}
     </ThemeContainer>
   );
-};
+}
 export default PostCardPlaceHolder;

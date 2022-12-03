@@ -12,7 +12,7 @@ import ESTM_TAGS from '../../assets/estmTags.png';
 // Styles
 import styles from './spinGameStyles';
 
-const SpinGameView = ({
+function SpinGameView({
   gameRight,
   score,
   isLoading,
@@ -21,7 +21,7 @@ const SpinGameView = ({
   buyItem,
   nextDate,
   startGame,
-}) => {
+}) {
   const intl = useIntl();
   const [isSpinning, setIsSpinning] = useState(false);
   const calculateTimeLeft = () => {
@@ -47,17 +47,17 @@ const SpinGameView = ({
   };
 
   return (
-    <Fragment>
+    <>
       <BasicHeader title={intl.formatMessage({ id: 'free_estm.title' })} />
       <View style={styles.container}>
         <View style={styles.textWrapper}>
           {!isSpinning && !isLoading && (
-            <Fragment>
+            <>
               <Text style={styles.count}>{gameRight}</Text>
               <Text style={styles.countDesc}>
                 {intl.formatMessage({ id: 'free_estm.spin_right' })}
               </Text>
-            </Fragment>
+            </>
           )}
         </View>
         <View style={styles.spinnerWrapper}>
@@ -68,47 +68,45 @@ const SpinGameView = ({
 
           {!isSpinning && score > 0 && (
             <View style={styles.descriptionWrapper}>
-              <Fragment>
+              <>
                 <Text style={styles.description}>{`${score} Points`}</Text>
                 <View style={styles.triangle} />
-              </Fragment>
+              </>
             </View>
           )}
         </View>
         <View style={styles.productWrapper}>
-          {!isSpinning && !isLoading && (
-            <Fragment>
-              {gameRight > 0 ? (
-                <MainButton
-                  style={styles.spinButton}
-                  onPress={_handleOnSpinPress}
-                  text={intl.formatMessage({ id: 'free_estm.button' })}
-                />
-              ) : (
-                <Fragment>
-                  {spinProduct.map((product) => (
-                    <ProductItemLine
-                      key={`key-${get(product, 'productId').toString()}`}
-                      product={product}
-                      title={intl.formatMessage({ id: 'free_estm.get_spin' })}
-                      disabled={isProcessing}
-                      handleOnButtonPress={(id) => buyItem(id)}
-                    />
-                  ))}
-                  <Text style={styles.nextDate}>
-                    {`${intl.formatMessage({
-                      id: 'free_estm.timer_text',
-                    })} ${timeLeft}`}
-                  </Text>
-                </Fragment>
-              )}
-            </Fragment>
-          )}
+          {!isSpinning &&
+            !isLoading &&
+            (gameRight > 0 ? (
+              <MainButton
+                style={styles.spinButton}
+                onPress={_handleOnSpinPress}
+                text={intl.formatMessage({ id: 'free_estm.button' })}
+              />
+            ) : (
+              <>
+                {spinProduct.map((product) => (
+                  <ProductItemLine
+                    key={`key-${get(product, 'productId').toString()}`}
+                    product={product}
+                    title={intl.formatMessage({ id: 'free_estm.get_spin' })}
+                    disabled={isProcessing}
+                    handleOnButtonPress={(id) => buyItem(id)}
+                  />
+                ))}
+                <Text style={styles.nextDate}>
+                  {`${intl.formatMessage({
+                    id: 'free_estm.timer_text',
+                  })} ${timeLeft}`}
+                </Text>
+              </>
+            ))}
         </View>
       </View>
-    </Fragment>
+    </>
   );
-};
+}
 
 export { SpinGameView as SpinGame };
 /* eslint-enable */

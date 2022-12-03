@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
@@ -12,15 +11,14 @@ import { vestsToHp } from '../../../utils/conversions';
 // Styles
 import styles from './notificationLineStyles';
 
-const NotificationLineView = ({
+function NotificationLineView({
   notification,
   handleOnPressNotification,
   handleOnUserPress,
   globalProps,
-}) => {
+}) {
   const [isRead, setIsRead] = useState(notification.read);
   const intl = useIntl();
-  let _title;
   let titleExtra = '';
   let _moreinfo = '';
   useEffect(() => {
@@ -49,7 +47,7 @@ const NotificationLineView = ({
     titleExtra = _percent;
   }
 
-  _title = `${titleExtra} ${intl.formatMessage({
+  const _title = `${titleExtra} ${intl.formatMessage({
     id: `notification.${notification.type}`,
   })}`;
 
@@ -109,7 +107,7 @@ const NotificationLineView = ({
       </View>
     </TouchableHighlight>
   );
-};
+}
 
 export default NotificationLineView;
 /* eslint-enable */

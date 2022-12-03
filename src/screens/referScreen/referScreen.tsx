@@ -37,7 +37,7 @@ import { showProfileModal } from '../../redux/actions/uiAction';
 import RootNavigation from '../../navigation/rootNavigation';
 import { useAppSelector } from '../../hooks';
 
-const ReferScreen = () => {
+function ReferScreen() {
   const intl = useIntl();
   const dispatch = useDispatch();
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
@@ -240,15 +240,15 @@ const ReferScreen = () => {
     );
   };
   return (
-    <Fragment>
+    <>
       <BasicHeader
         title={intl.formatMessage({
           id: 'refer.refer_earn',
         })}
       />
       <View style={styles.mainContainer}>{_renderReferralsList()}</View>
-    </Fragment>
+    </>
   );
-};
+}
 
 export default gestureHandlerRootHOC(ReferScreen);

@@ -90,7 +90,7 @@ const initialState: State = {
   updateTimestamp: 0,
 };
 
-export default function (state = initialState, action) {
+export default function walletReducer(state = initialState, action = { type: '', payload: {} }) {
   const { type, payload } = action;
   switch (type) {
     case RESET_WALLET_DATA: {

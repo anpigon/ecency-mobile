@@ -43,13 +43,13 @@ class LeaderboardView extends PureComponent {
 
   _renderEmptyView = () => {
     const { refreshing } = this.props;
-    return <>{refreshing ? <ListPlaceHolder /> : <EmptyScreenView />}</>;
+    return refreshing ? <ListPlaceHolder /> : <EmptyScreenView />;
   };
 
   render() {
     const { users, intl, fetchLeaderBoard, refreshing, selectedIndex } = this.props;
     return (
-      <Fragment>
+      <>
         <FilterBar
           dropdownIconName="arrow-drop-down"
           options={VALUE.map((val) => intl.formatMessage({ id: `leaderboard.${val}` }))}
@@ -82,7 +82,7 @@ class LeaderboardView extends PureComponent {
             contentContainerStyle={styles.listContentContainer}
           />
         </View>
-      </Fragment>
+      </>
     );
   }
 }

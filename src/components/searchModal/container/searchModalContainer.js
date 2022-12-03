@@ -23,7 +23,7 @@ import SearchModalView from '../view/searchModalView';
  *
  */
 
-const SearchModalContainer = ({ isConnected, handleOnClose, username, isOpen, placeholder }) => {
+function SearchModalContainer({ isConnected, handleOnClose, username, isOpen, placeholder }) {
   const navigation = useNavigation();
   const [searchResults, setSearchResults] = useState({});
 
@@ -228,7 +228,7 @@ const SearchModalContainer = ({ isConnected, handleOnClose, username, isOpen, pl
       searchResults={searchResults}
     />
   );
-};
+}
 
 const mapStateToProps = (state) => ({
   username: state.account.currentAccount.name,

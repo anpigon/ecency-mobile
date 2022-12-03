@@ -1,12 +1,11 @@
 /* eslint-disable react/no-unused-state */
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import { Text, View, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
 
 import { View as AnimatedView } from 'react-native-animatable';
-import moment from 'moment';
 import { getWithdrawRoutes } from '../../../providers/hive/dhive';
 import AUTH_TYPE from '../../../constants/authType';
 
@@ -17,8 +16,6 @@ import {
   DropdownButton,
   Modal,
   SquareButton,
-  InformationBox,
-  Icon,
   IconButton,
   BeneficiarySelectionContent,
   TextInput,
@@ -32,7 +29,6 @@ import { isEmptyDate, daysTillDate } from '../../../utils/time';
 
 import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
-import { Beneficiary } from '../../../redux/reducers/editorReducer';
 
 /* Props
  * ------------------------------------------------
@@ -57,6 +53,13 @@ class PowerDownView extends Component {
     this.startActionSheet = React.createRef();
     this.stopActionSheet = React.createRef();
     this.amountTextInput = React.createRef();
+  }
+
+  // Component Life Cycles
+  UNSAFE_componentWillMount() {
+    const { currentAccountName } = this.props;
+
+    this._fetchRoutes(currentAccountName);
   }
 
   // Component Functions
@@ -136,7 +139,7 @@ class PowerDownView extends Component {
   };
 
   // renderers
-  _renderDropdown = (accounts, currentAccountName) => (
+  /* _renderDropdown = (accounts, currentAccountName) => (
     <DropdownButton
       dropdownButtonStyle={styles.dropdownButtonStyle}
       rowTextStyle={styles.rowTextStyle}
@@ -148,16 +151,16 @@ class PowerDownView extends Component {
       selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
       onSelect={(index, value) => this._handleOnDropdownChange(value)}
     />
-  );
+  ); */
 
-  _renderDestinationAccountItems = () => {
+  /* _renderDestinationAccountItems = () => {
     const { destinationAccounts } = this.state;
 
     if (destinationAccounts.length <= 0) {
       return this._renderButton();
     }
     return (
-      <Fragment>
+      <>
         {destinationAccounts.map((item) => (
           <View style={styles.destinationAccountsLists} key={item.username}>
             <Text>{item.username}</Text>
@@ -172,9 +175,9 @@ class PowerDownView extends Component {
           </View>
         ))}
         {this._renderButton()}
-      </Fragment>
+      </>
     );
-  };
+  }; */
 
   _removeDestinationAccount = (account) => {
     const { destinationAccounts } = this.state;
@@ -195,15 +198,16 @@ class PowerDownView extends Component {
     />
   );
 
+  // eslint-disable-next-line
   _renderInformationText = (text) => <Text style={styles.amountText}>{text}</Text>;
 
-  _renderIncomingFunds = (poweringDownFund, poweringDownVests, nextPowerDown) => (
-    <Fragment>
+  /*   _renderIncomingFunds = (poweringDownFund, poweringDownVests, nextPowerDown) => (
+    <>
       <Text style={styles.incomingFundSteem}>{`+ ${poweringDownFund} HIVE`}</Text>
       <Text style={styles.incomingFundVests}>{`- ${poweringDownVests} VESTS`}</Text>
       <Text style={styles.nextPowerDown}>{nextPowerDown}</Text>
-    </Fragment>
-  );
+    </>
+  ); */
 
   _renderBeneficiarySelectionContent = () => {
     const { intl } = this.props;
@@ -295,7 +299,7 @@ class PowerDownView extends Component {
     this.setState({ from: value, amount: 0 });
   };
 
-  _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
+  // _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
 
   _handleOnSubmit = (username, percent, autoPowerUp) => {
     const { destinationAccounts } = this.state;
@@ -315,13 +319,6 @@ class PowerDownView extends Component {
       );
     }
   };
-
-  // Component Life Cycles
-  UNSAFE_componentWillMount() {
-    const { currentAccountName } = this.props;
-
-    this._fetchRoutes(currentAccountName);
-  }
 
   render() {
     const {
@@ -445,16 +442,14 @@ class PowerDownView extends Component {
     const _renderBottomContent = () => (
       <View style={styles.bottomContent}>
         {!poweringDown && (
-          <Fragment>
-            <MainButton
-              style={styles.button}
-              isDisable={hp <= 0 || !isAmountValid}
-              onPress={_handleMainBtn}
-              isLoading={isTransfering}
-            >
-              <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
-            </MainButton>
-          </Fragment>
+          <MainButton
+            style={styles.button}
+            isDisable={hp <= 0 || !isAmountValid}
+            onPress={_handleMainBtn}
+            isLoading={isTransfering}
+          >
+            <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
+          </MainButton>
         )}
         {poweringDown && (
           <MainButton
@@ -468,7 +463,7 @@ class PowerDownView extends Component {
       </View>
     );
     return (
-      <Fragment>
+      <>
         <BasicHeader
           title={intl.formatMessage({ id: `transfer.${transferType}` })}
           backIconName="close"
@@ -525,7 +520,7 @@ class PowerDownView extends Component {
             handleOnSubmit={this._handleOnSubmit}
           />
         </Modal>
-      </Fragment>
+      </>
     );
   }
 }

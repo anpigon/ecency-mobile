@@ -15,7 +15,7 @@ import getWindowDimensions from '../../utils/getWindowDimensions';
 export interface QRModalProps {}
 
 const screenHeight = getWindowDimensions().height;
-export const QRModal = ({}: QRModalProps) => {
+export function QRModal({}: QRModalProps) {
   const dispatch = useAppDispatch();
   const intl = useIntl();
   const isVisibleQRModal = useAppSelector((state) => state.ui.isVisibleQRModal);
@@ -161,6 +161,6 @@ export const QRModal = ({}: QRModalProps) => {
       </View>
     </ActionSheet>
   );
-};
+}
 
 export default QRModal;

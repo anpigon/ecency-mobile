@@ -22,7 +22,7 @@ interface TabEmptyViewProps {
   isNoPost: boolean;
 }
 
-const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
+function TabEmptyView({ filterKey, isNoPost }: TabEmptyViewProps) {
   const intl = useIntl();
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -78,6 +78,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   useEffect(() => {
     const recommendeds = [...recommendedCommunities];
 
+    // eslint-disable-next-line
     Object.keys(subscribingCommunities).map((communityId) => {
       if (!subscribingCommunities[communityId].loading) {
         if (!subscribingCommunities[communityId].error) {
@@ -104,6 +105,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   useEffect(() => {
     const recommendeds = [...recommendedUsers];
 
+    // eslint-disable-next-line
     Object.keys(followingUsers).map((following) => {
       if (!followingUsers[following].loading) {
         if (!followingUsers[following].error) {
@@ -263,7 +265,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
                 isLoggedIn={isLoggedIn}
                 isFollowing={item.isFollowing}
                 isLoadingRightAction={
-                  followingUsers.hasOwnProperty(item._id) && followingUsers[item._id].loading
+                  item._id in followingUsers && followingUsers[item._id].loading
                 }
                 onPressRightText={_handleFollowUserButtonPress}
                 handleOnPress={(username) =>
@@ -312,8 +314,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
                 handleSubscribeButtonPress={_handleSubscribeCommunityButtonPress}
                 isSubscribed={item.isSubscribed}
                 isLoadingRightAction={
-                  subscribingCommunities.hasOwnProperty(item.name) &&
-                  subscribingCommunities[item.name].loading
+                  item.name in subscribingCommunities && subscribingCommunities[item.name].loading
                 }
                 isLoggedIn={isLoggedIn}
               />
@@ -331,6 +332,6 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
       <PostCardPlaceHolder />
     </View>
   );
-};
+}
 
 export default TabEmptyView;

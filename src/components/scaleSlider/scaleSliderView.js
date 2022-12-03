@@ -16,6 +16,7 @@ export default class ScaleSliderView extends Component {
     };
   }
 
+  // eslint-disable-next-line class-methods-use-this
   _renderMarker = () => <View style={styles.marker} />;
 
   _valueChange = (_values) => {
@@ -32,6 +33,7 @@ export default class ScaleSliderView extends Component {
     }
   };
 
+  // eslint-disable-next-line class-methods-use-this
   _renderItem = (value, index, activeIndex) => {
     const isActive = index <= activeIndex || index === 0;
 

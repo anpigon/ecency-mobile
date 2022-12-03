@@ -6,7 +6,7 @@ import { CommunitiesList, EmptyScreen } from '../../../../../../components';
 
 import CommunitiesResultsContainer from '../container/communitiesResultsContainer';
 
-const CommunitiesResultsScreen = ({ navigation, searchValue }) => {
+function CommunitiesResultsScreen({ navigation, searchValue }) {
   const activeVotes = get(navigation, 'state.params.activeVotes');
 
   return (
@@ -37,6 +37,6 @@ const CommunitiesResultsScreen = ({ navigation, searchValue }) => {
       }
     </CommunitiesResultsContainer>
   );
-};
+}
 
 export default CommunitiesResultsScreen;

@@ -16,7 +16,7 @@ import styles from './draftListItemStyles';
 import { ScheduledPostStatus } from '../../../providers/ecency/ecency.types';
 import { PopoverWrapper } from '../../popoverWrapper/popoverWrapperView';
 
-const DraftListItemView = ({
+function DraftListItemView({
   title,
   summary,
   mainTag,
@@ -34,7 +34,7 @@ const DraftListItemView = ({
   status,
   isSchedules,
   isDeleting,
-}) => {
+}) {
   const actionSheet = useRef(null);
   const moveActionSheet = useRef(null);
   const [deleteRequested, setIsDeleteRequested] = useState(false);
@@ -78,7 +78,7 @@ const DraftListItemView = ({
       : '#c1c5c7';
 
   return (
-    <Fragment>
+    <>
       <View style={styles.container}>
         <View style={styles.header}>
           <PostHeaderDescription
@@ -170,8 +170,8 @@ const DraftListItemView = ({
           }
         }}
       />
-    </Fragment>
+    </>
   );
-};
+}
 
 export default injectIntl(DraftListItemView);

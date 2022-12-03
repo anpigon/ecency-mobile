@@ -29,6 +29,7 @@ class RedeemContainer extends Component {
 
   // Component Functions
 
+  // eslint-disable-next-line
   _redeemAction = async (redeemType = 'promote', actionSpecificParam, permlink, author, user) => {
     this.setState({ isLoading: true });
 

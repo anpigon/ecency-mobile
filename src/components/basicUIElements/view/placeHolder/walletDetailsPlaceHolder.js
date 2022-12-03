@@ -1,5 +1,5 @@
 /* eslint-disable radix */
-import React, { Fragment } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import Placeholder from 'rn-placeholder';
 import times from 'lodash/times';
@@ -23,25 +23,27 @@ const listPlaceHolderView = (color) => {
     );
   });
 
-  return <Fragment>{listElements}</Fragment>;
+  return listElements;
 };
 
-const WalletDetailsPlaceHolder = () => (
-  <ThemeContainer>
-    {({ isDarkTheme }) => {
-      const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
+function WalletDetailsPlaceHolder() {
+  return (
+    <ThemeContainer>
+      {({ isDarkTheme }) => {
+        const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
 
-      return (
-        <View style={styles.container}>
-          <View style={styles.textWrapper}>
-            <Placeholder.Paragraph lineNumber={1} color={color} />
+        return (
+          <View style={styles.container}>
+            <View style={styles.textWrapper}>
+              <Placeholder.Paragraph lineNumber={1} color={color} />
+            </View>
+            {listPlaceHolderView(color)}
           </View>
-          {listPlaceHolderView(color)}
-        </View>
-      );
-    }}
-  </ThemeContainer>
-);
+        );
+      }}
+    </ThemeContainer>
+  );
+}
 
 export default WalletDetailsPlaceHolder;
 /* eslint-enable */

@@ -6,7 +6,7 @@ import { ThemeContainer } from '../../../../containers';
 
 import styles from './listItemPlaceHolderStyles';
 
-const ListItemPlaceHolderView = () => {
+function ListItemPlaceHolderView() {
   return (
     <ThemeContainer>
       {({ isDarkTheme }) => {
@@ -31,6 +31,6 @@ const ListItemPlaceHolderView = () => {
       }}
     </ThemeContainer>
   );
-};
+}
 
 export default ListItemPlaceHolderView;

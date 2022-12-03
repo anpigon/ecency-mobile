@@ -34,7 +34,7 @@ import {
 import useIsMountedRef from '../../../customHooks/useIsMountedRef';
 import { setHidePostsThumbnails } from '../../../redux/actions/applicationActions';
 
-const PostsContainer = ({
+function PostsContainer({
   changeForceLoadPostState,
   filterOptions,
   forceLoadPost,
@@ -48,7 +48,7 @@ const PostsContainer = ({
   feedSubfilterOptions,
   feedSubfilterOptionsValue,
   isFeedScreen = false,
-}) => {
+}) {
   const dispatch = useDispatch();
   const intl = useIntl();
   let _postFetchTimer = null;
@@ -846,6 +846,6 @@ const PostsContainer = ({
       setNewPostsPopupPictures={_handleSetNewPostsPopupPictures}
     />
   );
-};
+}
 
 export default PostsContainer;

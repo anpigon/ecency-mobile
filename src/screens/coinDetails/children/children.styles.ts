@@ -94,7 +94,7 @@ export default EStyleSheet.create({
     paddingHorizontal: 16,
   } as ViewStyle,
 
-  //COIN ACTIONS STYLES
+  // COIN ACTIONS STYLES
   actionBtnContainer: {
     flexGrow: 1,
   } as ViewStyle,

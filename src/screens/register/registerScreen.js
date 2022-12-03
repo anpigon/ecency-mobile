@@ -28,7 +28,7 @@ import ESTEEM_SMALL_LOGO from '../../assets/ecency_logo_transparent.png';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 import { ECENCY_TERMS_URL } from '../../config/ecencyApi';
 
-const RegisterScreen = ({ navigation, route }) => {
+function RegisterScreen({ navigation, route }) {
   const intl = useIntl();
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
   const [username, setUsername] = useState('');
@@ -200,7 +200,7 @@ const RegisterScreen = ({ navigation, route }) => {
       )}
     </RegisterContainer>
   );
-};
+}
 
 const { height } = getWindowDimensions();
 const bodyHeight = height / 5;

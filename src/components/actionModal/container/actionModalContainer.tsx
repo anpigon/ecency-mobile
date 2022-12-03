@@ -15,7 +15,7 @@ export interface ActionModalData {
   headerContent?: React.ReactNode;
 }
 
-const ActionModalContainer = ({ navigation }) => {
+function ActionModalContainer({ navigation }) {
   const dispatch = useDispatch();
   const actionModalRef = useRef<ActionModalRef>();
 
@@ -39,6 +39,6 @@ const ActionModalContainer = ({ navigation }) => {
   };
 
   return <ActionModalView ref={actionModalRef} onClose={_onClose} data={actionModalData} />;
-};
+}
 
 export default ActionModalContainer;

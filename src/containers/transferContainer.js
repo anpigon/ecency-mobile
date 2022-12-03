@@ -118,6 +118,7 @@ class TransferContainer extends Component {
     });
   };
 
+  // eslint-disable-next-line
   _getAccountsWithUsername = async (username) => {
     const validUsers = await lookupAccounts(username);
     return validUsers;

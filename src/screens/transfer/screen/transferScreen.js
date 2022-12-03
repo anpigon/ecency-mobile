@@ -20,7 +20,7 @@ import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
 import transferTypes from '../../../constants/transferTypes';
 
-const TransferView = ({
+function TransferView({
   currentAccountName,
   transferType,
   getAccountsWithUsername,
@@ -33,7 +33,7 @@ const TransferView = ({
   fundType,
   selectedAccount,
   fetchBalance,
-}) => {
+}) {
   const [from, setFrom] = useState(currentAccountName);
   const [destination, setDestination] = useState(
     transferType === 'transfer_to_vesting' ||
@@ -127,7 +127,7 @@ const TransferView = ({
     }
   }
   return (
-    <Fragment>
+    <>
       <BasicHeader
         title={intl.formatMessage({ id: `transfer.${transferType}` })}
         backIconName="close"
@@ -208,8 +208,8 @@ const TransferView = ({
           <WebView source={{ uri: `${hsOptions.base_url}${path}` }} />
         </Modal>
       )}
-    </Fragment>
+    </>
   );
-};
+}
 
 export default injectIntl(TransferView);

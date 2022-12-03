@@ -220,15 +220,15 @@ class LoginContainer extends PureComponent {
       favorite: 13,
       bookmark: 15,
     };
-    const notifyTypes = [];
-
-    Object.keys(notificationDetails).map((item) => {
-      const notificationType = item.replace('Notification', '');
-
-      if (notificationDetails[item]) {
-        notifyTypes.push(notifyTypesConst[notificationType]);
-      }
-    });
+    const notifyTypes = Object.keys(notificationDetails)
+      .map((item) => {
+        const notificationType = item.replace('Notification', '');
+        if (notificationDetails[item]) {
+          return notifyTypesConst[notificationType];
+        }
+        return null;
+      })
+      .filter((e) => e);
 
     messaging()
       .getToken()

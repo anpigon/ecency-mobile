@@ -147,18 +147,18 @@ export const makeJsonMetadataReply = (tags) => ({
   format: 'markdown+html',
 });
 
-export const makeJsonMetadata = (meta, tags) =>
-  Object.assign({}, meta, {
-    tags,
-    app: `ecency/${VersionNumber.appVersion}-mobile`,
-    format: 'markdown+html',
-  });
+export const makeJsonMetadata = (meta, tags) => ({
+  ...meta,
+  tags,
+  app: `ecency/${VersionNumber.appVersion}-mobile`,
+  format: 'markdown+html',
+});
 
 export const makeJsonMetadataForUpdate = (oldJson, meta, tags) => {
   const { meta: oldMeta } = oldJson;
-  const mergedMeta = Object.assign({}, oldMeta, meta);
+  const mergedMeta = { ...oldMeta, ...meta };
 
-  return Object.assign({}, oldJson, mergedMeta, { tags });
+  return { ...oldJson, ...mergedMeta, tags };
 };
 
 const extractUrls = (body: string) => {
@@ -266,4 +266,7 @@ export const createPatch = (text1, text2) => {
   return patch;
 };
 
-export const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+export const delay = (ms) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });

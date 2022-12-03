@@ -7,7 +7,7 @@ import { UserAvatar } from '../../../userAvatar';
 import styles from './userListItemStyles';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-const UserListItem = ({
+function UserListItem({
   rightText,
   description,
   descriptionStyle,
@@ -32,7 +32,7 @@ const UserListItem = ({
   rightTooltipText,
   leftItemRenderer,
   rightItemRenderer,
-}) => {
+}) {
   const _handleRightButtonPress = () => {
     if (onPressRightText) {
       const _data = {};
@@ -105,7 +105,7 @@ const UserListItem = ({
                 setPopoverAnchor,
                 popoverAnchorRect,
               }) => (
-                <Fragment>
+                <>
                   <TouchableOpacity
                     ref={setPopoverAnchor}
                     style={styles.rightWrapper}
@@ -141,13 +141,13 @@ const UserListItem = ({
                   >
                     <Text>{rightTooltipText}</Text>
                   </Popover>
-                </Fragment>
+                </>
               )}
             </PopoverController>
           ))}
       </View>
     </TouchableOpacity>
   );
-};
+}
 
 export default UserListItem;

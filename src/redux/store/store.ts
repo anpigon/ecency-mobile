@@ -1,8 +1,8 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose } from '@reduxjs/toolkit';
 
 import thunk from 'redux-thunk';
 import { createMigrate, createTransform, persistReducer, persistStore } from 'redux-persist';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Reactotron from '../../../reactotron-config';
 
 import reducers from '../reducers';
@@ -56,12 +56,12 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 const middleware = [thunk];
 
 let enhancers;
-if(__DEV__){
+if (__DEV__) {
   const createDebugger = require('redux-flipper').default;
   middleware.push(createDebugger());
-  enhancers = compose(applyMiddleware(...middleware), Reactotron.createEnhancer())
+  enhancers = compose(applyMiddleware(...middleware), Reactotron.createEnhancer());
 } else {
-  enhancers = applyMiddleware(...middleware)
+  enhancers = applyMiddleware(...middleware);
 }
 
 export const store = createStore(persistedReducer, enhancers);

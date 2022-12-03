@@ -1,13 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 
-const FormattedCurrency = ({
-  value,
-  fixAt = 3,
-  currency,
-  isApproximate = false,
-  isToken = false,
-}) => {
+function FormattedCurrency({ value, fixAt = 3, currency, isApproximate = false, isToken = false }) {
   const { currencyRate, currencySymbol } = currency;
   const valueInCurrency = value * (isToken ? 1 : currencyRate);
   const toFixedValue = valueInCurrency.toFixed(fixAt);
@@ -17,7 +11,7 @@ const FormattedCurrency = ({
       {`${isApproximate ? '~' : ''}${currencySymbol} ${toFixedValue}`}
     </Fragment>
   );
-};
+}
 
 const mapStateToProps = (state) => ({
   currency: state.application.currency,

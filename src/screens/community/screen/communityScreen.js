@@ -16,7 +16,7 @@ import { getDefaultFilters, getFilterMap } from '../../../constants/options/filt
 import { useAppSelector } from '../../../hooks';
 import { TagResult } from '../..';
 
-const CommunityScreen = ({ route }) => {
+function CommunityScreen({ route }) {
   const tag = route.params?.tag ?? '';
   const filter = route.params?.filter ?? '';
 
@@ -124,6 +124,6 @@ const CommunityScreen = ({ route }) => {
       )}
     </CommunityContainer>
   );
-};
+}
 
 export default gestureHandlerRootHOC(CommunityScreen);

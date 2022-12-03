@@ -14,14 +14,14 @@ export interface CoinSummaryProps {
   onInfoPress: (dataKey: string) => void;
 }
 
-export const CoinSummary = ({
+export function CoinSummary({
   coinSymbol,
   id,
   coinData,
   percentChagne,
   onActionPress,
   onInfoPress,
-}: CoinSummaryProps) => {
+}: CoinSummaryProps) {
   const { balance, estimateValue, savings, extraDataPairs, actions } = coinData;
 
   const valuePairs = [
@@ -58,4 +58,4 @@ export const CoinSummary = ({
       {id !== COIN_IDS.ECENCY && id !== COIN_IDS.HP && <CoinChart coinId={id} />}
     </View>
   );
-};
+}

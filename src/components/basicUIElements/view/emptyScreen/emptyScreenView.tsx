@@ -12,7 +12,7 @@ interface Props {
   text?: string;
 }
 
-const EmptyScreenView = ({ style, textStyle, text }: Props) => {
+function EmptyScreenView({ style, textStyle, text }: Props) {
   const intl = useIntl();
 
   return (
@@ -28,6 +28,6 @@ const EmptyScreenView = ({ style, textStyle, text }: Props) => {
       </Text>
     </View>
   );
-};
+}
 
 export default EmptyScreenView;

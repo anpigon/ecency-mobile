@@ -29,7 +29,7 @@ interface Props extends TextInputProps {
   onBlur?: () => void;
 }
 
-const FormInputView = ({
+function FormInputView({
   placeholder,
   type,
   isFirstImage,
@@ -47,7 +47,7 @@ const FormInputView = ({
   onBlur,
   onFocus,
   ...props
-}: Props) => {
+}: Props) {
   const [_value, setValue] = useState(value || '');
   const [inputBorderColor, setInputBorderColor] = useState('#e7e7e7');
   const [_isValid, setIsValid] = useState(true);
@@ -154,6 +154,6 @@ const FormInputView = ({
       ) : null}
     </View>
   );
-};
+}
 
 export default FormInputView;

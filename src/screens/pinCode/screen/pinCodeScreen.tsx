@@ -3,7 +3,7 @@ import { BackHandler } from 'react-native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import PinCodeContainer from '../container/pinCodeContainer';
 
-const PinCodeScreen = ({ route, navigation }) => {
+function PinCodeScreen({ route, navigation }) {
   const hideCloseButton = route.params ? route.params.hideCloseButton ?? false : true;
 
   useEffect(() => {
@@ -19,6 +19,6 @@ const PinCodeScreen = ({ route, navigation }) => {
   const _handleBackPress = () => !!hideCloseButton;
 
   return <PinCodeContainer hideCloseButton={hideCloseButton} pinCodeParams={route.params ?? {}} />;
-};
+}
 
 export default gestureHandlerRootHOC(PinCodeScreen);

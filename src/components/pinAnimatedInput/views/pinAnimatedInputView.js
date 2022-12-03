@@ -23,10 +23,19 @@ class PinAnimatedInput extends Component {
     this.dots[3] = new Animated.Value(0);
   }
 
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { loading } = this.props;
+    if (loading !== nextProps.loading) {
+      if (nextProps.loading) {
+        this._startLoadingAnimation();
+      } else {
+        this._stopLoadingAnimation();
+      }
+    }
+  }
+
   _startLoadingAnimation = () => {
-    [...Array(4)].map((item, index) => {
-      this.dots[index].setValue(0);
-    });
+    [...Array(4)].map((_, index) => this.dots[index].setValue(0));
     Animated.sequence([
       ...this.dots.map((item) =>
         Animated.timing(item, {
@@ -44,27 +53,15 @@ class PinAnimatedInput extends Component {
   };
 
   _stopLoadingAnimation = () => {
-    [...Array(4)].map((item, index) => {
-      this.dots[index].stopAnimation();
-    });
+    [...Array(4)].map((_, index) => this.dots[index].stopAnimation());
   };
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { loading } = this.props;
-    if (loading !== nextProps.loading) {
-      if (nextProps.loading) {
-        this._startLoadingAnimation();
-      } else {
-        this._stopLoadingAnimation();
-      }
-    }
-  }
 
   render() {
     const { pin } = this.props;
     const marginBottom = [];
 
-    [...Array(4)].map((item, index) => {
+    // eslint-disable-next-line array-callback-return
+    [...Array(4)].map((_, index) => {
       marginBottom[index] = this.dots[index].interpolate({
         inputRange: [0, 0.5, 1],
         outputRange: [0, 20, 0],
@@ -73,7 +70,7 @@ class PinAnimatedInput extends Component {
 
     return (
       <View style={[styles.container]}>
-        {this.dots.map((val, index) => {
+        {this.dots.map((_, index) => {
           if (pin.length > index) {
             return (
               <Animated.View

@@ -28,7 +28,7 @@ export interface TransferAccountSelectorProps {
   setMemo: (value: string) => void;
 }
 
-const TransferAccountSelector = ({
+function TransferAccountSelector({
   accounts,
   currentAccountName,
   transferType,
@@ -44,7 +44,7 @@ const TransferAccountSelector = ({
   setIsUsernameValid,
   memo,
   setMemo,
-}) => {
+}) {
   const intl = useIntl();
 
   const _handleOnDropdownChange = (value) => {
@@ -148,6 +148,6 @@ const TransferAccountSelector = ({
       </View>
     </View>
   );
-};
+}
 
 export default TransferAccountSelector;

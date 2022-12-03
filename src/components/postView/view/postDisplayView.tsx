@@ -30,7 +30,7 @@ import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;
 
-const PostDisplayView = ({
+function PostDisplayView({
   currentAccount,
   isLoggedIn,
   isNewPost,
@@ -47,7 +47,7 @@ const PostDisplayView = ({
   activeVotes,
   reblogs,
   activeVotesCount,
-}) => {
+}) {
   const dispatch = useAppDispatch();
   const insets = useSafeAreaInsets();
   const userActivityMutation = useUserActivityMutation();
@@ -184,7 +184,7 @@ const PostDisplayView = ({
           )}
           <View style={styles.stickyRightWrapper}>
             {get(currentAccount, 'name') === get(post, 'author') && (
-              <Fragment>
+              <>
                 {!get(post, 'children') && !activeVotes.length && (
                   <IconButton
                     iconStyle={styles.barIconRight}
@@ -201,7 +201,7 @@ const PostDisplayView = ({
                   onPress={() => handleOnEditPress && handleOnEditPress()}
                   style={styles.barIconButton}
                 />
-              </Fragment>
+              </>
             )}
           </View>
         </View>
@@ -314,6 +314,6 @@ const PostDisplayView = ({
       />
     </View>
   );
-};
+}
 
 export default injectIntl(PostDisplayView);

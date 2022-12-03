@@ -3,7 +3,7 @@ import { View, Text, findNodeHandle, NativeModules } from 'react-native';
 import { Popover } from 'react-native-modal-popover';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerTooltip } from '../../redux/actions/walkthroughActions';
-import { Walkthrough } from '../../redux/reducers/walkthroughReducer';
+import { WalkthroughItem } from '../../redux/reducers/walkthroughReducer';
 
 import styles from './tooltipStyles';
 
@@ -12,7 +12,7 @@ interface TooltipProps {
   text?: string;
   walkthroughIndex?: number;
 }
-const Tooltip = ({ children, text, walkthroughIndex }: TooltipProps, ref) => {
+function Tooltip({ children, text, walkthroughIndex }: TooltipProps, ref) {
   const dispatch = useDispatch();
   const tooltipState = useSelector((state) => state.walkthrough.walkthroughMap);
   const tooltipRegistered = tooltipState.get(walkthroughIndex);
@@ -28,7 +28,7 @@ const Tooltip = ({ children, text, walkthroughIndex }: TooltipProps, ref) => {
     },
     closeTooltip() {
       if (!tooltipRegistered || (tooltipRegistered && !tooltipRegistered.isShown)) {
-        const walkthrough: Walkthrough = {
+        const walkthrough: WalkthroughItem = {
           walkthroughIndex,
           isShown: true,
         };
@@ -68,6 +68,6 @@ const Tooltip = ({ children, text, walkthroughIndex }: TooltipProps, ref) => {
       </Popover>
     </>
   );
-};
+}
 
 export default forwardRef(Tooltip);

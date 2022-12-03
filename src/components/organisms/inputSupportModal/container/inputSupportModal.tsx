@@ -10,7 +10,7 @@ export interface InputSupportModalProps {
   children?: any;
 }
 
-export const InputSupportModal = ({ children, visible, onClose }: InputSupportModalProps, ref) => {
+export function InputSupportModal({ children, visible, onClose }: InputSupportModalProps, ref) {
   const container = useRef<AnimatedView>(null);
   const innerContainer = useRef<AnimatedView>(null);
 
@@ -53,4 +53,4 @@ export const InputSupportModal = ({ children, visible, onClose }: InputSupportMo
       </Portal>
     )
   );
-};
+}

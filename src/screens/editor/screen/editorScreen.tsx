@@ -70,14 +70,7 @@ class EditorScreen extends Component {
     }
   }
 
-  componentWillUnmount() {
-    const { isEdit } = this.props;
-    if (!isEdit) {
-      this._saveDraftToDB();
-    }
-  }
-
-  UNSAFE_componentWillReceiveProps = async (nextProps) => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { draftPost, isUploading, community, currentAccount } = this.props;
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
       if (nextProps.draftPost.tags?.length > 0 && isCommunity(nextProps.draftPost.tags[0])) {
@@ -104,7 +97,14 @@ class EditorScreen extends Component {
     if (isUploading !== nextProps) {
       this._handleFormUpdate();
     }
-  };
+  }
+
+  componentWillUnmount() {
+    const { isEdit } = this.props;
+    if (!isEdit) {
+      this._saveDraftToDB();
+    }
+  }
 
   // Component Functions
   _initialFields = () => {
@@ -248,11 +248,12 @@ class EditorScreen extends Component {
       fields.tags = content;
     }
 
-    const meta = Object.assign({}, extractMetadata(fields.body, thumbUrl), {
+    const meta = {
+      ...extractMetadata(fields.body, thumbUrl),
       tags: fields.tags,
       beneficiaries: getBeneficiaries(),
       rewardType,
-    });
+    };
     const jsonMeta = makeJsonMetadata(meta, fields.tags);
     fields.meta = jsonMeta;
 

@@ -42,13 +42,11 @@ class ErrorBoundary extends React.Component {
             })}
           </Text>
           <TouchableHighlight onPress={() => RNRestart.Restart()}>
-            <Fragment>
-              <Text style={{ fontSize: 15, textDecorationLine: 'underline', paddingTop: 20 }}>
-                {intl.formatMessage({
-                  id: 'alert.something_wrong_reload',
-                })}
-              </Text>
-            </Fragment>
+            <Text style={{ fontSize: 15, textDecorationLine: 'underline', paddingTop: 20 }}>
+              {intl.formatMessage({
+                id: 'alert.something_wrong_reload',
+              })}
+            </Text>
           </TouchableHighlight>
         </View>
       );

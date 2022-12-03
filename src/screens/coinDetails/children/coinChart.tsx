@@ -11,7 +11,7 @@ interface CoinChartProps {
   coinId: string;
 }
 
-export const CoinChart = ({ coinId }: CoinChartProps) => {
+export function CoinChart({ coinId }: CoinChartProps) {
   const priceHistory = useAppSelector((state) => state.wallet.priceHistories[coinId]);
 
   const [range, setRange] = useState(1);
@@ -47,4 +47,4 @@ export const CoinChart = ({ coinId }: CoinChartProps) => {
       <RangeSelector range={range} onRangeChange={_onRangeChange} />
     </>
   );
-};
+}

@@ -22,7 +22,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Component
 import DraftsScreen from '../screen/draftsScreen';
 
-const DraftsContainer = ({ currentAccount, navigation, route }) => {
+function DraftsContainer({ currentAccount, navigation, route }) {
   const { mutate: deleteDraft, isLoading: isDeletingDraft } = useDraftDeleteMutation();
   const { mutate: deleteSchedule, isLoading: isDeletingSchedule } = useScheduleDeleteMutation();
   const { mutate: moveScheduleToDrafts, isLoading: isMovingToDrafts } =
@@ -80,7 +80,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
       initialTabIndex={initialTabIndex}
     />
   );
-};
+}
 
 const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,

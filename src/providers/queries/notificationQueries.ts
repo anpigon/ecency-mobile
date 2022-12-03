@@ -16,6 +16,7 @@ import { getNotifications, markNotifications } from '../ecency/ecency';
 import { NotificationFilters } from '../ecency/ecency.types';
 import { markHiveNotifications } from '../hive/dhive';
 import QUERIES from './queryKeys';
+import lastItem from '../../utils/lastItem';
 
 const FETCH_LIMIT = 20;
 
@@ -31,7 +32,7 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
   };
 
   const _getNextPageParam = (lastPage: any[]) => {
-    const lastId = lastPage && lastPage.length ? lastPage.lastItem.id : undefined;
+    const lastId = lastPage && lastPage.length ? lastItem(lastPage).id : undefined;
     console.log('extracting next page parameter', lastId);
     return lastId;
   };

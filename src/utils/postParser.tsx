@@ -49,7 +49,7 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
   if (!isList) {
     post.body = renderPostBody({ ...post, last_update: post.updated }, true, webp);
   }
-  post.summary = postBodySummary(post, 150, Platform.OS);
+  post.summary = postBodySummary(post, 150, Platform.OS as 'ios' | 'android' | 'web');
   post.max_payout = parseAsset(post.max_accepted_payout).amount || 0;
   post.is_declined_payout = post.max_payout === 0;
 
@@ -76,43 +76,45 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
   return post;
 };
 
-export const parseCommentThreads = async (commentsMap: any, author: string, permlink: string) => {
-  const MAX_THREAD_LEVEL = 3;
-  const comments = [];
+const MAX_THREAD_LEVEL = 3;
 
+// traverse map to curate threads
+const parseReplies = (commentsMap: Record<string, any>, replies: any[], level: number) => {
+  if (replies && replies.length > 0 && MAX_THREAD_LEVEL > level) {
+    return replies.map((pathKey) => {
+      const comment = commentsMap[pathKey];
+      if (comment) {
+        const parsedComment = parseComment(comment);
+        parsedComment.replies = parseReplies(commentsMap, parsedComment.replies, level + 1);
+        return parsedComment;
+      } else {
+        return null;
+      }
+    });
+  }
+  return [];
+};
+
+export const parseCommentThreads = async (
+  commentsMap: Record<string, any>,
+  author: string,
+  permlink: string,
+) => {
   if (!commentsMap) {
     return null;
   }
 
-  // traverse map to curate threads
-  const parseReplies = (commentsMap: any, replies: any[], level: number) => {
-    if (replies && replies.length > 0 && MAX_THREAD_LEVEL > level) {
-      return replies.map((pathKey) => {
-        const comment = commentsMap[pathKey];
-        if (comment) {
-          const parsedComment = parseComment(comment);
-          parsedComment.replies = parseReplies(commentsMap, parsedComment.replies, level + 1);
-          return parsedComment;
-        } else {
-          return null;
-        }
-      });
-    }
-    return [];
-  };
-
-  for (const key in commentsMap) {
-    if (commentsMap.hasOwnProperty(key)) {
-      const comment = commentsMap[key];
-
-      // prcoess first level comment
+  const comments = commentsMap
+    .values()
+    .map((comment) => {
       if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
         const _parsedComment = parseComment(comment);
         _parsedComment.replies = parseReplies(commentsMap, _parsedComment.replies, 1);
-        comments.push(_parsedComment);
+        return _parsedComment;
       }
-    }
-  }
+      return null;
+    })
+    .filter((e) => e);
 
   return comments;
 };

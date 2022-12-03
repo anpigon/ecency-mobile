@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 
 import styles from './checkboxStyles';
 
-const CheckBoxView = ({ clicked, value, isChecked, style, locked }) => {
+function CheckBoxView({ clicked, value, isChecked, style, locked }) {
   const [isCheck, setIsCheck] = useState(false);
 
   useEffect(() => {
@@ -33,6 +33,6 @@ const CheckBoxView = ({ clicked, value, isChecked, style, locked }) => {
       </View>
     </TouchableOpacity>
   );
-};
+}
 
 export default CheckBoxView;

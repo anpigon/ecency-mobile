@@ -10,7 +10,7 @@ import styles from './productItemLineStyles';
 // TODO: move to translation
 const DEALS = { '9999points': 'BEST DEAL!', '4999points': 'POPULAR!' };
 
-const ProductItemLineView = ({ disabled, handleOnButtonPress, product, title }) => {
+function ProductItemLineView({ disabled, handleOnButtonPress, product, title }) {
   return (
     <View style={styles.boostLine} key={get(product, 'productId').toString()}>
       {_renderDeal(product)}
@@ -38,7 +38,7 @@ const ProductItemLineView = ({ disabled, handleOnButtonPress, product, title }) 
       </View>
     </View>
   );
-};
+}
 
 const _renderDeal = (item) => {
   if (DEALS[item.productId]) {

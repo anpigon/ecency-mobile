@@ -14,7 +14,7 @@ export interface ThumbSelectionModalProps {
   onThumbSelection: (index: number) => void;
 }
 
-const ThumbSelectionModal = ({ onThumbSelection, thumbUrl }: ThumbSelectionModalProps, ref) => {
+function ThumbSelectionModal({ onThumbSelection, thumbUrl }: ThumbSelectionModalProps, ref) {
   const intl = useIntl();
 
   const [imageUrls, setImageUrls] = useState<string[]>([]);
@@ -90,6 +90,6 @@ const ThumbSelectionModal = ({ onThumbSelection, thumbUrl }: ThumbSelectionModal
       {_renderContent()}
     </ActionSheet>
   );
-};
+}
 
 export default forwardRef(ThumbSelectionModal);

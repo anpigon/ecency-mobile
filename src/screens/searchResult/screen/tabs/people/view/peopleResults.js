@@ -11,13 +11,9 @@ import PeopleResultsContainer from '../container/peopleResultsContainer';
 
 import styles from './peopleResultsStyles';
 
-const PeopleResults = ({ searchValue }) => {
+function PeopleResults({ searchValue }) {
   const _renderEmptyContent = () => {
-    return (
-      <>
-        <ListPlaceHolder />
-      </>
-    );
+    return <ListPlaceHolder />;
   };
 
   return (
@@ -51,6 +47,6 @@ const PeopleResults = ({ searchValue }) => {
       )}
     </PeopleResultsContainer>
   );
-};
+}
 
 export default PeopleResults;

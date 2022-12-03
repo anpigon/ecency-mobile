@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text, TouchableOpacity } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import { isArray, debounce } from 'lodash';
 
@@ -7,14 +7,11 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './styles';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { BeneficiaryModal, CheckBox, FormInput, IconButton, TextButton } from '..';
+import { CheckBox, FormInput, IconButton, TextButton } from '..';
 import { Beneficiary } from '../../redux/reducers/editorReducer';
 import { lookupAccounts } from '../../providers/hive/dhive';
 import { TEMP_BENEFICIARIES_ID } from '../../redux/constants/constants';
-import {
-  removeBeneficiaries,
-  setBeneficiaries as setBeneficiariesAction,
-} from '../../redux/actions/editorActions';
+import { setBeneficiaries as setBeneficiariesAction } from '../../redux/actions/editorActions';
 
 interface BeneficiarySelectionContentProps {
   draftId: string;
@@ -27,7 +24,7 @@ interface BeneficiarySelectionContentProps {
   handleRemoveBeneficiary?: (beneficiary: Beneficiary) => void;
 }
 
-const BeneficiarySelectionContent = ({
+function BeneficiarySelectionContent({
   label,
   labelStyle,
   draftId,
@@ -36,7 +33,7 @@ const BeneficiarySelectionContent = ({
   powerDownBeneficiaries,
   handleSaveBeneficiary,
   handleRemoveBeneficiary,
-}: BeneficiarySelectionContentProps) => {
+}: BeneficiarySelectionContentProps) {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
@@ -78,7 +75,7 @@ const BeneficiarySelectionContent = ({
     ];
 
     if (isArray(tempBeneficiaries) && tempBeneficiaries.length > 0) {
-      //weight correction algorithm.
+      // weight correction algorithm.
       let othersWeight = 0;
       tempBeneficiaries.forEach((item, index) => {
         if (index > 0) {
@@ -100,7 +97,7 @@ const BeneficiarySelectionContent = ({
           : [DEFAULT_BENEFICIARY];
 
       if (isArray(tempBeneficiaries) && tempBeneficiaries.length > 0) {
-        //weight correction algorithm.
+        // weight correction algorithm.
         let othersWeight = 0;
         tempBeneficiaries.forEach((item, index) => {
           if (index > 0) {
@@ -114,7 +111,8 @@ const BeneficiarySelectionContent = ({
   };
 
   const _saveBeneficiaries = (value: Beneficiary[]) => {
-    const filteredBeneficiaries = value.filter((item) => item.account !== username); //remove default beneficiary from array while saving
+    // eslint-disable-next-line max-len
+    const filteredBeneficiaries = value.filter((item) => item.account !== username); // remove default beneficiary from array while saving
     if (handleSaveBeneficiary) {
       handleSaveBeneficiary(filteredBeneficiaries);
     } else {
@@ -151,7 +149,7 @@ const BeneficiarySelectionContent = ({
   };
 
   const _onWeightInputChange = (value: string) => {
-    let _value = (parseInt(value, 10) || 0) * 100;
+    const _value = (parseInt(value, 10) || 0) * 100;
 
     const _diff = _value - newWeight;
     const newAuthorWeight = beneficiaries[0].weight - _diff;
@@ -162,10 +160,11 @@ const BeneficiarySelectionContent = ({
     setBeneficiaries([...beneficiaries]);
   };
 
-  const _lookupAccounts = debounce((username) => {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const _lookupAccounts = debounce((username: string) => {
     lookupAccounts(username).then((res) => {
       const isValid = res.includes(username);
-      //check if username duplicates else lookup contacts, done here to avoid debounce and post call mismatch
+      // check if username duplicates else lookup contacts, done here to avoid debounce and post call mismatch
       const notExistAlready = !beneficiaries.find((item) => item.account === username);
       setIsUsernameValid(isValid && notExistAlready);
     });
@@ -178,6 +177,7 @@ const BeneficiarySelectionContent = ({
 
   const _resetInputs = (adjustWeight = true) => {
     if (newWeight && adjustWeight) {
+      // eslint-disable-next-line operator-assignment
       beneficiaries[0].weight = beneficiaries[0].weight + newWeight;
       setBeneficiaries([...beneficiaries]);
     }
@@ -192,6 +192,7 @@ const BeneficiarySelectionContent = ({
   const _renderHeader = () => (
     <View style={styles.inputWrapper}>
       {powerDown && (
+        // eslint-disable-next-line react-native/no-inline-styles
         <View style={{ ...styles.checkBoxHeader, marginTop: 4 }}>
           <Text style={styles.contentLabel}>
             {intl.formatMessage({ id: 'transfer.auto_vests' })}
@@ -199,6 +200,7 @@ const BeneficiarySelectionContent = ({
         </View>
       )}
 
+      {/* eslint-disable-next-line react-native/no-inline-styles */}
       <View style={{ ...styles.weightInput, marginTop: 4 }}>
         <Text style={styles.contentLabel}>
           {intl.formatMessage({
@@ -206,6 +208,7 @@ const BeneficiarySelectionContent = ({
           })}
         </Text>
       </View>
+      {/* eslint-disable-next-line react-native/no-inline-styles */}
       <View style={{ ...styles.usernameInput, marginTop: 4, marginLeft: 28 }}>
         <Text style={styles.contentLabel}>
           {intl.formatMessage({
@@ -272,12 +275,14 @@ const BeneficiarySelectionContent = ({
             name="check"
             iconType="MaterialCommunityIcons"
             color={EStyleSheet.value('$white')}
+            // eslint-disable-next-line react-native/no-inline-styles
             iconStyle={{ marginTop: 2 }}
             size={24}
             style={styles.doneButton}
             onPress={_onSavePress}
           />
         ) : (
+          // eslint-disable-next-line react-native/no-inline-styles
           <View style={{ width: 28 }} />
         )}
       </View>
@@ -287,6 +292,7 @@ const BeneficiarySelectionContent = ({
   const _renderFooter = () => (
     <>
       {newEditable && _renderInput()}
+      {/* eslint-disable-next-line react-native/no-inline-styles */}
       <View style={{ marginTop: 20, marginBottom: 32 }}>
         <TextButton
           text={
@@ -299,6 +305,7 @@ const BeneficiarySelectionContent = ({
                 })
           }
           onPress={newEditable ? _resetInputs : _addAccount}
+          // eslint-disable-next-line react-native/no-inline-styles
           textStyle={{
             color: EStyleSheet.value('$primaryBlue'),
             fontWeight: 'bold',
@@ -313,6 +320,7 @@ const BeneficiarySelectionContent = ({
     const _isCurrentUser = item.account === username;
 
     const _onRemovePress = () => {
+      // eslint-disable-next-line operator-assignment
       beneficiaries[0].weight = beneficiaries[0].weight + item.weight;
       const removedBeneficiary = beneficiaries.splice(index, 1);
       setBeneficiaries([...beneficiaries]);
@@ -353,10 +361,12 @@ const BeneficiarySelectionContent = ({
             iconType="MaterialCommunityIcons"
             size={24}
             color={EStyleSheet.value('$primaryBlack')}
+            // eslint-disable-next-line react-native/no-inline-styles
             iconStyle={{ paddingLeft: 8 }}
             onPress={_onRemovePress}
           />
         ) : (
+          // eslint-disable-next-line react-native/no-inline-styles
           <View style={{ width: 30 }} />
         )}
       </View>
@@ -377,6 +387,6 @@ const BeneficiarySelectionContent = ({
       {_renderFooter()}
     </View>
   );
-};
+}
 
 export default BeneficiarySelectionContent;

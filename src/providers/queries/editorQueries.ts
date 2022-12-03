@@ -28,7 +28,7 @@ interface MediaUploadVars {
   addToUploads: boolean;
 }
 
-/** GET QUERIES **/
+/** GET QUERIES * */
 
 export const useMediaQuery = () => {
   const intl = useIntl();
@@ -52,7 +52,7 @@ export const useSnippetsQuery = () => {
   });
 };
 
-/** ADD UPDATE MUTATIONS **/
+/** ADD UPDATE MUTATIONS * */
 
 export const useAddToUploadsMutation = () => {
   const intl = useIntl();
@@ -66,7 +66,7 @@ export const useAddToUploadsMutation = () => {
     },
     onError: (error) => {
       if (error.toString().includes('code 409')) {
-        //means image ware already preset, refresh to get updated order
+        // means image ware already preset, refresh to get updated order
         queryClient.invalidateQueries([QUERIES.MEDIA.GET]);
       } else {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
@@ -84,11 +84,12 @@ export const useMediaUploadMutation = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
 
-  return useMutation<Image, undefined, MediaUploadVars>(
+  return useMutation<any, undefined, MediaUploadVars>(
     async ({ media }) => {
       console.log('uploading media', media);
-      let sign = await signImage(media, currentAccount, pinCode);
-      return await uploadImage(media, currentAccount.name, sign);
+      const sign = await signImage(media, currentAccount, pinCode);
+      const result = await uploadImage(media, currentAccount.name, sign);
+      return result;
     },
     {
       retry: 3,
@@ -156,7 +157,7 @@ export const useSnippetsMutation = () => {
   );
 };
 
-/** DELETE MUTATIONS **/
+/** DELETE MUTATIONS * */
 
 export const useMediaDeleteMutation = () => {
   const queryClient = useQueryClient();
@@ -164,7 +165,9 @@ export const useMediaDeleteMutation = () => {
   const intl = useIntl();
   return useMutation<string[], undefined, string[]>(
     async (deleteIds) => {
+      // eslint-disable-next-line no-restricted-syntax
       for (const i in deleteIds) {
+        // eslint-disable-next-line no-await-in-loop
         await deleteImage(deleteIds[i]);
       }
       return deleteIds;

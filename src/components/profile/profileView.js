@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
@@ -7,9 +7,8 @@ import { connect } from 'react-redux';
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { CollapsibleCard } from '../collapsibleCard';
-import { Comments } from '../comments';
 import { Header } from '../header';
-import { NoPost, ProfileSummaryPlaceHolder, WalletDetailsPlaceHolder } from '../basicUIElements';
+import { ProfileSummaryPlaceHolder, WalletDetailsPlaceHolder } from '../basicUIElements';
 import { ProfileSummary } from '../profileSummary';
 import { Wallet } from '../wallet';
 
@@ -45,6 +44,7 @@ class ProfileView extends PureComponent {
     }
   };
 
+  // eslint-disable-next-line react/no-unused-class-component-methods
   _loadMoreComments = () => {
     const { getReplies, comments } = this.props;
 
@@ -68,6 +68,7 @@ class ProfileView extends PureComponent {
     this.setState({ collapsibleMoreHeight: height });
   };
 
+  // eslint-disable-next-line class-methods-use-this
   _getTabLabel = (value) => {
     if (value.length > 10) {
       return `${value.substring(0, 10)}...`;
@@ -258,6 +259,7 @@ class ProfileView extends PureComponent {
     );
   };
 
+  // eslint-disable-next-line class-methods-use-this
   _renderMutedView = () => {
     return (
       <View style={styles.mutedView}>
@@ -272,9 +274,9 @@ class ProfileView extends PureComponent {
     );
   };
 
-  _isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
-    return layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
-  }
+  // _isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
+  //   return layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
+  // }
 
   render() {
     const { handleOnBackPress, quickProfile, reverseHeader, isMuted } = this.props;

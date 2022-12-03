@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, ActivityIndicator, SafeAreaView } from 'react-native';
 import { injectIntl } from 'react-intl';
 
@@ -14,7 +14,7 @@ import { TextInput } from '../../textInput';
 import styles from './basicHeaderStyles';
 import { OptionsModal } from '../../atoms';
 
-const BasicHeaderView = ({
+function BasicHeaderView({
   disabled,
   dropdownComponent,
   handleOnPressBackButton,
@@ -47,7 +47,7 @@ const BasicHeaderView = ({
   enableViewModeToggle,
   handleSettingsPress,
   backIconName,
-}) => {
+}) {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const rewardMenuRef = useRef(null);
 
@@ -130,9 +130,7 @@ const BasicHeaderView = ({
           )}
           {isHasDropdown && (
             <View>
-              {dropdownComponent ? (
-                <Fragment>{dropdownComponent}</Fragment>
-              ) : (
+              {dropdownComponent ?? (
                 <DropdownButton
                   isHasChildIcon
                   iconName="md-more"
@@ -189,25 +187,22 @@ const BasicHeaderView = ({
         </View>
 
         {isHasIcons && (
-          <Fragment>
-            {!isReply && (
-              <Fragment>
-                {!isDraftSaving ? (
-                  <IconButton
-                    iconStyle={[styles.saveIcon, isDraftSaved && styles.savedIcon]}
-                    iconType="MaterialIcons"
-                    name="save"
-                    size={25}
-                    onPress={() => handleOnSaveButtonPress && handleOnSaveButtonPress()}
-                  />
-                ) : (
-                  <ActivityIndicator
-                    style={styles.textButtonWrapper}
-                    color={EStyleSheet.value('$primaryBlue')}
-                  />
-                )}
-              </Fragment>
-            )}
+          <>
+            {!isReply &&
+              (!isDraftSaving ? (
+                <IconButton
+                  iconStyle={[styles.saveIcon, isDraftSaved && styles.savedIcon]}
+                  iconType="MaterialIcons"
+                  name="save"
+                  size={25}
+                  onPress={() => handleOnSaveButtonPress && handleOnSaveButtonPress()}
+                />
+              ) : (
+                <ActivityIndicator
+                  style={styles.textButtonWrapper}
+                  color={EStyleSheet.value('$primaryBlue')}
+                />
+              ))}
             <IconButton
               style={styles.iconButton}
               size={25}
@@ -232,7 +227,7 @@ const BasicHeaderView = ({
                 color={EStyleSheet.value('$primaryBlue')}
               />
             )}
-          </Fragment>
+          </>
         )}
       </View>
 
@@ -250,6 +245,6 @@ const BasicHeaderView = ({
       />
     </SafeAreaView>
   );
-};
+}
 
 export default injectIntl(BasicHeaderView);

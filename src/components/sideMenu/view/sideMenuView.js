@@ -35,13 +35,13 @@ import { toggleQRModal } from '../../../redux/actions/uiAction';
 // Images
 const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png');
 
-const SideMenuView = ({
+function SideMenuView({
   currentAccount,
   isLoggedIn,
   handleLogout,
   navigateToRoute,
   handlePressOptions,
-}) => {
+}) {
   const intl = useIntl();
   const dispatch = useDispatch();
   const ActionSheetRef = useRef(null);
@@ -202,6 +202,6 @@ const SideMenuView = ({
       />
     </View>
   );
-};
+}
 
 export default injectIntl(SideMenuView);

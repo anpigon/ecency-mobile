@@ -14,7 +14,7 @@ import PostScreen from '../screen/postScreen';
  *@props -->  content           which is include all post data                  Object
  *
  */
-const PostContainer = ({ currentAccount, isLoggedIn, route }) => {
+function PostContainer({ currentAccount, isLoggedIn, route }) {
   const [post, setPost] = useState(null);
   const [error, setError] = useState(null);
   const [isNewPost, setIsNewPost] = useState(false);
@@ -115,7 +115,7 @@ const PostContainer = ({ currentAccount, isLoggedIn, route }) => {
       orientation={deviceOrientation}
     />
   );
-};
+}
 
 const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,

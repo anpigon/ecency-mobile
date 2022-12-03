@@ -20,7 +20,7 @@ const ITEM_SKUS = Platform.select({
   android: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
 });
 
-const BoostScreen = ({ route }) => {
+function BoostScreen({ route }) {
   const intl = useIntl();
 
   const username = route.params?.username ?? '';
@@ -58,6 +58,6 @@ const BoostScreen = ({ route }) => {
       )}
     </InAppPurchaseContainer>
   );
-};
+}
 
 export default gestureHandlerRootHOC(BoostScreen);

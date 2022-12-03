@@ -53,7 +53,7 @@ interface UpvoteViewProps {
   boldPayout?: boolean;
 }
 
-const UpvoteView = ({
+function UpvoteView({
   isDeclinedPayout,
   isShowPayoutValue,
   totalPayout,
@@ -78,7 +78,7 @@ const UpvoteView = ({
   commentUpvotePercent,
   parentType,
   boldPayout,
-}: UpvoteViewProps) => {
+}: UpvoteViewProps) {
   const intl = useIntl();
   const userActivityMutation = useUserActivityMutation();
 
@@ -271,36 +271,34 @@ const UpvoteView = ({
   return (
     <PopoverController>
       {({ openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect }) => (
-        <Fragment>
+        <>
           <TouchableOpacity
             ref={setPopoverAnchor}
             onPress={openPopover}
             style={styles.upvoteButton}
             disabled={!isLoggedIn}
           >
-            <Fragment>
-              {isVoting ? (
-                <View style={{ width: 19 }}>
-                  <PulseAnimation
-                    color="#357ce6"
-                    numPulses={1}
-                    diameter={20}
-                    speed={100}
-                    duration={1500}
-                    isShow={!isVoting}
-                  />
-                </View>
-              ) : (
-                <View hitSlop={{ top: 10, bottom: 10, left: 10, right: 5 }}>
-                  <Icon
-                    style={[styles.upvoteIcon, isDownVoted && { color: '#ec8b88' }]}
-                    active={!isLoggedIn}
-                    iconType={iconType}
-                    name={isDownVoted ? downVoteIconName : iconName}
-                  />
-                </View>
-              )}
-            </Fragment>
+            {isVoting ? (
+              <View style={{ width: 19 }}>
+                <PulseAnimation
+                  color="#357ce6"
+                  numPulses={1}
+                  diameter={20}
+                  speed={100}
+                  duration={1500}
+                  isShow={!isVoting}
+                />
+              </View>
+            ) : (
+              <View hitSlop={{ top: 10, bottom: 10, left: 10, right: 5 }}>
+                <Icon
+                  style={[styles.upvoteIcon, isDownVoted && { color: '#ec8b88' }]}
+                  active={!isLoggedIn}
+                  iconType={iconType}
+                  name={isDownVoted ? downVoteIconName : iconName}
+                />
+              </View>
+            )}
           </TouchableOpacity>
           <View style={styles.payoutTextButton}>
             {isShowPayoutValue && (
@@ -385,7 +383,7 @@ const UpvoteView = ({
                     _payoutPopupItem(intl.formatMessage({ id: 'payout.warn_zero_payout' }), '')}
                 </View>
               ) : (
-                <Fragment>
+                <>
                   <TouchableOpacity
                     onPress={() => {
                       _upvoteContent(closePopover);
@@ -426,14 +424,14 @@ const UpvoteView = ({
                       name={downVoteIconName}
                     />
                   </TouchableOpacity>
-                </Fragment>
+                </>
               )}
             </View>
           </Popover>
-        </Fragment>
+        </>
       )}
     </PopoverController>
   );
-};
+}
 
 export default UpvoteView;

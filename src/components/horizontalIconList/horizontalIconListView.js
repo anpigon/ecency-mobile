@@ -7,7 +7,7 @@ import styles from './horizontalIconListStyles';
 
 import { IconButton, PopoverWrapper } from '..';
 
-const HorizontalIconList = ({ options, optionsKeys }) => {
+function HorizontalIconList({ options, optionsKeys }) {
   const intl = useIntl();
   const _getTranslation = (id) => {
     let translation;
@@ -54,6 +54,6 @@ const HorizontalIconList = ({ options, optionsKeys }) => {
       />
     </View>
   );
-};
+}
 
 export { HorizontalIconList };

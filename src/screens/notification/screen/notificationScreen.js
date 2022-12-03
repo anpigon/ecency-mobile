@@ -11,7 +11,7 @@ import { LoggedInContainer } from '../../../containers';
 import styles from './notificationStyles';
 import globalStyles from '../../../globalStyles';
 
-const NotificationScreen = ({
+function NotificationScreen({
   notifications,
   getActivities,
   intl,
@@ -22,9 +22,9 @@ const NotificationScreen = ({
   isLoading,
   changeSelectedFilter,
   globalProps,
-}) => {
+}) {
   return (
-    <Fragment>
+    <>
       <Header />
       <SafeAreaView style={styles.container}>
         <ScrollableTabView
@@ -65,8 +65,8 @@ const NotificationScreen = ({
           </View>
         </ScrollableTabView>
       </SafeAreaView>
-    </Fragment>
+    </>
   );
-};
+}
 
 export default injectIntl(NotificationScreen);

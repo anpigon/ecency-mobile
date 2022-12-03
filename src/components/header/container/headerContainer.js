@@ -11,7 +11,7 @@ import { AccountContainer, ThemeContainer } from '../../../containers';
 import { parseReputation } from '../../../utils/user';
 import { toggleQRModal } from '../../../redux/actions/uiAction';
 
-const HeaderContainer = ({ selectedUser, isReverse, handleOnBackPress, hideUser, showQR }) => {
+function HeaderContainer({ selectedUser, isReverse, handleOnBackPress, hideUser, showQR }) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -62,6 +62,6 @@ const HeaderContainer = ({ selectedUser, isReverse, handleOnBackPress, hideUser,
       )}
     </ThemeContainer>
   );
-};
+}
 
 export default HeaderContainer;

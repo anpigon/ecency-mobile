@@ -27,7 +27,7 @@ type Props = {
   handleShowSnippets: () => void;
 };
 
-export const EditorToolbar = ({
+export function EditorToolbar({
   insertedMediaUrls,
   paramFiles,
   isEditing,
@@ -38,7 +38,7 @@ export const EditorToolbar = ({
   handleOnClearPress,
   handleOnMarkupButtonPress,
   handleShowSnippets,
-}: Props) => {
+}: Props) {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
   const translateY = useRef(new Animated.Value(200));
@@ -268,4 +268,4 @@ export const EditorToolbar = ({
       )}
     </View>
   );
-};
+}

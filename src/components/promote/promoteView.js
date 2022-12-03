@@ -24,7 +24,7 @@ import { PROMOTE_PRICING, PROMOTE_DAYS } from '../../constants/options/points';
 import styles from './promoteStyles';
 import { OptionsModal } from '../atoms';
 
-const PromoteView = ({
+function PromoteView({
   intl,
   handleOnSubmit,
   redeemType,
@@ -36,7 +36,7 @@ const PromoteView = ({
   SCPath,
   isSCModalOpen,
   handleOnSCModalClose,
-}) => {
+}) {
   const [permlink, setPermlink] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
   const [balance, setBalance] = useState('');
@@ -128,7 +128,7 @@ const PromoteView = ({
   };
 
   return (
-    <Fragment>
+    <>
       <BasicHeader title={intl.formatMessage({ id: 'promote.title' })} />
       <View style={styles.container}>
         <ScrollView>
@@ -138,47 +138,45 @@ const PromoteView = ({
               rightComponent={() => _renderDropdown(accounts, selectedUser || currentAccountName)}
             />
             <Text style={styles.balanceText}>{`${balance || _balance} Points`}</Text>
-            <Fragment>
-              <View style={styles.autocomplateLineContainer}>
-                <View style={styles.autocomplateLabelContainer}>
-                  <Text style={styles.autocomplateLabelText}>
-                    {intl.formatMessage({ id: 'promote.permlink' })}
-                  </Text>
-                </View>
-
-                <Autocomplete
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  inputContainerStyle={styles.autocomplate}
-                  data={permlinkSuggestions}
-                  listContainerStyle={styles.autocomplateListContainer}
-                  listStyle={styles.autocomplateList}
-                  onChangeText={(text) => _handleOnPermlinkChange(text)}
-                  renderTextInput={() => (
-                    <TextInput
-                      style={styles.input}
-                      onChangeText={(text) => _handleOnPermlinkChange(text)}
-                      value={permlink || get(navigationParams, 'permlink', '')}
-                      placeholder={intl.formatMessage({ id: 'promote.permlinkPlaceholder' })}
-                      placeholderTextColor="#c1c5c7"
-                      autoCapitalize="none"
-                    />
-                  )}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity
-                      key={item}
-                      onPress={() => {
-                        setPermlink(item);
-                        setIsValid(true);
-                        setPermlinkSuggestions([]);
-                      }}
-                    >
-                      <Text style={styles.autocomplateItemText}>{item}</Text>
-                    </TouchableOpacity>
-                  )}
-                />
+            <View style={styles.autocomplateLineContainer}>
+              <View style={styles.autocomplateLabelContainer}>
+                <Text style={styles.autocomplateLabelText}>
+                  {intl.formatMessage({ id: 'promote.permlink' })}
+                </Text>
               </View>
-            </Fragment>
+
+              <Autocomplete
+                autoCapitalize="none"
+                autoCorrect={false}
+                inputContainerStyle={styles.autocomplate}
+                data={permlinkSuggestions}
+                listContainerStyle={styles.autocomplateListContainer}
+                listStyle={styles.autocomplateList}
+                onChangeText={(text) => _handleOnPermlinkChange(text)}
+                renderTextInput={() => (
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={(text) => _handleOnPermlinkChange(text)}
+                    value={permlink || get(navigationParams, 'permlink', '')}
+                    placeholder={intl.formatMessage({ id: 'promote.permlinkPlaceholder' })}
+                    placeholderTextColor="#c1c5c7"
+                    autoCapitalize="none"
+                  />
+                )}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    key={item}
+                    onPress={() => {
+                      setPermlink(item);
+                      setIsValid(true);
+                      setPermlinkSuggestions([]);
+                    }}
+                  >
+                    <Text style={styles.autocomplateItemText}>{item}</Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
 
             <View style={styles.total}>
               <Text style={styles.day}>
@@ -238,8 +236,8 @@ const PromoteView = ({
       >
         <WebView source={{ uri: `${hsOptions.base_url}${SCPath}` }} />
       </Modal>
-    </Fragment>
+    </>
   );
-};
+}
 
 export default injectIntl(PromoteView);

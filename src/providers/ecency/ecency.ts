@@ -35,7 +35,7 @@ export const getCurrencyRate = (currency) =>
     .then((resp) => resp.data)
     .catch((err) => {
       bugsnagInstance.notify(err);
-      //TODO: save currency rate of offline values
+      // TODO: save currency rate of offline values
       return 1;
     });
 
@@ -124,7 +124,7 @@ export const addDraft = async (title: string, body: string, tags: string, meta: 
     const res = await ecencyApi.post('/private-api/drafts-add', data);
     const { drafts } = res.data;
     if (drafts) {
-      return drafts.pop(); //return recently saved last draft in the list
+      return drafts.pop(); // return recently saved last draft in the list
     } else {
       throw new Error('No drafts returned in response');
     }

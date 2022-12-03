@@ -25,7 +25,7 @@ const ITEM_SKUS = Platform.select({
 
 const ACCOUNT_BOOST_VESTS = 553311;
 
-const AccountBoost = ({ route }) => {
+function AccountBoost({ route }) {
   const intl = useIntl();
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const globalProps = useSelector((state) => state.account.globalProps);
@@ -80,6 +80,6 @@ const AccountBoost = ({ route }) => {
       )}
     </InAppPurchaseContainer>
   );
-};
+}
 
 export default gestureHandlerRootHOC(AccountBoost);

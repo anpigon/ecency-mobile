@@ -97,6 +97,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   useEffect(() => {
     const communitiesData = [...data];
 
+    // eslint-disable-next-line
     Object.keys(subscribingCommunities).map((communityId) => {
       if (!subscribingCommunities[communityId].loading) {
         if (!subscribingCommunities[communityId].error) {

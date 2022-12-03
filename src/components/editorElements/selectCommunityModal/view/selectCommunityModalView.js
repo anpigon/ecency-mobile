@@ -9,7 +9,7 @@ import { Separator } from '../../../basicUIElements';
 import globalStyles from '../../../../globalStyles';
 import styles from './selectCommunityModalStyles';
 
-const SelectCommunityModalView = ({
+function SelectCommunityModalView({
   topCommunities,
   subscribedCommunities,
   onPressCommunity,
@@ -20,7 +20,7 @@ const SelectCommunityModalView = ({
   currentAccount,
   onCloseModal,
   intl,
-}) => {
+}) {
   return (
     <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
       <SearchInput
@@ -110,6 +110,6 @@ const SelectCommunityModalView = ({
       <View style={{ height: 40 }} />
     </ScrollView>
   );
-};
+}
 
 export default injectIntl(SelectCommunityModalView);

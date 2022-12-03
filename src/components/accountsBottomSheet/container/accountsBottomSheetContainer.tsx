@@ -42,7 +42,7 @@ import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 import { clearSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
 
-const AccountsBottomSheetContainer = ({ navigation }) => {
+function AccountsBottomSheetContainer({ navigation }) {
   const intl = useIntl();
   const dispatch = useDispatch();
   const accountsBottomSheetViewRef = useRef();
@@ -153,6 +153,6 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
       onClose={_onClose}
     />
   );
-};
+}
 
 export default AccountsBottomSheetContainer;

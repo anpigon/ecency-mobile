@@ -23,7 +23,7 @@ import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
 const WIDTH = getWindowDimensions().width;
 
-const PostBody = ({ body, dispatch, onLoadEnd, width }) => {
+function PostBody({ body, dispatch, onLoadEnd, width }) {
   console.log('body : ', body);
   const navigation = useNavigation();
 
@@ -260,7 +260,7 @@ const PostBody = ({ body, dispatch, onLoadEnd, width }) => {
   };
 
   return (
-    <Fragment>
+    <>
       <Modal visible={isImageModalOpen} transparent={true}>
         <ImageViewer
           imageUrls={postImages.map((url) => ({ url }))}
@@ -330,9 +330,9 @@ const PostBody = ({ body, dispatch, onLoadEnd, width }) => {
           handleYoutubePress={_handleYoutubePress}
         />
       </View>
-    </Fragment>
+    </>
   );
-};
+}
 
 const areEqual = (prevProps, nextProps) => {
   if (prevProps.body === nextProps.body) {

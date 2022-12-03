@@ -1,6 +1,5 @@
 /* eslint-disable radix */
-import React, { Fragment } from 'react';
-import { Dimensions } from 'react-native';
+import React from 'react';
 import times from 'lodash/times';
 
 import ListItemPlaceHolder from './listItemPlaceHolderView';
@@ -8,7 +7,7 @@ import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
 const HEIGHT = getWindowDimensions().height;
 
-const ListPlaceHolderView = () => {
+function ListPlaceHolderView() {
   const ratio = (HEIGHT - 300) / 50;
   const listElements = [];
 
@@ -16,7 +15,7 @@ const ListPlaceHolderView = () => {
     listElements.push(<ListItemPlaceHolder key={i} />);
   });
 
-  return <Fragment>{listElements}</Fragment>;
-};
+  return listElements;
+}
 export default ListPlaceHolderView;
 /* eslint-enable */

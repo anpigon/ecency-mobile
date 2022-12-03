@@ -16,13 +16,13 @@ interface CommentsTabContentProps {
   onScroll: () => void;
 }
 
-const CommentsTabContent = ({
+function CommentsTabContent({
   isOwnProfile,
   username,
   type,
   onScroll,
   selectedUser,
-}: CommentsTabContentProps) => {
+}: CommentsTabContentProps) {
   const intl = useIntl();
 
   const isHideImage = useAppSelector((state) => state.application.hidePostsThumbnails);
@@ -126,6 +126,6 @@ const CommentsTabContent = ({
       />
     </View>
   );
-};
+}
 
 export default CommentsTabContent;

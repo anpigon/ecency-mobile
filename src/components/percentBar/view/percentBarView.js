@@ -29,6 +29,7 @@ class PercentBarView extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
+  // eslint-disable-next-line class-methods-use-this
   _calculateWidth = (percent, margin = null) => {
     if (percent) {
       const per = 100 / percent;

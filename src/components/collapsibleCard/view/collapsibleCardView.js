@@ -33,6 +33,23 @@ class CollapsibleCardView extends PureComponent {
     };
   }
 
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { isExpanded, moreHeight, locked } = this.props;
+    const { expanded } = this.state;
+
+    if (
+      (locked || !nextProps.isExpanded) &&
+      isExpanded !== nextProps.isExpanded &&
+      expanded !== nextProps.isExpanded
+    ) {
+      this._toggleOnPress();
+    }
+
+    if (moreHeight !== nextProps.moreHeight) {
+      this.anime.height.setValue(this._getMaxValue() + nextProps.moreHeight);
+    }
+  }
+
   // Component Functions
   _initContentHeight = (event) => {
     if (this.anime.contentHeight > 0) {
@@ -44,6 +61,7 @@ class CollapsibleCardView extends PureComponent {
 
   _getMaxValue = () => this.anime.contentHeight;
 
+  // eslint-disable-next-line class-methods-use-this
   _getMinValue = () => 0;
 
   _toggleOnPress = () => {
@@ -63,23 +81,6 @@ class CollapsibleCardView extends PureComponent {
       handleOnExpanded();
     }
   };
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isExpanded, moreHeight, locked } = this.props;
-    const { expanded } = this.state;
-
-    if (
-      (locked || !nextProps.isExpanded) &&
-      isExpanded !== nextProps.isExpanded &&
-      expanded !== nextProps.isExpanded
-    ) {
-      this._toggleOnPress();
-    }
-
-    if (moreHeight !== nextProps.moreHeight) {
-      this.anime.height.setValue(this._getMaxValue() + nextProps.moreHeight);
-    }
-  }
 
   render() {
     const {

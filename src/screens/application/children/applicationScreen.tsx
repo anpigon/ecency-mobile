@@ -40,6 +40,18 @@ class ApplicationScreen extends Component {
     };
   }
 
+  UNSAFE_componentWillMount() {
+    const { isDarkTheme } = this.props;
+    EStyleSheet.build(isDarkTheme ? darkTheme : lightTheme);
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { toastNotification } = this.props;
+    if (nextProps.toastNotification && nextProps.toastNotification !== toastNotification) {
+      this.setState({ isShowToastNotification: true });
+    }
+  }
+
   componentDidUpdate(prevProps) {
     const { rcOffer, dispatch, intl } = this.props;
     const { rcOffer: rcOfferPrev } = prevProps;
@@ -82,41 +94,25 @@ class ApplicationScreen extends Component {
     this.setState({ isShowToastNotification: false });
   };
 
-  UNSAFE_componentWillMount() {
-    const { isDarkTheme } = this.props;
-    EStyleSheet.build(isDarkTheme ? darkTheme : lightTheme);
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { toastNotification } = this.props;
-    if (nextProps.toastNotification && nextProps.toastNotification !== toastNotification) {
-      this.setState({ isShowToastNotification: true });
-    }
-  }
-
   _renderStatusBar() {
     const { isDarkTheme } = this.props;
     const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
     const barColor = isDarkTheme ? '#1e2835' : '#fff';
-    return (
-      <>
-        {Platform.OS === 'ios' ? (
-          <StatusBar barStyle={barStyle} />
-        ) : (
-          <StatusBar barStyle={barStyle} backgroundColor={barColor} />
-        )}
-      </>
+    return Platform.OS === 'ios' ? (
+      <StatusBar barStyle={barStyle} />
+    ) : (
+      <StatusBar barStyle={barStyle} backgroundColor={barColor} />
     );
   }
 
   _renderAppNavigator() {
     const { isConnected } = this.props;
     return (
-      <Fragment>
+      <>
         {!isConnected && <NoInternetConnection />}
 
         <AppNavigator />
-      </Fragment>
+      </>
     );
   }
 

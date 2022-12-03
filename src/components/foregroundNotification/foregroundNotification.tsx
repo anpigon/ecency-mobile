@@ -33,7 +33,7 @@ interface Props {
   remoteMessage: RemoteMessage;
 }
 
-const ForegroundNotification = ({ remoteMessage }: Props) => {
+function ForegroundNotification({ remoteMessage }: Props) {
   const intl = useIntl();
 
   const hideTimeoutRef = useRef<any>(null);
@@ -142,6 +142,6 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
       </AnimatedView>
     )
   );
-};
+}
 
 export default ForegroundNotification;

@@ -33,14 +33,14 @@ type Props = {
   handleOpenCamera: () => void;
 };
 
-const UploadsGalleryContent = ({
+function UploadsGalleryContent({
   insertedMediaUrls,
   mediaUploads,
   isAddingToUploads,
   insertMedia,
   handleOpenGallery,
   handleOpenCamera,
-}: Props) => {
+}: Props) {
   const intl = useIntl();
 
   const deleteMediaMutation = useMediaDeleteMutation();
@@ -230,11 +230,9 @@ const UploadsGalleryContent = ({
   // render empty list placeholder
   const _renderEmptyContent = () => {
     return (
-      <>
-        <Text style={styles.emptyText}>
-          {intl.formatMessage({ id: 'uploads_modal.label_no_images' })}
-        </Text>
-      </>
+      <Text style={styles.emptyText}>
+        {intl.formatMessage({ id: 'uploads_modal.label_no_images' })}
+      </Text>
     );
   };
 
@@ -317,6 +315,6 @@ const UploadsGalleryContent = ({
       {!isExpandedMode && _renderDeleteButton()}
     </Animated.View>
   );
-};
+}
 
 export default UploadsGalleryContent;

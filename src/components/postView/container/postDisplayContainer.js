@@ -17,7 +17,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Component
 import PostDisplayView from '../view/postDisplayView';
 
-const PostDisplayContainer = ({
+function PostDisplayContainer({
   post,
   fetchPost,
   isFetchPost,
@@ -31,7 +31,7 @@ const PostDisplayContainer = ({
   parentPost,
   isPostUnavailable,
   author,
-}) => {
+}) {
   const navigation = useNavigation();
 
   const [activeVotes, setActiveVotes] = useState([]);
@@ -147,7 +147,7 @@ const PostDisplayContainer = ({
       reblogs={reblogs}
     />
   );
-};
+}
 
 const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,

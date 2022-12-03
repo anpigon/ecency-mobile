@@ -15,7 +15,7 @@ interface Props {
   onApplyUsername: (username: string) => void;
 }
 
-export const UsernameAutofillBar = ({ text, selection, onApplyUsername }: Props) => {
+export function UsernameAutofillBar({ text, selection, onApplyUsername }: Props) {
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [query, setQuery] = useState('');
 
@@ -101,4 +101,4 @@ export const UsernameAutofillBar = ({ text, selection, onApplyUsername }: Props)
       />
     </View>
   );
-};
+}

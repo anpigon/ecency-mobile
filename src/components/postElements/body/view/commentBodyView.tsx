@@ -31,7 +31,7 @@ import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
 const WIDTH = getWindowDimensions().width;
 
-const CommentBody = ({
+function CommentBody({
   body,
   handleOnUserPress,
   handleOnPostPress,
@@ -40,7 +40,7 @@ const CommentBody = ({
   commentDepth,
   reputation = 25,
   isMuted,
-}) => {
+}) {
   const _contentWidth = WIDTH - (40 + 28 + (commentDepth > 2 ? 44 : 0));
 
   const dispatch = useAppDispatch();
@@ -275,7 +275,7 @@ const CommentBody = ({
   };
 
   return (
-    <Fragment>
+    <>
       <Modal key={`mkey-${created.toString()}`} visible={isImageModalOpen} transparent={true}>
         <ImageViewer
           imageUrls={postImages.map((url) => ({ url }))}
@@ -354,8 +354,8 @@ const CommentBody = ({
           startTime={videoStartTime}
         />
       </ActionsSheetView>
-    </Fragment>
+    </>
   );
-};
+}
 
 export default CommentBody;

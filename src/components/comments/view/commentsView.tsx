@@ -11,7 +11,7 @@ import { Comment, TextButton } from '../..';
 import styles from './commentStyles';
 import { OptionsModal } from '../../atoms';
 
-const CommentsView = ({
+function CommentsView({
   avatarSize,
   commentCount,
   commentNumber,
@@ -36,7 +36,7 @@ const CommentsView = ({
   openReplyThread,
   fetchedAt,
   incrementRepliesCount,
-}) => {
+}) {
   const [selectedComment, setSelectedComment] = useState(null);
   const intl = useIntl();
   const commentMenu = useRef<any>();
@@ -136,7 +136,7 @@ const CommentsView = ({
   };
 
   return (
-    <Fragment>
+    <>
       <FlatList
         style={{ ...styles.list, ...styleOerride }}
         contentContainerStyle={{ padding: 0 }}
@@ -153,8 +153,8 @@ const CommentsView = ({
         cancelButtonIndex={3}
         onPress={_onMenuItemPress}
       />
-    </Fragment>
+    </>
   );
-};
+}
 
 export default CommentsView;

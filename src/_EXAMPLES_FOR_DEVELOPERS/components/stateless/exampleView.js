@@ -7,6 +7,8 @@ import styles from './exampleStyles';
  *   @prop { type }    name                - Description....
  */
 
-const ExampleView = ({ x, y, z }) => <View />;
+function ExampleView({ x, y, z }) {
+  return <View />;
+}
 
 export default ExampleView;

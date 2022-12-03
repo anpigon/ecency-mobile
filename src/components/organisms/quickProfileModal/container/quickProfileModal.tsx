@@ -6,7 +6,7 @@ import styles from '../children/quickProfileStyles';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { hideProfileModal } from '../../../../redux/actions/uiAction';
 
-export const QuickProfileModal = () => {
+export function QuickProfileModal() {
   const sheetModalRef = useRef<ActionSheet>();
   const dispatch = useAppDispatch();
 
@@ -35,4 +35,4 @@ export const QuickProfileModal = () => {
       <QuickProfileContent username={profileModalUsername} onClose={_onClose} />
     </ActionSheet>
   );
-};
+}

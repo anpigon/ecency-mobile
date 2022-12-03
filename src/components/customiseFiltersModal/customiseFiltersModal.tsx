@@ -28,7 +28,7 @@ interface Props {
 
 const getFilterIndex = (filterMap: any, key: string) => Object.keys(filterMap).indexOf(key);
 
-const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersModalRef>) => {
+function CustomiseFiltersModal({ pageType }: Props, ref: Ref<CustomiseFiltersModalRef>) {
   if (!pageType) {
     throw new Error('pageType must not be empty');
   }
@@ -109,8 +109,9 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
 
   const _renderOptions = () => {
     const options = [];
+    // eslint-disable-next-line no-restricted-syntax
     for (const key in filterMap) {
-      if (filterMap.hasOwnProperty(key)) {
+      if (key in filterMap) {
         const isSelected = selectedFilters.has(key);
 
         const _onPress = () => {
@@ -143,10 +144,10 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
 
   const _renderContent = (
     <ThemeContainer>
-      {({ isDarkTheme }) => (
+      {({ isDarkTheme: _isDarkTheme }) => (
         <KeyboardAvoidingView
           style={styles.container}
-          keyboardVerticalOffset={Platform.OS == 'ios' ? 64 : null}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : null}
           behavior={Platform.OS === 'ios' ? 'padding' : null}
         >
           <Text style={styles.title}>Customise Filters</Text>
@@ -176,6 +177,6 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
       {_renderContent}
     </ActionSheet>
   );
-};
+}
 
 export default forwardRef(CustomiseFiltersModal);

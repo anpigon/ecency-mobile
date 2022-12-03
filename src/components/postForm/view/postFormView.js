@@ -31,7 +31,7 @@ class PostFormView extends PureComponent {
     const { children, isFormValid, isPreviewActive } = this.props;
 
     return (
-      <Fragment>
+      <>
         {React.Children.map(children, (child) => {
           if (child) {
             return React.cloneElement(child, {
@@ -46,7 +46,7 @@ class PostFormView extends PureComponent {
             });
           }
         })}
-      </Fragment>
+      </>
     );
   }
 }

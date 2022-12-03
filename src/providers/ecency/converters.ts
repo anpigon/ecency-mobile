@@ -1,19 +1,14 @@
 import { COIN_IDS } from '../../constants/defaultCoins';
 import { Referral } from '../../models';
-import {
-  CommentHistoryItem,
-  LatestMarketPrices,
-  LatestQuotes,
-  QuoteItem,
-  ReferralStat,
-} from './ecency.types';
+import { QuoteItem } from '../../redux/reducers/walletReducer';
+import { CommentHistoryItem, LatestQuotes, ReferralStat } from './ecency.types';
 
 export const convertReferral = (rawData: any) => {
   return {
     _id: rawData.id || 0,
     referral: rawData.referral || '',
     referredUsername: rawData.username || '',
-    isRewarded: rawData.rewarded ? true : false,
+    isRewarded: !!rawData.rewarded,
     timestamp: new Date(rawData.created) || new Date(),
   } as Referral;
 };

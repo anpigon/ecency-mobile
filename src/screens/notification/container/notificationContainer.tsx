@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-state */
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import get from 'lodash/get';
@@ -19,7 +18,7 @@ import { useNotificationReadMutation, useNotificationsQuery } from '../../../pro
 import { NotificationFilters } from '../../../providers/ecency/ecency.types';
 import QUERIES from '../../../providers/queries/queryKeys';
 
-const NotificationContainer = ({ navigation }) => {
+function NotificationContainer({ navigation }) {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
@@ -145,7 +144,7 @@ const NotificationContainer = ({ navigation }) => {
       isLoading={selectedQuery.isLoading}
     />
   );
-};
+}
 
 export default gestureHandlerRootHOC(NotificationContainer);
 /* eslint-enable */

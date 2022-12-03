@@ -4,7 +4,7 @@ import LottieView from 'lottie-react-native';
 import styles from './launchStyles';
 import { useAppSelector } from '../../../hooks';
 
-const LaunchScreen = () => {
+function LaunchScreen() {
   const isDarkMode = useAppSelector((state) => state.application.isDarkTheme);
   return (
     <View style={isDarkMode ? styles.darkContainer : styles.container}>
@@ -16,6 +16,6 @@ const LaunchScreen = () => {
       />
     </View>
   );
-};
+}
 
 export default LaunchScreen;

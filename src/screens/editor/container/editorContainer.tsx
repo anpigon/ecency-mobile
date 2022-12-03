@@ -431,11 +431,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           };
         }
 
-        const meta = Object.assign({}, extractMetadata(draftField.body, thumbUrl), {
+        const meta = {
+          ...extractMetadata(draftField.body, thumbUrl),
           tags: draftField.tags,
           beneficiaries,
           rewardType,
-        });
+        };
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);
 
         // update draft is draftId is present

@@ -16,7 +16,7 @@ import styles from './searchInputStyles';
  *   @prop { string }  placeholder             - Placeholder for input
  *   @prop { bool }    editable                - Editable value for input. Default value is true.
  */
-const SearchInputView = ({
+function SearchInputView({
   onChangeText,
   handleOnModalClose,
   placeholder,
@@ -28,7 +28,7 @@ const SearchInputView = ({
   style,
   backEnabled = false,
   onBackPress,
-}) => {
+}) {
   const [inputValue, setInputValue] = useState(value || '');
 
   useEffect(() => {
@@ -86,6 +86,6 @@ const SearchInputView = ({
       </View>
     </SafeAreaView>
   );
-};
+}
 
 export default SearchInputView;

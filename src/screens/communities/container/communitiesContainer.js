@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { shuffle, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { useIntl } from 'react-intl';
 
 import { useNavigation } from '@react-navigation/native';
@@ -92,6 +92,7 @@ const CommunitiesContainer = ({ children }) => {
 
   useEffect(() => {
     const discoversData = [...discovers];
+    // eslint-disable-next-line
     Object.keys(subscribingCommunitiesInDiscoverTab).map((communityId) => {
       if (!subscribingCommunitiesInDiscoverTab[communityId].loading) {
         if (!subscribingCommunitiesInDiscoverTab[communityId].error) {
@@ -121,6 +122,7 @@ const CommunitiesContainer = ({ children }) => {
         subscribedCommunities.data,
         subscribedCommunitiesCache,
       );
+      // eslint-disable-next-line
       Object.keys(subscribingCommunitiesInJoinedTab).map((communityId) => {
         if (!subscribingCommunitiesInJoinedTab[communityId].loading) {
           if (!subscribingCommunitiesInJoinedTab[communityId].error) {
@@ -190,6 +192,7 @@ const CommunitiesContainer = ({ children }) => {
   };
 
   const _invalidateSubscribedCommunityCache = (fetchedList) => {
+    // eslint-disable-next-line
     fetchedList.map((listItem) => {
       const itemExists = subscribedCommunitiesCache.get(listItem[0]);
       if (itemExists) {

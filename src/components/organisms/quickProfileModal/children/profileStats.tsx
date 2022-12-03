@@ -15,7 +15,7 @@ interface Props {
   intermediate: boolean;
 }
 
-export const ProfileStats = ({ data, horizontalMargin, intermediate }: Props) => {
+export function ProfileStats({ data, horizontalMargin, intermediate }: Props) {
   return (
     <View
       style={{
@@ -34,18 +34,20 @@ export const ProfileStats = ({ data, horizontalMargin, intermediate }: Props) =>
       ))}
     </View>
   );
-};
+}
 
-const StatItem = (props: { label: string; value: number | string; intermediate: boolean }) => (
-  <View style={{ alignItems: 'center', flex: 1 }}>
-    {!props.intermediate ? (
-      <Animated.Text animation="bounceIn" style={styles.statValue}>
-        {props.value}
-      </Animated.Text>
-    ) : (
-      <Text style={styles.statValue}>--</Text>
-    )}
+function StatItem(props: { label: string; value: number | string; intermediate: boolean }) {
+  return (
+    <View style={{ alignItems: 'center', flex: 1 }}>
+      {!props.intermediate ? (
+        <Animated.Text animation="bounceIn" style={styles.statValue}>
+          {props.value}
+        </Animated.Text>
+      ) : (
+        <Text style={styles.statValue}>--</Text>
+      )}
 
-    <Text style={styles.statLabel}>{props.label}</Text>
-  </View>
-);
+      <Text style={styles.statLabel}>{props.label}</Text>
+    </View>
+  );
+}

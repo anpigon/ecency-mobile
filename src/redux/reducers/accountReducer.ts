@@ -41,7 +41,7 @@ const initialState: AccountState = {
   globalProps: null,
 };
 
-export default function (state = initialState, action) {
+export default function accountReducer(state = initialState, action = { type: '', payload: {} }) {
   switch (action.type) {
     case FETCHING_ACCOUNT:
       return {
@@ -91,12 +91,13 @@ export default function (state = initialState, action) {
       };
 
     case UPDATE_CURRENT_ACCOUNT:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         currentAccount: action.payload,
         isFetching: false,
         hasError: false,
         errorMessage: null,
-      });
+      };
 
     case UPDATE_UNREAD_ACTIVITY_COUNT:
       return {

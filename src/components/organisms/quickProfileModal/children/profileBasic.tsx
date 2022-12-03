@@ -19,14 +19,7 @@ interface Props {
   onPress: () => void;
 }
 
-export const ProfileBasic = ({
-  username,
-  about,
-  votingPower,
-  isLoading,
-  created,
-  onPress,
-}: Props) => {
+export function ProfileBasic({ username, about, votingPower, isLoading, created, onPress }: Props) {
   const intl = useIntl();
   const progress = parseInt(votingPower || '0') / 100;
 
@@ -65,4 +58,4 @@ export const ProfileBasic = ({
       </View>
     </TouchableOpacity>
   );
-};
+}

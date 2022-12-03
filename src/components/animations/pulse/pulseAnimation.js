@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
 class PulseAnimation extends Component {
   mounted = true;
 
+  // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     color: 'blue',
     diameter: 400,

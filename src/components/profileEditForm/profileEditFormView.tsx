@@ -34,7 +34,7 @@ interface ProfileEditFormProps {
   saveEnabled: boolean;
 }
 
-const ProfileEditFormView = ({
+function ProfileEditFormView({
   coverUrl,
   formData,
   handleOnItemChange,
@@ -45,7 +45,7 @@ const ProfileEditFormView = ({
   showImageUploadActions,
   saveEnabled,
   ...props
-}: ProfileEditFormProps) => {
+}: ProfileEditFormProps) {
   const intl = useIntl();
 
   return (
@@ -121,6 +121,6 @@ const ProfileEditFormView = ({
       )}
     </View>
   );
-};
+}
 
 export default injectIntl(ProfileEditFormView);

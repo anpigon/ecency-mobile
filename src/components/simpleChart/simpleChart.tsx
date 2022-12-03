@@ -10,13 +10,13 @@ interface CoinChartProps {
   showLabels?: boolean;
 }
 
-export const SimpleChart = ({
+export function SimpleChart({
   data,
   baseWidth,
   chartHeight,
   showLine,
   showLabels = false,
-}: CoinChartProps) => {
+}: CoinChartProps) {
   if (!data || !data.length) {
     return null;
   }
@@ -51,4 +51,4 @@ export const SimpleChart = ({
       }}
     />
   );
-};
+}

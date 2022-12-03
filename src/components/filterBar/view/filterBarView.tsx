@@ -28,7 +28,7 @@ interface FilterBarProps {
   onCustomisePress?: () => void;
 }
 
-const FilterBarView = ({
+function FilterBarView({
   iconSize,
   isHide,
   onDropdownSelect,
@@ -39,7 +39,7 @@ const FilterBarView = ({
   selectedOptionIndex,
   enableCustomiseButton,
   onCustomisePress,
-}: FilterBarProps) => {
+}: FilterBarProps) {
   const _renderActionButtons = () =>
     rightIconName || enableCustomiseButton ? (
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -76,7 +76,7 @@ const FilterBarView = ({
             <View style={styles.dropdownWrapper}>
               {options.map((item, index) => (
                 <Tag
-                  key={index.toString()}
+                  key={item}
                   value={item}
                   isFilter
                   isPin={index === selectedOptionIndex}
@@ -90,6 +90,6 @@ const FilterBarView = ({
       )}
     </View>
   );
-};
+}
 
 export default FilterBarView;

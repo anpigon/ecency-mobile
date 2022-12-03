@@ -16,7 +16,7 @@ import globalStyles from '../../../globalStyles';
 import styles from './draftStyles';
 import { useAppSelector } from '../../../hooks';
 
-const DraftsScreen = ({
+function DraftsScreen({
   currentAccount,
   removeDraft,
   editDraft,
@@ -29,7 +29,7 @@ const DraftsScreen = ({
   schedules,
   moveScheduleToDraft,
   initialTabIndex,
-}) => {
+}) {
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
 
   // Component Functions
@@ -156,6 +156,6 @@ const DraftsScreen = ({
       </ScrollableTabView>
     </View>
   );
-};
+}
 
 export default injectIntl(DraftsScreen);

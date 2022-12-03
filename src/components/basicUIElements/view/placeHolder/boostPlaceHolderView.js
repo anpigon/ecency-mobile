@@ -11,7 +11,7 @@ import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
 const HEIGHT = getWindowDimensions().height;
 
-const BoostPlaceHolder = () => {
+function BoostPlaceHolder() {
   const ratio = (HEIGHT - 300) / 50 / 1.3;
   const listElements = [];
 
@@ -49,7 +49,7 @@ const BoostPlaceHolder = () => {
   });
 
   return <View style={styles.container}>{listElements}</View>;
-};
+}
 
 export default BoostPlaceHolder;
 /* eslint-enable */

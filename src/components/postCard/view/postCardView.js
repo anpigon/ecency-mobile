@@ -28,7 +28,7 @@ const DEFAULT_IMAGE =
 const NSFW_IMAGE =
   'https://images.ecency.com/DQmZ1jW4p7o5GyoqWyCib1fSLE2ftbewsMCt2GvbmT9kmoY/nsfw_3x.png';
 
-const PostCardView = ({
+function PostCardView({
   handleOnUserPress,
   handleOnContentPress,
   handleOnVotersPress,
@@ -46,7 +46,7 @@ const PostCardView = ({
   setImageHeight,
   isMuted,
   pageType,
-}) => {
+}) {
   // local state to manage fake upvote if available
   const activeVotesCount = activeVotes ? activeVotes.length : 0;
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
@@ -218,6 +218,6 @@ const PostCardView = ({
       </View>
     </View>
   );
-};
+}
 
 export default injectIntl(PostCardView);

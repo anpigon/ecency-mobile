@@ -20,14 +20,14 @@ interface VideoPlayerProps {
   disableAutoplay?: boolean;
 }
 
-const VideoPlayer = ({
+function VideoPlayer({
   youtubeVideoId,
   startTime,
   uri,
   contentWidth = getWindowDimensions().width,
   mode,
   disableAutoplay,
-}: VideoPlayerProps) => {
+}: VideoPlayerProps) {
   const PLAYER_HEIGHT = contentWidth * (9 / 16);
   const checkSrcRegex = /(.*?)\.(mp4|webm|ogg)$/gi;
   const isExtensionType = mode === 'uri' ? uri.match(checkSrcRegex) : false;
@@ -247,7 +247,7 @@ const VideoPlayer = ({
       )}
     </View>
   );
-};
+}
 
 export default VideoPlayer;
 

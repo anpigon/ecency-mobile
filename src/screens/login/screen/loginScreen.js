@@ -42,6 +42,15 @@ class LoginScreen extends PureComponent {
     };
   }
 
+  UNSAFE_componentWillMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () =>
+      this.setState({ keyboardIsOpen: true }),
+    );
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () =>
+      this.setState({ keyboardIsOpen: false }),
+    );
+  }
+
   componentWillUnmount() {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
@@ -67,15 +76,6 @@ class LoginScreen extends PureComponent {
     const { isModalOpen } = this.state;
     this.setState({ isModalOpen: !isModalOpen });
   };
-
-  UNSAFE_componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () =>
-      this.setState({ keyboardIsOpen: true }),
-    );
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () =>
-      this.setState({ keyboardIsOpen: false }),
-    );
-  }
 
   render() {
     const { navigation, intl, handleOnPressLogin, handleSignUp, isLoading } = this.props;

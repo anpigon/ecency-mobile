@@ -5,7 +5,7 @@ import { ThemeContainer } from '../../../../containers';
 import styles from './postCardPlaceHolderStyles';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
-const PostCardPlaceHolder = () => {
+function PostCardPlaceHolder() {
   const animationStyle = {
     width: getWindowDimensions().nativeWidth - 32,
   };
@@ -35,5 +35,5 @@ const PostCardPlaceHolder = () => {
       }}
     </ThemeContainer>
   );
-};
+}
 export default PostCardPlaceHolder;

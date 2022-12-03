@@ -17,12 +17,12 @@ interface ThumbSelectionContentProps {
   onThumbSelection: (url: string) => void;
 }
 
-const ThumbSelectionContent = ({
+function ThumbSelectionContent({
   body,
   thumbUrl,
   onThumbSelection,
   isUploading,
-}: ThumbSelectionContentProps) => {
+}: ThumbSelectionContentProps) {
   const intl = useIntl();
 
   const [imageUrls, setImageUrls] = useState<string[]>([]);
@@ -104,6 +104,6 @@ const ThumbSelectionContent = ({
       )}
     </View>
   );
-};
+}
 
 export default ThumbSelectionContent;

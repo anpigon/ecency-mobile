@@ -10,7 +10,7 @@ import { navigationRef } from './rootNavigation';
 import ROUTES from '../constants/routeNames';
 import parseVersionNumber from '../utils/parseVersionNumber';
 
-export const AppNavigator = () => {
+export function AppNavigator() {
   const lastAppVersion = useAppSelector((state) => state.application.lastAppVersion);
 
   const [appVersion] = useState(VersionNumber.appVersion);
@@ -29,4 +29,4 @@ export const AppNavigator = () => {
       <StackNavigator initRoute={_initRoute} />
     </NavigationContainer>
   );
-};
+}

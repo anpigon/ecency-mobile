@@ -11,7 +11,7 @@ import styles from './tagResultStyles';
 
 import { GLOBAL_POST_FILTERS, GLOBAL_POST_FILTERS_VALUE } from '../../../constants/options/filters';
 
-const TagResultScreen = ({ navigation, route }) => {
+function TagResultScreen({ navigation, route }) {
   const initTag = route.params?.tag ?? '';
   const filter = route.params?.filter ?? '';
 
@@ -64,6 +64,6 @@ const TagResultScreen = ({ navigation, route }) => {
       </View>
     </View>
   );
-};
+}
 
 export default gestureHandlerRootHOC(TagResultScreen);

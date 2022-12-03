@@ -4,18 +4,15 @@ import {
   Alert,
   Linking,
   AppState,
-  Appearance,
   NativeEventSubscription,
   EventSubscription,
 } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Config from 'react-native-config';
-import get from 'lodash/get';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { bindActionCreators } from 'redux';
-import { isEmpty, some } from 'lodash';
+import { bindActionCreators } from '@reduxjs/toolkit';
 import messaging from '@react-native-firebase/messaging';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
@@ -107,7 +104,7 @@ class ApplicationContainer extends Component {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     const { dispatch } = this.props;
 
     this._setNetworkListener();
@@ -142,7 +139,46 @@ class ApplicationContainer extends Component {
         console.log('error :>> ', error);
       },
     );
-  };
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const {
+      isDarkTheme: _isDarkTheme,
+      selectedLanguage,
+      isLogingOut,
+      isConnected,
+      api,
+    } = this.props;
+
+    if (
+      _isDarkTheme !== nextProps.isDarkTheme ||
+      selectedLanguage !== nextProps.selectedLanguage ||
+      (api !== nextProps.api && nextProps.api)
+    ) {
+      this.setState(
+        {
+          isRenderRequire: false,
+        },
+        () =>
+          this.setState({
+            isRenderRequire: true,
+          }),
+      );
+      if (nextProps.isDarkTheme) {
+        changeNavigationBarColor('#1e2835');
+      } else {
+        changeNavigationBarColor('#FFFFFF', true);
+      }
+    }
+
+    if (isLogingOut !== nextProps.isLogingOut && nextProps.isLogingOut) {
+      this._logout();
+    }
+
+    if (isConnected !== null && isConnected !== nextProps.isConnected && nextProps.isConnected) {
+      this._fetchApp();
+    }
+  }
 
   componentDidUpdate(prevProps) {
     const { isGlobalRenderRequired, dispatch } = this.props;
@@ -628,6 +664,7 @@ class ApplicationContainer extends Component {
       });
   };
 
+  // eslint-disable-next-line
   _enableNotification = async (username, isEnable, settings, accessToken = null) => {
     // compile notify_types
     let notify_types = [];
@@ -643,6 +680,7 @@ class ApplicationContainer extends Component {
         bookmarkNotification: 15,
       };
 
+      // eslint-disable-next-line
       Object.keys(settings).map((item) => {
         if (notifyTypesConst[item] && settings[item]) {
           notify_types.push(notifyTypesConst[item]);
@@ -680,7 +718,7 @@ class ApplicationContainer extends Component {
 
     let _currentAccount = accountData;
     _currentAccount.username = accountData.name;
-    [_currentAccount.local] = realmData;
+    _currentAccount.local = realmData[0];
 
     // migreate account to use access token for master key auth type
     if (realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT && realmData[0].accessToken === '') {
@@ -705,45 +743,6 @@ class ApplicationContainer extends Component {
     dispatch(updateCurrentAccount(_currentAccount));
     dispatch(fetchSubscribedCommunities(_currentAccount.username));
   };
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const {
-      isDarkTheme: _isDarkTheme,
-      selectedLanguage,
-      isLogingOut,
-      isConnected,
-      api,
-    } = this.props;
-
-    if (
-      _isDarkTheme !== nextProps.isDarkTheme ||
-      selectedLanguage !== nextProps.selectedLanguage ||
-      (api !== nextProps.api && nextProps.api)
-    ) {
-      this.setState(
-        {
-          isRenderRequire: false,
-        },
-        () =>
-          this.setState({
-            isRenderRequire: true,
-          }),
-      );
-      if (nextProps.isDarkTheme) {
-        changeNavigationBarColor('#1e2835');
-      } else {
-        changeNavigationBarColor('#FFFFFF', true);
-      }
-    }
-
-    if (isLogingOut !== nextProps.isLogingOut && nextProps.isLogingOut) {
-      this._logout();
-    }
-
-    if (isConnected !== null && isConnected !== nextProps.isConnected && nextProps.isConnected) {
-      this._fetchApp();
-    }
-  }
 
   render() {
     const {

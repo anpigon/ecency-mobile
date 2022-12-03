@@ -16,7 +16,7 @@ import { getResizedAvatar } from '../../../utils/image';
 
 const filterOptions = ['rewards', 'percent', 'time'];
 
-const VotersScreen = ({ route }) => {
+function VotersScreen({ route }) {
   const intl = useIntl();
 
   const [content] = useState(route.params?.content ?? null);
@@ -77,6 +77,6 @@ const VotersScreen = ({ route }) => {
       )}
     </AccountListContainer>
   );
-};
+}
 
 export default gestureHandlerRootHOC(VotersScreen);

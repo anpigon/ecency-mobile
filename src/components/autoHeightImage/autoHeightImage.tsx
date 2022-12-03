@@ -12,13 +12,13 @@ interface AutoHeightImageProps {
   onPress: () => void;
 }
 
-export const AutoHeightImage = ({
+export function AutoHeightImage({
   contentWidth,
   imgUrl,
   isAnchored,
   activeOpacity,
   onPress,
-}: AutoHeightImageProps) => {
+}: AutoHeightImageProps) {
   const [imgWidth, setImgWidth] = useState(contentWidth);
   const [imgHeight, setImgHeight] = useState(imgWidth * (9 / 16));
   const [onLoadCalled, setOnLoadCalled] = useState(false);
@@ -56,4 +56,4 @@ export const AutoHeightImage = ({
       />
     </TouchableOpacity>
   );
-};
+}

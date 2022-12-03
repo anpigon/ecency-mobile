@@ -27,7 +27,7 @@ export interface CommentHistoryListItemDiff {
 
 const screenWidth = getWindowDimensions().width - 32;
 
-const EditHistoryScreen = ({ route }) => {
+function EditHistoryScreen({ route }) {
   const { author, permlink } = route.params ?? {};
   const intl = useIntl();
   const [editHistory, setEditHistory] = useState<CommentHistoryListItemDiff[]>([]);
@@ -197,7 +197,7 @@ const EditHistoryScreen = ({ route }) => {
   };
 
   return (
-    <Fragment>
+    <>
       <BasicHeader
         title={intl.formatMessage({
           id: 'history.edit',
@@ -215,8 +215,8 @@ const EditHistoryScreen = ({ route }) => {
           {editHistory.length > 0 && _renderBody()}
         </View>
       )}
-    </Fragment>
+    </>
   );
-};
+}
 
 export default gestureHandlerRootHOC(EditHistoryScreen);

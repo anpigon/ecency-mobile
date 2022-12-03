@@ -11,7 +11,7 @@ import ROUTES from '../../../constants/routeNames';
 // Styles
 import styles from './informationAreaStyles';
 
-const FormInputView = ({ description, iconName, bold, link }) => {
+function FormInputView({ description, iconName, bold, link }) {
   const navigation = useNavigation();
 
   const _onPress = () => {
@@ -32,6 +32,6 @@ const FormInputView = ({ description, iconName, bold, link }) => {
       </View>
     </TouchableOpacity>
   );
-};
+}
 
 export default FormInputView;

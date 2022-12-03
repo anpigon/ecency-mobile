@@ -25,7 +25,7 @@ export interface TransferAmountInputSectionProps {
   currentAccountName: string;
 }
 
-const TransferAmountInputSection = ({
+function TransferAmountInputSection({
   balance,
   getAccountsWithUsername,
   setIsUsernameValid,
@@ -37,7 +37,7 @@ const TransferAmountInputSection = ({
   setAmount,
   transferType,
   fundType,
-}) => {
+}) {
   const intl = useIntl();
 
   const _handleOnChange = (state, val) => {
@@ -149,6 +149,6 @@ const TransferAmountInputSection = ({
       )}
     </View>
   );
-};
+}
 
 export default TransferAmountInputSection;

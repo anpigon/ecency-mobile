@@ -161,8 +161,8 @@ class SettingsContainer extends Component {
     }
 
     if (!isError) {
-      const localTime = new Date(new Date().toISOString().split('.')[0]);
-      const serverTime = new Date(serverResp.time);
+      const localTime = new Date(new Date().toISOString().split('.')[0]).getTime();
+      const serverTime = new Date(serverResp.time).getTime();
       const isAlive = localTime - serverTime < 15000;
 
       if (!isAlive) {
@@ -263,7 +263,6 @@ class SettingsContainer extends Component {
       favorite: 13,
       bookmark: 15,
     };
-    const notifyTypes = [];
 
     dispatch(
       changeNotificationSettings({
@@ -277,18 +276,18 @@ class SettingsContainer extends Component {
       type: actionType,
     });
 
-    Object.keys(notificationDetails).map((item) => {
-      const notificationType = item.replace('Notification', '');
-
-      if (notificationType === actionType.replace('notification.', '')) {
-        if (action) {
-          notifyTypes.push(notifyTypesConst[notificationType]);
+    const notifyTypes = Object.keys(notificationDetails)
+      .map((item) => {
+        const notificationType = item.replace('Notification', '');
+        if (notificationType === actionType.replace('notification.', '') && action) {
+          return notifyTypesConst[notificationType];
+        } else if (notificationDetails[item]) {
+          return notifyTypesConst[notificationType];
         }
-      } else if (notificationDetails[item]) {
-        notifyTypes.push(notifyTypesConst[notificationType]);
-      }
-    });
-    notifyTypes.sort();
+        return null;
+      })
+      .filter((e) => e)
+      .sort();
 
     if (actionType === 'notification') {
       this._setPushToken(action ? notifyTypes : []);

@@ -7,7 +7,7 @@ interface UserRibbonProps {
   username: string;
   containerStyle?: ViewStyle;
 }
-const UserRibbon = ({ username, containerStyle }: UserRibbonProps) => {
+function UserRibbon({ username, containerStyle }: UserRibbonProps) {
   return (
     <View style={[styles.userContainer, containerStyle]}>
       <UserAvatar username={username} style={styles.avatarStyle} disableSize />
@@ -16,6 +16,6 @@ const UserRibbon = ({ username, containerStyle }: UserRibbonProps) => {
       </View>
     </View>
   );
-};
+}
 
 export default UserRibbon;

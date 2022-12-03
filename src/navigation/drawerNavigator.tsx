@@ -8,7 +8,7 @@ import ROUTES from '../constants/routeNames';
 
 const Drawer = createDrawerNavigator();
 
-export const DrawerNavigator = () => {
+export function DrawerNavigator() {
   return (
     <Drawer.Navigator
       screenOptions={{ headerShown: false }}
@@ -17,4 +17,4 @@ export const DrawerNavigator = () => {
       <Drawer.Screen name={ROUTES.SCREENS.FEED} component={BottomTabNavigator} />
     </Drawer.Navigator>
   );
-};
+}

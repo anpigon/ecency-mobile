@@ -4,7 +4,7 @@ import LottieView from 'lottie-react-native';
 import { ThemeContainer } from '../../../../containers';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
-const PostPlaceHolder = () => {
+function PostPlaceHolder() {
   return (
     <ThemeContainer>
       {({ isDarkTheme }) => {
@@ -31,6 +31,6 @@ const PostPlaceHolder = () => {
       }}
     </ThemeContainer>
   );
-};
+}
 
 export default PostPlaceHolder;

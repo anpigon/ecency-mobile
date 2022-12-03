@@ -13,14 +13,14 @@ interface ActionPanelProps {
   onFavouritePress: () => void;
 }
 
-export const ActionPanel = ({
+export function ActionPanel({
   isFollowing,
   isFavourite,
   isMuted,
   isLoading,
   onFavouritePress,
   onFollowPress,
-}: ActionPanelProps) => {
+}: ActionPanelProps) {
   const heartColor = isFavourite ? '$primaryBlue' : '$iconColor';
 
   const followIcon = isFollowing ? 'user-check' : 'user-plus';
@@ -56,4 +56,4 @@ export const ActionPanel = ({
       />
     </View>
   );
-};
+}

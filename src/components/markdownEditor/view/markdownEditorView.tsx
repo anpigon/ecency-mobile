@@ -55,7 +55,7 @@ import { useAppSelector } from '../../../hooks';
 let bodyText = '';
 let bodySelection = { start: 0, end: 0 };
 
-const MarkdownEditorView = ({
+function MarkdownEditorView({
   paramFiles,
   draftBody,
   intl,
@@ -75,7 +75,7 @@ const MarkdownEditorView = ({
   sharedSnippetText,
   onLoadDraftPress,
   setIsUploading,
-}) => {
+}) {
   const dispatch = useDispatch();
 
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
@@ -201,7 +201,6 @@ const MarkdownEditorView = ({
     [],
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const _changeText = useCallback(
     (input) => {
       bodyText = input;
@@ -225,7 +224,6 @@ const MarkdownEditorView = ({
     bodySelection = event.nativeEvent.selection;
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const _setTextAndSelection = useCallback(({ selection: _selection, text: _text }) => {
     // console.log('_text : ', _text);
     inputRef?.current?.setNativeProps({
@@ -318,25 +316,23 @@ const MarkdownEditorView = ({
 
       const Wrapper = draftBtnTooltipRegistered ? AnimatedView : View;
       return (
-        <>
-          <Wrapper style={styles.floatingContainer} animation="bounceInRight">
-            <Tooltip
-              ref={tooltipRef}
-              text={intl.formatMessage({ id: 'walkthrough.load_draft_tooltip' })}
-              walkthroughIndex={walkthrough.EDITOR_DRAFT_BTN}
-            >
-              <MainButton
-                style={{ width: isLoading ? null : 120 }}
-                onPress={_onPress}
-                iconName="square-edit-outline"
-                iconType="MaterialCommunityIcons"
-                iconColor="white"
-                text="DRAFT"
-                isLoading={isLoading}
-              />
-            </Tooltip>
-          </Wrapper>
-        </>
+        <Wrapper style={styles.floatingContainer} animation="bounceInRight">
+          <Tooltip
+            ref={tooltipRef}
+            text={intl.formatMessage({ id: 'walkthrough.load_draft_tooltip' })}
+            walkthroughIndex={walkthrough.EDITOR_DRAFT_BTN}
+          >
+            <MainButton
+              style={{ width: isLoading ? null : 120 }}
+              onPress={_onPress}
+              iconName="square-edit-outline"
+              iconType="MaterialCommunityIcons"
+              iconColor="white"
+              text="DRAFT"
+              isLoading={isLoading}
+            />
+          </Tooltip>
+        </Wrapper>
       );
     }
   };
@@ -463,7 +459,7 @@ const MarkdownEditorView = ({
   };
 
   return (
-    <Fragment>
+    <>
       {_renderContent()}
 
       <Modal
@@ -501,8 +497,8 @@ const MarkdownEditorView = ({
         cancelButtonIndex={1}
         onPress={_handleClear}
       />
-    </Fragment>
+    </>
   );
-};
+}
 
 export default MarkdownEditorView;

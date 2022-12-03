@@ -18,7 +18,7 @@ interface ActionModalViewProps {
   data: ActionModalData;
 }
 
-const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
+function ActionModalView({ onClose, data }: ActionModalViewProps, ref) {
   const sheetModalRef = useRef<ActionSheet>();
 
   useImperativeHandle(ref, () => ({
@@ -95,6 +95,6 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
       {_renderContent}
     </ActionSheet>
   );
-};
+}
 
 export default forwardRef(ActionModalView);

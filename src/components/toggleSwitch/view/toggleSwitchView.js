@@ -30,8 +30,19 @@ class ToggleSwitchView extends PureComponent {
 
   // Component Life Cycles
 
+  UNSAFE_componentWillMount() {
+    this.setState({ duration: 0 });
+  }
+
   componentDidMount() {
     this.setState({ duration: 300 });
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    // eslint-disable-next-line react/destructuring-assignment
+    if (nextProps.isOn !== this.props.isOn) {
+      this.setState({ isOn: nextProps.isOn });
+    }
   }
 
   // Component Functions
@@ -101,16 +112,6 @@ class ToggleSwitchView extends PureComponent {
       easing: EasingNode.inOut(EasingNode.ease),
     }).start();
   };
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.isOn !== this.props.isOn) {
-      this.setState({ isOn: nextProps.isOn });
-    }
-  }
-
-  UNSAFE_componentWillMount() {
-    this.setState({ duration: 0 });
-  }
 
   render() {
     this._triggerAnimation();

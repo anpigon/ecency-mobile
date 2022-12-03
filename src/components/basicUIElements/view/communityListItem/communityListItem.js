@@ -7,7 +7,7 @@ import styles from './communityListItemStyles';
 import { Tag } from '../../index';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-const CommunityListItem = ({
+function CommunityListItem({
   index,
   handleOnPress,
   handleOnLongPress,
@@ -24,7 +24,7 @@ const CommunityListItem = ({
   isSubscribed,
   isLoggedIn,
   isLoadingRightAction,
-}) => {
+}) {
   const intl = useIntl();
 
   const _handleSubscribeButtonPress = () => {
@@ -81,6 +81,6 @@ const CommunityListItem = ({
       </View>
     </TouchableOpacity>
   );
-};
+}
 
 export default CommunityListItem;

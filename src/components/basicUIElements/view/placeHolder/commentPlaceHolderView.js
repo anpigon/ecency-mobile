@@ -6,7 +6,7 @@ import { ThemeContainer } from '../../../../containers';
 
 import styles from './listItemPlaceHolderStyles';
 
-const CommentPlaceHolderView = () => {
+function CommentPlaceHolderView() {
   const animationStyle = {
     width: 300,
     height: 72,
@@ -37,6 +37,6 @@ const CommentPlaceHolderView = () => {
       }}
     </ThemeContainer>
   );
-};
+}
 
 export default CommentPlaceHolderView;

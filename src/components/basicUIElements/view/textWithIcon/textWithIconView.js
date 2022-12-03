@@ -3,7 +3,7 @@ import { View, TouchableHighlight, Text } from 'react-native';
 import { Icon } from '../../../icon';
 import styles from './textWithIconStyles';
 
-const TextWithIcon = ({
+function TextWithIcon({
   iconName,
   text,
   isClickable,
@@ -14,7 +14,7 @@ const TextWithIcon = ({
   wrapperStyle,
   textStyle,
   onLongPress,
-}) => {
+}) {
   const [ltext, setLtext] = useState(text);
   useEffect(() => {
     setLtext(text);
@@ -28,17 +28,17 @@ const TextWithIcon = ({
         onPress={() => onPress && onPress()}
         onLongPress={() => onLongPress && onLongPress()}
       >
-        <Fragment>
+        <>
           <Icon
             style={[styles.icon, iconStyle, iconSize && { fontSize: iconSize }]}
             name={iconName}
             iconType={iconType}
           />
           <Text style={[styles.text, textStyle]}>{ltext}</Text>
-        </Fragment>
+        </>
       </TouchableHighlight>
     </View>
   );
-};
+}
 
 export default TextWithIcon;

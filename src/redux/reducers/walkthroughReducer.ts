@@ -11,9 +11,10 @@ interface State {
 const initialState: State = {
   walkthroughMap: new Map(),
 };
-export default function (state = initialState, action) {
-  console.log('action : ', action);
-
+export default function walkthroughtReducer(
+  state = initialState,
+  action = { type: '', payload: {} },
+) {
   const { type, payload } = action;
   switch (type) {
     case REGISTER_TOOLTIP:

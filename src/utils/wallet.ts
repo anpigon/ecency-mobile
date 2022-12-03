@@ -28,11 +28,6 @@ import { getPointsSummary, getPointsHistory } from '../providers/ecency/ePoint';
 // Constant
 import POINTS from '../constants/options/points';
 import { COIN_IDS } from '../constants/defaultCoins';
-import {
-  ConversionRequest,
-  OpenOrderItem,
-  SavingsWithdrawRequest,
-} from '../providers/hive/hive.types';
 import parseAsset from './parseAsset';
 
 export const transferTypes = [
@@ -84,7 +79,7 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
   result.created = timestamp;
   result.icon = 'local-activity';
 
-  //TODO: Format other wallet related operations
+  // TODO: Format other wallet related operations
 
   switch (result.textKey) {
     case 'curation_reward':
@@ -163,8 +158,8 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
     case 'escrow_release':
     case 'escrow_approve':
       const { agent, escrow_id } = opData;
-      let { from: frome } = opData;
-      let { to: toe } = opData;
+      const { from: frome } = opData;
+      const { to: toe } = opData;
 
       result.value = `${escrow_id}`;
       result.icon = 'wb-iridescent';
@@ -179,28 +174,28 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
       result.details = delegatee && delegator ? `@${delegator} to @${delegatee}` : null;
       break;
     case 'cancel_transfer_from_savings':
-      let { from: from_who, request_id: requestId } = opData;
+      const { from: from_who, request_id: requestId } = opData;
 
       result.value = `${0}`;
       result.icon = 'cancel';
       result.details = from_who ? `from @${from_who}, id: ${requestId}` : null;
       break;
     case 'fill_convert_request':
-      let { owner: who, requestid: requestedId, amount_out: amount_out } = opData;
+      const { owner: who, requestid: requestedId, amount_out } = opData;
 
       result.value = `${amount_out}`;
       result.icon = 'hourglass-full';
       result.details = who ? `@${who}, id: ${requestedId}` : null;
       break;
     case 'fill_transfer_from_savings':
-      let { from: fillwho, to: fillto, amount: fillamount, request_id: fillrequestId } = opData;
+      const { from: fillwho, to: fillto, amount: fillamount, request_id: fillrequestId } = opData;
 
       result.value = `${fillamount}`;
       result.icon = 'hourglass-full';
       result.details = fillwho ? `@${fillwho} to @${fillto}, id: ${fillrequestId}` : null;
       break;
     case 'fill_vesting_withdraw':
-      let { from_account: pd_who, to_account: pd_to, deposited: deposited } = opData;
+      const { from_account: pd_who, to_account: pd_to, deposited } = opData;
 
       result.value = `${deposited}`;
       result.icon = 'hourglass-full';
@@ -221,10 +216,10 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
 
   const userdata = await getAccount(get(user, 'name'));
 
-  //const { accounts } = state;
-  //if (!accounts) {
+  // const { accounts } = state;
+  // if (!accounts) {
   //  return walletData;
-  //}
+  // }
 
   walletData.rewardHiveBalance = parseToken(userdata.reward_hive_balance);
   walletData.rewardHbdBalance = parseToken(userdata.reward_hbd_balance);
@@ -243,7 +238,7 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   walletData.savingBalance = parseToken(userdata.savings_balance);
   walletData.savingBalanceHbd = parseToken(userdata.savings_hbd_balance);
 
-  //TOOD: use base and quote from account.globalProps redux
+  // TOOD: use base and quote from account.globalProps redux
   const feedHistory = await getFeedHistory();
   const base = parseToken(feedHistory.current_median_history.base);
   const quote = parseToken(feedHistory.current_median_history.quote);
@@ -261,7 +256,7 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
 
   walletData.estimatedValue = totalHive * pricePerHive + totalHbd;
 
-  //TODO: cache data in redux or fetch once on wallet startup
+  // TODO: cache data in redux or fetch once on wallet startup
   const ppHbd = await getCurrencyTokenRate(userCurrency, 'hbd');
   const ppHive = await getCurrencyTokenRate(userCurrency, 'hive');
 
@@ -274,23 +269,23 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());
   walletData.nextVestingWithdrawal = Math.round(timeDiff / (1000 * 3600));
 
-  //TOOD: transfer history can be separated from here
+  // TOOD: transfer history can be separated from here
   const op = utils.operationOrders;
   const ops = [
-    op.transfer, //HIVE
-    op.author_reward, //HBD, HP
-    op.curation_reward, //HP
-    op.transfer_to_vesting, //HIVE, HP
-    op.withdraw_vesting, //HIVE, HP
-    op.interest, //HP
-    op.transfer_to_savings, //HIVE, HBD
-    op.transfer_from_savings, //HIVE, HBD
-    op.fill_convert_request, //HBD
-    op.fill_order, //HIVE, HBD
-    op.claim_reward_balance, //HP
-    op.sps_fund, //HBD
-    op.comment_benefactor_reward, //HP
-    op.return_vesting_delegation, //HP
+    op.transfer, // HIVE
+    op.author_reward, // HBD, HP
+    op.curation_reward, // HP
+    op.transfer_to_vesting, // HIVE, HP
+    op.withdraw_vesting, // HIVE, HP
+    op.interest, // HP
+    op.transfer_to_savings, // HIVE, HBD
+    op.transfer_from_savings, // HIVE, HBD
+    op.fill_convert_request, // HBD
+    op.fill_order, // HIVE, HBD
+    op.claim_reward_balance, // HP
+    op.sps_fund, // HBD
+    op.comment_benefactor_reward, // HP
+    op.return_vesting_delegation, // HP
   ];
 
   const history = await getAccountHistory(get(user, 'name'), ops);
@@ -386,7 +381,7 @@ export const fetchCoinActivities = async (
 
   switch (coinId) {
     case COIN_IDS.ECENCY: {
-      //TODO: remove condition when we have a way to fetch paginated points data
+      // TODO: remove condition when we have a way to fetch paginated points data
       if (startIndex !== -1) {
         return {
           completed: [],
@@ -416,12 +411,12 @@ export const fetchCoinActivities = async (
       history = await getAccountHistory(
         username,
         [
-          op.transfer, //HIVE
-          op.transfer_to_vesting, //HIVE, HP
-          op.withdraw_vesting, //HIVE, HP
-          op.transfer_to_savings, //HIVE, HBD
-          op.transfer_from_savings, //HIVE, HBD
-          op.fill_order, //HIVE, HBD
+          op.transfer, // HIVE
+          op.transfer_to_vesting, // HIVE, HP
+          op.withdraw_vesting, // HIVE, HP
+          op.transfer_to_savings, // HIVE, HBD
+          op.transfer_from_savings, // HIVE, HBD
+          op.fill_order, // HIVE, HBD
         ],
         startIndex,
         limit,
@@ -431,13 +426,13 @@ export const fetchCoinActivities = async (
       history = await getAccountHistory(
         username,
         [
-          op.transfer, //HIVE //HBD
-          op.author_reward, //HBD, HP
-          op.transfer_to_savings, //HIVE, HBD
-          op.transfer_from_savings, //HIVE, HBD
-          op.fill_convert_request, //HBD
-          op.fill_order, //HIVE, HBD
-          op.sps_fund, //HBD
+          op.transfer, // HIVE //HBD
+          op.author_reward, // HBD, HP
+          op.transfer_to_savings, // HIVE, HBD
+          op.transfer_from_savings, // HIVE, HBD
+          op.fill_convert_request, // HBD
+          op.fill_order, // HIVE, HBD
+          op.sps_fund, // HBD
         ],
         startIndex,
         limit,
@@ -447,14 +442,14 @@ export const fetchCoinActivities = async (
       history = await getAccountHistory(
         username,
         [
-          op.author_reward, //HBD, HP
-          op.curation_reward, //HP
-          op.transfer_to_vesting, //HIVE, HP
-          op.withdraw_vesting, //HIVE, HP
-          op.interest, //HP
-          op.claim_reward_balance, //HP
-          op.comment_benefactor_reward, //HP
-          op.return_vesting_delegation, //HP
+          op.author_reward, // HBD, HP
+          op.curation_reward, // HP
+          op.transfer_to_vesting, // HIVE, HP
+          op.withdraw_vesting, // HIVE, HP
+          op.interest, // HP
+          op.claim_reward_balance, // HP
+          op.comment_benefactor_reward, // HP
+          op.return_vesting_delegation, // HP
         ],
         startIndex,
         limit,
@@ -500,37 +495,37 @@ export const fetchCoinsData = async ({
   quotes: { [key: string]: QuoteItem };
   refresh: boolean;
 }): Promise<{ [key: string]: CoinData }> => {
-  const username = currentAccount.username;
+  const { username } = currentAccount;
   const coinData = {} as { [key: string]: CoinData };
-  const walletData = {} ;
+  const walletData = {};
 
   if (!username) {
     return walletData;
   }
 
-  //fetch latest global props if refresh or data not available
+  // fetch latest global props if refresh or data not available
   const { base, quote, hivePerMVests } =
     refresh || !globalProps || !globalProps.hivePerMVests ? await fetchGlobalProps() : globalProps;
-  //TODO: Use already available accoutn for frist wallet start
+  // TODO: Use already available accoutn for frist wallet start
   const userdata = refresh ? await getAccount(username) : currentAccount;
   const _pointsSummary = refresh ? await getPointsSummary(username) : currentAccount.pointsSummary;
-  //TODO: cache data in redux or fetch once on wallet startup
-  const _prices = !refresh && quotes ? quotes : await getLatestQuotes(currencyRate); //TODO: figure out a way to handle other currencies
+  // TODO: cache data in redux or fetch once on wallet startup
+  const _prices = !refresh && quotes ? quotes : await getLatestQuotes(currencyRate); // TODO: figure out a way to handle other currencies
 
   coins.forEach((coinBase) => {
     switch (coinBase.id) {
       case COIN_IDS.ECENCY: {
         const balance = _pointsSummary.points ? parseFloat(_pointsSummary.points) : 0;
         const unclaimedFloat = parseFloat(_pointsSummary.unclaimed_points || '0');
-        const unclaimedBalance = unclaimedFloat ? unclaimedFloat + ' Points' : '';
+        const unclaimedBalance = unclaimedFloat ? `${unclaimedFloat} Points` : '';
         const ppEstm = _prices[coinBase.id].price;
 
         coinData[coinBase.id] = {
           balance: Math.round(balance * 1000) / 1000,
           estimateValue: balance * ppEstm,
-          vsCurrency: vsCurrency,
+          vsCurrency,
           currentPrice: ppEstm,
-          unclaimedBalance: unclaimedBalance,
+          unclaimedBalance,
           actions: ECENCY_ACTIONS,
         };
         break;
@@ -544,7 +539,7 @@ export const fetchCoinsData = async ({
           balance: Math.round(balance * 1000) / 1000,
           estimateValue: (balance + savings) * ppHive,
           savings: Math.round(savings * 1000) / 1000,
-          vsCurrency: vsCurrency,
+          vsCurrency,
           currentPrice: ppHive,
           unclaimedBalance: '',
           actions: HIVE_ACTIONS,
@@ -561,7 +556,7 @@ export const fetchCoinsData = async ({
           balance: Math.round(balance * 1000) / 1000,
           estimateValue: (balance + savings) * ppHbd,
           savings: Math.round(savings * 1000) / 1000,
-          vsCurrency: vsCurrency,
+          vsCurrency,
           currentPrice: ppHbd,
           unclaimedBalance: '',
           actions: HBD_ACTIONS,
@@ -578,7 +573,7 @@ export const fetchCoinsData = async ({
 
         const delegatedHP = vestsToHp(parseToken(userdata.delegated_vesting_shares), hivePerMVests);
 
-        //agggregate claim button text
+        // agggregate claim button text
         const unclaimedBalance = [
           _getBalanceStr(parseToken(userdata.reward_hive_balance), ' HIVE'),
           _getBalanceStr(parseToken(userdata.reward_hbd_balance), ' HBD'),
@@ -588,7 +583,7 @@ export const fetchCoinsData = async ({
           '',
         );
 
-        //calculate power down
+        // calculate power down
         const isPoweringDown = userdata.next_vesting_withdrawal
           ? parseDate(userdata.next_vesting_withdrawal) > new Date()
           : false;
@@ -603,9 +598,9 @@ export const fetchCoinsData = async ({
           ? vestsToHp(nextVestingSharesWithdrawal, hivePerMVests)
           : 0;
 
-        const estimateVoteValueStr = '$ ' + getEstimatedAmount(userdata, globalProps);
+        const estimateVoteValueStr = `$ ${getEstimatedAmount(userdata, globalProps)}`;
 
-        //aaggregate extra data pairs
+        // aaggregate extra data pairs
         const extraDataPairs: DataPair[] = [];
 
         if (delegatedHP) {
@@ -652,7 +647,7 @@ export const fetchCoinsData = async ({
           balance: Math.round(balance * 1000) / 1000,
           estimateValue: balance * ppHive,
           unclaimedBalance,
-          vsCurrency: vsCurrency,
+          vsCurrency,
           currentPrice: ppHive,
           actions: HIVE_POWER_ACTIONS,
           extraDataPairs: [
@@ -680,7 +675,7 @@ export const fetchCoinsData = async ({
     }
   });
 
-  //TODO:discard unnessacry data processings towards the end of PR
+  // TODO:discard unnessacry data processings towards the end of PR
   walletData.rewardHiveBalance = parseToken(userdata.reward_hive_balance);
   walletData.rewardHbdBalance = parseToken(userdata.reward_hbd_balance);
   walletData.rewardVestingHive = parseToken(userdata.reward_vesting_hive);

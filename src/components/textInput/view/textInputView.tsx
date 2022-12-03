@@ -12,7 +12,7 @@ interface Props extends TextInputProps {
   style: TextStyle;
 }
 
-const TextInputView = ({ innerRef, height, style, ...props }: Props) => {
+function TextInputView({ innerRef, height, style, ...props }: Props) {
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   return (
     <TextInput
@@ -23,6 +23,6 @@ const TextInputView = ({ innerRef, height, style, ...props }: Props) => {
       style={[styles.input, { minHeight: height }, style]}
     />
   );
-};
+}
 
 export default TextInputView;

@@ -6,7 +6,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 import styles from './parentPostStyles';
 
-const ParentPost = ({ post }) => {
+function ParentPost({ post }) {
   const navigation = useNavigation();
 
   return (
@@ -29,6 +29,6 @@ const ParentPost = ({ post }) => {
       </TouchableOpacity>
     </View>
   );
-};
+}
 
 export default ParentPost;

@@ -9,7 +9,7 @@ interface CoinActionsProps {
   onActionPress: (action: string) => void;
 }
 
-export const CoinActions = ({ actions, onActionPress }: CoinActionsProps) => {
+export function CoinActions({ actions, onActionPress }: CoinActionsProps) {
   const intl = useIntl();
 
   const _renderItem = (item: string, index: number) => {
@@ -24,12 +24,10 @@ export const CoinActions = ({ actions, onActionPress }: CoinActionsProps) => {
         containerStyle={styles.actionBtnContainer}
         onPress={_onPress}
       >
-        <Fragment>
-          <Text style={styles.actionText}>{intl.formatMessage({ id: `wallet.${item}` })}</Text>
-        </Fragment>
+        <Text style={styles.actionText}>{intl.formatMessage({ id: `wallet.${item}` })}</Text>
       </TouchableOpacity>
     );
   };
 
   return <View style={styles.actionsContainer}>{actions.map(_renderItem)}</View>;
-};
+}

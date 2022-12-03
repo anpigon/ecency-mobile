@@ -20,7 +20,7 @@ import { showProfileModal } from '../../../redux/actions/uiAction';
  *
  */
 
-const PostCardContainer = ({
+function PostCardContainer({
   currentAccount,
   content,
   isHideImage,
@@ -30,7 +30,7 @@ const PostCardContainer = ({
   pageType,
   showQuickReplyModal,
   mutes,
-}) => {
+}) {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
@@ -147,7 +147,7 @@ const PostCardContainer = ({
       showQuickReplyModal={_handleQuickReplyModal}
     />
   );
-};
+}
 
 const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,

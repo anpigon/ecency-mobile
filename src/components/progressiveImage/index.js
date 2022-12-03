@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 
 const AnimatedFastImage = Animated.createAnimatedComponent(FastImage);
 
-const ProgressiveImage = ({ thumbnailSource, source, style, ...props }) => {
+function ProgressiveImage({ thumbnailSource, source, style, ...props }) {
   // const [calcImgHeight, setCalcImgHeight] = useState(300);
   const thumbnailAnimated = new Animated.Value(0);
   const imageAnimated = new Animated.Value(0);
@@ -62,6 +62,6 @@ const ProgressiveImage = ({ thumbnailSource, source, style, ...props }) => {
       />
     </View>
   );
-};
+}
 
 export default ProgressiveImage;

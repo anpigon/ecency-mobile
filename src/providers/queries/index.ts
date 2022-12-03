@@ -9,7 +9,7 @@ export const initQueryClient = () => {
   });
 
   const client = new QueryClient({
-    //Query client configurations go here...
+    // Query client configurations go here...
     defaultOptions: {
       queries: {
         cacheTime: 1000 * 60 * 60 * 24, // 24 hours

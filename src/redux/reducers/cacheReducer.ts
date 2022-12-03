@@ -84,7 +84,7 @@ const initialState: State = {
   lastUpdate: null,
 };
 
-export default function (state = initialState, action) {
+export default function cacheReducer(state = initialState, action = { type: '', payload: {} }) {
   const { type, payload } = action;
   switch (type) {
     case UPDATE_VOTE_CACHE:

@@ -127,6 +127,7 @@ class TransferTokenView extends Component {
     }
   };
 
+  // eslint-disable-next-line
   _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
 
   render() {
@@ -173,7 +174,7 @@ class TransferTokenView extends Component {
     }
 
     return (
-      <Fragment>
+      <>
         <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
         <View style={styles.container}>
           <ScrollView>
@@ -284,7 +285,7 @@ class TransferTokenView extends Component {
             <WebView source={{ uri: `${hsOptions.base_url}${path}` }} />
           </Modal>
         )}
-      </Fragment>
+      </>
     );
   }
 }

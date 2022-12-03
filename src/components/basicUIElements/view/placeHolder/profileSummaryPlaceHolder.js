@@ -6,7 +6,7 @@ import { ThemeContainer } from '../../../../containers';
 
 import styles from './profileSummaryPlaceHolderStyles';
 // TODO: make container for place holder wrapper after alpha
-const ProfileSummaryPlaceHolder = () => {
+function ProfileSummaryPlaceHolder() {
   return (
     <ThemeContainer>
       {({ isDarkTheme }) => {
@@ -35,6 +35,6 @@ const ProfileSummaryPlaceHolder = () => {
       }}
     </ThemeContainer>
   );
-};
+}
 
 export default ProfileSummaryPlaceHolder;

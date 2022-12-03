@@ -20,7 +20,7 @@ const initialState = {
   feedScreenFilters: DEFAULT_FEED_FILTERS,
 };
 
-export default function (state = initialState, action) {
+export default function postsReducer(state = initialState, action = { type: '', payload: {} }) {
   switch (action.type) {
     case SET_FEED_POSTS:
       return {

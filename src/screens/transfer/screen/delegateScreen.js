@@ -292,7 +292,7 @@ class DelegateScreen extends Component {
   };
 
   // Note: dropdown for user account selection. can be used in later implementaion
-  _renderDropdown = (accounts, currentAccountName) => (
+  /* _renderDropdown = (accounts, currentAccountName) => (
     <DropdownButton
       dropdownButtonStyle={styles.dropdownButtonStyle}
       rowTextStyle={styles.rowTextStyle}
@@ -304,7 +304,7 @@ class DelegateScreen extends Component {
       selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
       onSelect={(index, value) => this._handleOnDropdownChange(value)}
     />
-  );
+  ); */
 
   _renderUsersDropdownItem = ({ item }) => {
     const username = item;
@@ -427,7 +427,7 @@ class DelegateScreen extends Component {
     }
   };
 
-  _renderInformationText = (text) => <Text style={styles.amountText}>{text}</Text>;
+  // _renderInformationText = (text) => <Text style={styles.amountText}>{text}</Text>;
 
   _renderToFromAvatars = () => {
     const { destination, from } = this.state;
@@ -586,7 +586,7 @@ class DelegateScreen extends Component {
     );
 
     return (
-      <Fragment>
+      <>
         <BasicHeader title={intl.formatMessage({ id: 'transfer.delegate' })} backIconName="close" />
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -614,7 +614,7 @@ class DelegateScreen extends Component {
             <WebView source={{ uri: `${hsOptions.base_url}${path}` }} />
           </Modal>
         )}
-      </Fragment>
+      </>
     );
   }
 }

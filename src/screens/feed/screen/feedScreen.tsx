@@ -16,7 +16,7 @@ import { getDefaultFilters, getFilterMap } from '../../../constants/options/filt
 
 import { useAppSelector } from '../../../hooks';
 
-const FeedScreen = () => {
+function FeedScreen() {
   const mainTabs = useAppSelector(
     (state) => state.customTabs.mainTabs || getDefaultFilters('main'),
   );
@@ -35,7 +35,7 @@ const FeedScreen = () => {
   return (
     <AccountContainer>
       {({ currentAccount }) => (
-        <Fragment>
+        <>
           <Header showQR={true} />
           <View style={styles.container} onLayout={_lazyLoadContent}>
             {lazyLoad && (
@@ -51,10 +51,10 @@ const FeedScreen = () => {
               />
             )}
           </View>
-        </Fragment>
+        </>
       )}
     </AccountContainer>
   );
-};
+}
 
 export default gestureHandlerRootHOC(FeedScreen);

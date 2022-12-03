@@ -16,7 +16,7 @@ import LaunchScreen from '../../launch';
 
 import styles from '../children/WelcomeScreenStyles';
 
-const WelcomeScreen = () => {
+function WelcomeScreen() {
   const intl = useIntl();
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
@@ -132,6 +132,6 @@ const WelcomeScreen = () => {
       {showAnimation && <LaunchScreen />}
     </SafeAreaView>
   );
-};
+}
 
 export default gestureHandlerRootHOC(WelcomeScreen);

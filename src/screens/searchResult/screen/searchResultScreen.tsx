@@ -16,7 +16,7 @@ import PeopleResults from './tabs/people/view/peopleResults';
 import styles from './searchResultStyles';
 import globalStyles from '../../../globalStyles';
 
-const SearchResultScreen = ({ navigation }) => {
+function SearchResultScreen({ navigation }) {
   const [searchValue, setSearchValue] = useState('');
   const intl = useIntl();
 
@@ -86,6 +86,6 @@ const SearchResultScreen = ({ navigation }) => {
       </ScrollableTabView>
     </View>
   );
-};
+}
 
 export default gestureHandlerRootHOC(SearchResultScreen);

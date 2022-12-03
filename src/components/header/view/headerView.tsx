@@ -15,7 +15,7 @@ import ROUTES from '../../../constants/routeNames';
 // Styles
 import styles from './headerStyles';
 
-const HeaderView = ({
+function HeaderView({
   displayName,
   handleOnPressBackButton,
   handleOnQRPress,
@@ -28,7 +28,7 @@ const HeaderView = ({
   username,
   hideUser,
   showQR,
-}) => {
+}) {
   const navigation = useNavigation();
 
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
@@ -65,61 +65,55 @@ const HeaderView = ({
     </TouchableOpacity>
   );
 
-  const _renderTitle = () => (
-    <>
-      {displayName || username ? (
-        <View style={[styles.titleWrapper, isReverse && styles.titleWrapperReverse]}>
-          {displayName && (
-            <Text numberOfLines={1} style={styles.title}>
-              {displayName}
-            </Text>
-          )}
-          <Text style={styles.subTitle}>
-            {`@${username}`}
-            {reputation && ` (${reputation})`}
+  const _renderTitle = () =>
+    displayName || username ? (
+      <View style={[styles.titleWrapper, isReverse && styles.titleWrapperReverse]}>
+        {displayName && (
+          <Text numberOfLines={1} style={styles.title}>
+            {displayName}
           </Text>
-        </View>
-      ) : (
-        <View style={styles.titleWrapper}>
-          {isLoginDone && !isLoggedIn && (
-            <Text numberOfLines={2} style={styles.noAuthTitle}>
-              {intl.formatMessage({
-                id: 'header.title',
-              })}
-            </Text>
-          )}
-        </View>
-      )}
-    </>
-  );
+        )}
+        <Text style={styles.subTitle}>
+          {`@${username}`}
+          {reputation && ` (${reputation})`}
+        </Text>
+      </View>
+    ) : (
+      <View style={styles.titleWrapper}>
+        {isLoginDone && !isLoggedIn && (
+          <Text numberOfLines={2} style={styles.noAuthTitle}>
+            {intl.formatMessage({
+              id: 'header.title',
+            })}
+          </Text>
+        )}
+      </View>
+    );
 
-  const _renderActionButtons = () => (
-    <>
-      {isReverse ? (
-        <View style={styles.reverseBackButtonWrapper}>
+  const _renderActionButtons = () =>
+    isReverse ? (
+      <View style={styles.reverseBackButtonWrapper}>
+        <IconButton
+          style={styles.backButton}
+          iconStyle={styles.backIcon}
+          name="md-arrow-back"
+          onPress={handleOnPressBackButton}
+        />
+      </View>
+    ) : (
+      <View style={styles.backButtonWrapper}>
+        {showQR && (
           <IconButton
-            style={styles.backButton}
-            iconStyle={styles.backIcon}
-            name="md-arrow-back"
-            onPress={handleOnPressBackButton}
+            style={styles.viewIconContainer}
+            iconStyle={styles.viewIcon}
+            name="qr-code-sharp"
+            iconType="IonIcons"
+            onPress={handleOnQRPress}
           />
-        </View>
-      ) : (
-        <View style={styles.backButtonWrapper}>
-          {showQR && (
-            <IconButton
-              style={styles.viewIconContainer}
-              iconStyle={styles.viewIcon}
-              name="qr-code-sharp"
-              iconType="IonIcons"
-              onPress={handleOnQRPress}
-            />
-          )}
-          <IconButton iconStyle={styles.backIcon} name="md-search" onPress={_onPressSearchButton} />
-        </View>
-      )}
-    </>
-  );
+        )}
+        <IconButton iconStyle={styles.backIcon} name="md-search" onPress={_onPressSearchButton} />
+      </View>
+    );
 
   return (
     <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
@@ -140,6 +134,6 @@ const HeaderView = ({
       {_renderActionButtons()}
     </SafeAreaView>
   );
-};
+}
 
 export default HeaderView;

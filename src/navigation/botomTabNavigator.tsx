@@ -7,7 +7,7 @@ import { Feed, Notification, Profile, Wallet } from '../screens';
 
 const Tab = createBottomTabNavigator();
 
-export const BottomTabNavigator = () => {
+export function BottomTabNavigator() {
   return (
     <Tab.Navigator
       tabBar={(props) => <BottomTabBar {...props} />}
@@ -60,6 +60,8 @@ export const BottomTabNavigator = () => {
       />
     </Tab.Navigator>
   );
-};
+}
 
-const EmptyScreen = () => null;
+function EmptyScreen() {
+  return null;
+}

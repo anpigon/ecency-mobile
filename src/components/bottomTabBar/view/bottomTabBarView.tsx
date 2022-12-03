@@ -15,11 +15,11 @@ import Icon, { IconContainer } from '../../icon';
 import scalePx from '../../../utils/scalePx';
 import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 
-const BottomTabBarView = ({
+function BottomTabBarView({
   state: { routes, index },
   navigation,
   descriptors,
-}: BottomTabBarProps) => {
+}: BottomTabBarProps) {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -76,6 +76,6 @@ const BottomTabBarView = ({
   });
 
   return <SafeAreaView style={styles.wrapper}>{_tabButtons}</SafeAreaView>;
-};
+}
 
 export default BottomTabBarView;

@@ -9,7 +9,7 @@ import styles from './topicsResultsStyles';
 
 const filterOptions = ['user', 'tag'];
 
-const TopicsResults = ({ navigation, searchValue }) => {
+function TopicsResults({ navigation, searchValue }) {
   const _renderTagItem = (item, index) => (
     <View style={[styles.itemWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
       <Text style={styles.username}>{`#${item.tag}`}</Text>
@@ -17,11 +17,7 @@ const TopicsResults = ({ navigation, searchValue }) => {
   );
 
   const _renderEmptyContent = () => {
-    return (
-      <>
-        <ListPlaceHolder />
-      </>
-    );
+    return <ListPlaceHolder />;
   };
 
   return (
@@ -46,6 +42,6 @@ const TopicsResults = ({ navigation, searchValue }) => {
       )}
     </TopicsResultsContainer>
   );
-};
+}
 
 export default TopicsResults;

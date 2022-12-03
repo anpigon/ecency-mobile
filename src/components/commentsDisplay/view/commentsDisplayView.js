@@ -44,33 +44,31 @@ const CommentsDisplayView = forwardRef(
     };
 
     return (
-      <Fragment>
-        <Fragment>
-          <WriteCommentButton ref={writeCommentRef} onPress={handleOnReplyPress} />
-          <FilterBar
-            dropdownIconName="arrow-drop-down"
-            options={VALUE.map((val) => intl.formatMessage({ id: `comment_filter.${val}` }))}
-            defaultText={intl.formatMessage({ id: `comment_filter.${VALUE[0]}` })}
-            onDropdownSelect={(selectedIndex) =>
-              _handleOnDropdownSelect(COMMENT_FILTER[selectedIndex], selectedIndex)
-            }
-            selectedOptionIndex={selectedOptionIndex}
+      <>
+        <WriteCommentButton ref={writeCommentRef} onPress={handleOnReplyPress} />
+        <FilterBar
+          dropdownIconName="arrow-drop-down"
+          options={VALUE.map((val) => intl.formatMessage({ id: `comment_filter.${val}` }))}
+          defaultText={intl.formatMessage({ id: `comment_filter.${VALUE[0]}` })}
+          onDropdownSelect={(selectedIndex) =>
+            _handleOnDropdownSelect(COMMENT_FILTER[selectedIndex], selectedIndex)
+          }
+          selectedOptionIndex={selectedOptionIndex}
+        />
+        <View>
+          <Comments
+            selectedFilter={selectedFilter}
+            fetchPost={fetchPost}
+            commentCount={commentCount}
+            author={author}
+            permlink={permlink}
+            mainAuthor={mainAuthor}
+            handleOnVotersPress={handleOnVotersPress}
+            handleOnReplyPress={handleOnReplyPress}
+            fetchedAt={fetchedAt}
           />
-          <View>
-            <Comments
-              selectedFilter={selectedFilter}
-              fetchPost={fetchPost}
-              commentCount={commentCount}
-              author={author}
-              permlink={permlink}
-              mainAuthor={mainAuthor}
-              handleOnVotersPress={handleOnVotersPress}
-              handleOnReplyPress={handleOnReplyPress}
-              fetchedAt={fetchedAt}
-            />
-          </View>
-        </Fragment>
-      </Fragment>
+        </View>
+      </>
     );
   },
 );

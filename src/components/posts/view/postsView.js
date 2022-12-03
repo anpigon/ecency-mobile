@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { useRef, useEffect } from 'react';
 import {
   FlatList,
@@ -7,22 +6,18 @@ import {
   RefreshControl,
   Text,
   TouchableOpacity,
-  Button,
 } from 'react-native';
 import { useIntl } from 'react-intl';
-import { get } from 'lodash';
 
 // COMPONENTS
 import FastImage from 'react-native-fast-image';
 import { useNavigation } from '@react-navigation/native';
-import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
 import {
   PostCardPlaceHolder,
   NoPost,
   UserListItem,
   CommunityListItem,
-  TextWithIcon,
 } from '../../basicUIElements';
 import { ThemeContainer } from '../../../containers';
 import { IconButton } from '../../iconButton';
@@ -31,12 +26,12 @@ import { IconButton } from '../../iconButton';
 import styles from './postsStyles';
 import { default as ROUTES } from '../../../constants/routeNames';
 import globalStyles from '../../../globalStyles';
-import PostsList from '../../postsList';
+import { PostsList } from '../../postsList';
 import { isDarkTheme } from '../../../redux/actions/applicationActions';
 
 let _onEndReachedCalledDuringMomentum = true;
 
-const PostsView = ({
+function PostsView({
   filterOptions,
   selectedOptionIndex,
   handleImagesHide,
@@ -70,7 +65,7 @@ const PostsView = ({
   isFeedScreen,
   newPostsPopupPictures,
   setNewPostsPopupPictures,
-}) => {
+}) {
   const navigation = useNavigation();
 
   const intl = useIntl();
@@ -172,7 +167,7 @@ const PostsView = ({
                     isLoggedIn={isLoggedIn}
                     isFollowing={item.isFollowing}
                     isLoadingRightAction={
-                      followingUsers.hasOwnProperty(item._id) && followingUsers[item._id].loading
+                      item._id in followingUsers && followingUsers[item._id].loading
                     }
                     onPressRightText={handleFollowUserButtonPress}
                     handleOnPress={(username) =>
@@ -221,7 +216,7 @@ const PostsView = ({
                     handleSubscribeButtonPress={handleSubscribeCommunityButtonPress}
                     isSubscribed={item.isSubscribed}
                     isLoadingRightAction={
-                      subscribingCommunities.hasOwnProperty(item.name) &&
+                      item.name in subscribingCommunities &&
                       subscribingCommunities[item.name].loading
                     }
                     isLoggedIn={isLoggedIn}
@@ -246,7 +241,7 @@ const PostsView = ({
   const _scrollTop = () => {
     postsList.current.scrollToTop();
   };
-  const _onEndReached = ({ distanceFromEnd }) => {
+  const _onEndReached = () => {
     if (!_onEndReachedCalledDuringMomentum) {
       loadPosts();
       _onEndReachedCalledDuringMomentum = true;
@@ -255,7 +250,7 @@ const PostsView = ({
 
   return (
     <ThemeContainer>
-      {({ isDarkTheme }) => (
+      {({ isDarkTheme: _isDarkTheme }) => (
         <View style={styles.container}>
           {filterOptions && (
             <FilterBar
@@ -304,7 +299,7 @@ const PostsView = ({
                 refreshing={refreshing}
                 onRefresh={handleOnRefreshPosts}
                 progressBackgroundColor="#357CE6"
-                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                tintColor={!_isDarkTheme ? '#357ce6' : '#96c0ff'}
                 titleColor="#fff"
                 colors={['#fff']}
               />
@@ -392,7 +387,6 @@ const PostsView = ({
       )}
     </ThemeContainer>
   );
-};
+}
 
 export default PostsView;
-/* eslint-enable */

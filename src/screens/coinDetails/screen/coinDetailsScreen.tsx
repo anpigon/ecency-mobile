@@ -9,6 +9,7 @@ import ActivitiesList from '../children/activitiesList';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import {
   CoinActivitiesCollection,
+  CoinActivity,
   CoinData,
   QuoteItem,
 } from '../../../redux/reducers/walletReducer';
@@ -18,6 +19,7 @@ import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { COIN_IDS } from '../../../constants/defaultCoins';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
+import lastItem from '../../../utils/lastItem';
 
 export interface CoinDetailsScreenParams {
   coinId: string;
@@ -30,7 +32,7 @@ interface CoinDetailsScreenProps {
 
 const FETCH_ITEMS_LIMIT = 500;
 
-const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
+function CoinDetailsScreen({ navigation, route }: CoinDetailsScreenProps) {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
@@ -92,14 +94,16 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
       setRefreshing(refresh);
       dispatch(fetchAndSetCoinsData(refresh));
     } else if (noMoreActivities || loading) {
-      console.log('Skipping transaction fetch', completedActivities.lastItem?.trxIndex);
+      // console.log('Skipping transaction fetch', completedActivities?.lastItem?.trxIndex);
       return;
     }
 
     setLoading(true);
 
     const startAt =
-      refresh || !completedActivities.length ? -1 : completedActivities.lastItem?.trxIndex - 1;
+      refresh || !completedActivities.length
+        ? -1
+        : lastItem<CoinActivity>(completedActivities)?.trxIndex ?? 0 - 1;
     const _activites = await fetchCoinActivities(
       currentAccount.name,
       coinId,
@@ -205,6 +209,6 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
       <DelegationsModal ref={delegationsModalRef} />
     </View>
   );
-};
+}
 
 export default gestureHandlerRootHOC(CoinDetailsScreen);

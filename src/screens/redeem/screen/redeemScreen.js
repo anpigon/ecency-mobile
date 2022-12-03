@@ -17,58 +17,56 @@ class RedeemScreen extends PureComponent {
   render() {
     const { route } = this.props;
     return (
-      <Fragment>
-        <PointsContainer route={route}>
-          {({
-            accounts,
-            currentAccountName,
-            balance,
-            navigationParams,
-            redeemType,
-            getESTMPrice,
-            user,
-          }) => (
-            <RedeemContainer>
-              {({ handleOnSubmit, SCPath, isSCModalOpen, handleOnSCModalClose, isLoading }) => (
-                <Fragment>
-                  {redeemType === 'promote' && (
-                    <Promote
-                      isLoading={isLoading}
-                      accounts={accounts}
-                      currentAccountName={currentAccountName}
-                      balance={balance}
-                      navigationParams={navigationParams}
-                      handleOnSubmit={handleOnSubmit}
-                      redeemType={redeemType}
-                      isSCModalOpen={isSCModalOpen}
-                      handleOnSCModalClose={handleOnSCModalClose}
-                      SCPath={SCPath}
-                      getESTMPrice={getESTMPrice}
-                    />
-                  )}
+      <PointsContainer route={route}>
+        {({
+          accounts,
+          currentAccountName,
+          balance,
+          navigationParams,
+          redeemType,
+          getESTMPrice,
+          user,
+        }) => (
+          <RedeemContainer>
+            {({ handleOnSubmit, SCPath, isSCModalOpen, handleOnSCModalClose, isLoading }) => (
+              <>
+                {redeemType === 'promote' && (
+                  <Promote
+                    isLoading={isLoading}
+                    accounts={accounts}
+                    currentAccountName={currentAccountName}
+                    balance={balance}
+                    navigationParams={navigationParams}
+                    handleOnSubmit={handleOnSubmit}
+                    redeemType={redeemType}
+                    isSCModalOpen={isSCModalOpen}
+                    handleOnSCModalClose={handleOnSCModalClose}
+                    SCPath={SCPath}
+                    getESTMPrice={getESTMPrice}
+                  />
+                )}
 
-                  {redeemType === 'boost' && (
-                    <PostBoost
-                      isLoading={isLoading}
-                      accounts={accounts}
-                      currentAccountName={currentAccountName}
-                      balance={balance}
-                      navigationParams={navigationParams}
-                      handleOnSubmit={handleOnSubmit}
-                      redeemType={redeemType}
-                      isSCModalOpen={isSCModalOpen}
-                      handleOnSCModalClose={handleOnSCModalClose}
-                      SCPath={SCPath}
-                      getESTMPrice={getESTMPrice}
-                      user={user}
-                    />
-                  )}
-                </Fragment>
-              )}
-            </RedeemContainer>
-          )}
-        </PointsContainer>
-      </Fragment>
+                {redeemType === 'boost' && (
+                  <PostBoost
+                    isLoading={isLoading}
+                    accounts={accounts}
+                    currentAccountName={currentAccountName}
+                    balance={balance}
+                    navigationParams={navigationParams}
+                    handleOnSubmit={handleOnSubmit}
+                    redeemType={redeemType}
+                    isSCModalOpen={isSCModalOpen}
+                    handleOnSCModalClose={handleOnSCModalClose}
+                    SCPath={SCPath}
+                    getESTMPrice={getESTMPrice}
+                    user={user}
+                  />
+                )}
+              </>
+            )}
+          </RedeemContainer>
+        )}
+      </PointsContainer>
     );
   }
 }

@@ -22,7 +22,7 @@ import { useAppSelector } from '../../../hooks';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
 
-const CommentsContainer = ({
+function CommentsContainer({
   author,
   permlink,
   selectedFilter,
@@ -48,7 +48,7 @@ const CommentsContainer = ({
   fetchedAt,
   incrementRepliesCount,
   handleOnReplyPress,
-}) => {
+}) {
   const navigation = useNavigation();
 
   const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
@@ -91,7 +91,7 @@ const CommentsContainer = ({
 
   // Component Functions
 
-  const _sortComments = (sortOrder = 'trending', _comments) => {
+  const _sortComments = (sortOrder = 'trending', _comments = []) => {
     const sortedComments = _comments || lcomments;
 
     const absNegative = (a) => a.net_rshares < 0;
@@ -374,7 +374,7 @@ const CommentsContainer = ({
       fetchedAt={fetchedAt}
     />
   );
-};
+}
 
 const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,

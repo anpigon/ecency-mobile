@@ -11,10 +11,6 @@ class ToastNotification extends Component {
    *   @prop { type }    name                - Description....
    */
 
-  constructor(props) {
-    super(props);
-  }
-
   // Component Life Cycles
   componentDidMount() {
     this._showToast();

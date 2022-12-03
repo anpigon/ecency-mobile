@@ -22,7 +22,7 @@ import { OptionsModal } from '../../atoms';
 import { showReplyModal } from '../../../redux/actions/uiAction';
 import postTypes from '../../../constants/postTypes';
 
-const CommentView = ({
+function CommentView({
   avatarSize,
   comment,
   commentNumber,
@@ -43,7 +43,7 @@ const CommentView = ({
   openReplyThread,
   fetchedAt,
   incrementRepliesCount,
-}) => {
+}) {
   const intl = useIntl();
   const dispatch = useDispatch();
   const actionSheet = useRef(null);
@@ -199,10 +199,10 @@ const CommentView = ({
           isMuted={isMuted}
         />
 
-        <Fragment>
+        <>
           <View style={styles.footerWrapper}>{_renderActionPanel()}</View>
           {commentNumber > 1 && childCount > 0 && !replies?.length && _renderReadMoreButton()}
-        </Fragment>
+        </>
       </View>
     );
   };
@@ -244,7 +244,7 @@ const CommentView = ({
         )}
 
         {currentAccountUsername === comment.author && (
-          <Fragment>
+          <>
             <IconButton
               size={20}
               iconStyle={styles.leftIcon}
@@ -254,7 +254,7 @@ const CommentView = ({
               iconType="MaterialIcons"
             />
             {!childCount && !activeVotes.length && comment.isDeletable && (
-              <Fragment>
+              <>
                 <IconButton
                   size={20}
                   iconStyle={styles.leftIcon}
@@ -276,9 +276,9 @@ const CommentView = ({
                     index === 0 ? handleDeleteComment(comment.permlink) : null;
                   }}
                 />
-              </Fragment>
+              </>
             )}
-          </Fragment>
+          </>
         )}
 
         {commentNumber === 1 && childCount > 0 && (
@@ -303,28 +303,26 @@ const CommentView = ({
   const customContainerStyle = commentNumber > 2 ? { marginLeft: 44 } : null;
 
   return (
-    <Fragment>
-      <View style={{ ...styles.commentContainer, ...customContainerStyle }}>
-        <PostHeaderDescription
-          key={comment.permlink}
-          date={getTimeFromNow(comment.created)}
-          name={comment.author}
-          reputation={comment.author_reputation}
-          size={avatarSize || 40}
-          currentAccountUsername={currentAccountUsername}
-          isShowOwnerIndicator={mainAuthor === comment.author}
-          isHideImage={isHideImage}
-          inlineTime={true}
-          customStyle={{ alignItems: 'flex-start', paddingLeft: 12 }}
-          showDotMenuButton={true}
-          handleOnDotPress={handleOnLongPress}
-          secondaryContentComponent={_renderComment()}
-        />
+    <View style={{ ...styles.commentContainer, ...customContainerStyle }}>
+      <PostHeaderDescription
+        key={comment.permlink}
+        date={getTimeFromNow(comment.created)}
+        name={comment.author}
+        reputation={comment.author_reputation}
+        size={avatarSize || 40}
+        currentAccountUsername={currentAccountUsername}
+        isShowOwnerIndicator={mainAuthor === comment.author}
+        isHideImage={isHideImage}
+        inlineTime={true}
+        customStyle={{ alignItems: 'flex-start', paddingLeft: 12 }}
+        showDotMenuButton={true}
+        handleOnDotPress={handleOnLongPress}
+        secondaryContentComponent={_renderComment()}
+      />
 
-        {commentNumber > 0 && _renderReplies()}
-      </View>
-    </Fragment>
+      {commentNumber > 0 && _renderReplies()}
+    </View>
   );
-};
+}
 
 export default CommentView;

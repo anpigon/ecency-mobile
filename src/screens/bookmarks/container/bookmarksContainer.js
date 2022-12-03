@@ -20,7 +20,7 @@ import ROUTES from '../../../constants/routeNames';
 // Component
 import BookmarksScreen from '../screen/bookmarksScreen';
 
-const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
+function BookmarksContainer({ currentAccount, intl, navigation }) {
   const [favorites, setFavorites] = useState([]);
   const [bookmarks, setBookmarks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -130,7 +130,7 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
       handleOnBookmarkPress={_handleOnBookmarkPress}
     />
   );
-};
+}
 
 const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,

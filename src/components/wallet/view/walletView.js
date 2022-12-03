@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { Fragment } from 'react';
 import { View, Text, ScrollView, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
@@ -14,7 +13,7 @@ import { ThemeContainer, WalletContainer } from '../../../containers';
 // Styles
 import styles from './walletStyles';
 
-const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) => {
+function WalletView({ setEstimatedWalletValue, selectedUser, handleOnScroll }) {
   const intl = useIntl();
 
   const _getUnclaimedText = (walletData, isPreview) => (
@@ -66,11 +65,9 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
               scrollEventThrottle={16}
             >
               {!walletData ? (
-                <Fragment>
-                  <WalletDetailsPlaceHolder />
-                </Fragment>
+                <WalletDetailsPlaceHolder />
               ) : (
-                <Fragment>
+                <>
                   {walletData.hasUnclaimedRewards && (
                     <CollapsibleCard
                       titleColor="#788187"
@@ -110,7 +107,7 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
                   >
                     <WalletDetails intl={intl} walletData={walletData} isShowDropdowns={false} />
                   </CollapsibleCard>
-                </Fragment>
+                </>
               )}
             </ScrollView>
           )}
@@ -118,7 +115,7 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
       )}
     </WalletContainer>
   );
-};
+}
 
 export default WalletView;
 /* eslint-enable */

@@ -14,7 +14,7 @@ export interface SnippetEditorModalRef {
   showEditModal: (snippet: Snippet) => void;
 }
 
-const SnippetEditorModal = ({}, ref) => {
+function SnippetEditorModal({}, ref) {
   const intl = useIntl();
   const titleInputRef = useRef(null);
   const bodyInputRef = useRef(null);
@@ -141,6 +141,6 @@ const SnippetEditorModal = ({}, ref) => {
       {_renderContent}
     </Modal>
   );
-};
+}
 
 export default forwardRef(SnippetEditorModal);

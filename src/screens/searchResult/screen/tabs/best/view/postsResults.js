@@ -19,7 +19,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 const filterOptions = ['relevance', 'popularity', 'newest'];
 
-const PostsResults = ({ navigation, searchValue }) => {
+function PostsResults({ navigation, searchValue }) {
   const _renderItem = (item, index) => {
     const reputation =
       get(item, 'author_rep', undefined) || get(item, 'author_reputation', undefined);
@@ -109,6 +109,6 @@ const PostsResults = ({ navigation, searchValue }) => {
       )}
     </PostsResultsContainer>
   );
-};
+}
 
 export default PostsResults;

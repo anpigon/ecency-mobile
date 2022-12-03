@@ -11,7 +11,7 @@ import globalStyles from '../../../globalStyles';
 import styles from './bookmarksStyles';
 import { OptionsModal } from '../../../components/atoms';
 
-const BookmarksScreen = ({
+function BookmarksScreen({
   isLoading,
   intl,
   handleOnFavoritePress,
@@ -20,7 +20,7 @@ const BookmarksScreen = ({
   bookmarks,
   removeFavorite,
   removeBookmark,
-}) => {
+}) {
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [activeTab, setActiveTab] = useState(0);
   const actionSheetRef = useRef(null);
@@ -141,6 +141,6 @@ const BookmarksScreen = ({
       />
     </View>
   );
-};
+}
 
 export default injectIntl(BookmarksScreen);

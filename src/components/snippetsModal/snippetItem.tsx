@@ -13,7 +13,7 @@ interface SnippetItemProps {
   onEditPress: () => void;
 }
 
-const SnippetItem = ({ id, title, body, index, onEditPress }: SnippetItemProps) => {
+function SnippetItem({ id, title, body, index, onEditPress }: SnippetItemProps) {
   const intl = useIntl();
   const snippetsDeleteMutation = useSnippetDeleteMutation();
 
@@ -67,6 +67,6 @@ const SnippetItem = ({ id, title, body, index, onEditPress }: SnippetItemProps) 
       <Text style={styles.body} numberOfLines={2} ellipsizeMode="tail">{`${body}`}</Text>
     </View>
   );
-};
+}
 
 export default SnippetItem;

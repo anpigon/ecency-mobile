@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { useRef, Fragment, useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { useIntl } from 'react-intl';
@@ -14,7 +13,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Styles
 import styles from './walletHeaderStyles';
 
-const WalletHeaderView = ({
+function WalletHeaderView({
   claim,
   isClaiming,
   handleOnDropdownSelected,
@@ -32,7 +31,7 @@ const WalletHeaderView = ({
   getTokenAddress,
   reload,
   refreshing,
-}) => {
+}) {
   const navigation = useNavigation();
 
   const intl = useIntl();
@@ -77,75 +76,73 @@ const WalletHeaderView = ({
     );
 
   return (
-    <Fragment>
-      <View style={styles.scrollContainer} contentContainerStyle={styles.scrollContentContainer}>
-        {userBalance.map((item) =>
-          _getBalanceItem(
-            get(item, 'balance', 0),
-            get(item, 'options', []),
-            get(item, 'nameKey', 'estm'),
-          ),
-        )}
+    <View style={styles.scrollContainer} contentContainerStyle={styles.scrollContentContainer}>
+      {userBalance.map((item) =>
+        _getBalanceItem(
+          get(item, 'balance', 0),
+          get(item, 'options', []),
+          get(item, 'nameKey', 'estm'),
+        ),
+      )}
 
-        {showBuyButton && (
-          <MainButton
-            isLoading={isClaiming}
-            isDisable={isClaiming}
-            style={styles.mainButton}
-            height={50}
-            onPress={() => (unclaimedBalance ? claim() : navigation.navigate(ROUTES.SCREENS.BOOST))}
-          >
-            <View style={styles.mainButtonWrapper}>
-              <Text style={styles.unclaimedText}>
-                {unclaimedBalance || intl.formatMessage({ id: `wallet.${type}.buy` })}
-              </Text>
-              <View style={styles.mainIconWrapper}>
-                <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
-              </View>
+      {showBuyButton && (
+        <MainButton
+          isLoading={isClaiming}
+          isDisable={isClaiming}
+          style={styles.mainButton}
+          height={50}
+          onPress={() => (unclaimedBalance ? claim() : navigation.navigate(ROUTES.SCREENS.BOOST))}
+        >
+          <View style={styles.mainButtonWrapper}>
+            <Text style={styles.unclaimedText}>
+              {unclaimedBalance || intl.formatMessage({ id: `wallet.${type}.buy` })}
+            </Text>
+            <View style={styles.mainIconWrapper}>
+              <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
             </View>
-          </MainButton>
-        )}
+          </View>
+        </MainButton>
+      )}
 
-        {showAddressButton && (
-          <MainButton
-            isLoading={isClaiming}
-            isDisable={isClaiming}
-            style={styles.mainButton}
-            height={50}
-            onPress={() => getTokenAddress()}
-          >
-            <View style={styles.mainButtonWrapper}>
-              <Text style={styles.unclaimedText}>
-                {intl.formatMessage({ id: `wallet.${type}.address` })}
-              </Text>
-              <View style={styles.mainIconWrapper}>
-                <Icon name="qrcode" iconType="MaterialCommunityIcons" color="#357ce6" size={23} />
-              </View>
+      {showAddressButton && (
+        <MainButton
+          isLoading={isClaiming}
+          isDisable={isClaiming}
+          style={styles.mainButton}
+          height={50}
+          onPress={() => getTokenAddress()}
+        >
+          <View style={styles.mainButtonWrapper}>
+            <Text style={styles.unclaimedText}>
+              {intl.formatMessage({ id: `wallet.${type}.address` })}
+            </Text>
+            <View style={styles.mainIconWrapper}>
+              <Icon name="qrcode" iconType="MaterialCommunityIcons" color="#357ce6" size={23} />
             </View>
-          </MainButton>
-        )}
+          </View>
+        </MainButton>
+      )}
 
-        {valueDescriptions &&
-          valueDescriptions.map((item, _index) => (
-            <WalletLineItem
-              key={`keyl-${_index.toString()}`}
-              fitContent
-              style={styles.valueDescriptions}
-              text={intl.formatMessage({ id: `wallet.${get(item, 'textKey')}` })}
-              hintDescription={
-                get(item, 'subTextKey') &&
-                intl.formatMessage({ id: `wallet.${get(item, 'subTextKey')}` })
-              }
-              rightText={get(item, 'value')}
-              hintIconName={get(item, 'subTextKey') && 'ios-information-circle-outline'}
-              isBlackText
-              isThin
-            />
-          ))}
-      </View>
-    </Fragment>
+      {valueDescriptions &&
+        valueDescriptions.map((item, _index) => (
+          <WalletLineItem
+            key={`keyl-${_index.toString()}`}
+            fitContent
+            style={styles.valueDescriptions}
+            text={intl.formatMessage({ id: `wallet.${get(item, 'textKey')}` })}
+            hintDescription={
+              get(item, 'subTextKey') &&
+              intl.formatMessage({ id: `wallet.${get(item, 'subTextKey')}` })
+            }
+            rightText={get(item, 'value')}
+            hintIconName={get(item, 'subTextKey') && 'ios-information-circle-outline'}
+            isBlackText
+            isThin
+          />
+        ))}
+    </View>
   );
-};
+}
 
 export default WalletHeaderView;
 /* eslint-enable */

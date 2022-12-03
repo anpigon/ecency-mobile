@@ -3,7 +3,7 @@ import React, { Fragment, useEffect } from 'react';
 // Components
 import { BasicHeader, PostDisplay, PostDropdown } from '../../../components';
 
-const PostScreen = ({
+function PostScreen({
   currentAccount,
   fetchPost,
   isFetchComments,
@@ -13,9 +13,9 @@ const PostScreen = ({
   post,
   isPostUnavailable,
   author,
-}) => {
+}) {
   return (
-    <Fragment>
+    <>
       <BasicHeader
         isHasDropdown
         title="Post"
@@ -34,8 +34,8 @@ const PostScreen = ({
         parentPost={parentPost}
         post={post}
       />
-    </Fragment>
+    </>
   );
-};
+}
 
 export default PostScreen;

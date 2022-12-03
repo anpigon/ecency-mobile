@@ -18,7 +18,7 @@ import styles from './subscribedCommunitiesListStyles';
 import globalStyles from '../../../globalStyles';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-const SubscribedCommunitiesListView = ({
+function SubscribedCommunitiesListView({
   data,
   isLoading,
   subscribingCommunities,
@@ -26,7 +26,7 @@ const SubscribedCommunitiesListView = ({
   handleSubscribeButtonPress,
   handleGetSubscriptions,
   handleDiscoverPress,
-}) => {
+}) {
   const intl = useIntl();
 
   const _renderEmptyContent = () => {
@@ -57,8 +57,7 @@ const SubscribedCommunitiesListView = ({
         </TouchableOpacity>
       </View>
       <View>
-        {subscribingCommunities.hasOwnProperty(item[0]) &&
-        subscribingCommunities[item[0]].loading ? (
+        {item[0] in subscribingCommunities && subscribingCommunities[item[0]].loading ? (
           <View style={{ width: 65, alignItems: 'center', justifyContent: 'center' }}>
             <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />
           </View>
@@ -105,6 +104,6 @@ const SubscribedCommunitiesListView = ({
       refreshControl={<RefreshControl refreshing={isLoading} onRefresh={handleGetSubscriptions} />}
     />
   );
-};
+}
 
 export default SubscribedCommunitiesListView;

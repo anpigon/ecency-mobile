@@ -4,11 +4,11 @@ import { Popover, PopoverController } from 'react-native-modal-popover';
 
 import styles from './popoverWrapperStyles';
 
-const PopoverWrapper = ({ children, text }) => {
+function PopoverWrapper({ children, text }) {
   return (
     <PopoverController>
       {({ openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect }) => (
-        <Fragment>
+        <>
           <TouchableOpacity ref={setPopoverAnchor} onPress={openPopover}>
             {children}
           </TouchableOpacity>
@@ -26,10 +26,10 @@ const PopoverWrapper = ({ children, text }) => {
               <Text style={styles.popoverText}>{text}</Text>
             </View>
           </Popover>
-        </Fragment>
+        </>
       )}
     </PopoverController>
   );
-};
+}
 
 export { PopoverWrapper };

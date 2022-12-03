@@ -41,18 +41,18 @@ class PostDropdownContainer extends PureComponent {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     this._initOptions();
-  };
+  }
 
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.content?.permlink !== this.props.content?.permlink) {
       this._initOptions(nextProps);
     }
-  };
+  }
 
   // Component Life Cycle Functions
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     if (this.alertTimer) {
       clearTimeout(this.alertTimer);
       this.alertTimer = 0;
@@ -67,7 +67,7 @@ class PostDropdownContainer extends PureComponent {
       clearTimeout(this.actionSheetTimer);
       this.actionSheetTimer = 0;
     }
-  };
+  }
 
   _initOptions = (
     { content, currentAccount, pageType, subscribedCommunities, isMuted } = this.props,
@@ -483,7 +483,7 @@ class PostDropdownContainer extends PureComponent {
     const { options } = this.state;
 
     return (
-      <Fragment>
+      <>
         <PostDropdownView
           options={options.map((item) =>
             intl.formatMessage({ id: `post_dropdown.${item}` }).toUpperCase(),
@@ -500,7 +500,7 @@ class PostDropdownContainer extends PureComponent {
             index === 0 ? this._reblog() : null;
           }}
         />
-      </Fragment>
+      </>
     );
   }
 }

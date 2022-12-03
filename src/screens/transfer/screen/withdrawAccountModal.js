@@ -55,8 +55,6 @@ class WithdrawAccountModal extends Component {
     />
   );
 
-  _renderInformationText = (text) => <Text style={styles.amountText}>{text}</Text>;
-
   render() {
     const { intl, handleOnSubmit } = this.props;
     const { percent, autoPowerUp, account, isValidUsername } = this.state;
@@ -78,7 +76,7 @@ class WithdrawAccountModal extends Component {
         />
         <TransferFormItem
           label={intl.formatMessage({ id: 'transfer.percent' })}
-          rightComponent={() => this._renderInformationText(`${percent.toFixed(0)} %`)}
+          rightComponent={<Text style={styles.amountText}>{`${percent.toFixed(0)} %`}</Text>}
         />
         <View style={styles.informationView}>
           <Slider

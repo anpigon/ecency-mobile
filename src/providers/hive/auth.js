@@ -53,6 +53,7 @@ export const login = async (username, password) => {
   const privateKeys = getPrivateKeys(username, password);
 
   // Check all keys
+  // eslint-disable-next-line
   Object.keys(publicKeys).map((pubKey) => {
     if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
       loginFlag = true;
@@ -133,6 +134,7 @@ export const loginWithSC2 = async (code) => {
   const account = await getUser(scAccount.account.name);
   let avatar = '';
 
+  // eslint-disable-next-line
   return new Promise(async (resolve, reject) => {
     try {
       const accessToken = scTokens ? scTokens.access_token : '';

@@ -18,7 +18,7 @@ import TagView from './tagView';
  *@props -->  props name here   description here                                Value Type Here
  *
  */
-const TagContainer = ({
+function TagContainer({
   value,
   onPress,
   isPin,
@@ -31,7 +31,7 @@ const TagContainer = ({
   prefix,
   suffix,
   removeEnabled,
-}) => {
+}) {
   const navigation = useNavigation();
 
   const [label, setLabel] = useState(value);
@@ -101,6 +101,6 @@ const TagContainer = ({
       removeEnabled={removeEnabled}
     />
   );
-};
+}
 
 export default TagContainer;

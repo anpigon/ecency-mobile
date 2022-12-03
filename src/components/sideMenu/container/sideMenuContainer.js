@@ -9,7 +9,7 @@ import { logout } from '../../../redux/actions/applicationActions';
 // Component
 import SideMenuView from '../view/sideMenuView';
 
-const SideMenuContainer = ({ navigation }) => {
+function SideMenuContainer({ navigation }) {
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
@@ -46,6 +46,6 @@ const SideMenuContainer = ({ navigation }) => {
       handlePressOptions={_handlePressOptions}
     />
   );
-};
+}
 
 export default SideMenuContainer;

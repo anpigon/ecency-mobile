@@ -13,7 +13,7 @@ interface BackHeaderProps {
   backIconName: 'close' | 'arrow-back';
 }
 
-const BasicHeaderContainer = (props: BackHeaderProps) => {
+function BasicHeaderContainer(props: BackHeaderProps) {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
   const isHideImages = useAppSelector((state) => state.application.hidePostsThumbnails);
@@ -45,6 +45,6 @@ const BasicHeaderContainer = (props: BackHeaderProps) => {
       {...props}
     />
   );
-};
+}
 
 export default BasicHeaderContainer;

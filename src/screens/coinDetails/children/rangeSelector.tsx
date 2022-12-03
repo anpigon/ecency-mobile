@@ -14,11 +14,11 @@ interface RangeSelectorProps {
   onRangeChange: (range: number) => void;
 }
 
-export const RangeSelector = ({ range, onRangeChange }: RangeSelectorProps) => {
+export function RangeSelector({ range, onRangeChange }: RangeSelectorProps) {
   const _onSelection = (range: number) => {
     console.log('selection', range);
     onRangeChange(range);
-    //TODO: implement on range change prop
+    // TODO: implement on range change prop
   };
 
   const _renderRangeButtons = FILTERS.map((item: RangeOption) => (
@@ -44,7 +44,7 @@ export const RangeSelector = ({ range, onRangeChange }: RangeSelectorProps) => {
   ));
 
   return <View style={[styles.card, styles.rangeContainer]}>{_renderRangeButtons}</View>;
-};
+}
 
 const FILTERS = [
   {

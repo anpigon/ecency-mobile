@@ -16,7 +16,7 @@ interface SnippetsModalProps {
   handleOnSelect: (snippetText: string) => void;
 }
 
-const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
+function SnippetsModal({ handleOnSelect }: SnippetsModalProps) {
   const editorRef = useRef<SnippetEditorModalRef>(null);
   const intl = useIntl();
 
@@ -50,9 +50,7 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
   // render empty list placeholder
   const _renderEmptyContent = () => {
     return (
-      <>
-        <Text style={styles.title}>{intl.formatMessage({ id: 'snippets.label_no_snippets' })}</Text>
-      </>
+      <Text style={styles.title}>{intl.formatMessage({ id: 'snippets.label_no_snippets' })}</Text>
     );
   };
 
@@ -102,6 +100,6 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
       <SnippetEditorModal ref={editorRef} />
     </View>
   );
-};
+}
 
 export default SnippetsModal;

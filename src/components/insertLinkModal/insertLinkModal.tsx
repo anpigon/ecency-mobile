@@ -1,18 +1,18 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Platform, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { renderPostBody } from '@ecency/render-helper';
 import { ScrollView } from 'react-native-gesture-handler';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { MainButton, PostBody, TextButton } from '..';
 import styles from './insertLinkModalStyles';
-import TextInput from '../textInput';
+import { TextInput } from '../textInput';
 import { delay } from '../../utils/editor';
 import { isStringWebLink } from '../markdownEditor/children/formats/utils';
 import applyWebLinkFormat from '../markdownEditor/children/formats/applyWebLinkFormat';
 import getWindowDimensions from '../../utils/getWindowDimensions';
-import Modal from '../modal';
-import EStyleSheet from 'react-native-extended-stylesheet';
+import { Modal } from '../modal';
 
 interface InsertLinkModalProps {
   handleOnInsertLink: ({
@@ -45,20 +45,20 @@ export const InsertLinkModal = forwardRef(
     const urlInputRef = useRef(null);
 
     useImperativeHandle(ref, () => ({
-      showModal: async ({ selectedText, selection }) => {
-        if (selectedText) {
-          setSelectedText(selectedText);
-          setSelection(selection);
-          if (selection && selection.start !== selection.end) {
-            if (isStringWebLink(selectedText)) {
-              setUrl(selectedText);
+      showModal: async ({ selectedText: _selectedText, selection: _selection }) => {
+        if (_selectedText) {
+          setSelectedText(_selectedText);
+          setSelection(_selection);
+          if (_selection && _selection.start !== _selection.end) {
+            if (isStringWebLink(_selectedText)) {
+              setUrl(_selectedText);
             } else {
-              setLabel(selectedText);
+              setLabel(_selectedText);
             }
           }
         } else {
           fetchCopiedText();
-          setSelection(selection);
+          setSelection(_selection);
         }
 
         setVisible(true);
@@ -78,7 +78,7 @@ export const InsertLinkModal = forwardRef(
         const labelText =
           selectedUrlType === 2 ? url.split('/').pop() : selectedUrlType === 1 ? '' : label;
         applyWebLinkFormat({
-          item: { text: labelText, url: url },
+          item: { text: labelText, url },
           text: '',
           selection: { start: 0, end: 0 },
           setTextAndSelection: _setFormattedTextAndSelection,
@@ -98,7 +98,7 @@ export const InsertLinkModal = forwardRef(
     };
 
     const _setFormattedTextAndSelection = ({ selection, text }) => {
-      setPreviewBody(renderPostBody(text, true, Platform.OS === 'ios' ? false : true));
+      setPreviewBody(renderPostBody(text, true, Platform.OS !== 'ios'));
       setFormattedText(text);
     };
 
@@ -127,7 +127,7 @@ export const InsertLinkModal = forwardRef(
         setIsUrlValid(false);
         return;
       }
-      handleOnInsertLink({ snippetText: formattedText, selection: selection });
+      handleOnInsertLink({ snippetText: formattedText, selection });
       setIsUrlValid(true);
     };
     const _renderFloatingPanel = () => {
@@ -250,30 +250,28 @@ export const InsertLinkModal = forwardRef(
     );
     const _renderPreview = () => {
       return (
-        <>
-          <View style={styles.previewContainer}>
-            <Text style={styles.previewText}>
-              {intl.formatMessage({
-                id: 'editor.preview',
-              })}
-            </Text>
-            <ScrollView
-              style={styles.previewWrapper}
-              contentContainerStyle={styles.previewContentContainer}
-            >
-              <View style={styles.preview} pointerEvents="none">
-                {previewBody ? (
-                  <PostBody
-                    body={previewBody}
-                    onLoadEnd={() => setIsLoading(false)}
-                    width={screenWidth}
-                  />
-                ) : null}
-              </View>
-            </ScrollView>
-            {isLoading && <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />}
-          </View>
-        </>
+        <View style={styles.previewContainer}>
+          <Text style={styles.previewText}>
+            {intl.formatMessage({
+              id: 'editor.preview',
+            })}
+          </Text>
+          <ScrollView
+            style={styles.previewWrapper}
+            contentContainerStyle={styles.previewContentContainer}
+          >
+            <View style={styles.preview} pointerEvents="none">
+              {previewBody ? (
+                <PostBody
+                  body={previewBody}
+                  onLoadEnd={() => setIsLoading(false)}
+                  width={screenWidth}
+                />
+              ) : null}
+            </View>
+          </ScrollView>
+          {isLoading && <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />}
+        </View>
       );
     };
     const _renderContent = (

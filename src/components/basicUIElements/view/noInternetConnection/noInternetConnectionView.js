@@ -6,17 +6,19 @@ import { Icon } from '../../../icon';
 
 import styles from './noInternetConnectionStyle';
 
-const NoInternetConnection = ({ intl }) => (
-  <SafeAreaView style={styles.grayBackground}>
-    <View style={styles.container}>
-      <Icon style={styles.icon} iconType="MaterialIcons" name="info" size={16} />
-      <Text style={styles.text}>
-        {intl.formatMessage({
-          id: 'alert.no_internet',
-        })}
-      </Text>
-    </View>
-  </SafeAreaView>
-);
+function NoInternetConnection({ intl }) {
+  return (
+    <SafeAreaView style={styles.grayBackground}>
+      <View style={styles.container}>
+        <Icon style={styles.icon} iconType="MaterialIcons" name="info" size={16} />
+        <Text style={styles.text}>
+          {intl.formatMessage({
+            id: 'alert.no_internet',
+          })}
+        </Text>
+      </View>
+    </SafeAreaView>
+  );
+}
 
 export default injectIntl(NoInternetConnection);

@@ -26,12 +26,12 @@ export default class TitleAreaView extends Component {
   }
 
   // Component Life Cycles
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { text } = this.state;
     if (nextProps.value !== text) {
       this.setState({ text: nextProps.value });
     }
-  };
+  }
 
   // Component Functions
   _handleOnChange = (text) => {

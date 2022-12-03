@@ -27,7 +27,7 @@ export interface CoinCardProps {
   onBoostAccountPress: () => void;
 }
 
-export const CoinCard = ({
+export function CoinCard({
   id,
   notCrypto,
   chartData,
@@ -44,7 +44,7 @@ export const CoinCard = ({
   onCardPress,
   onClaimPress,
   onBoostAccountPress,
-}: CoinCardProps) => {
+}: CoinCardProps) {
   const intl = useIntl();
 
   const [claimExpected, setClaimExpected] = useState(false);
@@ -105,10 +105,10 @@ export const CoinCard = ({
             height={50}
             onPress={_onClaimPress}
           >
-            <Fragment>
+            <>
               <Text style={styles.claimBtnTitle}>{btnTitle}</Text>
               {_rightComponent}
-            </Fragment>
+            </>
           </MainButton>
         </View>
       );
@@ -131,12 +131,12 @@ export const CoinCard = ({
       return (
         <View style={styles.claimContainer}>
           <MainButton style={styles.claimBtn} height={50} onPress={onBoostAccountPress}>
-            <Fragment>
+            <>
               <Text style={styles.claimBtnTitle}>
                 {intl.formatMessage({ id: 'wallet.get_boost' })}
               </Text>
               {_rightComponent}
-            </Fragment>
+            </>
           </MainButton>
         </View>
       );
@@ -173,4 +173,4 @@ export const CoinCard = ({
       </View>
     </TouchableOpacity>
   );
-};
+}

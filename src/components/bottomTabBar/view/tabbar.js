@@ -152,7 +152,7 @@ export default class TabBar extends Component {
   }
 }
 
-const TabBarItem = ({
+function TabBarItem({
   icon,
   selectedIcon,
   index,
@@ -161,7 +161,7 @@ const TabBarItem = ({
   showIcon,
   disabled,
   animating,
-}) => {
+}) {
   if (selected) {
     if (animating) {
       return <View style={styles.navItem} />;
@@ -186,6 +186,6 @@ const TabBarItem = ({
       {icon}
     </TouchableHighlight>
   );
-};
+}
 
 TabBar.Item = TabBarItem;

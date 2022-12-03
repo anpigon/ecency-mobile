@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
 
@@ -109,7 +108,7 @@ export const sendHiveOperations = async (
   const transaction = await cryptoUtils.signTransaction(tx, key, chainId);
   const trxId = generateTrxId(transaction);
   const resultHive = await client.broadcast.call('broadcast_transaction', [transaction]);
-  const result = Object.assign({ id: trxId }, resultHive);
+  const result = { id: trxId, ...resultHive };
   return result;
 };
 
@@ -232,164 +231,130 @@ export const getSavingsWithdrawFrom = async (username) => {
  * @param username username
  */
 export const getAccount = (username) =>
-  new Promise((resolve, reject) => {
-    client.database
-      .getAccounts([username])
-      .then((response) => {
-        if (response.length) {
-          resolve(response[0]);
-        }
-        throw new Error(`Account not found, ${JSON.stringify(response)}`);
-      })
-      .catch((error) => {
-        reject(error);
-      });
+  client.database.getAccounts([username]).then((response) => {
+    if (response.length) {
+      return response[0];
+    }
+    return Promise.reject(new Error(`Account not found, ${JSON.stringify(response)}`));
   });
 
-export const getAccountHistory = (user, operations, startIndex = -1, limit = 1000) =>
-  new Promise((resolve, reject) => {
-    const wallet_operations_bitmask = utils.makeBitMaskFilter(operations);
-    try {
-      const ah = client.call('condenser_api', 'get_account_history', [
-        user,
-        startIndex,
-        limit,
-        ...wallet_operations_bitmask,
-      ]);
-      resolve(ah);
-    } catch (error) {
-      reject(error);
-    }
-  });
+export const getAccountHistory = async (user, operations, startIndex = -1, limit = 1000) => {
+  const wallet_operations_bitmask = utils.makeBitMaskFilter(operations);
+  const ah = await client.call('condenser_api', 'get_account_history', [
+    user,
+    startIndex,
+    limit,
+    ...wallet_operations_bitmask,
+  ]);
+  return ah;
+};
 
 /**
  * @method getAccount get account data
  * @param user username
  */
-export const getState = async (path) => {
-  try {
-    const state = await client.database.getState(path);
-    return state;
-  } catch (error) {
-    return error;
-  }
-};
+export const getState = async (path) => client.database.getState(path);
 
 /**
  * @method getUser get account data
  * @param user username
  */
-export const getUser = async (user, loggedIn = true) => {
-  try {
-    const account = await client.database.getAccounts([user]);
-    const _account = {
-      ...account[0],
-    };
-    const unreadActivityCount = 0;
+export const getUser = async (user) => {
+  const account = await client.database.getAccounts([user]);
+  const _account = {
+    ...account[0],
+  };
+  const unreadActivityCount = 0;
 
-    if (account && account.length < 1) {
-      return null;
-    }
-
-    let globalProperties;
-    try {
-      globalProperties = await getDynamicGlobalProperties();
-    } catch (error) {
-      globalProperties = getCache('globalDynamic');
-    }
-
-    const rcPower =
-      (user &&
-        (await client.call('rc_api', 'find_rc_accounts', {
-          accounts: [user],
-        }))) ||
-      getCache('rcPower');
-    await setCache('rcPower', rcPower);
-
-    _account.reputation = parseReputation(_account.reputation);
-    _account.username = _account.name;
-    _account.unread_activity_count = unreadActivityCount;
-    _account.vp_manabar = client.rc.calculateVPMana(_account);
-    _account.rc_manabar = client.rc.calculateRCMana(rcPower.rc_accounts[0]);
-    _account.steem_power = await vestToSteem(
-      _account.vesting_shares,
-      globalProperties.total_vesting_shares,
-      globalProperties.total_vesting_fund_hive,
-    );
-    _account.received_steem_power = await vestToSteem(
-      get(_account, 'received_vesting_shares'),
-      get(globalProperties, 'total_vesting_shares'),
-      get(globalProperties, 'total_vesting_fund_hive'),
-    );
-    _account.delegated_steem_power = await vestToSteem(
-      get(_account, 'delegated_vesting_shares'),
-      get(globalProperties, 'total_vesting_shares'),
-      get(globalProperties, 'total_vesting_fund_hive'),
-    );
-
-    if (has(_account, 'posting_json_metadata')) {
-      try {
-        _account.about = JSON.parse(get(_account, 'posting_json_metadata'));
-      } catch (e) {
-        _account.about = {};
-      }
-    }
-
-    _account.avatar = getAvatar(get(_account, 'about'));
-    _account.display_name = getName(get(_account, 'about'));
-
-    return _account;
-  } catch (error) {
-    return Promise.reject(error);
+  if (account && account.length < 1) {
+    return null;
   }
+
+  let globalProperties;
+  try {
+    globalProperties = await getDynamicGlobalProperties();
+  } catch (error) {
+    globalProperties = getCache('globalDynamic');
+  }
+
+  const rcPower =
+    (user &&
+      (await client.call('rc_api', 'find_rc_accounts', {
+        accounts: [user],
+      }))) ||
+    getCache('rcPower');
+  await setCache('rcPower', rcPower);
+
+  _account.reputation = parseReputation(_account.reputation);
+  _account.username = _account.name;
+  _account.unread_activity_count = unreadActivityCount;
+  _account.vp_manabar = client.rc.calculateVPMana(_account);
+  _account.rc_manabar = client.rc.calculateRCMana(rcPower.rc_accounts[0]);
+  _account.steem_power = await vestToSteem(
+    _account.vesting_shares,
+    globalProperties.total_vesting_shares,
+    globalProperties.total_vesting_fund_hive,
+  );
+  _account.received_steem_power = await vestToSteem(
+    get(_account, 'received_vesting_shares'),
+    get(globalProperties, 'total_vesting_shares'),
+    get(globalProperties, 'total_vesting_fund_hive'),
+  );
+  _account.delegated_steem_power = await vestToSteem(
+    get(_account, 'delegated_vesting_shares'),
+    get(globalProperties, 'total_vesting_shares'),
+    get(globalProperties, 'total_vesting_fund_hive'),
+  );
+
+  if (has(_account, 'posting_json_metadata')) {
+    try {
+      _account.about = JSON.parse(get(_account, 'posting_json_metadata'));
+    } catch (e) {
+      _account.about = {};
+    }
+  }
+
+  _account.avatar = getAvatar(get(_account, 'about'));
+  _account.display_name = getName(get(_account, 'about'));
+
+  return _account;
 };
 
 const cache = {};
-const patt = /hive-\d\w+/g;
-export const getCommunity = async (tag, observer = '') =>
-  new Promise(async (resolve, reject) => {
+const pattern = /hive-\d\w+/g;
+export const getCommunity = async (tag, observer = '') => {
+  const community = client.call('bridge', 'get_community', {
+    name: tag,
+    observer,
+  });
+  return community ?? {};
+};
+
+export const getCommunityTitle = async (tag) => {
+  if (cache[tag] !== undefined) {
+    return cache[tag];
+  }
+  const mm = tag.match(pattern);
+  if (mm && mm.length > 0) {
     try {
       const community = await client.call('bridge', 'get_community', {
         name: tag,
-        observer,
+        observer: '',
       });
       if (community) {
-        resolve(community);
+        const { title } = community;
+        cache[tag] = title;
+        return title;
       } else {
-        resolve({});
+        return tag;
       }
     } catch (error) {
-      reject(error);
+      throw error;
     }
-  });
+  }
 
-export const getCommunityTitle = async (tag) =>
-  new Promise(async (resolve, reject) => {
-    if (cache[tag] !== undefined) {
-      resolve(cache[tag]);
-      return;
-    }
-    const mm = tag.match(patt);
-    if (mm && mm.length > 0) {
-      try {
-        const community = await client.call('bridge', 'get_community', {
-          name: tag,
-          observer: '',
-        });
-        if (community) {
-          const { title } = community;
-          cache[tag] = title;
-          resolve(title);
-        } else {
-          resolve(tag);
-        }
-      } catch (error) {
-        reject(error);
-      }
-    }
-
-    resolve(tag);
-  });
+  return tag;
+};
 
 export const getCommunities = async (
   last = '',
@@ -397,43 +362,28 @@ export const getCommunities = async (
   query = null,
   sort = 'rank',
   observer = '',
-) =>
-  new Promise(async (resolve, reject) => {
-    try {
-      console.log('Getting communities', query);
-      const data = await client.call('bridge', 'list_communities', {
-        last,
-        limit,
-        query,
-        sort,
-        observer,
-      });
-      if (data) {
-        resolve(data);
-      } else {
-        resolve({});
-      }
-    } catch (error) {
-      console.log(error);
-      resolve({});
-    }
-  });
+) => {
+  try {
+    console.log('Getting communities', query);
+    const data = await client.call('bridge', 'list_communities', {
+      last,
+      limit,
+      query,
+      sort,
+      observer,
+    });
+    return data ?? {};
+  } catch (error) {
+    return {};
+  }
+};
 
-export const getSubscriptions = (account = '') =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const data = await client.call('bridge', 'list_all_subscriptions', {
-        account,
-      });
-      if (data) {
-        resolve(data);
-      } else {
-        resolve({});
-      }
-    } catch (error) {
-      reject(error);
-    }
+export const getSubscriptions = async (account = '') => {
+  const data = await client.call('bridge', 'list_all_subscriptions', {
+    account,
   });
+  return data ?? {};
+};
 
 // TODO: Move to utils folder
 export const vestToSteem = async (vestingShares, totalVestingShares, totalVestingFundSteem) =>
@@ -471,45 +421,29 @@ export const getMutes = async (currentUsername) => {
   }
 };
 
-export const getRelationship = (follower, following) =>
-  new Promise((resolve, reject) => {
-    if (follower) {
-      client
-        .call('bridge', 'get_relationship_between_accounts', [follower, following])
-        .then((result) => {
-          if (result) {
-            resolve(result);
-          } else {
-            resolve(false);
-          }
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    } else {
-      resolve(false);
-    }
-  });
+export const getRelationship = async (follower, following) => {
+  if (!follower) {
+    return false;
+  }
+  const result = await client.call('bridge', 'get_relationship_between_accounts', [
+    follower,
+    following,
+  ]);
+  return result ?? false;
+};
 
-export const getFollowSearch = (user, targetUser) =>
-  new Promise((resolve, reject) => {
-    if (targetUser) {
-      client.database
-        .call('get_following', [targetUser, user, 'blog', 1])
-        .then((result) => {
-          if (result[0] && result[0].follower === targetUser && result[0].following === user) {
-            resolve(result);
-          } else {
-            resolve(null);
-          }
-        })
-        .catch((err) => {
-          reject(err);
-        });
+export const getFollowSearch = async (user, targetUser) => {
+  if (!targetUser) {
+    return null;
+  }
+  return client.database.call('get_following', [targetUser, user, 'blog', 1]).then((result) => {
+    if (result[0] && result[0].follower === targetUser && result[0].following === user) {
+      return result;
     } else {
-      resolve(null);
+      return null;
     }
   });
+};
 
 export const ignoreUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
@@ -542,38 +476,14 @@ export const ignoreUser = async (currentAccount, pin, data) => {
     };
     const opArray = [['custom_json', json]];
 
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(opArray, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+    return sendHiveOperations(opArray, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private posting key or above.'),
-  );
+  throw new Error('Check private key permission! Required private posting key or above.');
 };
 
 export const getActiveVotes = (author, permlink) =>
-  new Promise((resolve, reject) => {
-    try {
-      console.log('Getting active votes', author, permlink);
-      client
-        .call('condenser_api', 'get_active_votes', [author, permlink])
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    } catch (error) {
-      reject(error);
-    }
-  });
+  client.call('condenser_api', 'get_active_votes', [author, permlink]);
 
 export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   try {
@@ -794,7 +704,7 @@ export const vote = async (account, pin, author, permlink, weight) => {
     return resp;
   } catch (err) {
     console.warn('Failed to complete vote', err);
-    return Promise.reject(err);
+    throw err;
   }
 };
 
@@ -809,17 +719,13 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
 
     const voter = currentAccount.name;
 
-    return new Promise((resolve, reject) => {
-      api
-        .vote(voter, author, permlink, weight)
-        .then((result) => {
-          resolve(result.result);
-        })
-        .catch((err) => {
-          bugsnagInstance.notify(err);
-          reject(err);
-        });
-    });
+    return api
+      .vote(voter, author, permlink, weight)
+      .then((result) => result.result)
+      .catch((err) => {
+        bugsnagInstance.notify(err);
+        return Promise.reject(err);
+      });
   }
 
   if (key) {
@@ -837,25 +743,16 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
       ],
     ];
 
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(args, privateKey)
-        .then((result) => {
-          console.log('vote result', result);
-          resolve(result);
-        })
-        .catch((err) => {
-          if (err && get(err, 'jse_info.code') === 4030100) {
-            err.message = getDsteemDateErrorMessage(err);
-          }
-          bugsnagInstance.notify(err);
-          reject(err);
-        });
+    return sendHiveOperations(args, privateKey).catch((err) => {
+      if (err && get(err, 'jse_info.code') === 4030100) {
+        err.message = getDsteemDateErrorMessage(err);
+      }
+      bugsnagInstance.notify(err);
+      return Promise.reject(err);
     });
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private posting key or above.'),
-  );
+  throw new Error('Check private key permission! Required private posting key or above.');
 };
 
 /**
@@ -895,22 +792,10 @@ export const transferToken = (currentAccount, pin, data) => {
     };
     const opArray = [['transfer', args]];
 
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(opArray, privateKey)
-        .then((result) => {
-          if (result) {
-            resolve(result);
-          }
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+    return sendHiveOperations(opArray, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const convert = (currentAccount, pin, data) => {
@@ -936,22 +821,10 @@ export const convert = (currentAccount, pin, data) => {
       ],
     ];
 
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(args, privateKey)
-        .then((result) => {
-          if (result) {
-            resolve(result);
-          }
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+    return sendHiveOperations(args, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const transferToSavings = (currentAccount, pin, data) => {
@@ -978,20 +851,10 @@ export const transferToSavings = (currentAccount, pin, data) => {
       ],
     ];
 
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(args, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+    return sendHiveOperations(args, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const transferFromSavings = (currentAccount, pin, data) => {
@@ -1018,20 +881,10 @@ export const transferFromSavings = (currentAccount, pin, data) => {
       ],
     ];
 
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(args, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+    return sendHiveOperations(args, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const transferToVesting = (currentAccount, pin, data) => {
@@ -1056,20 +909,10 @@ export const transferToVesting = (currentAccount, pin, data) => {
       ],
     ];
 
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(args, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+    return sendHiveOperations(args, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const withdrawVesting = (currentAccount, pin, data) => {
@@ -1093,20 +936,10 @@ export const withdrawVesting = (currentAccount, pin, data) => {
       ],
     ];
 
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(args, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+    return sendHiveOperations(args, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const delegateVestingShares = (currentAccount, pin, data) => {
@@ -1131,20 +964,10 @@ export const delegateVestingShares = (currentAccount, pin, data) => {
       ],
     ];
 
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(args, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+    return sendHiveOperations(args, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 /**
@@ -1198,20 +1021,10 @@ export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
       ],
     ];
 
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(args, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+    return sendHiveOperations(args, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const getWithdrawRoutes = (account) =>
@@ -1247,20 +1060,10 @@ export const followUser = async (currentAccount, pin, data) => {
     };
     const opArray = [['custom_json', json]];
 
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(opArray, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+    return sendHiveOperations(opArray, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private posting key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const unfollowUser = async (currentAccount, pin, data) => {
@@ -1293,20 +1096,10 @@ export const unfollowUser = async (currentAccount, pin, data) => {
       required_posting_auths: [`${data.follower}`],
     };
     const opArray = [['custom_json', json]];
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(opArray, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+    return sendHiveOperations(opArray, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private posting key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const markHiveNotifications = async (currentAccount, pinHash) => {
@@ -1346,20 +1139,10 @@ export const markHiveNotifications = async (currentAccount, pinHash) => {
   if (key) {
     const privateKey = PrivateKey.fromString(key);
 
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(opArray, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+    return sendHiveOperations(opArray, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private posting key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const lookupAccounts = async (username) => {
@@ -1554,23 +1337,15 @@ const _postContent = async (
 
     const privateKey = PrivateKey.fromString(key);
 
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(opArray, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((error) => {
-          if (error && get(error, 'jse_info.code') === 4030100) {
-            error.message = getDsteemDateErrorMessage(error);
-          }
-          reject(error);
-        });
+    return sendHiveOperations(opArray, privateKey).catch((error) => {
+      if (error && get(error, 'jse_info.code') === 4030100) {
+        error.message = getDsteemDateErrorMessage(error);
+      }
+      return Promise.reject(error);
     });
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private posting key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 // Re-blog
@@ -1615,20 +1390,10 @@ const _reblog = async (account, pinCode, author, permlink) => {
 
     const opArray = [['custom_json', json]];
 
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(opArray, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+    return sendHiveOperations(opArray, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private posting key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const claimRewardBalance = (account, pinCode, rewardHive, rewardHbd, rewardVests) => {
@@ -1662,9 +1427,7 @@ export const claimRewardBalance = (account, pinCode, rewardHive, rewardHbd, rewa
     return sendHiveOperations(opArray, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private posting key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const transferPoint = (currentAccount, pinCode, data) => {
@@ -1692,9 +1455,7 @@ export const transferPoint = (currentAccount, pinCode, data) => {
     return sendHiveOperations(opArray, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const promote = (currentAccount, pinCode, duration, permlink, author) => {
@@ -1721,9 +1482,7 @@ export const promote = (currentAccount, pinCode, duration, permlink, author) => 
     return sendHiveOperations(opArray, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const boost = (currentAccount, pinCode, point, permlink, author) => {
@@ -1750,27 +1509,20 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
     return sendHiveOperations(opArray, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const grantPostingPermission = async (json, pin, currentAccount) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
-  const newPosting = Object.assign(
-    {},
-    {
-      ...get(currentAccount, 'posting'),
-    },
-    {
-      account_auths: [
-        ...get(currentAccount, 'posting.account_auths'),
-        ['ecency.app', get(currentAccount, 'posting.weight_threshold')],
-      ],
-    },
-  );
+  const newPosting = {
+    ...get(currentAccount, 'posting'),
+    account_auths: [
+      ...get(currentAccount, 'posting.account_auths'),
+      ['ecency.app', get(currentAccount, 'posting.weight_threshold')],
+    ],
+  };
   newPosting.account_auths.sort();
 
   if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
@@ -1811,25 +1563,17 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
     ];
     const privateKey = PrivateKey.fromString(key);
 
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(opArray, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((error) => {
-          if (error && get(error, 'jse_info.code') === 4030100) {
-            error.message = getDsteemDateErrorMessage(error);
-          }
-          console.warn('Failed to update posting key, non-steam', error);
-          bugsnagInstance.notify(error);
-          reject(error);
-        });
+    return sendHiveOperations(opArray, privateKey).catch((error) => {
+      if (error && get(error, 'jse_info.code') === 4030100) {
+        error.message = getDsteemDateErrorMessage(error);
+      }
+      console.warn('Failed to update posting key, non-steam', error);
+      bugsnagInstance.notify(error);
+      return Promise.reject(error);
     });
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const profileUpdate = async (params, pin, currentAccount) => {
@@ -1872,23 +1616,15 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 
     const privateKey = PrivateKey.fromString(key);
 
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(opArray, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((error) => {
-          if (error && get(error, 'jse_info.code') === 4030100) {
-            error.message = getDsteemDateErrorMessage(error);
-          }
-          reject(error);
-        });
+    return sendHiveOperations(opArray, privateKey).catch((error) => {
+      if (error && get(error, 'jse_info.code') === 4030100) {
+        error.message = getDsteemDateErrorMessage(error);
+      }
+      return Promise.reject(error);
     });
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private posting key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const subscribeCommunity = (currentAccount, pinCode, data) => {
@@ -1922,9 +1658,7 @@ export const subscribeCommunity = (currentAccount, pinCode, data) => {
     return sendHiveOperations(opArray, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const pinCommunityPost = (
@@ -1969,9 +1703,7 @@ export const pinCommunityPost = (
     return sendHiveOperations(opArray, privateKey);
   }
 
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
+  throw new Error('Check private key permission! Required private active key or above.');
 };
 
 export const getBtcAddress = (pin, currentAccount) => {

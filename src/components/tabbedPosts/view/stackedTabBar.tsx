@@ -23,7 +23,7 @@ interface StackedTabBarProps {
   toggleHideImagesFlag: boolean;
 }
 
-export const StackedTabBar = ({
+export function StackedTabBar({
   goToPage,
   tabs,
   shouldStack,
@@ -33,7 +33,7 @@ export const StackedTabBar = ({
   onFilterSelect,
   toggleHideImagesFlag,
   pageType,
-}: StackedTabBarProps) => {
+}: StackedTabBarProps) {
   const dispatch = useDispatch();
   const intl = useIntl();
 
@@ -102,4 +102,4 @@ export const StackedTabBar = ({
       {enableCustomTabs && <CustomiseFiltersModal pageType={pageType} ref={customiseModalRef} />}
     </>
   );
-};
+}

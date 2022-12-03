@@ -11,7 +11,7 @@ interface Props {
   onPress?: () => void;
 }
 
-const VideoThumb = ({ contentWidth, uri, onPress }: Props) => {
+function VideoThumb({ contentWidth, uri, onPress }: Props) {
   return (
     <TouchableHighlight onPress={onPress} disabled={!onPress}>
       <View pointerEvents="none">
@@ -31,6 +31,6 @@ const VideoThumb = ({ contentWidth, uri, onPress }: Props) => {
       </View>
     </TouchableHighlight>
   );
-};
+}
 
 export default VideoThumb;

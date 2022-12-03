@@ -7,7 +7,7 @@ import { Icon } from '../icon';
 import { default as ROUTES } from '../../constants/routeNames';
 import scalePx from '../../utils/scalePx';
 
-const PostButtonView = () => {
+function PostButtonView() {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
@@ -28,6 +28,6 @@ const PostButtonView = () => {
       />
     </TouchableOpacity>
   );
-};
+}
 
 export default PostButtonView;

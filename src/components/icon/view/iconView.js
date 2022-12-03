@@ -66,12 +66,12 @@ class IconView extends PureComponent {
     const { badgeStyle, badgeTextStyle } = this.props;
 
     return (
-      <Fragment>
+      <>
         <View style={[badgeStyle || styles.badgeWrapper]}>
           <Text style={[badgeTextStyle || styles.badge]}>{badgeCount}</Text>
         </View>
         {this._getIcon()}
-      </Fragment>
+      </>
     );
   };
 

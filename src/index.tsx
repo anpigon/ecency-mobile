@@ -37,10 +37,10 @@ const mapStateToProps = (state) => ({
 
 const App = connect(mapStateToProps)(_renderApp);
 
-export default () => {
+export default function Root() {
   return (
     <Provider store={store}>
       <App />
     </Provider>
   );
-};
+}

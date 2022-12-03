@@ -17,7 +17,7 @@ import CommunitiesContainer from '../container/communitiesContainer';
 import styles from './communitiesScreenStyles';
 import globalStyles from '../../../globalStyles';
 
-const CommunitiesScreen = () => {
+function CommunitiesScreen() {
   const intl = useIntl();
   const tabViewRef = useRef(null);
 
@@ -98,6 +98,6 @@ const CommunitiesScreen = () => {
       }}
     </CommunitiesContainer>
   );
-};
+}
 
 export default gestureHandlerRootHOC(CommunitiesScreen);

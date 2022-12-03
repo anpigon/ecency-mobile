@@ -109,7 +109,7 @@ class PinCodeContainer extends Component {
   // this function is important: must run while chaning pin
   // and even logging in with existing pin code
 
-  _updatePinCodeRealm = async (pinData) => {
+  /* _updatePinCodeRealm = async (pinData) => {
     try {
       const { currentAccount, dispatch } = this.props;
       const response = await updatePinCode(pinData);
@@ -124,7 +124,7 @@ class PinCodeContainer extends Component {
       this._onDecryptFail();
       return false;
     }
-  };
+  }; */
 
   // routine for checking and setting new pin code, same routine is used for
   // setting pin for the first time

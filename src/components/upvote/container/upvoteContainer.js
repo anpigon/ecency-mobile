@@ -25,7 +25,7 @@ import postTypes from '../../../constants/postTypes';
  *
  */
 
-const UpvoteContainer = (props) => {
+function UpvoteContainer(props) {
   const {
     content,
     currentAccount,
@@ -217,7 +217,7 @@ const UpvoteContainer = (props) => {
       boldPayout={boldPayout}
     />
   );
-};
+}
 
 // Component Life Cycle Functions
 

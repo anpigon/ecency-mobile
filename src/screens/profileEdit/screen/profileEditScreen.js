@@ -56,7 +56,7 @@ class ProfileEditScreen extends PureComponent {
           saveEnabled,
           handleOnSubmit,
         }) => (
-          <Fragment>
+          <>
             <StatusBar barStyle="light-content" />
             <AvatarHeader
               username={get(currentAccount, 'name')}
@@ -103,7 +103,7 @@ class ProfileEditScreen extends PureComponent {
                 );
               }}
             />
-          </Fragment>
+          </>
         )}
       </ProfileEditContainer>
     );

@@ -18,7 +18,7 @@ import { toastNotification } from '../../../../redux/actions/uiAction';
 
 const SEPARATOR_REGEX = /[,\s]/;
 
-const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, setCommunity }) => {
+function TagInput({ value, handleTagChanged, intl, isPreviewActive, autoFocus, setCommunity }) {
   const dispatch = useAppDispatch();
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
 
@@ -170,6 +170,6 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
       {warning && <Text style={styles.warning}>{warning}</Text>}
     </View>
   );
-};
+}
 
 export default TagInput;

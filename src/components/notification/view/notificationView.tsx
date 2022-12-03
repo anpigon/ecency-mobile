@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, ActivityIndicator, RefreshControl, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Constants
 
@@ -19,7 +20,6 @@ import { isToday, isYesterday, isThisWeek, isLastWeek, isThisMonth } from '../..
 // Styles
 import styles from './notificationStyles';
 import globalStyles from '../../../globalStyles';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 class NotificationView extends PureComponent {
   /* Props
@@ -59,6 +59,7 @@ class NotificationView extends PureComponent {
     this.listRef.current?.scrollToOffset({ x: 0, y: 0, animated: false });
   };
 
+  // eslint-disable-next-line react/no-unused-class-component-methods
   _renderList = (data) => {
     const { navigateToNotificationRoute, globalProps } = this.props;
 
@@ -153,6 +154,7 @@ class NotificationView extends PureComponent {
     // return notificationArray.filter((item) => item.data.length > 0).map((item, index)=>{item.index = index; return item});
   };
 
+  // eslint-disable-next-line class-methods-use-this
   _getTimeListIndex = (timestamp) => {
     if (isToday(timestamp)) {
       return 0;
@@ -177,15 +179,15 @@ class NotificationView extends PureComponent {
     return 5;
   };
 
-  _getActivityIndicator = () => (
+/*   _getActivityIndicator = () => (
     <View style={styles.loading}>
       <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} animating size="large" />
     </View>
-  );
+  ); */
 
-  _renderSectionHeader = ({ section: { title, index } }) => (
+/*   _renderSectionHeader = ({ section: { title, index } }) => (
     <ContainerHeader hasSeperator={index !== 0} isBoldTitle title={title} key={title} />
-  );
+  ); */
 
   _renderItem = ({ item }) => (
     <>

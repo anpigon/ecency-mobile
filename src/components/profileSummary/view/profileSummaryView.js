@@ -50,6 +50,7 @@ class ProfileSummaryView extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
+  // eslint-disable-next-line
   _handleOnPressLink = (url) => {
     if (url) {
       Linking.openURL(url);
@@ -168,7 +169,7 @@ class ProfileSummaryView extends PureComponent {
     ];
 
     return (
-      <Fragment>
+      <>
         <View style={[isColumn ? styles.textWithIconWrapperColumn : styles.textWithIconWrapper]}>
           {ABOUT_DATA.map((item) =>
             get(item, 'text', null) ? (
@@ -217,7 +218,7 @@ class ProfileSummaryView extends PureComponent {
         </TouchableOpacity>
         <View style={styles.footer}>
           <View style={styles.leftIcons}>
-            <Fragment>
+            <>
               <TouchableOpacity onPress={() => handleOnFollowsPress(false)}>
                 <View style={styles.followCountWrapper}>
                   <Text style={styles.followCount}>{makeCountFriendly(followerCount)}</Text>
@@ -239,7 +240,7 @@ class ProfileSummaryView extends PureComponent {
                   </Text>
                 </View>
               </TouchableOpacity>
-            </Fragment>
+            </>
           </View>
 
           {isLoggedIn && !isOwnProfile ? (
@@ -281,7 +282,7 @@ class ProfileSummaryView extends PureComponent {
             )
           )}
         </View>
-      </Fragment>
+      </>
     );
   }
 }

@@ -22,7 +22,7 @@ interface Props {
   };
 }
 
-const WebBrowser = ({ navigation, route }: Props) => {
+function WebBrowser({ navigation, route }: Props) {
   const url = useMemo(() => route.params?.url, []);
   const intl = useIntl();
 
@@ -78,6 +78,6 @@ const WebBrowser = ({ navigation, route }: Props) => {
       </View>
     </SafeAreaView>
   );
-};
+}
 
 export default gestureHandlerRootHOC(WebBrowser);

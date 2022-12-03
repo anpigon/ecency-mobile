@@ -4,7 +4,7 @@ import { InputSupportModal } from '../organisms';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { hideReplyModal } from '../../redux/actions/uiAction';
 
-const QuickReplyModal = () => {
+function QuickReplyModal() {
   const dispatch = useAppDispatch();
 
   const replyModalVisible = useAppSelector((state) => state.ui.replyModalVisible);
@@ -27,6 +27,6 @@ const QuickReplyModal = () => {
       />
     </InputSupportModal>
   );
-};
+}
 
 export default QuickReplyModal;

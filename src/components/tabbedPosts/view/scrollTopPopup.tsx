@@ -13,12 +13,7 @@ interface ScrollTopPopupProps {
   enableScrollTop: boolean;
 }
 
-const ScrollTopPopup = ({
-  onPress,
-  onClose,
-  popupAvatars,
-  enableScrollTop,
-}: ScrollTopPopupProps) => {
+function ScrollTopPopup({ onPress, onClose, popupAvatars, enableScrollTop }: ScrollTopPopupProps) {
   const intl = useIntl();
 
   if (popupAvatars.length == 0 && !enableScrollTop) {
@@ -40,7 +35,7 @@ const ScrollTopPopup = ({
 
             {popupAvatars.map((url, index) => (
               <FastImage
-                key={`image_bubble_${url}-${index}`}
+                key={`image_bubble_${url}`}
                 source={{ uri: url }}
                 style={[styles.popupImage, { zIndex: 10 - index }]}
               />
@@ -68,6 +63,6 @@ const ScrollTopPopup = ({
       </View>
     </AnimatedView>
   );
-};
+}
 
 export default ScrollTopPopup;

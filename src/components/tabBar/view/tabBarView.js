@@ -123,17 +123,21 @@ class TabBar extends PureComponent {
   }
 }
 
-const ButtonAndroid = (props) => (
-  <TouchableNativeFeedback
-    delayPressIn={0}
-    background={TouchableNativeFeedback.SelectableBackground()}
-    {...props}
-  >
-    {props.children}
-  </TouchableNativeFeedback>
-);
+function ButtonAndroid(props) {
+  return (
+    <TouchableNativeFeedback
+      delayPressIn={0}
+      background={TouchableNativeFeedback.SelectableBackground()}
+      {...props}
+    >
+      {props.children}
+    </TouchableNativeFeedback>
+  );
+}
 
-const ButtonIos = (props) => <TouchableOpacity {...props}>{props.children}</TouchableOpacity>;
+function ButtonIos(props) {
+  return <TouchableOpacity {...props}>{props.children}</TouchableOpacity>;
+}
 
 const mapStateToProps = (state) => ({
   isDarkTheme: state.application.isDarkTheme,

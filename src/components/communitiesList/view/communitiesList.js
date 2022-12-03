@@ -8,16 +8,15 @@ import CommunitiesListItem from './communitiesListItem';
 // Styles
 import styles from './communitiesListStyles';
 
-const CommunitiesList = ({
+function CommunitiesList({
   data,
   subscribingCommunities,
   handleOnPress,
   handleSubscribeButtonPress,
   isLoggedIn,
-  noResult,
   screen,
   isDiscoversLoading,
-}) => {
+}) {
   const _renderItem = ({ item, index }) => {
     return (
       <CommunitiesListItem
@@ -35,10 +34,7 @@ const CommunitiesList = ({
         handleSubscribeButtonPress={handleSubscribeButtonPress}
         isSubscribed={item.isSubscribed}
         isLoggedIn={isLoggedIn}
-        loading={
-          subscribingCommunities.hasOwnProperty(item.name) &&
-          subscribingCommunities[item.name].loading
-        }
+        loading={item.name in subscribingCommunities && subscribingCommunities[item.name].loading}
         screen={screen}
       />
     );
@@ -71,6 +67,6 @@ const CommunitiesList = ({
       />
     </SafeAreaView>
   );
-};
+}
 
 export default CommunitiesList;

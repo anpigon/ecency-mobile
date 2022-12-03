@@ -8,13 +8,13 @@ import globalStyles from '../../../../globalStyles';
 
 import styles from './selectCommunityAreStyles';
 
-const SelectCommunityAreaView = ({
+function SelectCommunityAreaView({
   selectedCommunity,
   selectedAccount,
   onPressIn,
   onPressOut,
   intl,
-}) => {
+}) {
   let username = null;
   let title = intl.formatMessage({ id: 'editor.select_community' });
 
@@ -43,6 +43,6 @@ const SelectCommunityAreaView = ({
       />
     </TouchableOpacity>
   );
-};
+}
 
 export default injectIntl(SelectCommunityAreaView);

@@ -24,6 +24,22 @@ export default class TagAreaView extends Component {
     };
   }
 
+  // Component Life Cycles
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { draftChips, isRemoveTag } = this.props;
+
+    if (nextProps.draftChips && nextProps.draftChips !== draftChips) {
+      const _chips = [...nextProps.draftChips, ' '];
+      this.setState({
+        chips: _chips,
+      });
+    }
+
+    if (isRemoveTag !== nextProps.isRemoveTag && nextProps.isRemoveTag) {
+      this.setState({ chips: [' '], currentText: '' });
+    }
+  }
+
   // Component Functions
   _handleOnChange = (text, i) => {
     if (text.indexOf(' ') > 0) {
@@ -96,22 +112,6 @@ export default class TagAreaView extends Component {
       this.setState({ chips: [' '], currentText: '' });
     }
   };
-
-  // Component Life Cycles
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { draftChips, isRemoveTag } = this.props;
-
-    if (nextProps.draftChips && nextProps.draftChips !== draftChips) {
-      const _chips = [...nextProps.draftChips, ' '];
-      this.setState({
-        chips: _chips,
-      });
-    }
-
-    if (isRemoveTag !== nextProps.isRemoveTag && nextProps.isRemoveTag) {
-      this.setState({ chips: [' '], currentText: '' });
-    }
-  }
 
   render() {
     const { isPreviewActive } = this.props;

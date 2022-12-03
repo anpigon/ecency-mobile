@@ -39,7 +39,7 @@ import { DrawerNavigator } from './drawerNavigator';
 const RootStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
 
-const MainStackNavigator = () => {
+function MainStackNavigator() {
   return (
     <MainStack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
       <MainStack.Screen name={ROUTES.DRAWER.MAIN} component={DrawerNavigator} />
@@ -69,9 +69,9 @@ const MainStackNavigator = () => {
       </MainStack.Group>
     </MainStack.Navigator>
   );
-};
+}
 
-export const StackNavigator = ({ initRoute }) => {
+export function StackNavigator({ initRoute }) {
   return (
     <RootStack.Navigator
       initialRouteName={initRoute}
@@ -90,4 +90,4 @@ export const StackNavigator = ({ initRoute }) => {
       />
     </RootStack.Navigator>
   );
-};
+}

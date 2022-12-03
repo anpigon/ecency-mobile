@@ -12,13 +12,13 @@ interface CoinBasicsProps {
   onInfoPress: (id: string) => void;
 }
 
-export const CoinBasics = ({
+export function CoinBasics({
   valuePairs,
   extraData,
   coinSymbol,
   percentChange,
   onInfoPress,
-}: CoinBasicsProps) => {
+}: CoinBasicsProps) {
   const intl = useIntl();
   const _renderCoinHeader = (
     <>
@@ -73,4 +73,4 @@ export const CoinBasics = ({
       {extraData && extraData.map(_renderExtraData)}
     </View>
   );
-};
+}

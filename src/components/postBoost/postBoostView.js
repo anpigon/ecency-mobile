@@ -73,7 +73,7 @@ class BoostPostScreen extends PureComponent {
     }
   };
 
-  _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
+  // _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
 
   _renderDropdown = (accounts, currentAccountName) => (
     <DropdownButton
@@ -150,7 +150,7 @@ class BoostPostScreen extends PureComponent {
     const calculatedESTM = 150 + 50 * factor;
     // console.log('this.state.permlink : ', this.state.permlink);
     return (
-      <Fragment>
+      <>
         <BasicHeader title={intl.formatMessage({ id: 'boostPost.title' })} />
         <View style={styles.container}>
           <ScrollView keyboardShouldPersistTaps="handled">
@@ -300,7 +300,7 @@ class BoostPostScreen extends PureComponent {
         >
           <WebView source={{ uri: `${hsOptions.base_url}${SCPath}` }} />
         </Modal>
-      </Fragment>
+      </>
     );
   }
 }

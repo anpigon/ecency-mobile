@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { Fragment } from 'react';
 import { ScrollView, View, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
@@ -19,7 +18,7 @@ import { BasicHeader, SettingsItem, CollapsibleCard } from '../../../components'
 import styles from './settingsStyles';
 import settingsTypes from '../../../constants/settingsTypes';
 
-const SettingsScreen = ({
+function SettingsScreen({
   handleOnChange,
   intl,
   isDarkTheme,
@@ -45,9 +44,9 @@ const SettingsScreen = ({
   handleOnButtonPress,
   isLoading,
   isHideImages,
-}) => {
+}) {
   return (
-    <Fragment>
+    <>
       <BasicHeader
         title={intl.formatMessage({
           id: 'settings.settings',
@@ -165,7 +164,7 @@ const SettingsScreen = ({
           )}
 
           {!!isLoggedIn && !!isPinCodeOpen && (
-            <Fragment>
+            <>
               <SettingsItem
                 title={intl.formatMessage({
                   id: 'settings.biometric',
@@ -189,7 +188,7 @@ const SettingsScreen = ({
                 toggleLatchBack={true}
                 handleOnButtonPress={handleOnButtonPress}
               />
-            </Fragment>
+            </>
           )}
         </View>
         {!!isLoggedIn && (
@@ -315,8 +314,8 @@ const SettingsScreen = ({
           )}
         </View>
       </ScrollView>
-    </Fragment>
+    </>
   );
-};
+}
 export default injectIntl(SettingsScreen);
 /* eslint-enable */

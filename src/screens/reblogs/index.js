@@ -1,1 +1,3 @@
-export { default } from './screen/reblogScreen';
+import ReblogScreen from './screen/reblogScreen';
+
+export default ReblogScreen;

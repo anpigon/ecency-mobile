@@ -10,7 +10,7 @@ import { vestsToHp } from '../../../utils/conversions';
 // Styles
 import styles from './walletDetailsStyles';
 
-const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
+function WalletDetailsView({ walletData, intl, navigate, isShowDropdowns }) {
   const hiveDropdown = [
     'purchase_estm',
     'transfer_token',
@@ -135,6 +135,6 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
       )}
     </View>
   );
-};
+}
 
 export default WalletDetailsView;

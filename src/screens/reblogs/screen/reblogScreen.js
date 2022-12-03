@@ -1,7 +1,6 @@
 import React from 'react';
 import { FlatList, SafeAreaView } from 'react-native';
 import { useIntl } from 'react-intl';
-import get from 'lodash/get';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -26,7 +25,7 @@ const renderUserListItem = (item, index, handleOnUserPress) => {
   );
 };
 
-const ReblogScreen = ({ navigation, route }) => {
+function ReblogScreen({ navigation, route }) {
   const intl = useIntl();
   const headerTitle = intl.formatMessage({
     id: 'reblog.title',
@@ -54,6 +53,6 @@ const ReblogScreen = ({ navigation, route }) => {
       )}
     </AccountListContainer>
   );
-};
+}
 
 export default gestureHandlerRootHOC(ReblogScreen);

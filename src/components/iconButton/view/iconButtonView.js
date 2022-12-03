@@ -10,7 +10,7 @@ import styles from './iconButtonStyles';
  *   @prop { type }    name                - Description....
  */
 
-const IconButton = ({
+function IconButton({
   backgroundColor,
   badgeCount,
   badgeTextStyle,
@@ -24,8 +24,8 @@ const IconButton = ({
   size,
   style,
   isLoading,
-}) => (
-  <Fragment>
+}) {
+  return (
     <TouchableOpacity
       style={[styles.iconButton, style]}
       onPress={() => !isLoading && onPress && onPress()}
@@ -54,7 +54,7 @@ const IconButton = ({
         />
       )}
     </TouchableOpacity>
-  </Fragment>
-);
+  );
+}
 
 export default IconButton;

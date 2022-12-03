@@ -60,7 +60,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     }
   }, [searchValue]);
 
-  const getInitialPosts = async () => {
+  const getInitialPosts = () => {
     const options = {
       observer: currentAccountUsername,
       account: 'ecency',
@@ -68,7 +68,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
       sort: 'blog',
     };
 
-    return await getAccountPosts(options);
+    return getAccountPosts(options);
   };
 
   // Component Functions

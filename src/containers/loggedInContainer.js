@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { connect } from 'react-redux';
@@ -7,7 +6,7 @@ import RootNavigation from '../navigation/rootNavigation';
 
 import { NoPost } from '../components';
 
-const LoggedInContainer = ({ isLoggedIn, isLoginDone, children }) => {
+function LoggedInContainer({ isLoggedIn, isLoginDone, children }) {
   const intl = useIntl();
 
   if (!isLoggedIn) {
@@ -30,7 +29,7 @@ const LoggedInContainer = ({ isLoggedIn, isLoginDone, children }) => {
       isLoginDone,
     })
   );
-};
+}
 
 const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,

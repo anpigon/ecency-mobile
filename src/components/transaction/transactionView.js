@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -10,7 +9,7 @@ import { getTimeFromNow } from '../../utils/time';
 // Components
 import { WalletLineItem } from '../basicUIElements';
 
-const TransactionView = ({ item, index }) => {
+function TransactionView({ item, index }) {
   const intl = useIntl();
   const [collapsed, setCollapsed] = useState(true);
 
@@ -56,7 +55,7 @@ const TransactionView = ({ item, index }) => {
       {_cardBody}
     </>
   );
-};
+}
 
 export default TransactionView;
 /* eslint-enable */

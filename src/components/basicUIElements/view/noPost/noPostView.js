@@ -4,7 +4,7 @@ import NO_POST from '../../../../assets/no_post.png';
 import styles from './noPostStyles';
 import { MainButton } from '../../../mainButton';
 
-const NoPost = ({
+function NoPost({
   text,
   name,
   defaultText,
@@ -13,24 +13,26 @@ const NoPost = ({
   style,
   isButtonText,
   handleOnButtonPress,
-}) => (
-  <View style={[styles.wrapper, style]}>
-    <Image style={[styles.image, imageStyle]} source={source || NO_POST} />
-    {name && !isButtonText ? (
-      <Text style={styles.text}>{`@${name} ${text}`}</Text>
-    ) : (
-      !isButtonText && <Text style={styles.text}>{defaultText}</Text>
-    )}
-    {isButtonText && (
-      <MainButton
-        style={{ width: 150 }}
-        onPress={handleOnButtonPress}
-        iconName="person"
-        iconColor="white"
-        text={defaultText}
-      />
-    )}
-  </View>
-);
+}) {
+  return (
+    <View style={[styles.wrapper, style]}>
+      <Image style={[styles.image, imageStyle]} source={source || NO_POST} />
+      {name && !isButtonText ? (
+        <Text style={styles.text}>{`@${name} ${text}`}</Text>
+      ) : (
+        !isButtonText && <Text style={styles.text}>{defaultText}</Text>
+      )}
+      {isButtonText && (
+        <MainButton
+          style={{ width: 150 }}
+          onPress={handleOnButtonPress}
+          iconName="person"
+          iconColor="white"
+          text={defaultText}
+        />
+      )}
+    </View>
+  );
+}
 
 export default NoPost;

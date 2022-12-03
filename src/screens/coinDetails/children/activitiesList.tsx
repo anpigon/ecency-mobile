@@ -7,7 +7,7 @@ import { useAppSelector } from '../../../hooks';
 import { CoinActivity } from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
 
-interface ActivitiesListProps {
+export interface ActivitiesListProps {
   header: ComponentType<any> | ReactElement<any, string | JSXElementConstructor<any>>;
   pendingActivities: CoinActivity[];
   completedActivities: CoinActivity[];
@@ -17,7 +17,7 @@ interface ActivitiesListProps {
   onRefresh: () => void;
 }
 
-const ActivitiesList = ({
+function ActivitiesList({
   header,
   loading,
   refreshing,
@@ -25,7 +25,7 @@ const ActivitiesList = ({
   pendingActivities,
   onEndReached,
   onRefresh,
-}: ActivitiesListProps) => {
+}: ActivitiesListProps) {
   const intl = useIntl();
 
   const isDarkTheme = useAppSelector((state) => state.ui.isDarkTheme);
@@ -79,6 +79,6 @@ const ActivitiesList = ({
       }}
     />
   );
-};
+}
 
 export default ActivitiesList;

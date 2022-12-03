@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { AppState, NativeEventSubscription, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
+import {
+  AppState,
+  NativeEventSubscription,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+} from 'react-native';
 import { debounce } from 'lodash';
 import PostsList from '../../postsList';
 import { fetchPromotedEntries, loadPosts } from '../services/tabbedPostsFetch';
@@ -23,7 +28,7 @@ let scrollOffset = 0;
 let blockPopup = false;
 const SCROLL_POPUP_THRESHOLD = 5000;
 
-const TabContent = ({
+function TabContent({
   filterKey,
   isFeedScreen,
   isInitialTab,
@@ -36,10 +41,10 @@ const TabContent = ({
   onScrollRequestProcessed,
   handleOnScroll,
   ...props
-}: TabContentProps) => {
+}: TabContentProps) {
   let _isMounted = true;
 
-  //redux properties
+  // redux properties
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
   const nsfw = useSelector((state) => state.application.nsfw);
@@ -47,10 +52,10 @@ const TabContent = ({
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const initPosts = useSelector((state) => state.posts.initPosts);
 
-  const username = currentAccount.username;
+  const { username } = currentAccount;
   const userPinned = currentAccount.about?.profile?.pinned;
 
-  //state
+  // state
   const [posts, setPosts] = useState([]);
   const [promotedPosts, setPromotedPosts] = useState([]);
   const [sessionUser, setSessionUser] = useState(username);
@@ -60,18 +65,18 @@ const TabContent = ({
   const [enableScrollTop, setEnableScrollTop] = useState(false);
   const [curPinned, setCurPinned] = useState(pinnedPermlink);
 
-  //refs
-  let postsListRef = useRef<PostsListRef>();
+  // refs
+  const postsListRef = useRef<PostsListRef>();
   const appState = useRef(AppState.currentState);
-  const appStateSubRef = useRef<NativeEventSubscription|null>()
+  const appStateSubRef = useRef<NativeEventSubscription | null>();
   const postsRef = useRef(posts);
   const sessionUserRef = useRef(sessionUser);
 
-  //init state refs;
+  // init state refs;
   postsRef.current = posts;
   sessionUserRef.current = sessionUser;
 
-  //side effects
+  // side effects
   useEffect(() => {
     if (isFeedScreen) {
       appStateSubRef.current = AppState.addEventListener('change', _handleAppStateChange);
@@ -116,7 +121,7 @@ const TabContent = ({
     }
   };
 
-  //actions
+  // actions
   const _handleAppStateChange = (nextAppState) => {
     if (
       appState.current.match(/inactive|background/) &&
@@ -133,7 +138,7 @@ const TabContent = ({
     appState.current = nextAppState;
   };
 
-  const _initContent = (isFirstCall = false, _feedUsername: string) => {
+  const _initContent = (isFirstCall = false, _feedUsername: string = '') => {
     _scrollToTop();
 
     const initialPosts = isFirstCall && isFeedScreen && isInitialTab ? initPosts : [];
@@ -160,7 +165,7 @@ const TabContent = ({
     }
   };
 
-  //fetch posts from server
+  // fetch posts from server
   const _loadPosts = async ({
     shouldReset = false,
     isLatestPostsCheck = false,
@@ -219,7 +224,7 @@ const TabContent = ({
     }
   };
 
-  //schedules post fetch
+  // schedules post fetch
   const _scheduleLatestPostsCheck = (firstPost: any) => {
     if (firstPost) {
       if (postFetchTimer) {
@@ -238,9 +243,9 @@ const TabContent = ({
     }
   };
 
-  //processes response from loadPost
+  // processes response from loadPost
   const _postProcessLoadResult = ({ updatedPosts, latestPosts }: any) => {
-    //process new posts avatart
+    // process new posts avatart
     if (latestPosts && Array.isArray(latestPosts)) {
       if (latestPosts.length > 0) {
         setLatestPosts(latestPosts);
@@ -249,14 +254,14 @@ const TabContent = ({
       }
     }
 
-    //process returned data
+    // process returned data
     if (Array.isArray(updatedPosts)) {
       if (updatedPosts.length) {
-        //match new and old first post
+        // match new and old first post
         const firstPostChanged =
           posts.length == 0 || posts[0].permlink !== updatedPosts[0].permlink;
         if (isFeedScreen && firstPostChanged) {
-          //schedule refetch of new posts by checking time of current post
+          // schedule refetch of new posts by checking time of current post
           _scheduleLatestPostsCheck(updatedPosts[0]);
 
           if (isInitialTab) {
@@ -264,14 +269,14 @@ const TabContent = ({
           }
         }
       } else if (isFeedScreen && isInitialTab) {
-        //clear posts cache if no first tab posts available, precautionary measure for accoutn change
+        // clear posts cache if no first tab posts available, precautionary measure for accoutn change
         dispatch(setInitPosts([]));
       }
       setPosts(updatedPosts);
     }
   };
 
-  //view related routines
+  // view related routines
   const _onPostsPopupPress = () => {
     _scrollToTop();
     _getPromotedPosts();
@@ -296,7 +301,7 @@ const TabContent = ({
     }
   };
 
-  //view rendereres
+  // view rendereres
   const _renderEmptyContent = () => {
     return <TabEmptyView filterKey={filterKey} isNoPost={tabMeta.isNoPost} />;
   };
@@ -310,8 +315,8 @@ const TabContent = ({
   );
 
   const _onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    let currentOffset = event.nativeEvent.contentOffset.y;
-    let scrollUp = currentOffset < scrollOffset;
+    const currentOffset = event.nativeEvent.contentOffset.y;
+    const scrollUp = currentOffset < scrollOffset;
     scrollOffset = currentOffset;
 
     if (scrollUp && !blockPopup && currentOffset > SCROLL_POPUP_THRESHOLD) {
@@ -324,7 +329,7 @@ const TabContent = ({
     if (isLoggedIn) {
       dispatch(showReplyModal(post));
     } else {
-      //TODO: show proper alert message
+      // TODO: show proper alert message
       console.log('Not LoggedIn');
     }
   };
@@ -361,6 +366,6 @@ const TabContent = ({
       />
     </>
   );
-};
+}
 
 export default TabContent;

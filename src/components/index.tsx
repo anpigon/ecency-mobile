@@ -97,7 +97,7 @@ import { QuickProfileModal } from './organisms';
 import QuickReplyModal from './quickReplyModal/quickReplyModalView';
 import Tooltip from './tooltip/tooltipView';
 import VideoPlayer from './videoPlayer/videoPlayerView';
-import QRModal from './qrModal/qrModalView';
+import { QRModal } from './qrModal/qrModalView';
 import { SimpleChart } from './simpleChart';
 import BeneficiarySelectionContent from './beneficiarySelectionContent/beneficiarySelectionContent';
 import TransferAccountSelector from './transferAccountSelector/transferAccountSelector';

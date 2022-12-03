@@ -31,7 +31,7 @@ interface UserAvatarProps {
   isLoading?: boolean;
 }
 
-const UserAvatarView = ({
+function UserAvatarView({
   username,
   avatarUrl,
   size,
@@ -39,7 +39,7 @@ const UserAvatarView = ({
   disableSize,
   noAction,
   isLoading,
-}: UserAvatarProps) => {
+}: UserAvatarProps) {
   const curUsername = useAppSelector((state) => state.account.currentAccount.name);
   const avatarCacheStamp = useAppSelector((state) => state.ui.avatarCacheStamp);
 
@@ -87,6 +87,6 @@ const UserAvatarView = ({
       )}
     </TouchableOpacity>
   );
-};
+}
 
 export default UserAvatarView;

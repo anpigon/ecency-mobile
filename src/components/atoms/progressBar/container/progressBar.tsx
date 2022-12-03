@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import styles from '../children/progresBarStyles';
 
-export const ProgressBar = ({ progress }) => {
+export function ProgressBar({ progress }) {
   const containerStyle = { ...styles.container };
   const filledStyle = { ...styles.filled, flex: progress };
   const unfilledStyle = { flex: 100 - progress };
@@ -12,4 +12,4 @@ export const ProgressBar = ({ progress }) => {
       <View style={unfilledStyle} />
     </View>
   );
-};
+}

@@ -1,5 +1,4 @@
-/* eslint-disable react/jsx-wrap-multilines */
-import React, { Fragment, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, ComponentType } from 'react';
 import {
   SafeAreaView,
   View,
@@ -43,44 +42,38 @@ import { toastNotification } from '../../../redux/actions/uiAction';
 
 const CHART_DAYS_RANGE = 1;
 
-const WalletScreen = ({ navigation }) => {
+function WalletScreen({ navigation }) {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
-  //refs
+  // refs
   const appState = useRef(AppState.currentState);
 
-  //redux
+  // redux
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const currency = useAppSelector((state) => state.application.currency);
 
-  const {
-    selectedCoins,
-    priceHistories,
-    coinsData,
-    updateTimestamp,
-    quotes,
-    ...wallet
-  } = useAppSelector((state) => state.wallet);
+  const { selectedCoins, priceHistories, coinsData, updateTimestamp, quotes, ...wallet } =
+    useAppSelector((state) => state.wallet);
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinHash = useAppSelector((state) => state.application.pin);
 
-  //state
+  // state
   const [isLoading, setIsLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [isClaiming, setIsClaiming] = useState(false);
 
-  //side-effects
+  // side-effects
   useEffect(() => {
     const appStateSub = AppState.addEventListener('change', _handleAppStateChange);
 
-    //if coinsData is empty, initilise wallet without a fresh acount fetch
-    _fetchData(Object.keys(coinsData).length ? true : false);
+    // if coinsData is empty, initilise wallet without a fresh acount fetch
+    _fetchData(!!Object.keys(coinsData).length);
 
-    return ()=>{
-      if(appStateSub){
-        appStateSub.remove()
+    return () => {
+      if (appStateSub) {
+        appStateSub.remove();
       }
     };
   }, []);
@@ -92,9 +85,7 @@ const WalletScreen = ({ navigation }) => {
     }
   }, [currency, currentAccount]);
 
-
-
-  //actions
+  // actions
   const _handleAppStateChange = (nextAppState: AppStateStatus) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
       console.log('updating selected coins data on app resume');
@@ -238,7 +229,10 @@ const WalletScreen = ({ navigation }) => {
         onClaimPress={_onClaimPress}
         onBoostAccountPress={_onBoostAccountPress}
         footerComponent={
-          index === 0 && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />
+          index === 0 &&
+          ((
+            <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />
+          ) as unknown as ComponentType)
         }
         {...item}
       />
@@ -274,7 +268,7 @@ const WalletScreen = ({ navigation }) => {
   );
 
   return (
-    <Fragment>
+    <>
       <Header />
       <SafeAreaView style={globalStyles.defaultContainer}>
         <LoggedInContainer>
@@ -294,9 +288,9 @@ const WalletScreen = ({ navigation }) => {
           )}
         </LoggedInContainer>
       </SafeAreaView>
-    </Fragment>
+    </>
   );
-};
+}
 
 export default gestureHandlerRootHOC(WalletScreen);
 /* eslint-enable */

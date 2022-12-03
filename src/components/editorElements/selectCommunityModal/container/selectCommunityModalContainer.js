@@ -14,7 +14,7 @@ import {
 } from '../../../../redux/actions/communitiesAction';
 import { mergeSubCommunitiesCacheInSubList } from '../../../../utils/communitiesUtils';
 
-const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount, onCloseModal }) => {
+function SelectCommunityModalContainer({ onPressCommunity, currentAccount, onCloseModal }) {
   const dispatch = useDispatch();
 
   const [searchedCommunities, setSearchedCommunities] = useState([]);
@@ -65,19 +65,17 @@ const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount, onClo
   };
 
   return (
-    <>
-      <SelectCommunityModalView
-        onPressCommunity={onPressCommunity}
-        topCommunities={topCommunities}
-        subscribedCommunities={subscriptions}
-        onChangeSearch={debounce(handleChangeSearch, 500)}
-        searchedCommunities={searchedCommunities}
-        showSearchedCommunities={showSearchedCommunities}
-        currentAccount={currentAccount}
-        onCloseModal={onCloseModal}
-      />
-    </>
+    <SelectCommunityModalView
+      onPressCommunity={onPressCommunity}
+      topCommunities={topCommunities}
+      subscribedCommunities={subscriptions}
+      onChangeSearch={debounce(handleChangeSearch, 500)}
+      searchedCommunities={searchedCommunities}
+      showSearchedCommunities={showSearchedCommunities}
+      currentAccount={currentAccount}
+      onCloseModal={onCloseModal}
+    />
   );
-};
+}
 
 export default SelectCommunityModalContainer;
