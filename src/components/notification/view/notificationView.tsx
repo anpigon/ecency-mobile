@@ -179,13 +179,13 @@ class NotificationView extends PureComponent {
     return 5;
   };
 
-/*   _getActivityIndicator = () => (
+  /*   _getActivityIndicator = () => (
     <View style={styles.loading}>
       <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} animating size="large" />
     </View>
   ); */
 
-/*   _renderSectionHeader = ({ section: { title, index } }) => (
+  /*   _renderSectionHeader = ({ section: { title, index } }) => (
     <ContainerHeader hasSeperator={index !== 0} isBoldTitle title={title} key={title} />
   ); */
 
