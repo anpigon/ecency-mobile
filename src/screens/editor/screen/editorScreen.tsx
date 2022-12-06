@@ -81,7 +81,7 @@ class EditorScreen extends Component {
         });
       }
 
-      await this.setState(prevState => {
+      this.setState(prevState => {
         if (community && community.length > 0) {
           nextProps.draftPost.tags = [...community, ...nextProps.draftPost.tags];
         }
