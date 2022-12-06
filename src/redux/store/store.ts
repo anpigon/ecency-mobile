@@ -1,6 +1,5 @@
-import {createStore, applyMiddleware, compose} from '@reduxjs/toolkit';
+import {configureStore, StoreEnhancer, Middleware} from '@reduxjs/toolkit';
 
-import thunk from 'redux-thunk';
 import {createMigrate, createTransform, persistReducer, persistStore} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Reactotron from '../../../reactotron-config';
@@ -44,31 +43,31 @@ const persistConfig = {
   // Storage Method (React Native)
   storage: AsyncStorage,
   version: 2, // New version 0, default or previous version -1, versions are useful migrations
-  // // Blacklist (Don't Save Specific Reducers)
+  // Blacklist (Don't Save Specific Reducers)
   blacklist: ['communities', 'user', 'ui'],
   transforms: [transformCacheVoteMap, transformWalkthroughMap],
   migrate: createMigrate(MigrationHelpers.reduxMigrations, {debug: false}),
 };
 
-// // Middleware: Redux Persist Persisted Reducer
+// Middleware: Redux Persist Persisted Reducer
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-const middleware = [thunk];
-
-let enhancers;
+const middleware: Middleware[] = [];
+const enhancers: StoreEnhancer[] = [];
 if (__DEV__) {
   const createDebugger = require('redux-flipper').default;
   middleware.push(createDebugger());
-  enhancers = compose(applyMiddleware(...middleware), Reactotron.createEnhancer());
-} else {
-  enhancers = applyMiddleware(...middleware);
+  // @ts-ignore
+  enhancers.push(Reactotron.createEnhancer());
 }
 
-export const store = createStore(persistedReducer, enhancers);
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(middleware),
+  enhancers,
+});
 
 export const persistor = persistStore(store);
-
-// export { store, persistor };
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
