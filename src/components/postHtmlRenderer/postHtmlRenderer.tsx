@@ -1,14 +1,14 @@
-import React, { memo, useMemo, useRef } from 'react';
-import RenderHTML, { CustomRendererProps, Element, TNode } from 'react-native-render-html';
-import { useHtmlIframeProps, iframeModel } from '@native-html/iframe-plugin';
+import React, {memo, useMemo, useRef} from 'react';
+import RenderHTML, {CustomRendererProps, Element, TNode} from 'react-native-render-html';
+import {useHtmlIframeProps, iframeModel} from '@native-html/iframe-plugin';
 import WebView from 'react-native-webview';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 // import { prependChild, removeElement } from 'htmlparser2/node_modules/domutils';
 import styles from './postHtmlRendererStyles';
-import { LinkData, parseLinkData } from './linkDataParser';
+import {LinkData, parseLinkData} from './linkDataParser';
 import VideoThumb from './videoThumb';
-import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
-import { VideoPlayer } from '..';
+import {AutoHeightImage} from '../autoHeightImage/autoHeightImage';
+import {VideoPlayer} from '..';
 
 interface PostHtmlRendererProps {
   contentWidth: number;
@@ -154,7 +154,7 @@ export const PostHtmlRenderer = memo(
       if (element.tagName === 'table') {
         console.log('table detected');
 
-        element.children.forEach((child) => {
+        element.children.forEach(child => {
           if (child.name === 'tr') {
             let headerIndex = -1;
             let colIndex = -1;
@@ -186,7 +186,7 @@ export const PostHtmlRenderer = memo(
       }
     };
 
-    const _anchorRenderer = ({ InternalRenderer, tnode, ...props }: CustomRendererProps<TNode>) => {
+    const _anchorRenderer = ({InternalRenderer, tnode, ...props}: CustomRendererProps<TNode>) => {
       const parsedTnode = parseLinkData(tnode);
       const _onPress = () => {
         console.log('Link Pressed:', tnode);
@@ -197,7 +197,7 @@ export const PostHtmlRenderer = memo(
       // process video link
       if (tnode.classes?.indexOf('markdown-video-link') >= 0) {
         if (isComment) {
-          const imgElement = tnode.children.find((child) => {
+          const imgElement = tnode.children.find(child => {
             return child.classes.indexOf('video-thumbnail') > 0;
           });
           if (!imgElement) {
@@ -233,7 +233,7 @@ export const PostHtmlRenderer = memo(
       return <InternalRenderer tnode={tnode} onPress={_onPress} {...props} />;
     };
 
-    const _imageRenderer = ({ tnode }: CustomRendererProps<TNode>) => {
+    const _imageRenderer = ({tnode}: CustomRendererProps<TNode>) => {
       const imgUrl = tnode.attributes.src;
       const _onPress = () => {
         console.log('Image Pressed:', imgUrl);
@@ -264,25 +264,25 @@ export const PostHtmlRenderer = memo(
      * a weired misalignment of bullet and content
      * @returns Default Renderer
      */
-    const _paraRenderer = ({ TDefaultRenderer, ...props }: CustomRendererProps<TNode>) => {
+    const _paraRenderer = ({TDefaultRenderer, ...props}: CustomRendererProps<TNode>) => {
       props.style = props.tnode.parent.tagName === 'li' ? styles.pLi : styles.p;
 
       return <TDefaultRenderer {...props} />;
     };
 
     // based on number of columns a table have, sets scroll enabled or disable, also adjust table full width
-    const _tableRenderer = ({ InternalRenderer, ...props }: CustomRendererProps<TNode>) => {
+    const _tableRenderer = ({InternalRenderer, ...props}: CustomRendererProps<TNode>) => {
       // const tableProps = useHtmlTableProps(props);
 
       let maxColumns = 0;
       props.tnode.children.forEach(
-        (child) =>
+        child =>
           (maxColumns = child.children.length > maxColumns ? child.children.length : maxColumns),
       );
 
       const isScrollable = maxColumns > 3;
       const _tableWidth = isScrollable ? maxColumns * _minTableColWidth : contentWidth;
-      props.style = { width: _tableWidth };
+      props.style = {width: _tableWidth};
 
       return (
         <ScrollView horizontal={true} scrollEnabled={isScrollable}>
@@ -313,10 +313,10 @@ export const PostHtmlRenderer = memo(
         a: styles.a,
         img: styles.img,
         table: styles.table,
-        tr: { ...styles.tr, width: contentWidth }, // center tag causes tr to have 0 width if not exclusivly set, contentWidth help avoid that
-        th: { ...styles.th, minWidth: _minTableColWidth },
-        td: { ...styles.td, minWidth: _minTableColWidth },
-        div: { ...styles.div, maxWidth: contentWidth }, // makes sure width covers the available horizontal space for view and not exceed the contentWidth if parent bound id not defined
+        tr: {...styles.tr, width: contentWidth}, // center tag causes tr to have 0 width if not exclusivly set, contentWidth help avoid that
+        th: {...styles.th, minWidth: _minTableColWidth},
+        td: {...styles.td, minWidth: _minTableColWidth},
+        div: {...styles.div, maxWidth: contentWidth}, // makes sure width covers the available horizontal space for view and not exceed the contentWidth if parent bound id not defined
         blockquote: styles.blockquote,
         code: styles.code,
         li: styles.li,
@@ -326,7 +326,7 @@ export const PostHtmlRenderer = memo(
       [contentWidth],
     );
 
-    const baseStyle = useMemo(() => ({ ...styles.baseStyle, width: contentWidth }), [contentWidth]);
+    const baseStyle = useMemo(() => ({...styles.baseStyle, width: contentWidth}), [contentWidth]);
 
     const classesStyles = useMemo(
       () => ({
@@ -373,7 +373,7 @@ export const PostHtmlRenderer = memo(
 
     return (
       <RenderHTML
-        source={{ html: body }}
+        source={{html: body}}
         contentWidth={contentWidth}
         baseStyle={baseStyle}
         classesStyles={classesStyles}

@@ -1,8 +1,8 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
-import { Text, TouchableOpacity, View } from 'react-native';
+import {useIntl} from 'react-intl';
+import {Text, TouchableOpacity, View} from 'react-native';
 import TextInput from '../textInput';
-import { TransferFormItem } from '../transferFormItem';
+import {TransferFormItem} from '../transferFormItem';
 
 // Styles
 import styles from './transferAmountInputSectionStyles';
@@ -51,7 +51,7 @@ function TransferAmountInputSection({
       }
     }
     if (state === 'destination') {
-      getAccountsWithUsername(val).then((res) => {
+      getAccountsWithUsername(val).then(res => {
         const isValid = res.includes(val);
 
         setIsUsernameValid(isValid);
@@ -66,7 +66,7 @@ function TransferAmountInputSection({
   const _renderInput = (placeholder, state, keyboardType, isTextArea) => (
     <TextInput
       style={[isTextArea ? styles.textarea : styles.input]}
-      onChangeText={(amount) => _handleOnChange(state, amount)}
+      onChangeText={amount => _handleOnChange(state, amount)}
       value={
         state === 'destination'
           ? destination
@@ -85,21 +85,21 @@ function TransferAmountInputSection({
     />
   );
 
-  const _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
-  const _renderCenterDescription = (text) => <Text style={styles.centerDescription}>{text}</Text>;
+  const _renderDescription = text => <Text style={styles.description}>{text}</Text>;
+  const _renderCenterDescription = text => <Text style={styles.centerDescription}>{text}</Text>;
 
   return (
     <View style={styles.stepTwoContainer}>
       <Text style={styles.sectionHeading}>
-        {intl.formatMessage({ id: 'transfer.amount_select_title' })}
+        {intl.formatMessage({id: 'transfer.amount_select_title'})}
       </Text>
       <Text style={styles.sectionSubheading}>
-        {intl.formatMessage({ id: 'transfer.amount_select_description' })}
+        {intl.formatMessage({id: 'transfer.amount_select_description'})}
       </Text>
       <TransferFormItem
-        label={intl.formatMessage({ id: 'transfer.amount' })}
+        label={intl.formatMessage({id: 'transfer.amount'})}
         rightComponent={() =>
-          _renderInput(intl.formatMessage({ id: 'transfer.amount' }), 'amount', 'numeric', false)
+          _renderInput(intl.formatMessage({id: 'transfer.amount'}), 'amount', 'numeric', false)
         }
       />
       <TransferFormItem
@@ -119,31 +119,29 @@ function TransferAmountInputSection({
         transferType === transferTypes.TRANSFER_TOKEN ||
         transferType === transferTypes.TRANSFER_TO_SAVINGS) && (
         <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.memo' })}
+          label={intl.formatMessage({id: 'transfer.memo'})}
           rightComponent={() =>
             _renderInput(
-              intl.formatMessage({ id: 'transfer.memo_placeholder' }),
+              intl.formatMessage({id: 'transfer.memo_placeholder'}),
               'memo',
               'default',
               true,
             )
           }
-          containerStyle={{ height: 80 }}
+          containerStyle={{height: 80}}
         />
       )}
       {(transferType === transferTypes.POINTS || transferType === transferTypes.TRANSFER_TOKEN) && (
         <TransferFormItem
           rightComponentStyle={styles.transferItemRightStyle}
           containerStyle={styles.transferItemContainer}
-          rightComponent={() =>
-            _renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
-          }
+          rightComponent={() => _renderDescription(intl.formatMessage({id: 'transfer.memo_desc'}))}
         />
       )}
       {transferType === transferTypes.CONVERT && (
         <TransferFormItem
           rightComponent={() =>
-            _renderCenterDescription(intl.formatMessage({ id: 'transfer.convert_desc' }))
+            _renderCenterDescription(intl.formatMessage({id: 'transfer.convert_desc'}))
           }
         />
       )}

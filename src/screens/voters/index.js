@@ -1,4 +1,4 @@
 import VotersScreen from './screen/votersScreen';
 
-export { VotersScreen };
+export {VotersScreen};
 export default VotersScreen;

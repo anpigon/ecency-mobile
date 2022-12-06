@@ -1,21 +1,21 @@
-import React, { forwardRef, Ref, useImperativeHandle, useRef, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { TouchableOpacity, KeyboardAvoidingView, Platform, View, Text } from 'react-native';
+import React, {forwardRef, Ref, useImperativeHandle, useRef, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {TouchableOpacity, KeyboardAvoidingView, Platform, View, Text} from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useDispatch } from 'react-redux';
-import { CheckBox } from '..';
-import { getDefaultFilters, getFilterMap } from '../../constants/options/filters';
+import {useDispatch} from 'react-redux';
+import {CheckBox} from '..';
+import {getDefaultFilters, getFilterMap} from '../../constants/options/filters';
 
-import { ThemeContainer } from '../../containers';
-import { useAppSelector } from '../../hooks';
+import {ThemeContainer} from '../../containers';
+import {useAppSelector} from '../../hooks';
 import {
   setCommunityTabs,
   setMainTabs,
   setOwnProfileTabs,
   setProfileTabs,
 } from '../../redux/actions/customTabsAction';
-import { TextButton } from '../buttons';
+import {TextButton} from '../buttons';
 import styles from './customiseFiltersModalStyles';
 
 export interface CustomiseFiltersModalRef {
@@ -28,7 +28,7 @@ interface Props {
 
 const getFilterIndex = (filterMap: any, key: string) => Object.keys(filterMap).indexOf(key);
 
-function CustomiseFiltersModal({ pageType }: Props, ref: Ref<CustomiseFiltersModalRef>) {
+function CustomiseFiltersModal({pageType}: Props, ref: Ref<CustomiseFiltersModalRef>) {
   if (!pageType) {
     throw new Error('pageType must not be empty');
   }
@@ -39,7 +39,7 @@ function CustomiseFiltersModal({ pageType }: Props, ref: Ref<CustomiseFiltersMod
   const sheetModalRef = useRef<ActionSheet>();
 
   // redux
-  const savedFilters = useAppSelector((state) => {
+  const savedFilters = useAppSelector(state => {
     const defaultFilters = getDefaultFilters(pageType);
     switch (pageType) {
       case 'community':
@@ -79,12 +79,12 @@ function CustomiseFiltersModal({ pageType }: Props, ref: Ref<CustomiseFiltersMod
   // save snippet based on editor pageType
   const _onApply = () => {
     if (selectedFilters.size !== 3) {
-      alert(intl.formatMessage({ id: 'alert.wrong_filter_count' }));
+      alert(intl.formatMessage({id: 'alert.wrong_filter_count'}));
       return;
     }
     const entries = Array.from(selectedFilters.entries())
       .sort((a, b) => (a[1] < b[1] ? -1 : 1))
-      .map((e) => e[0]);
+      .map(e => e[0]);
 
     switch (pageType) {
       case 'main':
@@ -144,12 +144,11 @@ function CustomiseFiltersModal({ pageType }: Props, ref: Ref<CustomiseFiltersMod
 
   const _renderContent = (
     <ThemeContainer>
-      {({ isDarkTheme: _isDarkTheme }) => (
+      {({isDarkTheme: _isDarkTheme}) => (
         <KeyboardAvoidingView
           style={styles.container}
           keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : null}
-          behavior={Platform.OS === 'ios' ? 'padding' : null}
-        >
+          behavior={Platform.OS === 'ios' ? 'padding' : null}>
           <Text style={styles.title}>Customise Filters</Text>
 
           {_renderOptions()}
@@ -172,8 +171,7 @@ function CustomiseFiltersModal({ pageType }: Props, ref: Ref<CustomiseFiltersMod
       ref={sheetModalRef}
       containerStyle={styles.sheetContent}
       indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
-      onClose={_onClose}
-    >
+      onClose={_onClose}>
       {_renderContent}
     </ActionSheet>
   );

@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Alert } from 'react-native';
-import { connect, useDispatch } from 'react-redux';
+import React, {useState, useEffect, useCallback} from 'react';
+import {Alert} from 'react-native';
+import {connect, useDispatch} from 'react-redux';
 import get from 'lodash/get';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 
 // Services and Actions
-import { useNavigation } from '@react-navigation/native';
-import { getPointsSummary, claimPoints, getPointsHistory } from '../providers/ecency/ePoint';
-import { getAccount, boost } from '../providers/hive/dhive';
-import { getUserDataWithUsername } from '../realm/realm';
-import { toastNotification } from '../redux/actions/uiAction';
+import {useNavigation} from '@react-navigation/native';
+import {getPointsSummary, claimPoints, getPointsHistory} from '../providers/ecency/ePoint';
+import {getAccount, boost} from '../providers/hive/dhive';
+import {getUserDataWithUsername} from '../realm/realm';
+import {toastNotification} from '../redux/actions/uiAction';
 
 // Constant
 import POINTS from '../constants/options/points';
@@ -18,7 +18,7 @@ import POINTS from '../constants/options/points';
 import ROUTES from '../constants/routeNames';
 
 // Utils
-import { groomingPointsTransactionData, getPointsEstimate } from '../utils/wallet';
+import {groomingPointsTransactionData, getPointsEstimate} from '../utils/wallet';
 
 /*
  *            Props Name        Description                                     Value
@@ -73,7 +73,7 @@ const PointsContainer = ({
 
   // Component Functions
 
-  const _handleOnDropdownSelected = (index) => {
+  const _handleOnDropdownSelected = index => {
     let navigateTo;
     let navigateParams;
 
@@ -116,8 +116,8 @@ const PointsContainer = ({
     }
   };
 
-  const _groomUserActivities = (_userActivities) =>
-    _userActivities.map((item) =>
+  const _groomUserActivities = _userActivities =>
+    _userActivities.map(item =>
       groomingPointsTransactionData({
         ...item,
         icon: get(POINTS[get(item, 'type')], 'icon'),
@@ -133,23 +133,23 @@ const PointsContainer = ({
     setRefreshing(true);
 
     await getPointsSummary(_username)
-      .then(async (userPointsP) => {
+      .then(async userPointsP => {
         const _balance = Math.round(get(userPointsP, 'points') * 1000) / 1000;
         setUserPoints(userPointsP);
         setBalance(_balance);
         setEstimatedEstm(await getPointsEstimate(_balance, currency));
       })
-      .catch((err) => {
+      .catch(err => {
         Alert.alert(get(err, 'message', 'Error'));
       });
 
     await getPointsHistory(_username)
-      .then((userActivitiesP) => {
+      .then(userActivitiesP => {
         if (Object.entries(userActivitiesP).length !== 0) {
           setUserActivities(_groomUserActivities(userActivitiesP));
         }
       })
-      .catch((err) => {
+      .catch(err => {
         if (err) {
           Alert.alert(get(err, 'message') || err.toString());
         }
@@ -159,13 +159,13 @@ const PointsContainer = ({
     setIsLoading(false);
   }, []);
 
-  const _getUserBalance = async (_username) => {
+  const _getUserBalance = async _username => {
     await getPointsSummary(_username)
-      .then((_userPoints) => {
+      .then(_userPoints => {
         const _balance = Math.round(get(_userPoints, 'points') * 1000) / 1000;
         return _balance;
       })
-      .catch((err) => {
+      .catch(err => {
         if (err) {
           Alert.alert(get(err, 'message') || err.toString());
         }
@@ -179,7 +179,7 @@ const PointsContainer = ({
       .then(() => {
         _fetchUserPointActivities(username);
       })
-      .catch((error) => {
+      .catch(error => {
         if (error) {
           Alert.alert(
             `PointsClaim - Connection issue, try again or write to support@ecency.com \n${error.message.substr(
@@ -200,17 +200,17 @@ const PointsContainer = ({
       .then(() => {
         setIsLoading(false);
         navigation.goBack();
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+        dispatch(toastNotification(intl.formatMessage({id: 'alert.successful'})));
       })
-      .catch((error) => {
+      .catch(error => {
         if (error) {
           setIsLoading(false);
-          dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
+          dispatch(toastNotification(intl.formatMessage({id: 'alert.key_warning'})));
         }
       });
   };
 
-  const _getESTMPrice = (points) => {
+  const _getESTMPrice = points => {
     return points / 150;
   };
 
@@ -243,7 +243,7 @@ const PointsContainer = ({
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   user: state.account.currentAccount,
   username: state.account.currentAccount.name,
   activeBottomTab: state.ui.activeBottomTab,

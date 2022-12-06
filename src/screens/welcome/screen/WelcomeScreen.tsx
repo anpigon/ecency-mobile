@@ -1,17 +1,17 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useState, useEffect } from 'react';
-import { useIntl } from 'react-intl';
-import { Text, Image, View, SafeAreaView, TouchableOpacity } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import React, {useState, useEffect} from 'react';
+import {useIntl} from 'react-intl';
+import {Text, Image, View, SafeAreaView, TouchableOpacity} from 'react-native';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { gestureHandlerRootHOC, ScrollView } from 'react-native-gesture-handler';
+import {gestureHandlerRootHOC, ScrollView} from 'react-native-gesture-handler';
 import VersionNumber from 'react-native-version-number';
 
-import { CheckBox, Icon, MainButton } from '../../../components';
-import { ECENCY_TERMS_URL } from '../../../config/ecencyApi';
+import {CheckBox, Icon, MainButton} from '../../../components';
+import {ECENCY_TERMS_URL} from '../../../config/ecencyApi';
 import ROUTES from '../../../constants/routeNames';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { setLastAppVersion, setIsTermsAccepted } from '../../../redux/actions/applicationActions';
+import {useAppDispatch, useAppSelector} from '../../../hooks';
+import {setLastAppVersion, setIsTermsAccepted} from '../../../redux/actions/applicationActions';
 import LaunchScreen from '../../launch';
 
 import styles from '../children/WelcomeScreenStyles';
@@ -21,7 +21,7 @@ function WelcomeScreen() {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
-  const isTermsAccepted = useAppSelector((state) => state.application.isTermsAccepted);
+  const isTermsAccepted = useAppSelector(state => state.application.isTermsAccepted);
   const [showAnimation, setShowAnimation] = useState(true);
   const [isConsentChecked, setIsConsentChecked] = useState(isTermsAccepted);
   const [appVersion] = useState(VersionNumber.appVersion);
@@ -68,8 +68,8 @@ function WelcomeScreen() {
         size={30}
       />
       <View>
-        <Text style={styles.sectionTitle}>{intl.formatMessage({ id: headingIntlId })}</Text>
-        <Text style={styles.sectionText}>{intl.formatMessage({ id: bodyIntlId })}</Text>
+        <Text style={styles.sectionTitle}>{intl.formatMessage({id: headingIntlId})}</Text>
+        <Text style={styles.sectionText}>{intl.formatMessage({id: bodyIntlId})}</Text>
       </View>
     </View>
   );
@@ -105,8 +105,8 @@ function WelcomeScreen() {
         />
 
         <View style={styles.topText}>
-          <Text style={styles.welcomeText}>{intl.formatMessage({ id: 'welcome.label' })}</Text>
-          <Text style={styles.ecencyText}>{intl.formatMessage({ id: 'welcome.title' })}</Text>
+          <Text style={styles.welcomeText}>{intl.formatMessage({id: 'welcome.label'})}</Text>
+          <Text style={styles.ecencyText}>{intl.formatMessage({id: 'welcome.title'})}</Text>
         </View>
 
         <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -123,8 +123,8 @@ function WelcomeScreen() {
             onPress={_handleButtonPress}
             isDisable={!isConsentChecked}
             isLoading={false}
-            style={{ alignSelf: 'center', paddingHorizontal: 30 }}
-            text={intl.formatMessage({ id: 'welcome.get_started' })}
+            style={{alignSelf: 'center', paddingHorizontal: 30}}
+            text={intl.formatMessage({id: 'welcome.get_started'})}
           />
         </View>
       </View>

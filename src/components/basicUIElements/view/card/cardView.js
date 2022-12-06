@@ -1,8 +1,8 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 import styles from './cardStyles';
 
-function Card({ children }) {
+function Card({children}) {
   return <View style={styles.wrapper}>{children}</View>;
 }
 

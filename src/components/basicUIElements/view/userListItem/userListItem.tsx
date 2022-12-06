@@ -1,10 +1,10 @@
-import Popover, { PopoverController } from 'react-native-modal-popover';
-import React, { Fragment } from 'react';
-import { ActivityIndicator, View, Text, TouchableOpacity } from 'react-native';
+import Popover, {PopoverController} from 'react-native-modal-popover';
+import React, {Fragment} from 'react';
+import {ActivityIndicator, View, Text, TouchableOpacity} from 'react-native';
 import Highlighter from 'react-native-highlight-words';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { UserAvatar } from '../../../userAvatar';
+import {UserAvatar} from '../../../userAvatar';
 import styles from './userListItemStyles';
 
 function UserListItem({
@@ -46,8 +46,7 @@ function UserListItem({
     <TouchableOpacity
       onLongPress={() => handleOnLongPress && handleOnLongPress()}
       disabled={!isClickable}
-      onPress={() => handleOnPress && handleOnPress(username)}
-    >
+      onPress={() => handleOnPress && handleOnPress(username)}>
       <View style={[styles.voteItemWrapper, index % 2 === 1 && styles.voteItemWrapperGray]}>
         {leftItemRenderer && leftItemRenderer()}
         {itemIndex && <Text style={styles.itemIndex}>{itemIndex}</Text>}
@@ -88,8 +87,7 @@ function UserListItem({
                 styles.value,
                 isRightColor && styles.valueGray,
                 isBlackRightColor && styles.valueBlack,
-              ]}
-            >
+              ]}>
               {middleText}
             </Text>
           </View>
@@ -100,7 +98,7 @@ function UserListItem({
           isLoggedIn &&
           (isLoadingRightAction ? (
             <View style={styles.rightWrapper}>
-              <ActivityIndicator style={{ width: 30 }} color={EStyleSheet.value('$primaryBlue')} />
+              <ActivityIndicator style={{width: 30}} color={EStyleSheet.value('$primaryBlue')} />
             </View>
           ) : (
             <PopoverController>
@@ -120,8 +118,7 @@ function UserListItem({
                         openPopover();
                       }
                       _handleRightButtonPress();
-                    }}
-                  >
+                    }}>
                     <>
                       <Text
                         style={[
@@ -129,8 +126,7 @@ function UserListItem({
                           isBlackRightColor && styles.valueBlack,
                           rightTextStyle,
                           isFollowing && styles.unfollowText,
-                        ]}
-                      >
+                        ]}>
                         {rightText}
                       </Text>
                       {subRightText && <Text style={styles.text}>{subRightText}</Text>}
@@ -143,8 +139,7 @@ function UserListItem({
                     visible={popoverVisible}
                     onClose={closePopover}
                     fromRect={popoverAnchorRect}
-                    supportedOrientations={['portrait', 'landscape']}
-                  >
+                    supportedOrientations={['portrait', 'landscape']}>
                     <Text>{rightTooltipText}</Text>
                   </Popover>
                 </>

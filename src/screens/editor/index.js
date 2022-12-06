@@ -1,4 +1,4 @@
 import Editor from './container/editorContainer';
 
-export { Editor };
+export {Editor};
 export default Editor;

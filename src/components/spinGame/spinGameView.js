@@ -1,12 +1,12 @@
 /* eslint-disable react/no-this-in-sfc */
-import React, { useState, Fragment, useEffect } from 'react';
-import { Image, Text, View } from 'react-native';
+import React, {useState, Fragment, useEffect} from 'react';
+import {Image, Text, View} from 'react-native';
 import moment from 'moment';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 import get from 'lodash/get';
 
 // Components
-import { BoostIndicatorAnimation, MainButton, BasicHeader, ProductItemLine } from '..';
+import {BoostIndicatorAnimation, MainButton, BasicHeader, ProductItemLine} from '..';
 import ESTM_TAGS from '../../assets/estmTags.png';
 
 // Styles
@@ -48,14 +48,14 @@ function SpinGameView({
 
   return (
     <>
-      <BasicHeader title={intl.formatMessage({ id: 'free_estm.title' })} />
+      <BasicHeader title={intl.formatMessage({id: 'free_estm.title'})} />
       <View style={styles.container}>
         <View style={styles.textWrapper}>
           {!isSpinning && !isLoading && (
             <>
               <Text style={styles.count}>{gameRight}</Text>
               <Text style={styles.countDesc}>
-                {intl.formatMessage({ id: 'free_estm.spin_right' })}
+                {intl.formatMessage({id: 'free_estm.spin_right'})}
               </Text>
             </>
           )}
@@ -82,17 +82,17 @@ function SpinGameView({
               <MainButton
                 style={styles.spinButton}
                 onPress={_handleOnSpinPress}
-                text={intl.formatMessage({ id: 'free_estm.button' })}
+                text={intl.formatMessage({id: 'free_estm.button'})}
               />
             ) : (
               <>
-                {spinProduct.map((product) => (
+                {spinProduct.map(product => (
                   <ProductItemLine
                     key={`key-${get(product, 'productId').toString()}`}
                     product={product}
-                    title={intl.formatMessage({ id: 'free_estm.get_spin' })}
+                    title={intl.formatMessage({id: 'free_estm.get_spin'})}
                     disabled={isProcessing}
-                    handleOnButtonPress={(id) => buyItem(id)}
+                    handleOnButtonPress={id => buyItem(id)}
                   />
                 ))}
                 <Text style={styles.nextDate}>
@@ -108,5 +108,5 @@ function SpinGameView({
   );
 }
 
-export { SpinGameView as SpinGame };
+export {SpinGameView as SpinGame};
 /* eslint-enable */

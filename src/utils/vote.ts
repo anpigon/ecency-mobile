@@ -1,9 +1,9 @@
 import parseToken from './parseToken';
-import { GlobalProps } from '../redux/reducers/accountReducer';
-import { votingPower } from '../providers/hive/dhive';
+import {GlobalProps} from '../redux/reducers/accountReducer';
+import {votingPower} from '../providers/hive/dhive';
 
 export const getEstimatedAmount = (account, globalProps: GlobalProps, sliderValue: number = 1) => {
-  const { fundRecentClaims, fundRewardBalance, base, quote } = globalProps;
+  const {fundRecentClaims, fundRewardBalance, base, quote} = globalProps;
   const _votingPower: number = votingPower(account) * 100;
   const vestingShares = parseToken(account.vesting_shares);
   const receievedVestingShares = parseToken(account.received_vesting_shares);

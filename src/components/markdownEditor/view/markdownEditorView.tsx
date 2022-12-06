@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback, Fragment } from 'react';
+import React, {useState, useRef, useEffect, useCallback, Fragment} from 'react';
 import {
   View,
   KeyboardAvoidingView,
@@ -7,17 +7,17 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { renderPostBody, postBodySummary } from '@ecency/render-helper';
-import { useDispatch, useSelector } from 'react-redux';
-import { View as AnimatedView } from 'react-native-animatable';
-import { get, debounce } from 'lodash';
-import { Icon } from '../../icon';
+import {renderPostBody, postBodySummary} from '@ecency/render-helper';
+import {useDispatch, useSelector} from 'react-redux';
+import {View as AnimatedView} from 'react-native-animatable';
+import {get, debounce} from 'lodash';
+import {Icon} from '../../icon';
 
 // Utils
 import applyMediaLink from '../children/formats/applyMediaLink';
 
 // Actions
-import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
+import {toggleAccountsBottomSheet} from '../../../redux/actions/uiAction';
 
 // Components
 import {
@@ -37,23 +37,23 @@ import {
 // Styles
 import styles from '../styles/markdownEditorStyles';
 import applySnippet from '../children/formats/applySnippet';
-import { MainButton } from '../../mainButton';
+import {MainButton} from '../../mainButton';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
-import { OptionsModal } from '../../atoms';
-import { UsernameAutofillBar } from '../children/usernameAutofillBar';
+import {OptionsModal} from '../../atoms';
+import {UsernameAutofillBar} from '../children/usernameAutofillBar';
 import applyUsername from '../children/formats/applyUsername';
-import { walkthrough } from '../../../redux/constants/walkthroughConstants';
-import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
-import { EditorToolbar } from '../children/editorToolbar';
-import { extractImageUrls } from '../../../utils/editor';
-import { useAppSelector } from '../../../hooks';
+import {walkthrough} from '../../../redux/constants/walkthroughConstants';
+import {MediaInsertData} from '../../uploadsGalleryModal/container/uploadsGalleryModal';
+import {EditorToolbar} from '../children/editorToolbar';
+import {extractImageUrls} from '../../../utils/editor';
+import {useAppSelector} from '../../../hooks';
 
 // const MIN_BODY_INPUT_HEIGHT = 300;
 
 // These variable keep track of body text input state,
 // this helps keep load on minimal compared to both useState and useRef;
 let bodyText = '';
-let bodySelection = { start: 0, end: 0 };
+let bodySelection = {start: 0, end: 0};
 
 function MarkdownEditorView({
   paramFiles,
@@ -78,7 +78,7 @@ function MarkdownEditorView({
 }) {
   const dispatch = useDispatch();
 
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const isDarkTheme = useAppSelector(state => state.application.isDarkTheme);
 
   const [editable, setEditable] = useState(true);
   // const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
@@ -92,21 +92,19 @@ function MarkdownEditorView({
   const insertLinkModalRef = useRef<any>(null);
   const tooltipRef = useRef<any>(null);
 
-  const isVisibleAccountsBottomSheet = useSelector(
-    (state) => state.ui.isVisibleAccountsBottomSheet,
-  );
-  const draftBtnTooltipState = useSelector((state) => state.walkthrough.walkthroughMap);
+  const isVisibleAccountsBottomSheet = useSelector(state => state.ui.isVisibleAccountsBottomSheet);
+  const draftBtnTooltipState = useSelector(state => state.walkthrough.walkthroughMap);
   const draftBtnTooltipRegistered = draftBtnTooltipState.get(walkthrough.EDITOR_DRAFT_BTN);
   const headerText = post && (post.summary || postBodySummary(post, 150, Platform.OS));
 
   useEffect(() => {
     bodyText = '';
-    bodySelection = { start: 0, end: 0 };
+    bodySelection = {start: 0, end: 0};
   }, []);
 
   useEffect(() => {
     if (!isPreviewActive) {
-      _setTextAndSelection({ selection: bodySelection, text: bodyText });
+      _setTextAndSelection({selection: bodySelection, text: bodyText});
     }
   }, [isPreviewActive]);
 
@@ -125,7 +123,7 @@ function MarkdownEditorView({
     if (bodyText === '' && draftBody !== '') {
       const draftBodyLength = draftBody.length;
       _setTextAndSelection({
-        selection: { start: draftBodyLength, end: draftBodyLength },
+        selection: {start: draftBodyLength, end: draftBodyLength},
         text: draftBody,
       });
     }
@@ -180,7 +178,7 @@ function MarkdownEditorView({
     dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
   };
 
-  const _onApplyUsername = (username) => {
+  const _onApplyUsername = username => {
     applyUsername({
       text: bodyText,
       selection: bodySelection,
@@ -193,7 +191,7 @@ function MarkdownEditorView({
     debounce(() => {
       console.log('setting is editing to', false);
       setIsEditing(false);
-      const urls = extractImageUrls({ body: bodyText });
+      const urls = extractImageUrls({body: bodyText});
       if (urls.length !== insertedMediaUrls.length) {
         setInsertedMediaUrls(urls);
       }
@@ -202,7 +200,7 @@ function MarkdownEditorView({
   );
 
   const _changeText = useCallback(
-    (input) => {
+    input => {
       bodyText = input;
 
       if (!isEditing) {
@@ -220,11 +218,11 @@ function MarkdownEditorView({
     [isEditing],
   );
 
-  const _handleOnSelectionChange = async (event) => {
+  const _handleOnSelectionChange = async event => {
     bodySelection = event.nativeEvent.selection;
   };
 
-  const _setTextAndSelection = useCallback(({ selection: _selection, text: _text }) => {
+  const _setTextAndSelection = useCallback(({selection: _selection, text: _text}) => {
     // console.log('_text : ', _text);
     inputRef?.current?.setNativeProps({
       text: _text,
@@ -263,7 +261,7 @@ function MarkdownEditorView({
     </ScrollView>
   );
 
-  const _handleOnSnippetReceived = (snippetText) => {
+  const _handleOnSnippetReceived = snippetText => {
     applySnippet({
       text: bodyText,
       selection: bodySelection,
@@ -296,7 +294,7 @@ function MarkdownEditorView({
     inputRef?.current?.focus();
   };
 
-  const _handleInsertLink = ({ snippetText, selection }) => {
+  const _handleInsertLink = ({snippetText, selection}) => {
     applySnippet({
       text: bodyText,
       selection,
@@ -319,11 +317,10 @@ function MarkdownEditorView({
         <Wrapper style={styles.floatingContainer} animation="bounceInRight">
           <Tooltip
             ref={tooltipRef}
-            text={intl.formatMessage({ id: 'walkthrough.load_draft_tooltip' })}
-            walkthroughIndex={walkthrough.EDITOR_DRAFT_BTN}
-          >
+            text={intl.formatMessage({id: 'walkthrough.load_draft_tooltip'})}
+            walkthroughIndex={walkthrough.EDITOR_DRAFT_BTN}>
             <MainButton
-              style={{ width: isLoading ? null : 120 }}
+              style={{width: isLoading ? null : 120}}
               onPress={_onPress}
               iconName="square-edit-outline"
               iconType="MaterialCommunityIcons"
@@ -337,11 +334,11 @@ function MarkdownEditorView({
     }
   };
 
-  const _handleClear = (index) => {
+  const _handleClear = index => {
     if (index === 0) {
       initialFields();
 
-      _setTextAndSelection({ text: '', selection: { start: 0, end: 0 } });
+      _setTextAndSelection({text: '', selection: {start: 0, end: 0}});
     }
   };
   const _renderEditor = (editorScrollEnabled: boolean) => (
@@ -436,7 +433,7 @@ function MarkdownEditorView({
           handleOnAddLinkPress={_handleOnAddLinkPress}
           handleShowSnippets={() => setIsSnippetsOpen(true)}
           handleOnClearPress={() => clearRef.current.show()}
-          handleOnMarkupButtonPress={(item) => {
+          handleOnMarkupButtonPress={item => {
             item.onPress({
               text: bodyText,
               selection: bodySelection,
@@ -468,10 +465,9 @@ function MarkdownEditorView({
         isFullScreen
         isCloseButton
         presentationStyle="formSheet"
-        title={intl.formatMessage({ id: 'editor.snippets' })}
+        title={intl.formatMessage({id: 'editor.snippets'})}
         animationType="slide"
-        style={styles.modalStyle}
-      >
+        style={styles.modalStyle}>
         <SnippetsModal handleOnSelect={_handleOnSnippetReceived} />
       </Modal>
 

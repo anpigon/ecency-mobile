@@ -1,24 +1,23 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import ROUTES from '../constants/routeNames';
-import { BottomTabBar } from '../components';
-import { Feed, Notification, Profile, Wallet } from '../screens';
+import {BottomTabBar} from '../components';
+import {Feed, Notification, Profile, Wallet} from '../screens';
 
 const Tab = createBottomTabNavigator();
 
 export function BottomTabNavigator() {
   return (
     <Tab.Navigator
-      tabBar={(props) => <BottomTabBar {...props} />}
+      tabBar={props => <BottomTabBar {...props} />}
       backBehavior="initialRoute"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
         tabBarActiveTintColor: '#357ce6',
         tabBarInactiveTintColor: '#c1c5c7',
-      }}
-    >
+      }}>
       <Tab.Screen
         name={ROUTES.TABBAR.FEED}
         component={Feed}

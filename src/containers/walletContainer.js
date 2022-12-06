@@ -1,23 +1,23 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import { useIntl } from 'react-intl';
+import React, {useState, useEffect, useCallback} from 'react';
+import {connect, useDispatch} from 'react-redux';
+import {useIntl} from 'react-intl';
 
 import get from 'lodash/get';
-import { toastNotification } from '../redux/actions/uiAction';
+import {toastNotification} from '../redux/actions/uiAction';
 
 // dhive
-import { getAccount, claimRewardBalance, getBtcAddress } from '../providers/hive/dhive';
+import {getAccount, claimRewardBalance, getBtcAddress} from '../providers/hive/dhive';
 
 // Utils
-import { groomingWalletData, groomingTransactionData, transferTypes } from '../utils/wallet';
+import {groomingWalletData, groomingTransactionData, transferTypes} from '../utils/wallet';
 import parseToken from '../utils/parseToken';
-import { vestsToHp } from '../utils/conversions';
+import {vestsToHp} from '../utils/conversions';
 import RootNavigation from '../navigation/rootNavigation';
-import { getEstimatedAmount } from '../utils/vote';
+import {getEstimatedAmount} from '../utils/vote';
 
 // Constants
 import ROUTES from '../constants/routeNames';
-import { COIN_IDS } from '../constants/defaultCoins';
+import {COIN_IDS} from '../constants/defaultCoins';
 
 const HIVE_DROPDOWN = [
   'purchase_estm',
@@ -77,7 +77,7 @@ const WalletContainer = ({
   }, [_getWalletData, selectedUser]);
 
   useEffect(() => {
-    const _transferHistory = userActivities.filter((item) =>
+    const _transferHistory = userActivities.filter(item =>
       transferTypes.includes(get(item, 'textKey')),
     );
 
@@ -124,13 +124,13 @@ const WalletContainer = ({
   // Components functions
 
   const _getWalletData = useCallback(
-    async (_selectedUser) => {
+    async _selectedUser => {
       const _walletData = await groomingWalletData(_selectedUser, globalProps, currency);
 
       setWalletData(_walletData);
       setIsLoading(false);
       setUserActivities(
-        get(_walletData, 'transactions', []).map((item) =>
+        get(_walletData, 'transactions', []).map(item =>
           groomingTransactionData(item, hivePerMVests),
         ),
       );
@@ -146,7 +146,7 @@ const WalletContainer = ({
     [globalProps, setEstimatedWalletValue, hivePerMVests],
   );
 
-  const _isHasUnclaimedRewards = (account) => {
+  const _isHasUnclaimedRewards = account => {
     return (
       parseToken(get(account, 'reward_hive_balance')) > 0 ||
       parseToken(get(account, 'reward_hbd_balance')) > 0 ||
@@ -164,7 +164,7 @@ const WalletContainer = ({
     await setIsClaiming(true);
 
     getAccount(currentAccount.name)
-      .then((account) => {
+      .then(account => {
         isHasUnclaimedRewards = _isHasUnclaimedRewards(account);
         if (isHasUnclaimedRewards) {
           const {
@@ -177,7 +177,7 @@ const WalletContainer = ({
         setIsClaiming(false);
       })
       .then(() => getAccount(currentAccount.name))
-      .then((account) => {
+      .then(account => {
         _getWalletData(selectedUser);
         if (isHasUnclaimedRewards) {
           dispatch(
@@ -189,7 +189,7 @@ const WalletContainer = ({
           );
         }
       })
-      .then((account) => {
+      .then(account => {
         _getWalletData(selectedUser);
         setIsClaiming(false);
       })
@@ -211,7 +211,7 @@ const WalletContainer = ({
     setRefreshing(true);
 
     getAccount(selectedUser.name)
-      .then((account) => {
+      .then(account => {
         _getWalletData(selectedUser);
         setRefreshing(false);
       })
@@ -256,18 +256,18 @@ const WalletContainer = ({
         name: ROUTES.SCREENS.PINCODE,
         params: {
           navigateTo: ROUTES.SCREENS.TRANSFER,
-          navigateParams: { transferType, fundType, balance, tokenAddress },
+          navigateParams: {transferType, fundType, balance, tokenAddress},
         },
       });
     } else {
       RootNavigation.navigate({
         name: ROUTES.SCREENS.TRANSFER,
-        params: { transferType, fundType, balance, tokenAddress },
+        params: {transferType, fundType, balance, tokenAddress},
       });
     }
   };
 
-  const getTokenAddress = (tokenType) => {
+  const getTokenAddress = tokenType => {
     if (tokenType === 'BTC') {
       // console.log(getBtcAddress(pinCode, currentAccount));
     }
@@ -338,7 +338,7 @@ const WalletContainer = ({
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
   globalProps: state.account.globalProps,

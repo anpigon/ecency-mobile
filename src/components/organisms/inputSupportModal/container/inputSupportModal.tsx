@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View as AnimatedView } from 'react-native-animatable';
-import { Portal } from 'react-native-portalize';
-import { KeyboardAvoidingView, Platform, View } from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {View as AnimatedView} from 'react-native-animatable';
+import {Portal} from 'react-native-portalize';
+import {KeyboardAvoidingView, Platform, View} from 'react-native';
 import styles from '../children/inputSupportModal.styles';
 
 export interface InputSupportModalProps {
@@ -10,7 +10,7 @@ export interface InputSupportModalProps {
   children?: any;
 }
 
-export function InputSupportModal({ children, visible, onClose }: InputSupportModalProps, ref) {
+export function InputSupportModal({children, visible, onClose}: InputSupportModalProps, ref) {
   const container = useRef<AnimatedView>(null);
   const innerContainer = useRef<AnimatedView>(null);
 
@@ -32,13 +32,8 @@ export function InputSupportModal({ children, visible, onClose }: InputSupportMo
     showModal && (
       <Portal>
         <AnimatedView ref={container} animation="fadeIn" duration={300} style={styles.container}>
-          <AnimatedView
-            ref={innerContainer}
-            style={{ flex: 1 }}
-            animation="slideInUp"
-            duration={300}
-          >
-            <View style={{ flex: 1 }} onTouchEnd={onClose} />
+          <AnimatedView ref={innerContainer} style={{flex: 1}} animation="slideInUp" duration={300}>
+            <View style={{flex: 1}} onTouchEnd={onClose} />
 
             {Platform.select({
               ios: (

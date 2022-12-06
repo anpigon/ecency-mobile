@@ -1,6 +1,6 @@
-import { Component } from 'react';
-import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import {Component} from 'react';
+import {connect} from 'react-redux';
+import {injectIntl} from 'react-intl';
 import get from 'lodash/get';
 
 // Services and Actions
@@ -17,14 +17,14 @@ import {
   delegateVestingShares,
   setWithdrawVestingRoute,
 } from '../providers/hive/dhive';
-import { toastNotification } from '../redux/actions/uiAction';
-import { getUserDataWithUsername } from '../realm/realm';
-import { getPointsSummary } from '../providers/ecency/ePoint';
+import {toastNotification} from '../redux/actions/uiAction';
+import {getUserDataWithUsername} from '../realm/realm';
+import {getPointsSummary} from '../providers/ecency/ePoint';
 
 // Utils
-import { countDecimals } from '../utils/number';
+import {countDecimals} from '../utils/number';
 import bugsnagInstance from '../config/bugsnag';
-import { fetchAndSetCoinsData } from '../redux/actions/walletActions';
+import {fetchAndSetCoinsData} from '../redux/actions/walletActions';
 
 /*
  *            Props Name        Description                                     Value
@@ -48,7 +48,7 @@ class TransferContainer extends Component {
   // Component Life Cycle Functions
   componentDidMount() {
     const {
-      currentAccount: { name },
+      currentAccount: {name},
     } = this.props;
 
     this.fetchBalance(name);
@@ -56,23 +56,23 @@ class TransferContainer extends Component {
 
   // Component Functions
 
-  _getUserPointsBalance = async (username) => {
+  _getUserPointsBalance = async username => {
     await getPointsSummary(username)
-      .then((userPoints) => {
+      .then(userPoints => {
         const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
-        this.setState({ balance });
+        this.setState({balance});
       })
-      .catch((err) => {
+      .catch(err => {
         if (err) {
           alert(get(err, 'message') || err.toString());
         }
       });
   };
 
-  fetchBalance = (username) => {
-    const { fundType, transferType, tokenAddress } = this.state;
+  fetchBalance = username => {
+    const {fundType, transferType, tokenAddress} = this.state;
 
-    getAccount(username).then(async (account) => {
+    getAccount(username).then(async account => {
       let balance;
 
       if (
@@ -109,11 +109,11 @@ class TransferContainer extends Component {
       const local = await getUserDataWithUsername(username);
 
       if (balance) {
-        this.setState({ balance: Number(balance) });
+        this.setState({balance: Number(balance)});
       }
 
       this.setState({
-        selectedAccount: { ...account, local: local[0] },
+        selectedAccount: {...account, local: local[0]},
       });
     });
   };
@@ -125,16 +125,16 @@ class TransferContainer extends Component {
   };
 
   _delayedRefreshCoinsData = () => {
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
     setTimeout(() => {
       dispatch(fetchAndSetCoinsData(true));
     }, 3000);
   };
 
   _transferToAccount = async (from, destination, amount, memo) => {
-    const { pinCode, navigation, dispatch, intl, route } = this.props;
-    let { currentAccount } = this.props;
-    const { selectedAccount } = this.state;
+    const {pinCode, navigation, dispatch, intl, route} = this.props;
+    let {currentAccount} = this.props;
+    const {selectedAccount} = this.state;
 
     const transferType = route.params?.transferType ?? '';
     const fundType = route.params?.fundType ?? '';
@@ -200,19 +200,19 @@ class TransferContainer extends Component {
 
     return func(currentAccount, pinCode, data)
       .then(() => {
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+        dispatch(toastNotification(intl.formatMessage({id: 'alert.successful'})));
         this._delayedRefreshCoinsData();
         navigation.goBack();
       })
-      .catch((err) => {
+      .catch(err => {
         navigation.goBack();
         bugsnagInstance.notify(err);
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
+        dispatch(toastNotification(intl.formatMessage({id: 'alert.key_warning'})));
       });
   };
 
   _setWithdrawVestingRoute = (from, to, percentage, autoVest) => {
-    const { currentAccount, pinCode } = this.props;
+    const {currentAccount, pinCode} = this.props;
 
     const data = {
       from,
@@ -221,28 +221,21 @@ class TransferContainer extends Component {
       autoVest,
     };
 
-    setWithdrawVestingRoute(currentAccount, pinCode, data).catch((err) => {
+    setWithdrawVestingRoute(currentAccount, pinCode, data).catch(err => {
       alert(err.message || err.toString());
     });
   };
 
   _handleOnModalClose = () => {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     this._delayedRefreshCoinsData();
     navigation.goBack();
   };
 
   render() {
-    const {
-      accounts,
-      children,
-      hivePerMVests,
-      currentAccount,
-      actionModalVisible,
-      dispatch,
-      route,
-    } = this.props;
-    const { balance, fundType, selectedAccount, tokenAddress, referredUsername } = this.state;
+    const {accounts, children, hivePerMVests, currentAccount, actionModalVisible, dispatch, route} =
+      this.props;
+    const {balance, fundType, selectedAccount, tokenAddress, referredUsername} = this.state;
 
     const transferType = route.params?.transferType ?? '';
 
@@ -271,7 +264,7 @@ class TransferContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   accounts: state.account.otherAccounts,
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,

@@ -1,23 +1,23 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
-import { connect } from 'react-redux';
+import {useIntl} from 'react-intl';
+import {connect} from 'react-redux';
 import ROUTES from '../constants/routeNames';
 import RootNavigation from '../navigation/rootNavigation';
 
-import { NoPost } from '../components';
+import {NoPost} from '../components';
 
-function LoggedInContainer({ isLoggedIn, isLoginDone, children }) {
+function LoggedInContainer({isLoggedIn, isLoginDone, children}) {
   const intl = useIntl();
 
   if (!isLoggedIn) {
     return (
       <NoPost
-        style={{ flex: 1 }}
+        style={{flex: 1}}
         isButtonText
         defaultText={intl.formatMessage({
           id: 'profile.login_to_see',
         })}
-        handleOnButtonPress={() => RootNavigation.navigate({ name: ROUTES.SCREENS.LOGIN })}
+        handleOnButtonPress={() => RootNavigation.navigate({name: ROUTES.SCREENS.LOGIN})}
       />
     );
   }
@@ -31,7 +31,7 @@ function LoggedInContainer({ isLoggedIn, isLoginDone, children }) {
   );
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   isLoginDone: state.application.isLoginDone,
 });

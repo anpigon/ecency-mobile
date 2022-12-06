@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import {View, Text} from 'react-native';
 import * as Animated from 'react-native-animatable';
 import styles from './quickProfileStyles';
 
@@ -15,7 +15,7 @@ interface Props {
   intermediate: boolean;
 }
 
-export function ProfileStats({ data, horizontalMargin, intermediate }: Props) {
+export function ProfileStats({data, horizontalMargin, intermediate}: Props) {
   return (
     <View
       style={{
@@ -23,9 +23,8 @@ export function ProfileStats({ data, horizontalMargin, intermediate }: Props) {
         justifyContent: 'space-around',
         marginTop: 40,
         marginHorizontal: horizontalMargin,
-      }}
-    >
-      {data.map((item) => (
+      }}>
+      {data.map(item => (
         <StatItem
           label={item.label}
           value={item.value && item.value + (item.suffix || '')}
@@ -36,9 +35,9 @@ export function ProfileStats({ data, horizontalMargin, intermediate }: Props) {
   );
 }
 
-function StatItem(props: { label: string; value: number | string; intermediate: boolean }) {
+function StatItem(props: {label: string; value: number | string; intermediate: boolean}) {
   return (
-    <View style={{ alignItems: 'center', flex: 1 }}>
+    <View style={{alignItems: 'center', flex: 1}}>
       {!props.intermediate ? (
         <Animated.Text animation="bounceIn" style={styles.statValue}>
           {props.value}

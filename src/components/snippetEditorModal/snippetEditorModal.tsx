@@ -1,11 +1,11 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { Alert, KeyboardAvoidingView, Platform, View } from 'react-native';
-import { TextInput } from '..';
-import { ThemeContainer } from '../../containers';
-import { Snippet } from '../../models';
-import { useSnippetsMutation } from '../../providers/queries';
-import { TextButton } from '../buttons';
+import React, {forwardRef, useImperativeHandle, useRef, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {Alert, KeyboardAvoidingView, Platform, View} from 'react-native';
+import {TextInput} from '..';
+import {ThemeContainer} from '../../containers';
+import {Snippet} from '../../models';
+import {useSnippetsMutation} from '../../providers/queries';
+import {TextButton} from '../buttons';
 import Modal from '../modal';
 import styles from './snippetEditorModalStyles';
 
@@ -47,7 +47,7 @@ function SnippetEditorModal({}, ref) {
   // save snippet based on editor type
   const _saveSnippet = async () => {
     if (!title || !body) {
-      Alert.alert(intl.formatMessage({ id: 'snippets.message_incomplete' }));
+      Alert.alert(intl.formatMessage({id: 'snippets.message_incomplete'}));
       return;
     }
 
@@ -64,14 +64,13 @@ function SnippetEditorModal({}, ref) {
 
   const _renderContent = (
     <ThemeContainer>
-      {({ isDarkTheme }) => (
+      {({isDarkTheme}) => (
         <KeyboardAvoidingView
           style={styles.container}
           keyboardVerticalOffset={Platform.OS == 'ios' ? 64 : null}
-          behavior={Platform.OS === 'ios' ? 'padding' : null}
-        >
+          behavior={Platform.OS === 'ios' ? 'padding' : null}>
           <View style={styles.inputContainer}>
-            <View style={{ height: Math.max(35, titleHeight) }}>
+            <View style={{height: Math.max(35, titleHeight)}}>
               <TextInput
                 autoFocus={true}
                 innerRef={titleInputRef}
@@ -79,10 +78,10 @@ function SnippetEditorModal({}, ref) {
                 height={Math.max(35, titleHeight)}
                 placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
                 maxLength={250}
-                placeholder={intl.formatMessage({ id: 'snippets.placeholder_title' })}
+                placeholder={intl.formatMessage({id: 'snippets.placeholder_title'})}
                 multiline
                 numberOfLines={2}
-                onContentSizeChange={(event) => {
+                onContentSizeChange={event => {
                   setTitleHeight(event.nativeEvent.contentSize.height);
                 }}
                 onChangeText={setTitle}
@@ -95,7 +94,7 @@ function SnippetEditorModal({}, ref) {
               autoCorrect={true}
               value={body}
               onChangeText={setBody}
-              placeholder={intl.formatMessage({ id: 'snippets.placeholder_body' })}
+              placeholder={intl.formatMessage({id: 'snippets.placeholder_body'})}
               placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
               selectionColor="#357ce6"
               style={styles.bodyWrapper}
@@ -109,12 +108,12 @@ function SnippetEditorModal({}, ref) {
 
           <View style={styles.actionPanel}>
             <TextButton
-              text={intl.formatMessage({ id: 'snippets.btn_close' })}
+              text={intl.formatMessage({id: 'snippets.btn_close'})}
               onPress={() => setShowModal(false)}
               style={styles.closeButton}
             />
             <TextButton
-              text={intl.formatMessage({ id: 'snippets.btn_save' })}
+              text={intl.formatMessage({id: 'snippets.btn_save'})}
               onPress={_saveSnippet}
               textStyle={styles.btnText}
               style={styles.saveButton}
@@ -136,8 +135,7 @@ function SnippetEditorModal({}, ref) {
         id: isNewSnippet ? 'snippets.title_add_snippet' : 'snippets.title_edit_snippet',
       })}
       animationType="slide"
-      style={styles.modalStyle}
-    >
+      style={styles.modalStyle}>
       {_renderContent}
     </Modal>
   );

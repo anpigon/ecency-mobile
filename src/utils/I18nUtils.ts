@@ -1,4 +1,4 @@
-import { Alert, NativeModules } from 'react-native';
+import {Alert, NativeModules} from 'react-native';
 import RNRestart from 'react-native-restart';
 import rtlDetect from 'rtl-detect';
 

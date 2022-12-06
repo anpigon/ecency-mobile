@@ -66,7 +66,7 @@ export default EStyleSheet.create({
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
     borderBottomColor: '$primaryDarkBlue',
-    transform: [{ rotate: '-90deg' }],
+    transform: [{rotate: '-90deg'}],
     position: 'absolute',
     left: -22,
   },

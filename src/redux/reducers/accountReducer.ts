@@ -41,7 +41,7 @@ const initialState: AccountState = {
   globalProps: null,
 };
 
-export default function accountReducer(state = initialState, action = { type: '', payload: {} }) {
+export default function accountReducer(state = initialState, action = {type: '', payload: {}}) {
   switch (action.type) {
     case FETCHING_ACCOUNT:
       return {
@@ -69,7 +69,7 @@ export default function accountReducer(state = initialState, action = { type: ''
       return {
         ...state,
         otherAccounts: state.otherAccounts.some(
-          ({ username }) => username === get(action.payload, 'username'),
+          ({username}) => username === get(action.payload, 'username'),
         )
           ? [...state.otherAccounts]
           : [...state.otherAccounts, action.payload],
@@ -81,7 +81,7 @@ export default function accountReducer(state = initialState, action = { type: ''
     case REMOVE_OTHER_ACCOUNT:
       return {
         ...state,
-        otherAccounts: state.otherAccounts.filter((item) => item.username !== action.payload),
+        otherAccounts: state.otherAccounts.filter(item => item.username !== action.payload),
       };
 
     case REMOVE_ALL_OTHER_ACCOUNT:

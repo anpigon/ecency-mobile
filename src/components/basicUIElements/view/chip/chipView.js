@@ -1,7 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
-import { TextInput } from '../../../textInput';
-import { IconButton } from '../../../iconButton';
+import {View} from 'react-native';
+import {TextInput} from '../../../textInput';
+import {IconButton} from '../../../iconButton';
 
 import styles from './chipStyle';
 
@@ -11,7 +11,7 @@ function Chip(props) {
       <TextInput
         style={[styles.textInput, props.removeButton && styles.textInputWithButton]}
         allowFontScaling
-        onChangeText={(text) => props.handleOnChange(text)}
+        onChangeText={text => props.handleOnChange(text)}
         onBlur={() => props.handleOnBlur()}
         {...props}
       />

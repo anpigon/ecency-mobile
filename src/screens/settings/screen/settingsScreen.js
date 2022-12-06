@@ -1,18 +1,18 @@
-import React, { Fragment } from 'react';
-import { ScrollView, View, RefreshControl } from 'react-native';
-import { injectIntl } from 'react-intl';
+import React, {Fragment} from 'react';
+import {ScrollView, View, RefreshControl} from 'react-native';
+import {injectIntl} from 'react-intl';
 
 // Utils
-import { groomingServerName } from '../../../utils/settings';
+import {groomingServerName} from '../../../utils/settings';
 
 // Constants
-import LANGUAGE, { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
-import CURRENCY, { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
+import LANGUAGE, {VALUE as LANGUAGE_VALUE} from '../../../constants/options/language';
+import CURRENCY, {VALUE as CURRENCY_VALUE} from '../../../constants/options/currency';
 import NSFW from '../../../constants/options/nsfw';
 import THEME_OPTIONS from '../../../constants/options/theme';
 
 // Components
-import { BasicHeader, SettingsItem, CollapsibleCard } from '../../../components';
+import {BasicHeader, SettingsItem, CollapsibleCard} from '../../../components';
 
 // Styles
 import styles from './settingsStyles';
@@ -63,8 +63,7 @@ function SettingsScreen({
             titleColor="#fff"
             colors={['#fff']}
           />
-        }
-      >
+        }>
         <View style={styles.settingsCard}>
           <SettingsItem
             title={intl.formatMessage({
@@ -98,7 +97,7 @@ function SettingsScreen({
             })}
             type="dropdown"
             actionType="api"
-            options={serverList.map((serverName) => groomingServerName(serverName))}
+            options={serverList.map(serverName => groomingServerName(serverName))}
             selectedOptionIndex={serverList.indexOf(selectedApi)}
             defaultText={
               groomingServerName(selectedApi) ||
@@ -114,7 +113,7 @@ function SettingsScreen({
             })}
             type="dropdown"
             actionType="nsfw"
-            options={NSFW.map((item) =>
+            options={NSFW.map(item =>
               intl.formatMessage({
                 id: item,
               }),
@@ -128,7 +127,7 @@ function SettingsScreen({
             })}
             type="dropdown"
             actionType="theme"
-            options={THEME_OPTIONS.map((item) =>
+            options={THEME_OPTIONS.map(item =>
               intl.formatMessage({
                 id: item.key,
               }),
@@ -210,8 +209,7 @@ function SettingsScreen({
               fitContent
               locked
               isExpanded={isNotificationSettingsOpen}
-              expanded={isNotificationMenuOpen}
-            >
+              expanded={isNotificationMenuOpen}>
               <SettingsItem
                 title={intl.formatMessage({
                   id: 'settings.notification.follow',

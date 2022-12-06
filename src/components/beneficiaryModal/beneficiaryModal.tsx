@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text } from 'react-native';
-import { useIntl } from 'react-intl';
-import { isArray, debounce } from 'lodash';
+import React, {useState, useEffect} from 'react';
+import {View, FlatList, Text} from 'react-native';
+import {useIntl} from 'react-intl';
+import {isArray, debounce} from 'lodash';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { lookupAccounts } from '../../providers/hive/dhive';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {lookupAccounts} from '../../providers/hive/dhive';
 
-import { FormInput, MainButton, TextButton } from '../index';
+import {FormInput, MainButton, TextButton} from '../index';
 
 import styles from './beneficiaryModalStyles';
-import { IconButton } from '../iconButton';
-import { useAppSelector } from '../../hooks';
-import { Beneficiary } from '../../redux/reducers/editorReducer';
-import { TEMP_BENEFICIARIES_ID } from '../../redux/constants/constants';
+import {IconButton} from '../iconButton';
+import {useAppSelector} from '../../hooks';
+import {Beneficiary} from '../../redux/reducers/editorReducer';
+import {TEMP_BENEFICIARIES_ID} from '../../redux/constants/constants';
 
 interface BeneficiaryModal {
   username: string;
@@ -21,13 +21,13 @@ interface BeneficiaryModal {
   handleOnSaveBeneficiaries: () => void;
 }
 
-function BeneficiaryModal({ username, handleOnSaveBeneficiaries, draftId }) {
+function BeneficiaryModal({username, handleOnSaveBeneficiaries, draftId}) {
   const intl = useIntl();
 
-  const beneficiariesMap = useAppSelector((state) => state.editor.beneficiariesMap);
+  const beneficiariesMap = useAppSelector(state => state.editor.beneficiariesMap);
 
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([
-    { account: username, weight: 10000, isValid: true },
+    {account: username, weight: 10000, isValid: true},
   ]);
 
   const [newUsername, setNewUsername] = useState('');
@@ -45,7 +45,7 @@ function BeneficiaryModal({ username, handleOnSaveBeneficiaries, draftId }) {
       const tempBeneficiaries = beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID];
 
       if (isArray(tempBeneficiaries)) {
-        tempBeneficiaries.forEach((item) => {
+        tempBeneficiaries.forEach(item => {
           item.isValid = true;
         });
         setBeneficiaries(tempBeneficiaries);
@@ -79,7 +79,7 @@ function BeneficiaryModal({ username, handleOnSaveBeneficiaries, draftId }) {
     setNewEditable(true);
   };
 
-  const _onWeightInputChange = (value) => {
+  const _onWeightInputChange = value => {
     const _value = (parseInt(value, 10) || 0) * 100;
     const _diff = _value - newWeight;
     // eslint-disable-next-line operator-assignment
@@ -89,16 +89,16 @@ function BeneficiaryModal({ username, handleOnSaveBeneficiaries, draftId }) {
     setBeneficiaries([...beneficiaries]);
   };
 
-  const _lookupAccounts = debounce((username) => {
-    lookupAccounts(username).then((res) => {
+  const _lookupAccounts = debounce(username => {
+    lookupAccounts(username).then(res => {
       const isValid = res.includes(username);
       // check if username duplicates else lookup contacts, done here to avoid debounce and post call mismatch
-      const notExistAlready = !beneficiaries.find((item) => item.account === username);
+      const notExistAlready = !beneficiaries.find(item => item.account === username);
       setIsUsernameValid(isValid && notExistAlready);
     });
   }, 1000);
 
-  const _onUsernameInputChange = (value) => {
+  const _onUsernameInputChange = value => {
     setNewUsername(value);
     _lookupAccounts(value);
   };
@@ -110,7 +110,7 @@ function BeneficiaryModal({ username, handleOnSaveBeneficiaries, draftId }) {
   const _renderHeader = () => (
     <View style={styles.inputWrapper}>
       {/* eslint-disable-next-line react-native/no-inline-styles */}
-      <View style={[styles.weightInput, { alignItems: 'center' }]}>
+      <View style={[styles.weightInput, {alignItems: 'center'}]}>
         <Text style={styles.text}>
           {intl.formatMessage({
             id: 'beneficiary_modal.percent',
@@ -118,7 +118,7 @@ function BeneficiaryModal({ username, handleOnSaveBeneficiaries, draftId }) {
         </Text>
       </View>
       {/* eslint-disable-next-line react-native/no-inline-styles */}
-      <View style={[styles.usernameInput, { alignItems: 'center' }]}>
+      <View style={[styles.usernameInput, {alignItems: 'center'}]}>
         <Text style={styles.text}>
           {intl.formatMessage({
             id: 'beneficiary_modal.username',
@@ -150,7 +150,7 @@ function BeneficiaryModal({ username, handleOnSaveBeneficiaries, draftId }) {
             value={`${newWeight / 100}`}
             inputStyle={styles.weightFormInput}
             wrapperStyle={styles.weightFormInputWrapper}
-            onChange={(value) => _onWeightInputChange(value)}
+            onChange={value => _onWeightInputChange(value)}
             onBlur={() => {}} // _onBlur(item)}
             keyboardType="numeric"
           />
@@ -161,7 +161,7 @@ function BeneficiaryModal({ username, handleOnSaveBeneficiaries, draftId }) {
             rightIconName="at"
             iconType="MaterialCommunityIcons"
             isValid={isUsernameValid}
-            onChange={(value) => _onUsernameInputChange(value)}
+            onChange={value => _onUsernameInputChange(value)}
             placeholder={intl.formatMessage({
               id: 'beneficiary_modal.username',
             })}
@@ -179,7 +179,7 @@ function BeneficiaryModal({ username, handleOnSaveBeneficiaries, draftId }) {
           color={EStyleSheet.value('$primaryBlack')}
           size={24}
           // eslint-disable-next-line react-native/no-inline-styles
-          iconStyle={{ paddingLeft: 8 }}
+          iconStyle={{paddingLeft: 8}}
           onPress={_onCancelPress}
         />
       </View>
@@ -189,7 +189,7 @@ function BeneficiaryModal({ username, handleOnSaveBeneficiaries, draftId }) {
   const _renderFooter = () => (
     <>
       {newEditable && _renderInput()}
-      <View style={{ marginTop: 20, marginBottom: 32 }}>
+      <View style={{marginTop: 20, marginBottom: 32}}>
         <TextButton
           text={intl.formatMessage({
             id: 'beneficiary_modal.addAccount',
@@ -205,7 +205,7 @@ function BeneficiaryModal({ username, handleOnSaveBeneficiaries, draftId }) {
     </>
   );
 
-  const _renderItem = ({ item, index }) => {
+  const _renderItem = ({item, index}) => {
     const _isCurrentUser = item.account === username;
 
     const _onRemovePress = () => {
@@ -244,11 +244,11 @@ function BeneficiaryModal({ username, handleOnSaveBeneficiaries, draftId }) {
             iconType="MaterialCommunityIcons"
             size={24}
             color={EStyleSheet.value('$primaryBlack')}
-            iconStyle={{ paddingLeft: 8 }}
+            iconStyle={{paddingLeft: 8}}
             onPress={_onRemovePress}
           />
         ) : (
-          <View style={{ width: 30 }} />
+          <View style={{width: 30}} />
         )}
       </View>
     );

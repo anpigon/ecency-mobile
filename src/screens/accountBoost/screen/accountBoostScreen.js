@@ -1,22 +1,22 @@
-import React, { useMemo } from 'react';
-import { View, Platform, SafeAreaView, Image, Text } from 'react-native';
+import React, {useMemo} from 'react';
+import {View, Platform, SafeAreaView, Image, Text} from 'react-native';
 import get from 'lodash/get';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 
 // Components
-import { useSelector } from 'react-redux';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { BasicHeader, BoostPlaceHolder, ProductItemLine } from '../../../components';
+import {useSelector} from 'react-redux';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {BasicHeader, BoostPlaceHolder, ProductItemLine} from '../../../components';
 
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
 
 // Container
-import { InAppPurchaseContainer } from '../../../containers';
+import {InAppPurchaseContainer} from '../../../containers';
 
 // Styles
 import styles from './accountBoostStyles';
 import UserRibbon from '../../../components/userRibbon/userRibbon';
-import { vestsToHp } from '../../../utils/conversions';
+import {vestsToHp} from '../../../utils/conversions';
 
 const ITEM_SKUS = Platform.select({
   ios: ['999boosts'],
@@ -25,12 +25,12 @@ const ITEM_SKUS = Platform.select({
 
 const ACCOUNT_BOOST_VESTS = 553311;
 
-function AccountBoost({ route }) {
+function AccountBoost({route}) {
   const intl = useIntl();
-  const currentAccount = useSelector((state) => state.account.currentAccount);
-  const globalProps = useSelector((state) => state.account.globalProps);
+  const currentAccount = useSelector(state => state.account.currentAccount);
+  const globalProps = useSelector(state => state.account.globalProps);
 
-  const { username } = route.params ?? {};
+  const {username} = route.params ?? {};
 
   const delegateAmount = useMemo(
     () => vestsToHp(ACCOUNT_BOOST_VESTS, globalProps.hivePerMVests).toFixed(1),
@@ -39,7 +39,7 @@ function AccountBoost({ route }) {
 
   return (
     <InAppPurchaseContainer route={route} skus={ITEM_SKUS} username={username} isNoSpin>
-      {({ buyItem, productList, isLoading, isProcessing }) => (
+      {({buyItem, productList, isLoading, isProcessing}) => (
         <SafeAreaView style={styles.container}>
           <BasicHeader
             disabled={isProcessing}
@@ -63,14 +63,14 @@ function AccountBoost({ route }) {
               </View>
 
               <View style={styles.productsWrapper}>
-                {productList.map((product) => (
+                {productList.map(product => (
                   <ProductItemLine
                     key={get(product, 'title')}
                     isLoading={isLoading}
                     disabled={isProcessing}
                     product={product}
                     title={`Boost+  |  ${delegateAmount} HP`}
-                    handleOnButtonPress={(id) => buyItem(id)}
+                    handleOnButtonPress={id => buyItem(id)}
                   />
                 ))}
               </View>

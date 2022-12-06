@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import {View, Text, Image} from 'react-native';
 import NO_POST from '../../../../assets/no_post.png';
 import styles from './noPostStyles';
-import { MainButton } from '../../../mainButton';
+import {MainButton} from '../../../mainButton';
 
 function NoPost({
   text,
@@ -24,7 +24,7 @@ function NoPost({
       )}
       {isButtonText && (
         <MainButton
-          style={{ width: 150 }}
+          style={{width: 150}}
           onPress={handleOnButtonPress}
           iconName="person"
           iconColor="white"

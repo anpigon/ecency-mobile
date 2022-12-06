@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { View, Platform, TextInputProps, ViewStyle, TextStyle } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Platform, TextInputProps, ViewStyle, TextStyle} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 // Components
-import { TextInput } from '../../textInput';
-import { Icon } from '../../icon';
-import { ThemeContainer } from '../../../containers';
+import {TextInput} from '../../textInput';
+import {Icon} from '../../icon';
+import {ThemeContainer} from '../../../containers';
 
 // Utils
-import { getResizedAvatar } from '../../../utils/image';
+import {getResizedAvatar} from '../../../utils/image';
 
 // Styles
 import styles from './formInputStyles';
@@ -54,7 +54,7 @@ function FormInputView({
 
   const isIos = Platform.OS === 'ios';
 
-  const _handleOnChange = (text) => {
+  const _handleOnChange = text => {
     setValue(text);
 
     if (onChange) {
@@ -100,12 +100,11 @@ function FormInputView({
     <View
       style={[
         styles.wrapper,
-        { borderBottomColor: _isValid ? inputBorderColor : 'red' },
+        {borderBottomColor: _isValid ? inputBorderColor : 'red'},
         wrapperStyle,
-      ]}
-    >
+      ]}>
       {isFirstImage && value && value.length > 2 ? (
-        <View style={{ flex: 0.2 }}>
+        <View style={{flex: 0.2}}>
           <FastImage
             style={styles.firstImage}
             source={{
@@ -122,7 +121,7 @@ function FormInputView({
       )}
       <View style={styles.textInput}>
         <ThemeContainer>
-          {({ isDarkTheme }) => (
+          {({isDarkTheme}) => (
             <TextInput
               style={inputStyle}
               onFocus={_handleOnFocus}

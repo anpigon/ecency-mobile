@@ -1,14 +1,14 @@
-import React, { PureComponent } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
-import { injectIntl } from 'react-intl';
+import React, {PureComponent} from 'react';
+import {View, Text, FlatList, ActivityIndicator} from 'react-native';
+import {injectIntl} from 'react-intl';
 
 // Constants
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ROUTES from '../../../constants/routeNames';
 
 // Components
-import { BasicHeader, UserListItem } from '../../../components';
+import {BasicHeader, UserListItem} from '../../../components';
 
 // Utils
 import styles from './followScreenStyles';
@@ -27,8 +27,8 @@ class FollowsScreen extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-  _handleOnUserPress = (username) => {
-    const { navigation } = this.props;
+  _handleOnUserPress = username => {
+    const {navigation} = this.props;
 
     navigation.navigate({
       name: ROUTES.SCREENS.PROFILE,
@@ -39,8 +39,8 @@ class FollowsScreen extends PureComponent {
     });
   };
 
-  _renderItem = ({ item, index }) => {
-    const { isFollowing } = this.props;
+  _renderItem = ({item, index}) => {
+    const {isFollowing} = this.props;
     const username = isFollowing ? item.following : item.follower;
 
     return (
@@ -53,7 +53,7 @@ class FollowsScreen extends PureComponent {
   };
 
   render() {
-    const { loadMore, data, isFollowing, count, handleSearch, intl, isLoading } = this.props;
+    const {loadMore, data, isFollowing, count, handleSearch, intl, isLoading} = this.props;
     const title = intl.formatMessage({
       id: !isFollowing ? 'profile.follower' : 'profile.following',
     });
@@ -90,7 +90,7 @@ class FollowsScreen extends PureComponent {
   }
 }
 
-const mapHooksToProps = (props) => {
+const mapHooksToProps = props => {
   const navigation = useNavigation();
   return <FollowsScreen {...props} navigation={navigation} />;
 };

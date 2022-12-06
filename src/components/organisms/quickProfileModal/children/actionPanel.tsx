@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { IconButton } from '../../..';
+import {IconButton} from '../../..';
 import styles from './quickProfileStyles';
 
 interface ActionPanelProps {
@@ -47,7 +47,7 @@ export function ActionPanel({
       )}
 
       <IconButton
-        style={{ marginLeft: 8 }}
+        style={{marginLeft: 8}}
         iconType="AntDesign"
         name="heart"
         size={20}

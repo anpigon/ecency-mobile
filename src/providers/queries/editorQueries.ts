@@ -1,8 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useIntl } from 'react-intl';
-import { Image } from 'react-native-image-crop-picker';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { toastNotification } from '../../redux/actions/uiAction';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {useIntl} from 'react-intl';
+import {Image} from 'react-native-image-crop-picker';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {toastNotification} from '../../redux/actions/uiAction';
 import {
   addFragment,
   addImage,
@@ -13,8 +13,8 @@ import {
   updateFragment,
   uploadImage,
 } from '../ecency/ecency';
-import { MediaItem, Snippet } from '../ecency/ecency.types';
-import { signImage } from '../hive/dhive';
+import {MediaItem, Snippet} from '../ecency/ecency.types';
+import {signImage} from '../hive/dhive';
 import QUERIES from './queryKeys';
 
 interface SnippetMutationVars {
@@ -36,7 +36,7 @@ export const useMediaQuery = () => {
   return useQuery<MediaItem[]>([QUERIES.MEDIA.GET], getImages, {
     initialData: [],
     onError: () => {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      dispatch(toastNotification(intl.formatMessage({id: 'alert.fail'})));
     },
   });
 };
@@ -47,7 +47,7 @@ export const useSnippetsQuery = () => {
   return useQuery<Snippet[]>([QUERIES.SNIPPETS.GET], getFragments, {
     initialData: [],
     onError: () => {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      dispatch(toastNotification(intl.formatMessage({id: 'alert.fail'})));
     },
   });
 };
@@ -61,15 +61,15 @@ export const useAddToUploadsMutation = () => {
 
   return useMutation<any[], Error, string>(addImage, {
     retry: 3,
-    onSuccess: (data) => {
+    onSuccess: data => {
       queryClient.setQueryData([QUERIES.MEDIA.GET], data);
     },
-    onError: (error) => {
+    onError: error => {
       if (error.toString().includes('code 409')) {
         // means image ware already preset, refresh to get updated order
         queryClient.invalidateQueries([QUERIES.MEDIA.GET]);
       } else {
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+        dispatch(toastNotification(intl.formatMessage({id: 'alert.fail'})));
       }
     },
   });
@@ -81,11 +81,11 @@ export const useMediaUploadMutation = () => {
 
   const addToUploadsMutation = useAddToUploadsMutation();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinCode = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const pinCode = useAppSelector(state => state.application.pin);
 
   return useMutation<any, undefined, MediaUploadVars>(
-    async ({ media }) => {
+    async ({media}) => {
       console.log('uploading media', media);
       const sign = await signImage(media, currentAccount, pinCode);
       const result = await uploadImage(media, currentAccount.name, sign);
@@ -93,14 +93,14 @@ export const useMediaUploadMutation = () => {
     },
     {
       retry: 3,
-      onSuccess: (response, { addToUploads }) => {
+      onSuccess: (response, {addToUploads}) => {
         if (addToUploads && response && response.url) {
           console.log('adding image to gallery', response.url);
           addToUploadsMutation.mutate(response.url);
         }
       },
       onError: () => {
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+        dispatch(toastNotification(intl.formatMessage({id: 'alert.fail'})));
       },
     },
   );
@@ -112,7 +112,7 @@ export const useSnippetsMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation<Snippet[], undefined, SnippetMutationVars>(
-    async (vars) => {
+    async vars => {
       console.log('going to add/update snippet', vars);
       if (vars.id) {
         const response = await updateFragment(vars.id, vars.title, vars.body);
@@ -123,7 +123,7 @@ export const useSnippetsMutation = () => {
       }
     },
     {
-      onMutate: (vars) => {
+      onMutate: vars => {
         console.log('mutate snippets for add/update', vars);
 
         const _newItem = {
@@ -138,7 +138,7 @@ export const useSnippetsMutation = () => {
 
         let _newData: Snippet[] = data ? [...data] : [];
         if (vars.id) {
-          const snipIndex = _newData.findIndex((item) => vars.id === item.id);
+          const snipIndex = _newData.findIndex(item => vars.id === item.id);
           _newData[snipIndex] = _newItem;
         } else {
           _newData = [_newItem, ..._newData];
@@ -146,12 +146,12 @@ export const useSnippetsMutation = () => {
 
         queryClient.setQueryData([QUERIES.SNIPPETS.GET], _newData);
       },
-      onSuccess: (data) => {
+      onSuccess: data => {
         console.log('added/updated snippet', data);
         queryClient.invalidateQueries([QUERIES.SNIPPETS.GET]);
       },
       onError: () => {
-        dispatch(toastNotification(intl.formatMessage({ id: 'snippets.message_failed' })));
+        dispatch(toastNotification(intl.formatMessage({id: 'snippets.message_failed'})));
       },
     },
   );
@@ -164,7 +164,7 @@ export const useMediaDeleteMutation = () => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
   return useMutation<string[], undefined, string[]>(
-    async (deleteIds) => {
+    async deleteIds => {
       // eslint-disable-next-line no-restricted-syntax
       for (const i in deleteIds) {
         // eslint-disable-next-line no-await-in-loop
@@ -174,16 +174,16 @@ export const useMediaDeleteMutation = () => {
     },
     {
       retry: 3,
-      onSuccess: (deleteIds) => {
+      onSuccess: deleteIds => {
         console.log('Success media deletion delete', deleteIds);
         const data: MediaItem[] | undefined = queryClient.getQueryData([QUERIES.MEDIA.GET]);
         if (data) {
-          const _newData = data.filter((item) => !deleteIds.includes(item._id));
+          const _newData = data.filter(item => !deleteIds.includes(item._id));
           queryClient.setQueryData([QUERIES.MEDIA.GET], _newData);
         }
       },
       onError: () => {
-        dispatch(toastNotification(intl.formatMessage({ id: 'uploads_modal.delete_failed' })));
+        dispatch(toastNotification(intl.formatMessage({id: 'uploads_modal.delete_failed'})));
         queryClient.invalidateQueries([QUERIES.MEDIA.GET]);
       },
     },
@@ -196,12 +196,12 @@ export const useSnippetDeleteMutation = () => {
   const intl = useIntl();
   return useMutation<Snippet[], undefined, string>(deleteFragment, {
     retry: 3,
-    onSuccess: (data) => {
+    onSuccess: data => {
       console.log('Success scheduled post delete', data);
       queryClient.setQueryData([QUERIES.SNIPPETS.GET], data);
     },
     onError: () => {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      dispatch(toastNotification(intl.formatMessage({id: 'alert.fail'})));
     },
   });
 };

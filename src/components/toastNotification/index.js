@@ -1,3 +1,3 @@
 import ToastNotification from './view/toastNotificaitonView';
 
-export { ToastNotification };
+export {ToastNotification};

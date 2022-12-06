@@ -1,8 +1,8 @@
-import { Alert } from 'react-native';
+import {Alert} from 'react-native';
 import ePointApi from '../../config/api';
 import ecencyApi from '../../config/ecencyApi';
 import bugsnagInstance from '../../config/bugsnag';
-import { EcencyUser, UserPoint } from './ecency.types';
+import {EcencyUser, UserPoint} from './ecency.types';
 
 /**
  * Records user activty and reward poinsts
@@ -17,7 +17,7 @@ export const userActivity = async (ty: number, tx: string = '', bl: string | num
       ty: number;
       bl?: string | number;
       tx?: string | number;
-    } = { ty };
+    } = {ty};
 
     if (bl) data.bl = bl;
     if (tx) data.tx = tx;
@@ -33,7 +33,7 @@ export const userActivity = async (ty: number, tx: string = '', bl: string | num
 
 export const getPointsSummary = async (username: string): Promise<EcencyUser> => {
   try {
-    const data = { username };
+    const data = {username};
     const response = await ecencyApi.post('/private-api/points', data);
     console.log('returning user points data', response.data);
     return response.data;
@@ -45,13 +45,13 @@ export const getPointsSummary = async (username: string): Promise<EcencyUser> =>
 };
 
 export const getPointsHistory = (username: string): Promise<UserPoint[]> =>
-  new Promise((resolve) => {
+  new Promise(resolve => {
     ePointApi
       .get(`/users/${username}/points`)
-      .then((res) => {
+      .then(res => {
         resolve(res.data);
       })
-      .catch((error) => {
+      .catch(error => {
         Alert.alert('Error', error.message);
         bugsnagInstance.notify(error);
       });
@@ -76,10 +76,10 @@ export const gameStatusCheck = (username, type) =>
           type,
         },
       })
-      .then((res) => {
+      .then(res => {
         resolve(res.data);
       })
-      .catch((error) => {
+      .catch(error => {
         reject(error);
       });
   });
@@ -90,10 +90,10 @@ export const gameClaim = (username, type, key) =>
       .post(`/game/${username}?type=${type}`, {
         key,
       })
-      .then((res) => {
+      .then(res => {
         resolve(res.data);
       })
-      .catch((error) => {
+      .catch(error => {
         reject(error);
       });
   });

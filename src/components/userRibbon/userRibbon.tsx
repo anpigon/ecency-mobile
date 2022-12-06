@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ViewStyle } from 'react-native';
+import {View, Text, ViewStyle} from 'react-native';
 import UserAvatar from '../userAvatar';
 import styles from './userRibbonStyles';
 
@@ -7,7 +7,7 @@ interface UserRibbonProps {
   username: string;
   containerStyle?: ViewStyle;
 }
-function UserRibbon({ username, containerStyle }: UserRibbonProps) {
+function UserRibbon({username, containerStyle}: UserRibbonProps) {
   return (
     <View style={[styles.userContainer, containerStyle]}>
       <UserAvatar username={username} style={styles.avatarStyle} disableSize />

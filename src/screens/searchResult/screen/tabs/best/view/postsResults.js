@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { SafeAreaView, FlatList, View, Text, TouchableOpacity } from 'react-native';
+import React, {useState} from 'react';
+import {SafeAreaView, FlatList, View, Text, TouchableOpacity} from 'react-native';
 import get from 'lodash/get';
 import isUndefined from 'lodash/isUndefined';
 import Highlighter from 'react-native-highlight-words';
 
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { PostHeaderDescription, FilterBar } from '../../../../../../components';
+import {PostHeaderDescription, FilterBar} from '../../../../../../components';
 import {
   TextWithIcon,
   CommunitiesPlaceHolder,
@@ -14,12 +14,12 @@ import {
 } from '../../../../../../components/basicUIElements';
 import PostsResultsContainer from '../container/postsResultsContainer';
 
-import { getTimeFromNow } from '../../../../../../utils/time';
+import {getTimeFromNow} from '../../../../../../utils/time';
 import styles from './postsResultsStyles';
 
 const filterOptions = ['relevance', 'popularity', 'newest'];
 
-function PostsResults({ navigation, searchValue }) {
+function PostsResults({navigation, searchValue}) {
   const _renderItem = (item, index) => {
     const reputation =
       get(item, 'author_rep', undefined) || get(item, 'author_reputation', undefined);
@@ -90,7 +90,7 @@ function PostsResults({ navigation, searchValue }) {
 
   return (
     <PostsResultsContainer searchValue={searchValue}>
-      {({ data, handleOnPress, loadMore, noResult }) => (
+      {({data, handleOnPress, loadMore, noResult}) => (
         <SafeAreaView style={styles.container}>
           {noResult ? (
             <EmptyScreen />
@@ -98,7 +98,7 @@ function PostsResults({ navigation, searchValue }) {
             <FlatList
               data={data}
               keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item, index }) => (
+              renderItem={({item, index}) => (
                 <TouchableOpacity onPress={() => handleOnPress(item)}>
                   {_renderItem(item, index)}
                 </TouchableOpacity>

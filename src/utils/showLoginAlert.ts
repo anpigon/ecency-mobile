@@ -1,21 +1,21 @@
-import { Alert } from 'react-native';
+import {Alert} from 'react-native';
 import ROUTES from '../constants/routeNames';
 import RootNavigation from '../navigation/rootNavigation';
 
-const showLoginAlert = ({ intl }) => {
+const showLoginAlert = ({intl}) => {
   return Alert.alert(
-    intl.formatMessage({ id: 'login.not_loggedin_alert' }),
-    intl.formatMessage({ id: 'login.not_loggedin_alert_desc' }),
+    intl.formatMessage({id: 'login.not_loggedin_alert'}),
+    intl.formatMessage({id: 'login.not_loggedin_alert_desc'}),
     [
       {
-        text: intl.formatMessage({ id: 'login.cancel' }),
+        text: intl.formatMessage({id: 'login.cancel'}),
         onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
       {
-        text: intl.formatMessage({ id: 'login.login' }),
+        text: intl.formatMessage({id: 'login.login'}),
         onPress: () => {
-          RootNavigation.navigate({ name: ROUTES.SCREENS.LOGIN });
+          RootNavigation.navigate({name: ROUTES.SCREENS.LOGIN});
         },
       },
     ],

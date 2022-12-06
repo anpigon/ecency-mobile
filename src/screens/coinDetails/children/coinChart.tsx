@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { RangeSelector } from '.';
-import { SimpleChart } from '../../../components';
-import { useAppSelector } from '../../../hooks';
-import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
+import React, {useState} from 'react';
+import {View} from 'react-native';
+import {RangeSelector} from '.';
+import {SimpleChart} from '../../../components';
+import {useAppSelector} from '../../../hooks';
+import {fetchMarketChart} from '../../../providers/coingecko/coingecko';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
-import styles, { CHART_NEGATIVE_MARGIN } from './children.styles';
+import styles, {CHART_NEGATIVE_MARGIN} from './children.styles';
 
 interface CoinChartProps {
   coinId: string;
 }
 
-export function CoinChart({ coinId }: CoinChartProps) {
-  const priceHistory = useAppSelector((state) => state.wallet.priceHistories[coinId]);
+export function CoinChart({coinId}: CoinChartProps) {
+  const priceHistory = useAppSelector(state => state.wallet.priceHistories[coinId]);
 
   const [range, setRange] = useState(1);
   const [chartData, setChartData] = useState(priceHistory?.data);
 
   const _fetchMarketData = async (days: number) => {
     const marketData = await fetchMarketChart(coinId, 'usd', days, 'hourly');
-    setChartData(marketData.prices.map((item) => item.yValue));
+    setChartData(marketData.prices.map(item => item.yValue));
   };
 
-  const _onRangeChange = (range) => {
+  const _onRangeChange = range => {
     setRange(range);
     _fetchMarketData(range);
   };

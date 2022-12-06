@@ -1,26 +1,24 @@
-import React, { Fragment, useState } from 'react';
-import { View, Text } from 'react-native';
+import React, {Fragment, useState} from 'react';
+import {View, Text} from 'react-native';
 import get from 'lodash/get';
 
 // Components
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { Header, TabbedPosts } from '../../../components';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {Header, TabbedPosts} from '../../../components';
 
 // Container
-import { AccountContainer } from '../../../containers';
+import {AccountContainer} from '../../../containers';
 
 // Styles
 import styles from './feedStyles';
 
-import { getDefaultFilters, getFilterMap } from '../../../constants/options/filters';
+import {getDefaultFilters, getFilterMap} from '../../../constants/options/filters';
 
-import { useAppSelector } from '../../../hooks';
+import {useAppSelector} from '../../../hooks';
 
 function FeedScreen() {
-  const mainTabs = useAppSelector(
-    (state) => state.customTabs.mainTabs || getDefaultFilters('main'),
-  );
-  const filterOptions = mainTabs.map((key) => getFilterMap('main')[key]);
+  const mainTabs = useAppSelector(state => state.customTabs.mainTabs || getDefaultFilters('main'));
+  const filterOptions = mainTabs.map(key => getFilterMap('main')[key]);
 
   const [lazyLoad, setLazyLoad] = useState(false);
 
@@ -34,7 +32,7 @@ function FeedScreen() {
 
   return (
     <AccountContainer>
-      {({ currentAccount }) => (
+      {({currentAccount}) => (
         <>
           <Header showQR={true} />
           <View style={styles.container} onLayout={_lazyLoadContent}>

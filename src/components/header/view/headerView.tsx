@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 
 // Components
-import { useNavigation } from '@react-navigation/native';
-import { SearchModal } from '../../searchModal';
-import { IconButton } from '../../iconButton';
-import { UserAvatar } from '../../userAvatar';
+import {useNavigation} from '@react-navigation/native';
+import {SearchModal} from '../../searchModal';
+import {IconButton} from '../../iconButton';
+import {UserAvatar} from '../../userAvatar';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -48,14 +48,13 @@ function HeaderView({
   const _renderAvatar = () => (
     <TouchableOpacity style={styles.avatarWrapper} onPress={handleOpenDrawer} disabled={isReverse}>
       <LinearGradient
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 0}}
         colors={gradientColor}
         style={[
           styles.avatarButtonWrapper,
           isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,
-        ]}
-      >
+        ]}>
         <UserAvatar
           noAction
           style={isReverse ? styles.reverseAvatar : styles.avatar}

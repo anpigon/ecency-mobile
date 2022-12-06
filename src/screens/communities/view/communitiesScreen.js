@@ -1,16 +1,11 @@
-import React, { useRef } from 'react';
-import { useIntl } from 'react-intl';
-import { View } from 'react-native';
+import React, {useRef} from 'react';
+import {useIntl} from 'react-intl';
+import {View} from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 // Components
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import {
-  TabBar,
-  BasicHeader,
-  CommunitiesList,
-  SubscribedCommunitiesList,
-} from '../../../components';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {TabBar, BasicHeader, CommunitiesList, SubscribedCommunitiesList} from '../../../components';
 
 import CommunitiesContainer from '../container/communitiesContainer';
 
@@ -61,12 +56,10 @@ function CommunitiesScreen() {
               ref={tabViewRef}
               style={globalStyles.tabView}
               renderTabBar={_renderTabbar}
-              prerenderingSiblingsNumber={Infinity}
-            >
+              prerenderingSiblingsNumber={Infinity}>
               <View
-                tabLabel={intl.formatMessage({ id: 'communities.joined' })}
-                style={styles.tabbarItem}
-              >
+                tabLabel={intl.formatMessage({id: 'communities.joined'})}
+                style={styles.tabbarItem}>
                 <SubscribedCommunitiesList
                   data={subscriptions}
                   subscribingCommunities={subscribingCommunitiesInJoinedTab}
@@ -78,9 +71,8 @@ function CommunitiesScreen() {
                 />
               </View>
               <View
-                tabLabel={intl.formatMessage({ id: 'communities.discover' })}
-                style={styles.tabbarItem}
-              >
+                tabLabel={intl.formatMessage({id: 'communities.discover'})}
+                style={styles.tabbarItem}>
                 <CommunitiesList
                   data={discovers}
                   subscribingCommunities={subscribingCommunitiesInDiscoverTab}

@@ -1,5 +1,5 @@
-import { createIntl, createIntlCache } from 'react-intl';
-import { flattenMessages } from './flattenMessages';
+import {createIntl, createIntlCache} from 'react-intl';
+import {flattenMessages} from './flattenMessages';
 import messages from '../config/locales';
 
 const _createIntl = () => {

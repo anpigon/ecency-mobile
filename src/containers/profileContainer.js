@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { get, has, unionBy, update } from 'lodash';
-import { Alert } from 'react-native';
-import { injectIntl } from 'react-intl';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {get, has, unionBy, update} from 'lodash';
+import {Alert} from 'react-native';
+import {injectIntl} from 'react-intl';
 
 // Providers
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {
   followUser,
   unfollowUser,
@@ -18,15 +18,15 @@ import {
 } from '../providers/hive/dhive';
 
 // Ecency providers
-import { checkFavorite, addFavorite, deleteFavorite, addReport } from '../providers/ecency/ecency';
+import {checkFavorite, addFavorite, deleteFavorite, addReport} from '../providers/ecency/ecency';
 
 // Utilitites
-import { getRcPower, getVotingPower } from '../utils/manaBar';
-import { toastNotification, setRcOffer, showActionModal } from '../redux/actions/uiAction';
+import {getRcPower, getVotingPower} from '../utils/manaBar';
+import {toastNotification, setRcOffer, showActionModal} from '../redux/actions/uiAction';
 
 // Constants
-import { default as ROUTES } from '../constants/routeNames';
-import { updateCurrentAccount } from '../redux/actions/accountAction';
+import {default as ROUTES} from '../constants/routeNames';
+import {updateCurrentAccount} from '../redux/actions/accountAction';
 
 class ProfileContainer extends Component {
   constructor(props) {
@@ -35,7 +35,7 @@ class ProfileContainer extends Component {
     // check if is signed in user profile
     const username = props.route.params?.username ?? '';
     const {
-      currentAccount: { name: currentAccountUsername },
+      currentAccount: {name: currentAccountUsername},
     } = props;
     const isOwnProfile = !username || currentAccountUsername === username;
 
@@ -65,11 +65,11 @@ class ProfileContainer extends Component {
       navigation,
       isConnected,
       isLoggedIn,
-      currentAccount: { name: currentAccountUsername },
+      currentAccount: {name: currentAccountUsername},
     } = this.props;
     const username = route.params?.username || '';
 
-    const { isOwnProfile } = this.state;
+    const {isOwnProfile} = this.state;
     let targetUsername = currentAccountUsername;
 
     if (!isConnected) {
@@ -93,8 +93,8 @@ class ProfileContainer extends Component {
       return;
     }
 
-    const { isLoggedIn, navigation } = this.props;
-    const { isOwnProfile } = this.state;
+    const {isLoggedIn, navigation} = this.props;
+    const {isOwnProfile} = this.state;
 
     if (isLoggedIn && !nextProps.isLoggedIn) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
@@ -102,8 +102,8 @@ class ProfileContainer extends Component {
     }
 
     if (isOwnProfile) {
-      const { user } = this.state;
-      const { activeBottomTab, currentAccount } = this.props;
+      const {user} = this.state;
+      const {activeBottomTab, currentAccount} = this.props;
 
       const currentUsername =
         get(currentAccount, 'name') !== get(nextProps, 'currentAccount.name') &&
@@ -118,12 +118,12 @@ class ProfileContainer extends Component {
     }
   }
 
-  _getReplies = async (query) => {
-    const { isOwnProfile, comments, user } = this.state;
+  _getReplies = async query => {
+    const {isOwnProfile, comments, user} = this.state;
     const {
-      currentAccount: { name: currentAccountUsername },
+      currentAccount: {name: currentAccountUsername},
     } = this.props;
-    this.setState({ isProfileLoading: true });
+    this.setState({isProfileLoading: true});
     let repliesAction;
 
     if (!isOwnProfile) {
@@ -155,7 +155,7 @@ class ProfileContainer extends Component {
     if (query) {
       delete query.author;
       delete query.permlink;
-      repliesAction(query).then((result) => {
+      repliesAction(query).then(result => {
         const _comments = unionBy(comments, result, 'permlink');
         this.setState({
           comments: _comments,
@@ -165,9 +165,9 @@ class ProfileContainer extends Component {
     }
   };
 
-  _handleFollowUnfollowUser = async (isFollowAction) => {
-    const { isFollowing, username } = this.state;
-    const { currentAccount, pinCode, dispatch, intl } = this.props;
+  _handleFollowUnfollowUser = async isFollowAction => {
+    const {isFollowing, username} = this.state;
+    const {currentAccount, pinCode, dispatch, intl} = this.props;
     const follower = get(currentAccount, 'name', '');
     const following = username;
 
@@ -211,14 +211,14 @@ class ProfileContainer extends Component {
           isFollowing: isFollowAction,
         });
 
-        this._profileActionDone({ shouldFetchProfile: false });
+        this._profileActionDone({shouldFetchProfile: false});
       })
-      .catch((err) => {
-        this._profileActionDone({ error: err });
+      .catch(err => {
+        this._profileActionDone({error: err});
       });
   };
 
-  _handleMuteUnmuteUser = async (isMuteAction) => {
+  _handleMuteUnmuteUser = async isMuteAction => {
     if (isMuteAction) {
       this._muteUser();
     } else {
@@ -227,8 +227,8 @@ class ProfileContainer extends Component {
   };
 
   _muteUser = () => {
-    const { username } = this.state;
-    const { currentAccount, pinCode, dispatch, intl } = this.props;
+    const {username} = this.state;
+    const {currentAccount, pinCode, dispatch, intl} = this.props;
     const follower = currentAccount.name;
     const following = username;
 
@@ -261,14 +261,14 @@ class ProfileContainer extends Component {
           ),
         );
       })
-      .catch((err) => {
-        this._profileActionDone({ error: err });
+      .catch(err => {
+        this._profileActionDone({error: err});
       });
   };
 
-  _profileActionDone = ({ error = null, shouldFetchProfile = true }) => {
-    const { username } = this.state;
-    const { intl, dispatch } = this.props;
+  _profileActionDone = ({error = null, shouldFetchProfile = true}) => {
+    const {username} = this.state;
+    const {intl, dispatch} = this.props;
 
     this.setState({
       isProfileLoading: false,
@@ -298,12 +298,12 @@ class ProfileContainer extends Component {
   };
 
   _fetchProfile = async (username = null, isProfileAction = false) => {
-    const { intl } = this.props;
+    const {intl} = this.props;
     try {
-      const { username: _username, isFollowing, isMuted, isOwnProfile } = this.state;
+      const {username: _username, isFollowing, isMuted, isOwnProfile} = this.state;
 
       if (username) {
-        const { currentAccount } = this.props;
+        const {currentAccount} = this.props;
         let _isFollowing;
         let _isMuted;
         let isFavorite;
@@ -348,15 +348,15 @@ class ProfileContainer extends Component {
 
   _loadProfile = async (username = null) => {
     let user;
-    const { isOwnProfile } = this.state;
+    const {isOwnProfile} = this.state;
     try {
       user = await getUser(username, isOwnProfile);
       this._fetchProfile(username);
     } catch (error) {
-      this._profileActionDone({ error });
+      this._profileActionDone({error});
     }
 
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       quickProfile: {
         ...prevState.quickProfile,
         display_name: get(user, 'display_name'),
@@ -366,12 +366,12 @@ class ProfileContainer extends Component {
       username,
     }));
 
-    this._getReplies({ author: username, permlink: undefined });
+    this._getReplies({author: username, permlink: undefined});
   };
 
-  _handleFollowsPress = async (isFollowingPress) => {
-    const { navigation } = this.props;
-    const { username, follows } = this.state;
+  _handleFollowsPress = async isFollowingPress => {
+    const {navigation} = this.props;
+    const {username, follows} = this.state;
     const count = get(follows, !isFollowingPress ? 'follower_count' : 'following_count');
 
     navigation.navigate({
@@ -386,8 +386,8 @@ class ProfileContainer extends Component {
   };
 
   _handleOnFavoritePress = (isFavorite = false) => {
-    const { dispatch, intl } = this.props;
-    const { username } = this.state;
+    const {dispatch, intl} = this.props;
+    const {username} = this.state;
     let favoriteAction;
 
     this.setState({
@@ -409,9 +409,9 @@ class ProfileContainer extends Component {
             }),
           ),
         );
-        this.setState({ isFavorite: !isFavorite, isProfileLoading: false });
+        this.setState({isFavorite: !isFavorite, isProfileLoading: false});
       })
-      .catch((error) => {
+      .catch(error => {
         console.warn('Failed to perform favorite action');
         Alert.alert(
           intl.formatMessage({
@@ -423,8 +423,8 @@ class ProfileContainer extends Component {
   };
 
   _handleReportUser = () => {
-    const { dispatch, intl } = this.props;
-    const { username } = this.state;
+    const {dispatch, intl} = this.props;
+    const {username} = this.state;
 
     const _onConfirm = () => {
       addReport('user', username)
@@ -450,15 +450,15 @@ class ProfileContainer extends Component {
 
     dispatch(
       showActionModal({
-        title: intl.formatMessage({ id: 'report.confirm_report_title' }),
-        body: intl.formatMessage({ id: 'report.confirm_report_body' }),
+        title: intl.formatMessage({id: 'report.confirm_report_title'}),
+        body: intl.formatMessage({id: 'report.confirm_report_body'}),
         buttons: [
           {
-            text: intl.formatMessage({ id: 'alert.cancel' }),
+            text: intl.formatMessage({id: 'alert.cancel'}),
             onPress: () => {},
           },
           {
-            text: intl.formatMessage({ id: 'alert.confirm' }),
+            text: intl.formatMessage({id: 'alert.confirm'}),
             onPress: _onConfirm,
           },
         ],
@@ -467,7 +467,7 @@ class ProfileContainer extends Component {
   };
 
   _handleDelegateHp = () => {
-    const { route, navigation } = this.props;
+    const {route, navigation} = this.props;
     const username = route.params?.username ?? '';
     navigation.navigate({
       name: ROUTES.SCREENS.TRANSFER,
@@ -480,24 +480,24 @@ class ProfileContainer extends Component {
   };
 
   _handleOnBackPress = () => {
-    const { route } = this.props;
+    const {route} = this.props;
 
     if (route && route.params && route.params.fetchData) {
       route.params.fetchData();
     }
   };
 
-  _changeForceLoadPostState = (value) => {
-    this.setState({ forceLoadPost: value });
+  _changeForceLoadPostState = value => {
+    this.setState({forceLoadPost: value});
   };
 
   _handleOnPressProfileEdit = () => {
-    const { navigation, currentAccount } = this.props;
+    const {navigation, currentAccount} = this.props;
 
     navigation.navigate({
       name: ROUTES.SCREENS.PROFILE_EDIT,
       params: {
-        fetchUser: () => this.setState({ user: currentAccount }),
+        fetchUser: () => this.setState({user: currentAccount}),
       },
     });
   };
@@ -521,10 +521,10 @@ class ProfileContainer extends Component {
       reverseHeader,
       deepLinkFilter,
     } = this.state;
-    const { currency, isDarkTheme, isLoggedIn, children, isHideImage, route } = this.props;
+    const {currency, isDarkTheme, isLoggedIn, children, isHideImage, route} = this.props;
 
     const activePage = route.params?.state ?? 0;
-    const { currencyRate, currencySymbol } = currency;
+    const {currencyRate, currencySymbol} = currency;
 
     let votingPower;
     let resourceCredits;
@@ -578,7 +578,7 @@ class ProfileContainer extends Component {
     );
   }
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currency: state.application.currency,
   isConnected: state.application.isConnected,
   isDarkTheme: state.application.isDarkTheme,
@@ -589,7 +589,7 @@ const mapStateToProps = (state) => ({
   isHideImage: state.application.hidePostsThumbnails,
 });
 
-const mapHooksToProps = (props) => {
+const mapHooksToProps = props => {
   const navigation = useNavigation();
   return <ProfileContainer {...props} navigation={navigation} />;
 };

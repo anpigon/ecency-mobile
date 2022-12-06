@@ -1,12 +1,9 @@
-import { useMutation } from '@tanstack/react-query';
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import {
-  deletePointActivityCache,
-  updatePointActivityCache,
-} from '../../redux/actions/cacheActions';
-import { generateRndStr } from '../../utils/editor';
-import { PointActivity, PointActivityIds } from '../ecency/ecency.types';
-import { userActivity } from '../ecency/ePoint';
+import {useMutation} from '@tanstack/react-query';
+import {useAppSelector, useAppDispatch} from '../../hooks';
+import {deletePointActivityCache, updatePointActivityCache} from '../../redux/actions/cacheActions';
+import {generateRndStr} from '../../utils/editor';
+import {PointActivity, PointActivityIds} from '../ecency/ecency.types';
+import {userActivity} from '../ecency/ePoint';
 
 interface UserActivityMutationVars {
   pointsTy: PointActivityIds;
@@ -17,12 +14,12 @@ interface UserActivityMutationVars {
 
 export const useUserActivityMutation = () => {
   const dispatch = useAppDispatch();
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
   const pointActivitiesCache: Map<string, PointActivity> = useAppSelector(
-    (state) => state.cache.pointActivities,
+    state => state.cache.pointActivities,
   );
 
-  const _mutationFn = async ({ pointsTy, blockNum, transactionId }: UserActivityMutationVars) => {
+  const _mutationFn = async ({pointsTy, blockNum, transactionId}: UserActivityMutationVars) => {
     await userActivity(pointsTy, transactionId, blockNum);
     return true;
   };
@@ -43,8 +40,8 @@ export const useUserActivityMutation = () => {
       if (!vars.cacheId && currentAccount) {
         console.log('must add to from redux');
         const cacheId = generateRndStr();
-        const { username } = currentAccount;
-        dispatch(updatePointActivityCache(cacheId, { ...vars, username }));
+        const {username} = currentAccount;
+        dispatch(updatePointActivityCache(cacheId, {...vars, username}));
       }
     },
   });

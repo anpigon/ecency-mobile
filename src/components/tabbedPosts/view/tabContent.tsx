@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, {useState, useEffect, useRef} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {
   AppState,
   NativeEventSubscription,
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from 'react-native';
-import { debounce } from 'lodash';
+import {debounce} from 'lodash';
 import PostsList from '../../postsList';
-import { fetchPromotedEntries, loadPosts } from '../services/tabbedPostsFetch';
-import { LoadPostsOptions, TabContentProps, TabMeta } from '../services/tabbedPostsModels';
+import {fetchPromotedEntries, loadPosts} from '../services/tabbedPostsFetch';
+import {LoadPostsOptions, TabContentProps, TabMeta} from '../services/tabbedPostsModels';
 import TabEmptyView from './listEmptyView';
-import { setInitPosts } from '../../../redux/actions/postsAction';
-import { showReplyModal } from '../../../redux/actions/uiAction';
-import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsHelpers';
-import { PostsListRef } from '../../postsList/container/postsListContainer';
+import {setInitPosts} from '../../../redux/actions/postsAction';
+import {showReplyModal} from '../../../redux/actions/uiAction';
+import {calculateTimeLeftForPostCheck} from '../services/tabbedPostsHelpers';
+import {PostsListRef} from '../../postsList/container/postsListContainer';
 import ScrollTopPopup from './scrollTopPopup';
 
 const DEFAULT_TAB_META = {
@@ -46,13 +46,13 @@ function TabContent({
 
   // redux properties
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
-  const nsfw = useSelector((state) => state.application.nsfw);
-  const isConnected = useSelector((state) => state.application.isConnected);
-  const currentAccount = useSelector((state) => state.account.currentAccount);
-  const initPosts = useSelector((state) => state.posts.initPosts);
+  const isLoggedIn = useSelector(state => state.application.isLoggedIn);
+  const nsfw = useSelector(state => state.application.nsfw);
+  const isConnected = useSelector(state => state.application.isConnected);
+  const currentAccount = useSelector(state => state.account.currentAccount);
+  const initPosts = useSelector(state => state.posts.initPosts);
 
-  const { username } = currentAccount;
+  const {username} = currentAccount;
   const userPinned = currentAccount.about?.profile?.pinned;
 
   // state
@@ -106,7 +106,7 @@ function TabContent({
     console.log('curPinned change', userPinned);
     if (pageType === 'ownProfile' && userPinned !== curPinned) {
       _scrollToTop();
-      _loadPosts({ shouldReset: true, _pinnedPermlink: userPinned });
+      _loadPosts({shouldReset: true, _pinnedPermlink: userPinned});
       setCurPinned(userPinned);
     }
   }, [userPinned]);
@@ -122,7 +122,7 @@ function TabContent({
   };
 
   // actions
-  const _handleAppStateChange = (nextAppState) => {
+  const _handleAppStateChange = nextAppState => {
     if (
       appState.current.match(/inactive|background/) &&
       nextAppState === 'active' &&
@@ -244,7 +244,7 @@ function TabContent({
   };
 
   // processes response from loadPost
-  const _postProcessLoadResult = ({ updatedPosts, latestPosts }: any) => {
+  const _postProcessLoadResult = ({updatedPosts, latestPosts}: any) => {
     // process new posts avatart
     if (latestPosts && Array.isArray(latestPosts)) {
       if (latestPosts.length > 0) {
@@ -307,11 +307,11 @@ function TabContent({
   };
 
   const scrollPopupDebouce = debounce(
-    (value) => {
+    value => {
       setEnableScrollTop(value);
     },
     500,
-    { leading: true },
+    {leading: true},
   );
 
   const _onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -341,8 +341,8 @@ function TabContent({
         data={posts}
         isFeedScreen={isFeedScreen}
         promotedPosts={promotedPosts}
-        onLoadPosts={(shouldReset) => {
-          _loadPosts({ shouldReset });
+        onLoadPosts={shouldReset => {
+          _loadPosts({shouldReset});
           if (shouldReset) {
             _getPromotedPosts();
           }
@@ -356,7 +356,7 @@ function TabContent({
         showQuickReplyModal={_showQuickReplyModal}
       />
       <ScrollTopPopup
-        popupAvatars={latestPosts.map((post) => post.avatar || '')}
+        popupAvatars={latestPosts.map(post => post.avatar || '')}
         enableScrollTop={enableScrollTop}
         onPress={_onPostsPopupPress}
         onClose={() => {

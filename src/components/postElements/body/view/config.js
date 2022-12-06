@@ -295,4 +295,4 @@ document.addEventListener('click', function(event) {
 true;
 `;
 
-export { customBodyScript, customCommentScript };
+export {customBodyScript, customCommentScript};

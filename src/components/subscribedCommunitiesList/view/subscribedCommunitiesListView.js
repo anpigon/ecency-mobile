@@ -7,11 +7,11 @@ import {
   Text,
   RefreshControl,
 } from 'react-native';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { MainButton, Tag, TextButton, UserAvatar } from '../../index';
-import { ListPlaceHolder } from '../../basicUIElements';
+import {MainButton, Tag, TextButton, UserAvatar} from '../../index';
+import {ListPlaceHolder} from '../../basicUIElements';
 
 import DEFAULT_IMAGE from '../../../assets/no_image.png';
 
@@ -34,10 +34,10 @@ function SubscribedCommunitiesListView({
       !isLoading && (
         <>
           <Text style={[globalStyles.subTitle, styles.noContentText]}>
-            {intl.formatMessage({ id: 'communities.no_communities' })}
+            {intl.formatMessage({id: 'communities.no_communities'})}
           </Text>
           <TextButton
-            text={intl.formatMessage({ id: 'communities.discover_communities' })}
+            text={intl.formatMessage({id: 'communities.discover_communities'})}
             textStyle={[globalStyles.subTitle, styles.discoverTextButton]}
             onPress={handleDiscoverPress}
           />
@@ -46,9 +46,9 @@ function SubscribedCommunitiesListView({
     );
   };
 
-  const _renderListItem = ({ item, index }) => (
+  const _renderListItem = ({item, index}) => (
     <View style={[styles.communityWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
-      <View style={{ flex: 3, flexDirection: 'row', alignItems: 'center' }}>
+      <View style={{flex: 3, flexDirection: 'row', alignItems: 'center'}}>
         <TouchableOpacity onPress={() => handleOnPress(item[0])}>
           <UserAvatar username={item[0]} defaultSource={DEFAULT_IMAGE} noAction />
         </TouchableOpacity>
@@ -58,7 +58,7 @@ function SubscribedCommunitiesListView({
       </View>
       <View>
         {item[0] in subscribingCommunities && subscribingCommunities[item[0]].loading ? (
-          <View style={{ width: 65, alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{width: 65, alignItems: 'center', justifyContent: 'center'}}>
             <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />
           </View>
         ) : (

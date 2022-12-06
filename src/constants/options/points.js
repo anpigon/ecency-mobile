@@ -120,11 +120,11 @@ export const POINTS_KEYS = [
 ];
 
 export const PROMOTE_PRICING = [
-  { duration: 1, price: 150 },
-  { duration: 2, price: 250 },
-  { duration: 3, price: 350 },
-  { duration: 7, price: 500 },
-  { duration: 14, price: 1000 },
+  {duration: 1, price: 150},
+  {duration: 2, price: 250},
+  {duration: 3, price: 350},
+  {duration: 7, price: 500},
+  {duration: 14, price: 1000},
 ];
 export const PROMOTE_DAYS = [1, 2, 3, 7, 14];
 

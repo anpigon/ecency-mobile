@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, {useEffect, useRef, useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 
-import { Alert } from 'react-native';
-import { useIntl } from 'react-intl';
+import {Alert} from 'react-native';
+import {useIntl} from 'react-intl';
 import RootNavigation from '../../../navigation/rootNavigation';
 
-import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
+import {removeOtherAccount, updateCurrentAccount} from '../../../redux/actions/accountAction';
 import {
   isPinCodeOpen,
   isRenderRequired,
@@ -29,30 +29,30 @@ import {
 } from '../../../providers/hive/auth';
 
 import AccountsBottomSheet from '../view/accountsBottomSheetView';
-import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
+import {toggleAccountsBottomSheet} from '../../../redux/actions/uiAction';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
-import { getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
-import { setFeedPosts, setInitPosts } from '../../../redux/actions/postsAction';
-import { useAppSelector } from '../../../hooks';
-import { getUnreadNotificationCount } from '../../../providers/ecency/ecency';
-import { decryptKey } from '../../../utils/crypto';
-import { getPointsSummary } from '../../../providers/ecency/ePoint';
-import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
-import { clearSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
+import {getDigitPinCode, getMutes} from '../../../providers/hive/dhive';
+import {setFeedPosts, setInitPosts} from '../../../redux/actions/postsAction';
+import {useAppSelector} from '../../../hooks';
+import {getUnreadNotificationCount} from '../../../providers/ecency/ecency';
+import {decryptKey} from '../../../utils/crypto';
+import {getPointsSummary} from '../../../providers/ecency/ePoint';
+import {fetchSubscribedCommunities} from '../../../redux/actions/communitiesAction';
+import {clearSubscribedCommunitiesCache} from '../../../redux/actions/cacheActions';
 
-function AccountsBottomSheetContainer({ navigation }) {
+function AccountsBottomSheetContainer({navigation}) {
   const intl = useIntl();
   const dispatch = useDispatch();
   const accountsBottomSheetViewRef = useRef();
 
   const isVisibleAccountsBottomSheet = useAppSelector(
-    (state) => state.ui.isVisibleAccountsBottomSheet,
+    state => state.ui.isVisibleAccountsBottomSheet,
   );
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const accounts = useAppSelector((state) => state.account.otherAccounts);
-  const pinHash = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const accounts = useAppSelector(state => state.account.otherAccounts);
+  const pinHash = useAppSelector(state => state.application.pin);
 
   useEffect(() => {
     if (isVisibleAccountsBottomSheet) {
@@ -64,7 +64,7 @@ function AccountsBottomSheetContainer({ navigation }) {
     dispatch(toggleAccountsBottomSheet(false));
     accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
     if (name) {
-      RootNavigation.navigate({ name });
+      RootNavigation.navigate({name});
     }
   };
 
@@ -87,7 +87,7 @@ function AccountsBottomSheetContainer({ navigation }) {
   const _handleSwitch = async (switchingAccount = {}) => {
     try {
       const accountData = accounts.filter(
-        (account) => account.username === switchingAccount.username,
+        account => account.username === switchingAccount.username,
       )[0];
 
       // if account data has persistet content use that first
@@ -136,8 +136,8 @@ function AccountsBottomSheetContainer({ navigation }) {
         }),
         error.message,
         [
-          { text: intl.formatMessage({ id: 'side_menu.logout' }), onPress: () => _logout() },
-          { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },
+          {text: intl.formatMessage({id: 'side_menu.logout'}), onPress: () => _logout()},
+          {text: intl.formatMessage({id: 'alert.cancel'}), style: 'destructive'},
         ],
       );
     }

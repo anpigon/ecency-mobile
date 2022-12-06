@@ -1,19 +1,19 @@
-import React, { Fragment } from 'react';
-import { View, Text, ScrollView, RefreshControl } from 'react-native';
-import { useIntl } from 'react-intl';
+import React, {Fragment} from 'react';
+import {View, Text, ScrollView, RefreshControl} from 'react-native';
+import {useIntl} from 'react-intl';
 
 // Components
-import { Icon } from '../../icon';
-import { MainButton } from '../../mainButton';
-import { CollapsibleCard } from '../../collapsibleCard';
-import { WalletDetails } from '../../walletDetails';
-import { WalletDetailsPlaceHolder } from '../../basicUIElements';
-import { ThemeContainer, WalletContainer } from '../../../containers';
+import {Icon} from '../../icon';
+import {MainButton} from '../../mainButton';
+import {CollapsibleCard} from '../../collapsibleCard';
+import {WalletDetails} from '../../walletDetails';
+import {WalletDetailsPlaceHolder} from '../../basicUIElements';
+import {ThemeContainer, WalletContainer} from '../../../containers';
 
 // Styles
 import styles from './walletStyles';
 
-function WalletView({ setEstimatedWalletValue, selectedUser, handleOnScroll }) {
+function WalletView({setEstimatedWalletValue, selectedUser, handleOnScroll}) {
   const intl = useIntl();
 
   const _getUnclaimedText = (walletData, isPreview) => (
@@ -34,8 +34,7 @@ function WalletView({ setEstimatedWalletValue, selectedUser, handleOnScroll }) {
     <WalletContainer
       setEstimatedWalletValue={setEstimatedWalletValue}
       selectedUser={selectedUser}
-      handleOnScroll={handleOnScroll}
-    >
+      handleOnScroll={handleOnScroll}>
       {({
         isClaiming,
         claimRewardBalance,
@@ -47,7 +46,7 @@ function WalletView({ setEstimatedWalletValue, selectedUser, handleOnScroll }) {
         userActivities,
       }) => (
         <ThemeContainer>
-          {(isDarkTheme) => (
+          {isDarkTheme => (
             <ScrollView
               onScroll={handleOnScroll && handleOnScroll}
               style={styles.scrollView}
@@ -62,8 +61,7 @@ function WalletView({ setEstimatedWalletValue, selectedUser, handleOnScroll }) {
                 />
               }
               contentContainerStyle={styles.scrollContentContainer}
-              scrollEventThrottle={16}
-            >
+              scrollEventThrottle={16}>
               {!walletData ? (
                 <WalletDetailsPlaceHolder />
               ) : (
@@ -75,16 +73,14 @@ function WalletView({ setEstimatedWalletValue, selectedUser, handleOnScroll }) {
                       defaultTitle={intl.formatMessage({
                         id: 'profile.unclaimed_rewards',
                       })}
-                      expanded
-                    >
+                      expanded>
                       {currentAccountUsername === selectedUsername ? (
                         <MainButton
                           isLoading={isClaiming}
                           isDisable={isClaiming}
                           style={styles.mainButton}
                           height={50}
-                          onPress={() => claimRewardBalance()}
-                        >
+                          onPress={() => claimRewardBalance()}>
                           <View style={styles.mainButtonWrapper}>
                             {_getUnclaimedText(walletData)}
                             <View style={styles.mainIconWrapper}>
@@ -103,8 +99,7 @@ function WalletView({ setEstimatedWalletValue, selectedUser, handleOnScroll }) {
                     title={intl.formatMessage({
                       id: 'profile.wallet_details',
                     })}
-                    expanded
-                  >
+                    expanded>
                     <WalletDetails intl={intl} walletData={walletData} isShowDropdowns={false} />
                   </CollapsibleCard>
                 </>

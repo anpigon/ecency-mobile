@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { Alert } from 'react-native';
-import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import React, {Component} from 'react';
+import {Alert} from 'react-native';
+import {connect} from 'react-redux';
+import {injectIntl} from 'react-intl';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 import FingerprintScanner from 'react-native-fingerprint-scanner';
 
 // Actions & Services
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import RootNavigation from '../../../navigation/rootNavigation';
-import { updatePinCode } from '../../../providers/hive/auth';
+import {updatePinCode} from '../../../providers/hive/auth';
 import {
   isPinCodeOpen,
   isRenderRequired,
@@ -18,16 +18,11 @@ import {
   logoutDone,
   setEncryptedUnlockPin,
 } from '../../../redux/actions/applicationActions';
-import {
-  setExistUser,
-  removeAllUserData,
-  removePinCode,
-  setAuthStatus,
-} from '../../../realm/realm';
-import { updateCurrentAccount, removeOtherAccount } from '../../../redux/actions/accountAction';
+import {setExistUser, removeAllUserData, removePinCode, setAuthStatus} from '../../../realm/realm';
+import {updateCurrentAccount, removeOtherAccount} from '../../../redux/actions/accountAction';
 
 // Utils
-import { encryptKey, decryptKey } from '../../../utils/crypto';
+import {encryptKey, decryptKey} from '../../../utils/crypto';
 import MigrationHelpers from '../../../utils/migrationHelpers';
 
 // Component
@@ -50,8 +45,8 @@ class PinCodeContainer extends Component {
 
   // sets initial pin code screen label based on oldPinVerified param/state
   componentDidMount() {
-    const { intl } = this.props;
-    const { isOldPinVerified } = this.state;
+    const {intl} = this.props;
+    const {isOldPinVerified} = this.state;
 
     if (!isOldPinVerified) {
       this.setState({
@@ -74,7 +69,7 @@ class PinCodeContainer extends Component {
     try {
       const {
         intl,
-        pinCodeParams: { isReset },
+        pinCodeParams: {isReset},
         applicationPinCode,
         encUnlockPin,
         isBiometricEnabled,
@@ -88,7 +83,7 @@ class PinCodeContainer extends Component {
       console.log('biometryType is => ', biometryType);
 
       await FingerprintScanner.authenticate({
-        description: intl.formatMessage({ id: 'pincode.biometric_desc' }),
+        description: intl.formatMessage({id: 'pincode.biometric_desc'}),
       });
       console.log('successfully passed biometric auth');
 
@@ -128,16 +123,16 @@ class PinCodeContainer extends Component {
 
   // routine for checking and setting new pin code, same routine is used for
   // setting pin for the first time
-  _resetPinCode = (pin) =>
+  _resetPinCode = pin =>
     new Promise((resolve, reject) => {
       const {
         dispatch,
-        pinCodeParams: { navigateTo, navigateParams, callback },
+        pinCodeParams: {navigateTo, navigateParams, callback},
         encUnlockPin,
         intl,
         navigation,
       } = this.props;
-      const { isOldPinVerified, oldPinCode, newPinCode } = this.state;
+      const {isOldPinVerified, oldPinCode, newPinCode} = this.state;
 
       // if old pin already verified, check new pin setup conditions.
       if (isOldPinVerified) {
@@ -196,7 +191,7 @@ class PinCodeContainer extends Component {
           return;
         }
 
-        this.setState({ isOldPinVerified: true });
+        this.setState({isOldPinVerified: true});
         this.setState({
           informationText: intl.formatMessage({
             id: 'pincode.set_new',
@@ -208,9 +203,9 @@ class PinCodeContainer extends Component {
       }
     });
 
-  _onRefreshTokenFailed = (error) => {
+  _onRefreshTokenFailed = error => {
     setTimeout(() => {
-      const { dispatch, intl } = this.props;
+      const {dispatch, intl} = this.props;
       const _logout = () => dispatch(logout());
       Alert.alert(
         intl.formatMessage({
@@ -218,15 +213,15 @@ class PinCodeContainer extends Component {
         }),
         error.message,
         [
-          { text: intl.formatMessage({ id: 'side_menu.logout' }), onPress: _logout },
-          { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },
+          {text: intl.formatMessage({id: 'side_menu.logout'}), onPress: _logout},
+          {text: intl.formatMessage({id: 'alert.cancel'}), style: 'destructive'},
         ],
       );
     }, 300);
   };
 
   // verifies is the pin entered is right or wrong, also migrates to newer locking method
-  _verifyPinCode = async (pin) => {
+  _verifyPinCode = async pin => {
     try {
       const {
         intl,
@@ -234,10 +229,10 @@ class PinCodeContainer extends Component {
         dispatch,
         encUnlockPin,
         applicationPinCode,
-        pinCodeParams: { navigateTo, navigateParams, callback },
+        pinCodeParams: {navigateTo, navigateParams, callback},
         navigation,
       } = this.props;
-      const { oldPinCode } = this.state;
+      const {oldPinCode} = this.state;
 
       const unlockPin = encUnlockPin
         ? decryptKey(encUnlockPin, Config.PIN_KEY)
@@ -283,38 +278,38 @@ class PinCodeContainer extends Component {
   };
 
   // encryptes and saved unlockPin
-  _savePinCode = (pin) => {
-    const { dispatch } = this.props;
+  _savePinCode = pin => {
+    const {dispatch} = this.props;
     const encryptedPin = encryptKey(pin, Config.PIN_KEY);
     dispatch(setEncryptedUnlockPin(encryptedPin));
   };
 
   _forgotPinCode = async () => {
-    const { otherAccounts, dispatch, navigation } = this.props;
+    const {otherAccounts, dispatch, navigation} = this.props;
 
     await removeAllUserData()
       .then(async () => {
         dispatch(updateCurrentAccount({}));
         dispatch(login(false));
         removePinCode();
-        setAuthStatus({ isLoggedIn: false });
+        setAuthStatus({isLoggedIn: false});
         setExistUser(false);
         if (otherAccounts.length > 0) {
-          otherAccounts.map((item) => dispatch(removeOtherAccount(item.username)));
+          otherAccounts.map(item => dispatch(removeOtherAccount(item.username)));
         }
         dispatch(logoutDone());
         dispatch(isPinCodeOpen(false));
         dispatch(isRenderRequired(true));
       })
-      .catch((err) => {
+      .catch(err => {
         console.warn('Failed to remove user data', err);
       });
   };
 
-  _handleFailedAttempt = (error) => {
+  _handleFailedAttempt = error => {
     console.warn('Failed to set pin: ', error);
-    const { intl } = this.props;
-    const { failedAttempts } = this.state;
+    const {intl} = this.props;
+    const {failedAttempts} = this.state;
     // increment failed attempt
     const totalAttempts = failedAttempts + 1;
 
@@ -332,9 +327,9 @@ class PinCodeContainer extends Component {
       let infoMessage = intl.formatMessage({
         id: 'pincode.enter_text',
       });
-      infoMessage += `, ${totalAttempts} ${intl.formatMessage({ id: 'pincode.attempts_postfix' })}`;
+      infoMessage += `, ${totalAttempts} ${intl.formatMessage({id: 'pincode.attempts_postfix'})}`;
       if (totalAttempts > 1) {
-        infoMessage += `\n${intl.formatMessage({ id: 'pincode.message_reset_warning' })}`;
+        infoMessage += `\n${intl.formatMessage({id: 'pincode.message_reset_warning'})}`;
       }
       this.setState({
         failedAttempts: totalAttempts,
@@ -350,7 +345,7 @@ class PinCodeContainer extends Component {
   };
 
   _onDecryptFail = () => {
-    const { intl } = this.props;
+    const {intl} = this.props;
     Alert.alert(
       intl.formatMessage({
         id: 'alert.warning',
@@ -359,8 +354,8 @@ class PinCodeContainer extends Component {
         id: 'alert.decrypt_fail_alert',
       }),
       [
-        { text: intl.formatMessage({ id: 'alert.clear' }), onPress: () => this._forgotPinCode() },
-        { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },
+        {text: intl.formatMessage({id: 'alert.clear'}), onPress: () => this._forgotPinCode()},
+        {text: intl.formatMessage({id: 'alert.cancel'}), style: 'destructive'},
       ],
     );
   };
@@ -381,7 +376,7 @@ class PinCodeContainer extends Component {
   };
 
   _handleForgotButton = () => {
-    const { intl } = this.props;
+    const {intl} = this.props;
 
     Alert.alert(
       intl.formatMessage({
@@ -391,8 +386,8 @@ class PinCodeContainer extends Component {
         id: 'alert.clear_user_alert',
       }),
       [
-        { text: intl.formatMessage({ id: 'alert.clear' }), onPress: () => this._forgotPinCode() },
-        { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },
+        {text: intl.formatMessage({id: 'alert.clear'}), onPress: () => this._forgotPinCode()},
+        {text: intl.formatMessage({id: 'alert.cancel'}), style: 'destructive'},
       ],
     );
   };
@@ -401,15 +396,15 @@ class PinCodeContainer extends Component {
     const {
       currentAccount,
       intl,
-      pinCodeParams: { isReset },
+      pinCodeParams: {isReset},
     } = this.props;
-    const { informationText, isOldPinVerified } = this.state;
+    const {informationText, isOldPinVerified} = this.state;
 
     return (
       <PinCodeView
-        ref={(ref) => (this.screenRef = ref)}
+        ref={ref => (this.screenRef = ref)}
         informationText={informationText}
-        setPinCode={(pin) => this._setPinCode(pin, isReset)}
+        setPinCode={pin => this._setPinCode(pin, isReset)}
         showForgotButton={!isOldPinVerified}
         username={currentAccount.name}
         intl={intl}
@@ -421,7 +416,7 @@ class PinCodeContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   applicationPinCode: state.application.pin,
   encUnlockPin: state.application.encUnlockPin,
@@ -429,7 +424,7 @@ const mapStateToProps = (state) => ({
   isBiometricEnabled: state.application.isBiometricEnabled,
 });
 
-const mapHooksToProps = (props) => {
+const mapHooksToProps = props => {
   const navigation = useNavigation();
   return <PinCodeContainer {...props} navigation={navigation} />;
 };

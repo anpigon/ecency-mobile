@@ -1,11 +1,11 @@
-import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
-import React, { ComponentType, Fragment, useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
+import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
+import React, {ComponentType, Fragment, useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './children.styles';
-import { Icon, MainButton, SimpleChart } from '../../../components';
+import {Icon, MainButton, SimpleChart} from '../../../components';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
-import { COIN_IDS } from '../../../constants/defaultCoins';
+import {COIN_IDS} from '../../../constants/defaultCoins';
 
 export interface CoinCardProps {
   id: string;
@@ -65,7 +65,7 @@ export function CoinCard({
       {/* <View style={styles.logo} /> */}
       <View style={styles.cardTitleContainer}>
         <Text style={styles.textTitle}>{symbol}</Text>
-        <Text style={styles.textSubtitle}>{intl.formatMessage({ id: `wallet.${id}.name` })}</Text>
+        <Text style={styles.textSubtitle}>{intl.formatMessage({id: `wallet.${id}.name`})}</Text>
       </View>
       <View style={styles.cardValuesContainer}>
         <Text style={styles.textTitle}>{`${ownedTokens.toFixed(3)} ${symbol}`}</Text>
@@ -78,7 +78,7 @@ export function CoinCard({
 
   const _renderClaimSection = () => {
     if (unclaimedRewards || enableBuy) {
-      const btnTitle = unclaimedRewards || intl.formatMessage({ id: `wallet.${id}.buy` });
+      const btnTitle = unclaimedRewards || intl.formatMessage({id: `wallet.${id}.buy`});
 
       const _rightComponent = isLoading ? (
         <ActivityIndicator
@@ -103,8 +103,7 @@ export function CoinCard({
             isDisable={isLoading || (isClaiming && claimExpected)}
             style={styles.claimBtn}
             height={50}
-            onPress={_onClaimPress}
-          >
+            onPress={_onClaimPress}>
             <>
               <Text style={styles.claimBtnTitle}>{btnTitle}</Text>
               {_rightComponent}
@@ -133,7 +132,7 @@ export function CoinCard({
           <MainButton style={styles.claimBtn} height={50} onPress={onBoostAccountPress}>
             <>
               <Text style={styles.claimBtnTitle}>
-                {intl.formatMessage({ id: 'wallet.get_boost' })}
+                {intl.formatMessage({id: 'wallet.get_boost'})}
               </Text>
               {_rightComponent}
             </>
@@ -168,7 +167,7 @@ export function CoinCard({
         {_renderClaimSection()}
         {_renderBoostAccount()}
         {!notCrypto && _renderGraph()}
-        {!notCrypto ? _renderFooter : <View style={{ height: 12 }} />}
+        {!notCrypto ? _renderFooter : <View style={{height: 12}} />}
         {footerComponent && footerComponent}
       </View>
     </TouchableOpacity>

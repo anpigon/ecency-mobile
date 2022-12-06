@@ -1,4 +1,4 @@
-import { REGISTER_TOOLTIP } from '../constants/constants';
+import {REGISTER_TOOLTIP} from '../constants/constants';
 
 export interface WalkthroughItem {
   walkthroughIndex: number;
@@ -13,9 +13,9 @@ const initialState: State = {
 };
 export default function walkthroughtReducer(
   state = initialState,
-  action = { type: '', payload: {} },
+  action = {type: '', payload: {}},
 ) {
-  const { type, payload } = action;
+  const {type, payload} = action;
   switch (type) {
     case REGISTER_TOOLTIP:
       if (!state.walkthroughMap) {

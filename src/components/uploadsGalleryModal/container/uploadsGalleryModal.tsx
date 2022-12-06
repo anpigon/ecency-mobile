@@ -1,15 +1,15 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { Alert } from 'react-native';
-import ImagePicker, { Image } from 'react-native-image-crop-picker';
+import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {Alert} from 'react-native';
+import ImagePicker, {Image} from 'react-native-image-crop-picker';
 import bugsnapInstance from '../../../config/bugsnag';
-import { getImages } from '../../../providers/ecency/ecency';
+import {getImages} from '../../../providers/ecency/ecency';
 import UploadsGalleryContent from '../children/uploadsGalleryContent';
 
-import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { delay, extractFilenameFromPath } from '../../../utils/editor';
+import {useAppDispatch, useAppSelector} from '../../../hooks';
+import {delay, extractFilenameFromPath} from '../../../utils/editor';
 import showLoginAlert from '../../../utils/showLoginAlert';
-import { useMediaQuery, useMediaUploadMutation } from '../../../providers/queries';
+import {useMediaQuery, useMediaUploadMutation} from '../../../providers/queries';
 
 export interface UploadsGalleryModalRef {
   showModal: () => void;
@@ -65,14 +65,14 @@ export const UploadsGalleryModal = forwardRef(
     const [showModal, setShowModal] = useState(false);
     const [isAddingToUploads, setIsAddingToUploads] = useState(false);
 
-    const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
-    const pinCode = useAppSelector((state) => state.application.pin);
-    const currentAccount = useAppSelector((state) => state.account.currentAccount);
+    const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
+    const pinCode = useAppSelector(state => state.application.pin);
+    const currentAccount = useAppSelector(state => state.account.currentAccount);
 
     useImperativeHandle(ref, () => ({
       toggleModal: (value: boolean) => {
         if (!isLoggedIn) {
-          showLoginAlert({ intl });
+          showLoginAlert({intl});
           return;
         }
 
@@ -93,7 +93,7 @@ export const UploadsGalleryModal = forwardRef(
 
         // delay is a workaround to let editor ready before initiating uploads on mount
         delay(500).then(() => {
-          const _mediaItems = paramFiles.map((el) => {
+          const _mediaItems = paramFiles.map(el => {
             if (el.filePath && el.fileName) {
               const _media = {
                 path: el.filePath,
@@ -125,13 +125,13 @@ export const UploadsGalleryModal = forwardRef(
         mediaType: 'photo',
         smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
       })
-        .then((images) => {
+        .then(images => {
           if (images && !Array.isArray(images)) {
             images = [images];
           }
           _handleMediaOnSelected(images, !addToUploads);
         })
-        .catch((e) => {
+        .catch(e => {
           _handleMediaOnSelectFailure(e);
         });
     };
@@ -141,10 +141,10 @@ export const UploadsGalleryModal = forwardRef(
         includeBase64: true,
         mediaType: 'photo',
       })
-        .then((image) => {
+        .then(image => {
           _handleMediaOnSelected([image], true);
         })
-        .catch((e) => {
+        .catch(e => {
           _handleMediaOnSelectFailure(e);
         });
     };
@@ -162,7 +162,7 @@ export const UploadsGalleryModal = forwardRef(
             if (element) {
               media[index].filename =
                 element.filename ||
-                extractFilenameFromPath({ path: element.path, mimeType: element.mime });
+                extractFilenameFromPath({path: element.path, mimeType: element.mime});
               handleMediaInsert([
                 {
                   filename: element.filename,
@@ -179,7 +179,7 @@ export const UploadsGalleryModal = forwardRef(
           const element = media[index];
           if (element) {
             // eslint-disable-next-line no-await-in-loop
-            await _uploadImage(element, { shouldInsert });
+            await _uploadImage(element, {shouldInsert});
           }
         }
       } catch (error) {
@@ -189,7 +189,7 @@ export const UploadsGalleryModal = forwardRef(
       }
     };
 
-    const _uploadImage = async (media, { shouldInsert } = { shouldInsert: false }) => {
+    const _uploadImage = async (media, {shouldInsert} = {shouldInsert: false}) => {
       if (!isLoggedIn) return;
       try {
         if (setIsUploading) {
@@ -205,7 +205,7 @@ export const UploadsGalleryModal = forwardRef(
             addToUploads: !shouldInsert,
           },
           {
-            onSuccess: (data) => {
+            onSuccess: data => {
               console.log('upload successfully', data, media, shouldInsert);
               if (data && data.url && shouldInsert) {
                 _handleMediaInsertion({
@@ -222,7 +222,7 @@ export const UploadsGalleryModal = forwardRef(
               }
               setIsAddingToUploads(false);
             },
-            onError: (err) => {
+            onError: err => {
               throw err;
             },
           },
@@ -277,7 +277,7 @@ export const UploadsGalleryModal = forwardRef(
       }
     };
 
-    const _handleMediaOnSelectFailure = (error) => {
+    const _handleMediaOnSelectFailure = error => {
       if (error.code === 'E_PERMISSION_MISSING') {
         Alert.alert(
           intl.formatMessage({

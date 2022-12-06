@@ -1,4 +1,4 @@
-import { combineReducers } from '@reduxjs/toolkit';
+import {combineReducers} from '@reduxjs/toolkit';
 import accountReducer from './accountReducer';
 import applicationReducer from './applicationReducer';
 import ui from './uiReducer';

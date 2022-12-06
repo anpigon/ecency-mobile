@@ -1,21 +1,21 @@
-import { Appearance } from 'react-native';
+import {Appearance} from 'react-native';
 import Config from 'react-native-config';
 
 // Constants
 import THEME_OPTIONS from '../constants/options/theme';
-import { getUnreadNotificationCount } from '../providers/ecency/ecency';
-import { getPointsSummary } from '../providers/ecency/ePoint';
+import {getUnreadNotificationCount} from '../providers/ecency/ecency';
+import {getPointsSummary} from '../providers/ecency/ePoint';
 import {
   migrateToMasterKeyWithAccessToken,
   refreshSCToken,
   updatePinCode,
 } from '../providers/hive/auth';
-import { getMutes } from '../providers/hive/dhive';
+import {getMutes} from '../providers/hive/dhive';
 import AUTH_TYPE from '../constants/authType';
 
 // Services
-import { getSettings, getUserDataWithUsername } from '../realm/realm';
-import { updateCurrentAccount } from '../redux/actions/accountAction';
+import {getSettings, getUserDataWithUsername} from '../realm/realm';
+import {updateCurrentAccount} from '../redux/actions/accountAction';
 
 import {
   changeNotificationSettings,
@@ -34,14 +34,14 @@ import {
   setCommentUpvotePercent,
   setIsDarkTheme,
 } from '../redux/actions/applicationActions';
-import { fetchSubscribedCommunities } from '../redux/actions/communitiesAction';
+import {fetchSubscribedCommunities} from '../redux/actions/communitiesAction';
 import {
   hideActionModal,
   hideProfileModal,
   setRcOffer,
   toastNotification,
 } from '../redux/actions/uiAction';
-import { decryptKey, encryptKey } from './crypto';
+import {decryptKey, encryptKey} from './crypto';
 
 // migrates settings from realm to redux once and do no user realm for settings again;
 export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean) => {
@@ -60,7 +60,7 @@ export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean
   if (settings) {
     const isDarkMode = Appearance.getColorScheme() === 'dark';
     dispatch(setIsDarkTheme(settings.isDarkTheme !== null ? settings.isDarkTheme : isDarkMode));
-    dispatch(setColorTheme(THEME_OPTIONS.findIndex((item) => item.value === settings.isDarkTheme)));
+    dispatch(setColorTheme(THEME_OPTIONS.findIndex(item => item.value === settings.isDarkTheme)));
     await dispatch(isPinCodeOpen(!!settings.isPinCodeOpen));
     if (settings.language !== '') dispatch(setLanguage(settings.language));
     if (settings.server !== '') dispatch(setApi(settings.server));
@@ -157,23 +157,23 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
     console.warn('Optional user data fetch failed, account can still function without them', err);
   }
 
-  dispatch(updateCurrentAccount({ ..._currentAccount }));
+  dispatch(updateCurrentAccount({..._currentAccount}));
   dispatch(fetchSubscribedCommunities(_currentAccount.username));
 };
 
 const reduxMigrations = {
-  0: (state) => {
-    const { upvotePercent } = state.application;
+  0: state => {
+    const {upvotePercent} = state.application;
     state.application.postUpvotePercent = upvotePercent;
     state.application.commentUpvotePercent = upvotePercent;
     state.application.upvotePercent = undefined;
     return state;
   },
-  1: (state) => {
+  1: state => {
     state.application.notificationDetails.favoriteNotification = true;
     return state;
   },
-  2: (state) => {
+  2: state => {
     state.application.notificationDetails.bookmarkNotification = true;
     return state;
   },

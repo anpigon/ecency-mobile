@@ -1,11 +1,11 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
-import { Text, View } from 'react-native';
+import {useIntl} from 'react-intl';
+import {Text, View} from 'react-native';
 import transferTypes from '../../constants/transferTypes';
 import DropdownButton from '../dropdownButton';
 import Icon from '../icon';
 import TextInput from '../textInput';
-import { TransferFormItem } from '../transferFormItem';
+import {TransferFormItem} from '../transferFormItem';
 import UserAvatar from '../userAvatar';
 // Styles
 import styles from './transferAccountSelectorStyles';
@@ -47,7 +47,7 @@ function TransferAccountSelector({
 }) {
   const intl = useIntl();
 
-  const _handleOnDropdownChange = (value) => {
+  const _handleOnDropdownChange = value => {
     fetchBalance(value);
     setFrom(value);
     if (transferType === 'convert') {
@@ -62,9 +62,9 @@ function TransferAccountSelector({
       style={styles.dropdown}
       dropdownStyle={styles.dropdownStyle}
       textStyle={styles.dropdownText}
-      options={accounts.map((item) => item.username)}
+      options={accounts.map(item => item.username)}
       defaultText={currentAccountName}
-      selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
+      selectedOptionIndex={accounts.findIndex(item => item.username === currentAccountName)}
       onSelect={(index, value) => _handleOnDropdownChange(value)}
     />
   );
@@ -80,7 +80,7 @@ function TransferAccountSelector({
       }
     }
     if (state === 'destination') {
-      getAccountsWithUsername(val).then((res) => {
+      getAccountsWithUsername(val).then(res => {
         const isValid = res.includes(val);
 
         setIsUsernameValid(isValid);
@@ -95,7 +95,7 @@ function TransferAccountSelector({
   const _renderInput = (placeholder, state, keyboardType, isTextArea) => (
     <TextInput
       style={[isTextArea ? styles.textarea : styles.input]}
-      onChangeText={(amount) => _handleOnChange(state, amount)}
+      onChangeText={amount => _handleOnChange(state, amount)}
       value={
         state === 'destination'
           ? destination
@@ -116,22 +116,22 @@ function TransferAccountSelector({
   return (
     <View style={styles.stepOneContainer}>
       <Text style={styles.sectionHeading}>
-        {intl.formatMessage({ id: 'transfer.account_select_title' })}
+        {intl.formatMessage({id: 'transfer.account_select_title'})}
       </Text>
       <Text style={styles.sectionSubheading}>
-        {intl.formatMessage({ id: 'transfer.account_select_description' })}
+        {intl.formatMessage({id: 'transfer.account_select_description'})}
       </Text>
       <TransferFormItem
-        containerStyle={{ marginTop: 32 }}
-        label={intl.formatMessage({ id: 'transfer.from' })}
+        containerStyle={{marginTop: 32}}
+        label={intl.formatMessage({id: 'transfer.from'})}
         rightComponent={() => _renderDropdown(accounts, currentAccountName)}
       />
       {transferType !== transferTypes.CONVERT && transferType !== transferTypes.PURCHASE_ESTM && (
         <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.to' })}
+          label={intl.formatMessage({id: 'transfer.to'})}
           rightComponent={() =>
             _renderInput(
-              intl.formatMessage({ id: 'transfer.to_placeholder' }),
+              intl.formatMessage({id: 'transfer.to_placeholder'}),
               'destination',
               'default',
               false,

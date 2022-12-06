@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 
 // Constants
 // Components
-import { DropdownButton } from '../../dropdownButton';
+import {DropdownButton} from '../../dropdownButton';
 import styles from './postDropdownStyles';
 
 class PostDropdownView extends PureComponent {
@@ -21,7 +21,7 @@ class PostDropdownView extends PureComponent {
   // Component Functions
 
   render() {
-    const { handleOnDropdownSelect, options } = this.props;
+    const {handleOnDropdownSelect, options} = this.props;
 
     return (
       <DropdownButton

@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { BackHandler } from 'react-native';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import React, {useEffect} from 'react';
+import {BackHandler} from 'react-native';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import PinCodeContainer from '../container/pinCodeContainer';
 
-function PinCodeScreen({ route, navigation }) {
+function PinCodeScreen({route, navigation}) {
   const hideCloseButton = route.params ? route.params.hideCloseButton ?? false : true;
 
   useEffect(() => {

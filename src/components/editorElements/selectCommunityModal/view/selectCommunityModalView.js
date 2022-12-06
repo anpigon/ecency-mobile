@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, ScrollView, FlatList, Platform } from 'react-native';
-import { injectIntl } from 'react-intl';
+import {View, Text, ScrollView, FlatList, Platform} from 'react-native';
+import {injectIntl} from 'react-intl';
 
 import CommunityCard from '../../../communityCard';
-import { SearchInput } from '../../../searchInput';
-import { Separator } from '../../../basicUIElements';
+import {SearchInput} from '../../../searchInput';
+import {Separator} from '../../../basicUIElements';
 
 import globalStyles from '../../../../globalStyles';
 import styles from './selectCommunityModalStyles';
@@ -22,7 +22,7 @@ function SelectCommunityModalView({
   intl,
 }) {
   return (
-    <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+    <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
       <SearchInput
         style={Platform.OS === 'android' && styles.searchInput}
         onChangeText={onChangeSearch}
@@ -39,7 +39,7 @@ function SelectCommunityModalView({
           style={styles.searchedFlatList}
           data={searchedCommunities}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item, index, separators }) => (
+          renderItem={({item, index, separators}) => (
             <CommunityCard
               community={item}
               key={index.toString()}
@@ -51,27 +51,27 @@ function SelectCommunityModalView({
       ) : (
         <>
           <Text style={[globalStyles.label, styles.title]}>
-            {intl.formatMessage({ id: 'editor.my_blog' }).toUpperCase()}
+            {intl.formatMessage({id: 'editor.my_blog'}).toUpperCase()}
           </Text>
           <CommunityCard
             community={{
               name: currentAccount.name,
-              title: intl.formatMessage({ id: 'editor.my_blog' }),
+              title: intl.formatMessage({id: 'editor.my_blog'}),
             }}
             onPress={() => onPressCommunity(null)}
           />
           {subscribedCommunities && (
             <View>
               <Text style={[globalStyles.label, styles.title]}>
-                {intl.formatMessage({ id: 'editor.my_communities' }).toUpperCase()}
+                {intl.formatMessage({id: 'editor.my_communities'}).toUpperCase()}
               </Text>
               <FlatList
                 ItemSeparatorComponent={() => <Separator />}
                 showsVerticalScrollIndicator={false}
                 data={subscribedCommunities}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item, index, separators }) => {
-                  const community = { name: item[0], title: item[1] };
+                renderItem={({item, index, separators}) => {
+                  const community = {name: item[0], title: item[1]};
                   return (
                     <CommunityCard
                       community={community}
@@ -87,14 +87,14 @@ function SelectCommunityModalView({
           {!topCommunities.loading && !topCommunities.error && topCommunities.data?.length > 0 && (
             <View>
               <Text style={[globalStyles.label, styles.title]}>
-                {intl.formatMessage({ id: 'editor.top_communities' }).toUpperCase()}
+                {intl.formatMessage({id: 'editor.top_communities'}).toUpperCase()}
               </Text>
               <FlatList
                 ItemSeparatorComponent={() => <Separator />}
                 showsVerticalScrollIndicator={false}
                 data={topCommunities.data}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item, index, separators }) => (
+                renderItem={({item, index, separators}) => (
                   <CommunityCard
                     community={item}
                     key={item.name}
@@ -107,7 +107,7 @@ function SelectCommunityModalView({
           )}
         </>
       )}
-      <View style={{ height: 40 }} />
+      <View style={{height: 40}} />
     </ScrollView>
   );
 }

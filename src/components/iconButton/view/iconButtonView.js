@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
-import { TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, {Fragment} from 'react';
+import {TouchableOpacity, ActivityIndicator} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Icon } from '../../icon';
+import {Icon} from '../../icon';
 
 import styles from './iconButtonStyles';
 
@@ -30,13 +30,12 @@ function IconButton({
       style={[styles.iconButton, style]}
       onPress={() => !isLoading && onPress && onPress()}
       underlayColor={backgroundColor || 'white'}
-      disabled={disabled}
-    >
+      disabled={disabled}>
       {!isLoading ? (
         <Icon
           style={[
-            color && { color },
-            backgroundColor && { backgroundColor },
+            color && {color},
+            backgroundColor && {backgroundColor},
             styles.icon,
             iconStyle && iconStyle,
           ]}

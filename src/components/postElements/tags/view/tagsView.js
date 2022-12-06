@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
-import { View, FlatList } from 'react-native';
+import React, {PureComponent} from 'react';
+import {View, FlatList} from 'react-native';
 
 // Components
-import { Tag } from '../../../basicUIElements';
+import {Tag} from '../../../basicUIElements';
 
 // Styles
 import styles from './tagsStyles';
@@ -19,14 +19,14 @@ class TagsView extends PureComponent {
   // Component Functions
 
   render() {
-    const { tags, handleOnTagPress } = this.props;
+    const {tags, handleOnTagPress} = this.props;
 
     return (
       <View style={styles.container}>
         <FlatList
           data={tags}
           horizontal
-          renderItem={({ item, index }) => (
+          renderItem={({item, index}) => (
             <View style={index === 0 && styles.firstTag}>
               <Tag key={index} value={item} isPin={index === 0} onPress={handleOnTagPress} />
             </View>

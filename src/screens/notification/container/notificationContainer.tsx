@@ -1,31 +1,31 @@
-import React, { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, {useRef, useState} from 'react';
+import {useDispatch} from 'react-redux';
 import get from 'lodash/get';
 
 // Actions and Services
-import { useEffect } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+import {useEffect} from 'react';
+import {useQueryClient} from '@tanstack/react-query';
 
 // Constants
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import ROUTES from '../../../constants/routeNames';
 
 // Components
 import NotificationScreen from '../screen/notificationScreen';
-import { showProfileModal } from '../../../redux/actions/uiAction';
-import { useAppSelector } from '../../../hooks';
-import { useNotificationReadMutation, useNotificationsQuery } from '../../../providers/queries';
-import { NotificationFilters } from '../../../providers/ecency/ecency.types';
+import {showProfileModal} from '../../../redux/actions/uiAction';
+import {useAppSelector} from '../../../hooks';
+import {useNotificationReadMutation, useNotificationsQuery} from '../../../providers/queries';
+import {NotificationFilters} from '../../../providers/ecency/ecency.types';
 import QUERIES from '../../../providers/queries/queryKeys';
 
-function NotificationContainer({ navigation }) {
+function NotificationContainer({navigation}) {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
-  const isConnected = useAppSelector((state) => state.application.isConnected);
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const globalProps = useAppSelector((state) => state.account.globalProps);
+  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
+  const isConnected = useAppSelector(state => state.application.isConnected);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const globalProps = useAppSelector(state => state.account.globalProps);
 
   const unreadCountRef = useRef(currentAccount.unread_acitivity_count || 0);
   const curUsername = useRef(currentAccount.username);
@@ -70,7 +70,7 @@ function NotificationContainer({ navigation }) {
     }
   };
 
-  const _navigateToNotificationRoute = (data) => {
+  const _navigateToNotificationRoute = data => {
     const type = get(data, 'type');
     const permlink = get(data, 'permlink');
     const author = get(data, 'author');
@@ -111,7 +111,7 @@ function NotificationContainer({ navigation }) {
     }
   };
 
-  const _handleOnUserPress = (username) => {
+  const _handleOnUserPress = username => {
     dispatch(showProfileModal(username));
   };
 

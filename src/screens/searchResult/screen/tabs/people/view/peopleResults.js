@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, FlatList } from 'react-native';
+import {SafeAreaView, FlatList} from 'react-native';
 
 // Components
 import {
@@ -11,14 +11,14 @@ import PeopleResultsContainer from '../container/peopleResultsContainer';
 
 import styles from './peopleResultsStyles';
 
-function PeopleResults({ searchValue }) {
+function PeopleResults({searchValue}) {
   const _renderEmptyContent = () => {
     return <ListPlaceHolder />;
   };
 
   return (
     <PeopleResultsContainer searchValue={searchValue}>
-      {({ users, handleOnPress, noResult }) => (
+      {({users, handleOnPress, noResult}) => (
         <SafeAreaView style={styles.container}>
           {noResult ? (
             <EmptyScreen />
@@ -26,7 +26,7 @@ function PeopleResults({ searchValue }) {
             <FlatList
               data={users}
               keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item, index }) => (
+              renderItem={({item, index}) => (
                 <UserListItem
                   handleOnPress={() => handleOnPress(item)}
                   index={index}

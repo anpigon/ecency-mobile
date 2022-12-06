@@ -1,5 +1,5 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Platform, View, Text } from 'react-native';
+import React, {PureComponent, Fragment} from 'react';
+import {Platform, View, Text} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -20,7 +20,7 @@ class IconView extends PureComponent {
   // for ios its turn ios-eye-off-outline
   // for android its turn to md-off-outline
   _getIconName = () => {
-    const { name, androidName } = this.props;
+    const {name, androidName} = this.props;
 
     if (name) {
       const isIos = Platform.OS === 'ios';
@@ -35,7 +35,7 @@ class IconView extends PureComponent {
   };
 
   _getIcon = () => {
-    const { iconType, children, name } = this.props;
+    const {iconType, children, name} = this.props;
     let _name = name;
 
     if (iconType !== 'MaterialIcons') {
@@ -62,8 +62,8 @@ class IconView extends PureComponent {
     }
   };
 
-  _getIconWithBadge = (badgeCount) => {
-    const { badgeStyle, badgeTextStyle } = this.props;
+  _getIconWithBadge = badgeCount => {
+    const {badgeStyle, badgeTextStyle} = this.props;
 
     return (
       <>
@@ -76,7 +76,7 @@ class IconView extends PureComponent {
   };
 
   render() {
-    const { badgeCount } = this.props;
+    const {badgeCount} = this.props;
     let _badgeCount = badgeCount;
 
     if (_badgeCount && _badgeCount >= 99) {

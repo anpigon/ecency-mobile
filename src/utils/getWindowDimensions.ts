@@ -1,6 +1,6 @@
-import { Dimensions } from 'react-native';
+import {Dimensions} from 'react-native';
 import Orientation from 'react-native-orientation-locker';
-import { orientations } from '../redux/constants/orientationsConstants';
+import {orientations} from '../redux/constants/orientationsConstants';
 import isAndroidTablet from './isAndroidTablet';
 
 /**
@@ -14,7 +14,7 @@ import isAndroidTablet from './isAndroidTablet';
  *
  */
 const getWindowDimensions = () => {
-  const { getInitialOrientation } = Orientation;
+  const {getInitialOrientation} = Orientation;
   const orientation = getInitialOrientation();
   const isDeviceRotated = orientation !== orientations.PORTRAIT;
 

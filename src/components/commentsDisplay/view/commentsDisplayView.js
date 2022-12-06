@@ -1,12 +1,12 @@
-import React, { useState, Fragment, useImperativeHandle, forwardRef, useRef } from 'react';
-import { View } from 'react-native';
-import { injectIntl, useIntl } from 'react-intl';
+import React, {useState, Fragment, useImperativeHandle, forwardRef, useRef} from 'react';
+import {View} from 'react-native';
+import {injectIntl, useIntl} from 'react-intl';
 
 // Components
-import { FilterBar } from '../../filterBar';
-import { Comments } from '../../comments';
-import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
-import { WriteCommentButton } from './writeCommentButton';
+import {FilterBar} from '../../filterBar';
+import {Comments} from '../../comments';
+import COMMENT_FILTER, {VALUE} from '../../../constants/options/comment';
+import {WriteCommentButton} from './writeCommentButton';
 
 const CommentsDisplayView = forwardRef(
   (
@@ -48,9 +48,9 @@ const CommentsDisplayView = forwardRef(
         <WriteCommentButton ref={writeCommentRef} onPress={handleOnReplyPress} />
         <FilterBar
           dropdownIconName="arrow-drop-down"
-          options={VALUE.map((val) => intl.formatMessage({ id: `comment_filter.${val}` }))}
-          defaultText={intl.formatMessage({ id: `comment_filter.${VALUE[0]}` })}
-          onDropdownSelect={(selectedIndex) =>
+          options={VALUE.map(val => intl.formatMessage({id: `comment_filter.${val}`}))}
+          defaultText={intl.formatMessage({id: `comment_filter.${VALUE[0]}`})}
+          onDropdownSelect={selectedIndex =>
             _handleOnDropdownSelect(COMMENT_FILTER[selectedIndex], selectedIndex)
           }
           selectedOptionIndex={selectedOptionIndex}

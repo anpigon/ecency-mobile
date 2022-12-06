@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Components
-import { DropdownButton, PopoverWrapper, Icon, GrayWrapper } from '../../..';
+import {DropdownButton, PopoverWrapper, Icon, GrayWrapper} from '../../..';
 
 // Styles
 import styles from './walletLineItemStyles';
@@ -47,8 +47,7 @@ function WalletLineItem({
                         : EStyleSheet.value('$primaryLightBackground')
                     }`,
                   },
-                ]}
-              >
+                ]}>
                 <Icon style={styles.icon} name={iconName} iconType={iconType} />
               </View>
             )}
@@ -61,11 +60,10 @@ function WalletLineItem({
                       !iconName && styles.onlyText,
                       rightText && styles.longText,
                       isBlackText && styles.blackText,
-                      textColor && { color: textColor },
-                      isBoldText && { fontWeight: 'bold' },
+                      textColor && {color: textColor},
+                      isBoldText && {fontWeight: 'bold'},
                       isThin && styles.thinText,
-                    ]}
-                  >
+                    ]}>
                     {text}
                   </Text>
                   {!!hintIconName && (
@@ -91,9 +89,8 @@ function WalletLineItem({
               <Text
                 style={[
                   styles.rightText,
-                  rightTextColor ? { color: rightTextColor } : !text && styles.onlyRightText,
-                ]}
-              >
+                  rightTextColor ? {color: rightTextColor} : !text && styles.onlyRightText,
+                ]}>
                 {rightText}
               </Text>
             </View>

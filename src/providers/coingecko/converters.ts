@@ -1,4 +1,4 @@
-import { ChartItem, MarketData } from './models';
+import {ChartItem, MarketData} from './models';
 
 export const convertChartItem = (rawData: any) => {
   if (!rawData) {

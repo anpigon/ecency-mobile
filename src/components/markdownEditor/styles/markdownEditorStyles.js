@@ -1,5 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
 
 export default EStyleSheet.create({

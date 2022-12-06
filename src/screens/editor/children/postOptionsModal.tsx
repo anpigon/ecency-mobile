@@ -1,9 +1,9 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { View } from 'react-native';
+import React, {forwardRef, useEffect, useImperativeHandle, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {View} from 'react-native';
 
-import { View as AnimatedView } from 'react-native-animatable';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {View as AnimatedView} from 'react-native-animatable';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   BeneficiarySelectionContent,
   DateTimePicker,
@@ -98,7 +98,7 @@ const PostOptionsModal = forwardRef(
     // load rewardtype from props if it is already saved in drafts
     useEffect(() => {
       if (rewardType) {
-        const rewardTypeKey = REWARD_TYPES.findIndex((item) => item.key === rewardType);
+        const rewardTypeKey = REWARD_TYPES.findIndex(item => item.key === rewardType);
         setRewardTypeIndex(rewardTypeKey);
       }
     }, [rewardType]);
@@ -138,15 +138,15 @@ const PostOptionsModal = forwardRef(
             {!isEdit && (
               <>
                 <SettingsItem
-                  title={intl.formatMessage({ id: 'editor.scheduled_for' })}
+                  title={intl.formatMessage({id: 'editor.scheduled_for'})}
                   type="dropdown"
                   actionType="reward"
                   options={[
-                    intl.formatMessage({ id: 'editor.scheduled_immediate' }),
-                    intl.formatMessage({ id: 'editor.scheduled_later' }),
+                    intl.formatMessage({id: 'editor.scheduled_immediate'}),
+                    intl.formatMessage({id: 'editor.scheduled_later'}),
                   ]}
                   selectedOptionIndex={scheduleLater ? 1 : 0}
-                  handleOnChange={(index) => {
+                  handleOnChange={index => {
                     setScheduleLater(index === 1);
                     if (index !== 1) {
                       handleScheduleChange(null);
@@ -170,7 +170,7 @@ const PostOptionsModal = forwardRef(
                   })}
                   type="dropdown"
                   actionType="reward"
-                  options={REWARD_TYPES.map((type) => intl.formatMessage({ id: type.intlId }))}
+                  options={REWARD_TYPES.map(type => intl.formatMessage({id: type.intlId}))}
                   selectedOptionIndex={rewardTypeIndex}
                   handleOnChange={_handleRewardChange}
                 />
@@ -203,10 +203,10 @@ const PostOptionsModal = forwardRef(
         </KeyboardAwareScrollView>
 
         <MainButton
-          style={{ ...styles.saveButton }}
+          style={{...styles.saveButton}}
           isDisable={disableDone}
           onPress={_onDonePress}
-          text={intl.formatMessage({ id: 'editor.done' })}
+          text={intl.formatMessage({id: 'editor.done'})}
         />
       </View>
     );
@@ -221,10 +221,9 @@ const PostOptionsModal = forwardRef(
         isFullScreen
         isCloseButton
         presentationStyle="formSheet"
-        title={intl.formatMessage({ id: 'editor.settings_title' })}
+        title={intl.formatMessage({id: 'editor.settings_title'})}
         animationType="slide"
-        style={styles.modalStyle}
-      >
+        style={styles.modalStyle}>
         {_renderContent()}
       </Modal>
     );

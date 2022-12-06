@@ -1,6 +1,6 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import { View, TouchableHighlight, Text } from 'react-native';
-import { Icon } from '../../../icon';
+import React, {Fragment, useState, useEffect} from 'react';
+import {View, TouchableHighlight, Text} from 'react-native';
+import {Icon} from '../../../icon';
 import styles from './textWithIconStyles';
 
 function TextWithIcon({
@@ -26,11 +26,10 @@ function TextWithIcon({
         underlayColor="transparent"
         disabled={!isClickable || !onPress}
         onPress={() => onPress && onPress()}
-        onLongPress={() => onLongPress && onLongPress()}
-      >
+        onLongPress={() => onLongPress && onLongPress()}>
         <>
           <Icon
-            style={[styles.icon, iconStyle, iconSize && { fontSize: iconSize }]}
+            style={[styles.icon, iconStyle, iconSize && {fontSize: iconSize}]}
             name={iconName}
             iconType={iconType}
           />

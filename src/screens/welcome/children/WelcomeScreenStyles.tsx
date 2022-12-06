@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import scalePx from '../../../utils/scalePx';
@@ -44,7 +44,7 @@ export default EStyleSheet.create({
     right: 8,
     opacity: 0.7,
     shadowColor: '$primaryBlack',
-    shadowOffset: { width: 0, height: 0 },
+    shadowOffset: {width: 0, height: 0},
     shadowOpacity: 0.2,
     shadowRadius: 20,
     overflow: 'visible',

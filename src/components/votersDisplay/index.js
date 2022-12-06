@@ -1,4 +1,4 @@
 import VotersDisplay from './view/votersDisplayView';
 
-export { VotersDisplay };
+export {VotersDisplay};
 export default VotersDisplay;

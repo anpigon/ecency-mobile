@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import React, {useState, useRef, useEffect} from 'react';
+import {View, StyleSheet, ActivityIndicator} from 'react-native';
 
 import WebView from 'react-native-webview';
-import YoutubeIframe, { InitialPlayerParams } from 'react-native-youtube-iframe';
+import YoutubeIframe, {InitialPlayerParams} from 'react-native-youtube-iframe';
 import Video from 'react-native-video';
-import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
+import MediaControls, {PLAYER_STATES} from 'react-native-media-controls';
 import Orientation from 'react-native-orientation-locker';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import getWindowDimensions from '../../utils/getWindowDimensions';
-import { orientations } from '../../redux/constants/orientationsConstants';
+import {orientations} from '../../redux/constants/orientationsConstants';
 
 interface VideoPlayerProps {
   mode: 'uri' | 'youtube';
@@ -40,7 +40,7 @@ function VideoPlayer({
   const [paused, setPaused] = useState(true);
   const [playerState, setPlayerState] = useState(PLAYER_STATES.PAUSED);
   const [screenType, setScreenType] = useState('contain');
-  const lockedOrientation = useSelector((state) => state.ui.lockedOrientation);
+  const lockedOrientation = useSelector(state => state.ui.lockedOrientation);
 
   useEffect(() => {
     if (isFullScreen) {
@@ -78,11 +78,11 @@ function VideoPlayer({
   };
 
   // react-native-video player handlers
-  const onSeek = (seek) => {
+  const onSeek = seek => {
     videoPlayer.current.seek(seek);
   };
 
-  const onPaused = (playerState) => {
+  const onPaused = playerState => {
     setPaused(!paused);
     setPlayerState(playerState);
   };
@@ -92,13 +92,13 @@ function VideoPlayer({
     videoPlayer.current.seek(0);
   };
 
-  const onProgress = (data) => {
+  const onProgress = data => {
     if (!isLoading && playerState !== PLAYER_STATES.ENDED) {
       setCurrentTime(data.currentTime);
     }
   };
 
-  const onLoad = (data) => {
+  const onLoad = data => {
     setDuration(data.duration);
     videoPlayer.current.seek(0);
     setIsLoading(false);
@@ -124,11 +124,11 @@ function VideoPlayer({
     else setScreenType('contain');
   };
 
-  const onSeeking = (currentTime) => setCurrentTime(currentTime);
+  const onSeeking = currentTime => setCurrentTime(currentTime);
 
   const _renderVideoplayerWithControls = () => {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <Video
           source={{
             uri,
@@ -166,7 +166,7 @@ function VideoPlayer({
     );
   };
 
-  const htmlIframeVideoPlayer = (uri) =>
+  const htmlIframeVideoPlayer = uri =>
     `
       <!DOCTYPE html>
         <html>
@@ -199,7 +199,7 @@ function VideoPlayer({
   return (
     <View style={styles.container}>
       {mode === 'youtube' && youtubeVideoId && (
-        <View style={{ width: contentWidth, height: PLAYER_HEIGHT }}>
+        <View style={{width: contentWidth, height: PLAYER_HEIGHT}}>
           <YoutubeIframe
             height={PLAYER_HEIGHT}
             videoId={youtubeVideoId}
@@ -208,12 +208,12 @@ function VideoPlayer({
             play={shouldPlay}
             onChangeState={_onChangeState}
             onError={_onError}
-            onFullScreenChange={(status) => setIsFullScreen(status)}
+            onFullScreenChange={status => setIsFullScreen(status)}
           />
         </View>
       )}
       {mode === 'uri' && uri && (
-        <View style={[styles.playerWrapper, { height: PLAYER_HEIGHT }]}>
+        <View style={[styles.playerWrapper, {height: PLAYER_HEIGHT}]}>
           {isExtensionType ? (
             _renderVideoplayerWithControls()
           ) : (
@@ -228,8 +228,8 @@ function VideoPlayer({
               onLoadStart={() => {
                 setIsLoading(true);
               }}
-              source={{ html: htmlIframeVideoPlayer(uri) }}
-              style={[styles.barkBackground, { width: contentWidth, height: PLAYER_HEIGHT }]}
+              source={{html: htmlIframeVideoPlayer(uri)}}
+              style={[styles.barkBackground, {width: contentWidth, height: PLAYER_HEIGHT}]}
               startInLoadingState={true}
               onShouldStartLoadWithRequest={() => true}
               mediaPlaybackRequiresUserAction={true}

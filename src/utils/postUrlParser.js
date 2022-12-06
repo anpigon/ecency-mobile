@@ -1,4 +1,4 @@
-const parseCatAuthorPermlink = (u) => {
+const parseCatAuthorPermlink = u => {
   const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*?)(?:\?|$)/i;
   const postMatch = u.match(postRegex);
 
@@ -28,7 +28,7 @@ const parseCatAuthorPermlink = (u) => {
   return null;
 };
 
-const parseAuthorPermlink = (u) => {
+const parseAuthorPermlink = u => {
   const r = /^https?:\/\/(.*)\/(@[\w.\d-]+)\/(.*?)(?:\?|$)/i;
   const match = u.match(r);
 
@@ -50,7 +50,7 @@ const parseAuthorPermlink = (u) => {
   return null;
 };
 
-export default (url) => {
+export default url => {
   url = url && url.toLowerCase();
   if (url.startsWith('ecency://') || url.startsWith('esteem://')) {
     url = url
@@ -119,14 +119,14 @@ export default (url) => {
       'https://hive.blog',
       'https://peakd.com',
       'https://leofinance.io',
-    ].some((x) => url.startsWith(x))
+    ].some(x => url.startsWith(x))
   ) {
     return parseCatAuthorPermlink(url);
   }
 
   if (
     ['https://ecency.com', 'https://hive.blog', 'https://peakd.com', 'https://leofinance.io'].some(
-      (x) => url.startsWith(x),
+      x => url.startsWith(x),
     )
   ) {
     return parseAuthorPermlink(url);

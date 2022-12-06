@@ -1,7 +1,7 @@
-import React, { forwardRef, memo, useRef, useImperativeHandle, useState, useEffect } from 'react';
-import { get } from 'lodash';
-import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import React, {forwardRef, memo, useRef, useImperativeHandle, useState, useEffect} from 'react';
+import {get} from 'lodash';
+import {FlatListProps, FlatList, RefreshControl, ActivityIndicator, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import PostCard from '../../postCard';
 import styles from '../view/postsListStyles';
 
@@ -38,20 +38,20 @@ const postsListContainer = (
 
   const [imageHeights, setImageHeights] = useState(new Map<string, number>());
 
-  const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
-  const isDarkTheme = useSelector((state) => state.application.isDarkThem);
-  const posts = useSelector((state) => {
+  const isHideImages = useSelector(state => state.application.hidePostsThumbnails);
+  const isDarkTheme = useSelector(state => state.application.isDarkThem);
+  const posts = useSelector(state => {
     return isFeedScreen ? state.posts.feedPosts : state.posts.otherPosts;
   });
-  const mutes = useSelector((state) => state.account.currentAccount.mutes);
+  const mutes = useSelector(state => state.account.currentAccount.mutes);
 
-  const scrollPosition = useSelector((state) => {
+  const scrollPosition = useSelector(state => {
     return isFeedScreen ? state.posts.feedScrollPosition : state.posts.otherScrollPosition;
   });
 
   useImperativeHandle(ref, () => ({
     scrollToTop() {
-      flatListRef.current?.scrollToOffset({ x: 0, y: 0, animated: true });
+      flatListRef.current?.scrollToOffset({x: 0, y: 0, animated: true});
     },
   }));
 
@@ -98,7 +98,7 @@ const postsListContainer = (
     }
   };
 
-  const _renderItem = ({ item, index }: { item: any; index: number }) => {
+  const _renderItem = ({item, index}: {item: any; index: number}) => {
     const e = [];
 
     if (index % 3 === 0) {
@@ -111,7 +111,7 @@ const postsListContainer = (
           !isMuted &&
           get(p, 'author', null) &&
           posts &&
-          posts.filter((x) => x.permlink === p.permlink).length <= 0
+          posts.filter(x => x.permlink === p.permlink).length <= 0
         ) {
           // get image height from cache if available
           const localId = p.author + p.permlink;

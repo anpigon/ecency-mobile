@@ -1,4 +1,4 @@
-export const getCurrentHpApr = (gprops) => {
+export const getCurrentHpApr = gprops => {
   // The inflation was set to 9.5% at block 7m
   const initialInflationRate = 9.5;
   const initialBlock = 7000000;
@@ -8,7 +8,7 @@ export const getCurrentHpApr = (gprops) => {
   const decreasePercentPerIncrement = 0.01;
 
   // How many increments have happened since block 7m?
-  const { headBlock } = gprops;
+  const {headBlock} = gprops;
   const deltaBlocks = headBlock - initialBlock;
   const decreaseIncrements = deltaBlocks / decreaseRate;
 
@@ -23,7 +23,7 @@ export const getCurrentHpApr = (gprops) => {
 
   // Now lets calculate the "APR"
   const vestingRewardPercent = gprops.vestingRewardPercent / 10000;
-  const { virtualSupply } = gprops;
+  const {virtualSupply} = gprops;
   const totalVestingFunds = gprops.totalVestingFund;
   return (virtualSupply * currentInflationRate * vestingRewardPercent) / totalVestingFunds;
 };

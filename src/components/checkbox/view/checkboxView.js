@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, TouchableOpacity} from 'react-native';
 
 import styles from './checkboxStyles';
 
-function CheckBoxView({ clicked, value, isChecked, style, locked }) {
+function CheckBoxView({clicked, value, isChecked, style, locked}) {
   const [isCheck, setIsCheck] = useState(false);
 
   useEffect(() => {

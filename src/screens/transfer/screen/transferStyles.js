@@ -303,7 +303,7 @@ export default EStyleSheet.create({
     borderRadius: 20 / 2,
     backgroundColor: '$primaryLightBackground',
     shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowRadius: 2,
     shadowOpacity: 0.35,
     elevation: 3,

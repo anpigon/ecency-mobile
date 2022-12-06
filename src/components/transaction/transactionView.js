@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { useIntl } from 'react-intl';
+import React, {useState} from 'react';
+import {useIntl} from 'react-intl';
 import get from 'lodash/get';
 
 // Utilities
-import { View as AnimatedView } from 'react-native-animatable';
-import { getTimeFromNow } from '../../utils/time';
+import {View as AnimatedView} from 'react-native-animatable';
+import {getTimeFromNow} from '../../utils/time';
 
 // Components
-import { WalletLineItem } from '../basicUIElements';
+import {WalletLineItem} from '../basicUIElements';
 
-function TransactionView({ item, index }) {
+function TransactionView({item, index}) {
   const intl = useIntl();
   const [collapsed, setCollapsed] = useState(true);
 
@@ -21,7 +21,7 @@ function TransactionView({ item, index }) {
         id: `wallet.${get(item, 'textKey')}`,
       })}
       description={
-        (item.expires ? `${intl.formatMessage({ id: 'wallet.expires' })} ` : '') +
+        (item.expires ? `${intl.formatMessage({id: 'wallet.expires'})} ` : '') +
         getTimeFromNow(item.expires || item.created)
       }
       isCircleIcon

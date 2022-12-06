@@ -1,4 +1,4 @@
-import { SubscribedCommunity } from '../redux/reducers/cacheReducer';
+import {SubscribedCommunity} from '../redux/reducers/cacheReducer';
 
 /**
  * Accepts Array of subscription items arrays as 1st argument, community cache map as second argument.
@@ -14,8 +14,8 @@ export const mergeSubCommunitiesCacheInSubList = (
     return subList.sort((a, b) => a[1].localeCompare(b[1]));
   }
   const cacheList = Array.from(cacheMap, ([_, item]) => item.data);
-  cacheList.forEach((cacheListItem) => {
-    const index = subList.findIndex((subListItem) => subListItem[0] === cacheListItem[0]);
+  cacheList.forEach(cacheListItem => {
+    const index = subList.findIndex(subListItem => subListItem[0] === cacheListItem[0]);
     if (index !== -1) {
       subList[index] = [...cacheListItem];
     } else {
@@ -37,7 +37,7 @@ export const mergeSubCommunitiesCacheInDiscoverList = (
   if (!cacheMap || !cacheMap.size) {
     return discoverList;
   }
-  discoverList.forEach((discoverListItem) => {
+  discoverList.forEach(discoverListItem => {
     const itemExist = cacheMap.get(discoverListItem.name);
     if (itemExist) {
       discoverListItem.isSubscribed = itemExist.data[4];

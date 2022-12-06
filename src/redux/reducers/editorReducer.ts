@@ -1,4 +1,4 @@
-import { REMOVE_BENEFICIARIES, SET_BENEFICIARIES } from '../constants/constants';
+import {REMOVE_BENEFICIARIES, SET_BENEFICIARIES} from '../constants/constants';
 
 export interface Beneficiary {
   account: string;
@@ -17,8 +17,8 @@ const initialState: State = {
   beneficiariesMap: {},
 };
 
-export default function editReducer(state = initialState, action = { type: '', payload: {} }) {
-  const { type, payload } = action;
+export default function editReducer(state = initialState, action = {type: '', payload: {}}) {
+  const {type, payload} = action;
   switch (type) {
     case SET_BENEFICIARIES:
       state.beneficiariesMap[payload.draftId] = payload.benficiaries;

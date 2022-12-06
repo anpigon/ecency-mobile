@@ -1,3 +1,3 @@
 import AvatarHeader from './avatarHeaderView';
 
-export { AvatarHeader };
+export {AvatarHeader};

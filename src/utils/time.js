@@ -12,7 +12,7 @@ const MONTH = 60 * 60 * 24 * 30;
 const YEAR = 60 * 60 * 24 * 365;
 
 // TODO: once hermes has Intl support, enable native version
-export const getTimeFromNowNative = (d) => {
+export const getTimeFromNowNative = d => {
   if (!d) {
     return null;
   }
@@ -27,7 +27,7 @@ export const getTimeFromNowNative = (d) => {
   const diff = Math.abs((dateNow - dateIn) / 1000);
 
   if (diff < MINUTE) {
-    return { unit: 'second', value: future ? Math.round(diff) : -Math.round(diff) };
+    return {unit: 'second', value: future ? Math.round(diff) : -Math.round(diff)};
   }
   if (diff < HOUR) {
     return {
@@ -36,21 +36,21 @@ export const getTimeFromNowNative = (d) => {
     };
   }
   if (diff < DAY) {
-    return { unit: 'hour', value: future ? Math.round(diff / HOUR) : -Math.round(diff / HOUR) };
+    return {unit: 'hour', value: future ? Math.round(diff / HOUR) : -Math.round(diff / HOUR)};
   }
   if (diff < WEEK) {
-    return { unit: 'day', value: future ? Math.round(diff / DAY) : -Math.round(diff / DAY) };
+    return {unit: 'day', value: future ? Math.round(diff / DAY) : -Math.round(diff / DAY)};
   }
   if (diff < MONTH) {
-    return { unit: 'week', value: future ? Math.round(diff / WEEK) : -Math.round(diff / WEEK) };
+    return {unit: 'week', value: future ? Math.round(diff / WEEK) : -Math.round(diff / WEEK)};
   }
   if (diff < YEAR) {
-    return { unit: 'month', value: future ? Math.round(diff / MONTH) : -Math.round(diff / MONTH) };
+    return {unit: 'month', value: future ? Math.round(diff / MONTH) : -Math.round(diff / MONTH)};
   }
   if (diff > YEAR) {
-    return { unit: 'year', value: future ? Math.round(diff / YEAR) : -Math.round(diff / YEAR) };
+    return {unit: 'year', value: future ? Math.round(diff / YEAR) : -Math.round(diff / YEAR)};
   }
-  return { unit: 'day', value: future ? Math.round(diff / DAY) : -Math.round(diff / DAY) };
+  return {unit: 'day', value: future ? Math.round(diff / DAY) : -Math.round(diff / DAY)};
 };
 
 export const setMomentLocale = () => {
@@ -86,7 +86,7 @@ export const getTimeFromNow = (value, isWithoutUtc) => {
   return moment.utc(value).fromNow();
 };
 
-export const getFormatedCreatedDate = (value) => {
+export const getFormatedCreatedDate = value => {
   if (!value) {
     return null;
   }
@@ -96,7 +96,7 @@ export const getFormatedCreatedDate = (value) => {
 
 export const isBefore = (a, b) => new Date(b) - new Date(a);
 
-export const isToday = (value) => {
+export const isToday = value => {
   const day = new Date(value);
   return TODAY.getDate() === day.getDate() &&
     TODAY.getMonth() === day.getMonth() &&
@@ -105,27 +105,27 @@ export const isToday = (value) => {
     : 0;
 };
 
-export const isYesterday = (value) => {
+export const isYesterday = value => {
   const day = new Date(value).getTime();
   return day < TODAY.getTime() && day > ONE_DAY.getTime();
 };
 
-export const isThisWeek = (value) => {
+export const isThisWeek = value => {
   const day = new Date(value).getTime();
   return day < TODAY.getTime() && day > SEVEN_DAY.getTime();
 };
 
-export const isLastWeek = (value) => {
+export const isLastWeek = value => {
   const day = new Date(value).getTime();
   return day < SEVEN_DAY.getTime() && day > 2 * SEVEN_DAY.getTime();
 };
 
-export const isThisMonth = (value) => {
+export const isThisMonth = value => {
   const day = new Date(value);
   return TODAY.getMonth() === day.getMonth() && TODAY.getFullYear() === day.getFullYear() ? 1 : 0;
 };
 
-export const isEmptyContentDate = (value) => {
+export const isEmptyContentDate = value => {
   if (!value) {
     return false;
   }
@@ -133,13 +133,13 @@ export const isEmptyContentDate = (value) => {
   return parseInt(value.split('-')[0], 10) < 1980;
 };
 
-export const isEmptyDate = (s) => parseInt(s.split('-')[0], 10) < 1980;
+export const isEmptyDate = s => parseInt(s.split('-')[0], 10) < 1980;
 
 /**
  * Accepts javascript date , returns number of days between given date and todays date.
  *
  * */
-export const daysTillDate = (dateObj) => {
+export const daysTillDate = dateObj => {
   const given = moment(dateObj);
   const current = moment();
   return Math.round(moment.duration(given.diff(current)).asDays());

@@ -75,7 +75,7 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     marginLeft: 8,
     marginRight: -16,
-    transform: [{ rotate: '45deg' }],
+    transform: [{rotate: '45deg'}],
   },
   leftFooterWrapper: {
     flex: 1,

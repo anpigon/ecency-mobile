@@ -1,10 +1,10 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { Icon } from '../icon';
+import {TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {Icon} from '../icon';
 
 // Constant
-import { default as ROUTES } from '../../constants/routeNames';
+import {default as ROUTES} from '../../constants/routeNames';
 import scalePx from '../../utils/scalePx';
 
 function PostButtonView() {
@@ -17,11 +17,10 @@ function PostButtonView() {
           key: 'editor_post',
         })
       }
-      activeOpacity={1}
-    >
+      activeOpacity={1}>
       <Icon
         iconType="MaterialCommunityIcons"
-        style={{ padding: 15 }}
+        style={{padding: 15}}
         name="pencil"
         color="#c1c5c7"
         size={scalePx(26)}

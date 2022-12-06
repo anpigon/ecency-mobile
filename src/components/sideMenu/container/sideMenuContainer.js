@@ -1,22 +1,20 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 // Actions
-import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
-import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
-import { logout } from '../../../redux/actions/applicationActions';
+import {toggleAccountsBottomSheet} from '../../../redux/actions/uiAction';
+import {setInitPosts, setFeedPosts} from '../../../redux/actions/postsAction';
+import {logout} from '../../../redux/actions/applicationActions';
 
 // Component
 import SideMenuView from '../view/sideMenuView';
 
-function SideMenuContainer({ navigation }) {
+function SideMenuContainer({navigation}) {
   const dispatch = useDispatch();
 
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
-  const currentAccount = useSelector((state) => state.account.currentAccount);
-  const isVisibleAccountsBottomSheet = useSelector(
-    (state) => state.ui.isVisibleAccountsBottomSheet,
-  );
+  const isLoggedIn = useSelector(state => state.application.isLoggedIn);
+  const currentAccount = useSelector(state => state.account.currentAccount);
+  const isVisibleAccountsBottomSheet = useSelector(state => state.ui.isVisibleAccountsBottomSheet);
 
   const _navigateToRoute = (route = null) => {
     if (route) {

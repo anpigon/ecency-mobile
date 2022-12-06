@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import * as Progress from 'react-native-progress';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 import styles from './quickProfileStyles';
-import { UserAvatar } from '../../..';
+import {UserAvatar} from '../../..';
 
 interface Props {
   username: string;
@@ -19,14 +19,14 @@ interface Props {
   onPress: () => void;
 }
 
-export function ProfileBasic({ username, about, votingPower, isLoading, created, onPress }: Props) {
+export function ProfileBasic({username, about, votingPower, isLoading, created, onPress}: Props) {
   const intl = useIntl();
   const progress = parseInt(votingPower || '0') / 100;
 
   let joinedString = '---';
   if (created) {
-    const timeString = `${-created.value} ${intl.formatMessage({ id: `time.${created.unit}` })}`;
-    joinedString = intl.formatMessage({ id: 'profile.joined' }, { time: timeString });
+    const timeString = `${-created.value} ${intl.formatMessage({id: `time.${created.unit}`})}`;
+    joinedString = intl.formatMessage({id: 'profile.joined'}, {time: timeString});
   }
 
   return (

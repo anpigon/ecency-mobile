@@ -1,5 +1,5 @@
 import unionBy from 'lodash/unionBy';
-import { TabMeta } from './tabbedPostsModels';
+import {TabMeta} from './tabbedPostsModels';
 
 // cacludate posts check refresh time for selected filter;
 export const calculateTimeLeftForPostCheck = (firstPost: any) => {
@@ -22,9 +22,9 @@ export const filterLatestPosts = (fetchedPosts: any[], cachedPosts: any[]) => {
   console.log('Comparing: ', fetchedPosts, cachedPosts);
 
   const latestPosts = [];
-  fetchedPosts.forEach((post) => {
+  fetchedPosts.forEach(post => {
     const newPostAuthPrem = post.author + post.permlink;
-    const postExist = cachedPosts.find((cPost) => cPost.author + post.permlink === newPostAuthPrem);
+    const postExist = cachedPosts.find(cPost => cPost.author + post.permlink === newPostAuthPrem);
 
     if (!postExist) {
       latestPosts.push(post);

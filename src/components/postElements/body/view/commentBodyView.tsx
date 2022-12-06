@@ -1,6 +1,6 @@
-import React, { Fragment, useState, useRef } from 'react';
-import { Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
-import { useIntl } from 'react-intl';
+import React, {Fragment, useState, useRef} from 'react';
+import {Linking, Modal, PermissionsAndroid, Platform, View} from 'react-native';
+import {useIntl} from 'react-intl';
 import CameraRoll from '@react-native-community/cameraroll';
 import RNFetchBlob from 'rn-fetch-blob';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -8,25 +8,25 @@ import ActionsSheetView from 'react-native-actions-sheet';
 
 // import AutoHeightWebView from 'react-native-autoheight-webview';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
+import {LongPressGestureHandler, State} from 'react-native-gesture-handler';
 import RootNavigation from '../../../../navigation/rootNavigation';
 
 // Constants
-import { default as ROUTES } from '../../../../constants/routeNames';
+import {default as ROUTES} from '../../../../constants/routeNames';
 
-import { PostHtmlRenderer, TextButton, VideoPlayer } from '../../..';
+import {PostHtmlRenderer, TextButton, VideoPlayer} from '../../..';
 
 // Styles
 import styles from './commentBodyStyles';
 
 // Services and Actions
-import { writeToClipboard } from '../../../../utils/clipboard';
-import { toastNotification } from '../../../../redux/actions/uiAction';
+import {writeToClipboard} from '../../../../utils/clipboard';
+import {toastNotification} from '../../../../redux/actions/uiAction';
 
-import { OptionsModal } from '../../../atoms';
-import { useAppDispatch } from '../../../../hooks';
-import { isCommunity } from '../../../../utils/communityValidation';
-import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
+import {OptionsModal} from '../../../atoms';
+import {useAppDispatch} from '../../../../hooks';
+import {isCommunity} from '../../../../utils/communityValidation';
+import {GLOBAL_POST_FILTERS_VALUE} from '../../../../constants/options/filters';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
 const WIDTH = getWindowDimensions().width;
@@ -59,7 +59,7 @@ function CommentBody({
   const actionLink = useRef(null);
   const youtubePlayerRef = useRef(null);
 
-  const _onLongPressStateChange = ({ nativeEvent }) => {
+  const _onLongPressStateChange = ({nativeEvent}) => {
     if (nativeEvent.state === State.ACTIVE) {
       handleOnLongPress();
     }
@@ -69,7 +69,7 @@ function CommentBody({
     setRevealComment(true);
   };
 
-  const handleImagePress = (ind) => {
+  const handleImagePress = ind => {
     if (ind === 1) {
       // open gallery mode
       setIsImageModalOpen(true);
@@ -94,7 +94,7 @@ function CommentBody({
     setSelectedImage(null);
   };
 
-  const handleLinkPress = (ind) => {
+  const handleLinkPress = ind => {
     if (ind === 1) {
       // open link
       if (selectedLink) {
@@ -168,7 +168,7 @@ function CommentBody({
     }
   };
 
-  const _handleOnUserPress = (username) => {
+  const _handleOnUserPress = username => {
     if (handleOnUserPress) {
       handleOnUserPress(username);
       return;
@@ -202,14 +202,14 @@ function CommentBody({
     }
   };
 
-  const _downloadImage = async (uri) => {
+  const _downloadImage = async uri => {
     return RNFetchBlob.config({
       fileCache: true,
       appendExt: 'jpg',
     })
       .fetch('GET', uri)
-      .then((res) => {
-        const { status } = res.info();
+      .then(res => {
+        const {status} = res.info();
 
         if (status == 200) {
           return res.path();
@@ -217,12 +217,12 @@ function CommentBody({
           Promise.reject();
         }
       })
-      .catch((errorMessage) => {
+      .catch(errorMessage => {
         Promise.reject(errorMessage);
       });
   };
 
-  const _saveImage = async (uri) => {
+  const _saveImage = async uri => {
     try {
       if (Platform.OS === 'android') {
         await checkAndroidPermission();
@@ -266,7 +266,7 @@ function CommentBody({
     }
   };
 
-  const _handleVideoPress = (embedUrl) => {
+  const _handleVideoPress = embedUrl => {
     if (embedUrl && youtubePlayerRef.current) {
       setVideoUrl(embedUrl);
       setVideoStartTime(0);
@@ -278,7 +278,7 @@ function CommentBody({
     <>
       <Modal key={`mkey-${created.toString()}`} visible={isImageModalOpen} transparent={true}>
         <ImageViewer
-          imageUrls={postImages.map((url) => ({ url }))}
+          imageUrls={postImages.map(url => ({url}))}
           enableSwipeDown
           onCancel={() => setIsImageModalOpen(false)}
           onClick={() => setIsImageModalOpen(false)}
@@ -287,27 +287,27 @@ function CommentBody({
       <OptionsModal
         ref={actionImage}
         options={[
-          intl.formatMessage({ id: 'post.copy_link' }),
-          intl.formatMessage({ id: 'post.gallery_mode' }),
-          intl.formatMessage({ id: 'post.save_to_local' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
+          intl.formatMessage({id: 'post.copy_link'}),
+          intl.formatMessage({id: 'post.gallery_mode'}),
+          intl.formatMessage({id: 'post.save_to_local'}),
+          intl.formatMessage({id: 'alert.cancel'}),
         ]}
-        title={intl.formatMessage({ id: 'post.image' })}
+        title={intl.formatMessage({id: 'post.image'})}
         cancelButtonIndex={3}
-        onPress={(index) => {
+        onPress={index => {
           handleImagePress(index);
         }}
       />
       <OptionsModal
         ref={actionLink}
         options={[
-          intl.formatMessage({ id: 'post.copy_link' }),
-          intl.formatMessage({ id: 'alert.external_link' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
+          intl.formatMessage({id: 'post.copy_link'}),
+          intl.formatMessage({id: 'alert.external_link'}),
+          intl.formatMessage({id: 'alert.cancel'}),
         ]}
-        title={intl.formatMessage({ id: 'post.link' })}
+        title={intl.formatMessage({id: 'post.link'})}
         cancelButtonIndex={2}
-        onPress={(index) => {
+        onPress={index => {
           handleLinkPress(index);
         }}
       />
@@ -333,20 +333,19 @@ function CommentBody({
           style={styles.revealButton}
           textStyle={styles.revealText}
           onPress={() => _showLowComment()}
-          text={intl.formatMessage({ id: 'comments.reveal_comment' })}
+          text={intl.formatMessage({id: 'comments.reveal_comment'})}
         />
       )}
       <ActionsSheetView
         ref={youtubePlayerRef}
         gestureEnabled={true}
         hideUnderlay
-        containerStyle={{ backgroundColor: 'black' }}
+        containerStyle={{backgroundColor: 'black'}}
         indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
         onClose={() => {
           setYoutubeVideoId(null);
           setVideoUrl(null);
-        }}
-      >
+        }}>
         <VideoPlayer
           mode={youtubeVideoId ? 'youtube' : 'uri'}
           youtubeVideoId={youtubeVideoId}

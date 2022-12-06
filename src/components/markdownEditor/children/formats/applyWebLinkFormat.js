@@ -1,4 +1,4 @@
-import { isStringWebLink, replaceBetween } from './utils';
+import {isStringWebLink, replaceBetween} from './utils';
 
 export const writeUrlTextHere = 'https://example.com';
 export const writeTextHereString = 'Text here';
@@ -65,5 +65,5 @@ export default async ({
     }
   }
 
-  setTextAndSelection({ text: newText, selection: newSelection });
+  setTextAndSelection({text: newText, selection: newSelection});
 };

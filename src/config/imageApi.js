@@ -11,12 +11,12 @@ function upload(fd, username, signature, uploadProgress) {
     onUploadProgress: uploadProgress,
   });
 
-  image.interceptors.request.use((request) => {
+  image.interceptors.request.use(request => {
     console.log('Starting image Request', request);
     return request;
   });
 
-  image.interceptors.response.use((response) => {
+  image.interceptors.response.use(response => {
     console.log('Response:', response);
     return response;
   });
@@ -24,4 +24,4 @@ function upload(fd, username, signature, uploadProgress) {
   return image.post('', fd);
 }
 
-export { upload };
+export {upload};

@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { Animated, Easing } from 'react-native';
+import React, {PureComponent} from 'react';
+import {Animated, Easing} from 'react-native';
 
 export default class Indicator extends PureComponent {
   constructor(props) {
@@ -13,7 +13,7 @@ export default class Indicator extends PureComponent {
   }
 
   componentDidMount() {
-    const { animating } = this.props;
+    const {animating} = this.props;
 
     this.mounted = true;
 
@@ -23,7 +23,7 @@ export default class Indicator extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { animating } = this.props;
+    const {animating} = this.props;
 
     if (animating !== prevProps.animating) {
       if (animating) {
@@ -38,9 +38,9 @@ export default class Indicator extends PureComponent {
     this.mounted = false;
   }
 
-  _startAnimation = ({ finished } = {}) => {
-    const { progress } = this.state;
-    const { interaction, animationEasing, animationDuration } = this.props;
+  _startAnimation = ({finished} = {}) => {
+    const {progress} = this.state;
+    const {interaction, animationEasing, animationDuration} = this.props;
 
     if (!this.mounted || finished === false) {
       return;
@@ -55,11 +55,11 @@ export default class Indicator extends PureComponent {
 
     Animated.loop(animation).start();
 
-    this.setState({ animation });
+    this.setState({animation});
   };
 
   _stopAnimation = () => {
-    const { animation } = this.state;
+    const {animation} = this.state;
 
     if (animation == null) {
       return;
@@ -67,22 +67,22 @@ export default class Indicator extends PureComponent {
 
     animation.stop();
 
-    this.setState({ animation: null });
+    this.setState({animation: null});
   };
 
   _renderComponent = (undefined, index) => {
-    const { progress } = this.state;
-    const { renderComponent } = this.props;
+    const {progress} = this.state;
+    const {renderComponent} = this.props;
 
     if (renderComponent) {
-      return renderComponent({ index, progress });
+      return renderComponent({index, progress});
     }
 
     return null;
   };
 
   render() {
-    const { count, ...props } = this.props;
+    const {count, ...props} = this.props;
 
     return (
       <Animated.View {...props}>
@@ -100,4 +100,4 @@ Indicator.defaultProps = {
   count: 1,
 };
 
-export { Indicator };
+export {Indicator};

@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react';
-import { View, TouchableHighlight } from 'react-native';
-import Animated, { EasingNode } from 'react-native-reanimated';
+import React, {PureComponent} from 'react';
+import {View, TouchableHighlight} from 'react-native';
+import Animated, {EasingNode} from 'react-native-reanimated';
 
 // Constants
 
 // Components
-import { ContainerHeader } from '../../containerHeader';
+import {ContainerHeader} from '../../containerHeader';
 // Styles
 import styles from './collapsibleCardStyles';
 
@@ -34,8 +34,8 @@ class CollapsibleCardView extends PureComponent {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isExpanded, moreHeight, locked } = this.props;
-    const { expanded } = this.state;
+    const {isExpanded, moreHeight, locked} = this.props;
+    const {expanded} = this.state;
 
     if (
       (locked || !nextProps.isExpanded) &&
@@ -51,7 +51,7 @@ class CollapsibleCardView extends PureComponent {
   }
 
   // Component Functions
-  _initContentHeight = (event) => {
+  _initContentHeight = event => {
     if (this.anime.contentHeight > 0) {
       return;
     }
@@ -65,7 +65,7 @@ class CollapsibleCardView extends PureComponent {
   _getMinValue = () => 0;
 
   _toggleOnPress = () => {
-    const { handleOnExpanded, moreHeight } = this.props;
+    const {handleOnExpanded, moreHeight} = this.props;
     Animated.timing(this.anime.height, {
       toValue: this.anime.expanded ? this._getMinValue() : this._getMaxValue() + (moreHeight || 0),
       duration: 200,
@@ -98,14 +98,13 @@ class CollapsibleCardView extends PureComponent {
       style,
       noContainer,
     } = this.props;
-    const { expanded } = this.state;
+    const {expanded} = this.state;
 
     return (
       <View style={[styles.container, !noBorder && styles.containerWithBorder, style]}>
         <TouchableHighlight
           underlayColor="transparent"
-          onPress={() => !locked && this._toggleOnPress()}
-        >
+          onPress={() => !locked && this._toggleOnPress()}>
           {titleComponent || (
             <ContainerHeader
               isCenter={isTitleCenter}
@@ -120,9 +119,8 @@ class CollapsibleCardView extends PureComponent {
         </TouchableHighlight>
 
         <Animated.View
-          style={[styles.content, { height: this.anime.height, opacity: expanded ? 1 : 0 }]}
-          onLayout={(e) => this._initContentHeight(e)}
-        >
+          style={[styles.content, {height: this.anime.height, opacity: expanded ? 1 : 0}]}
+          onLayout={e => this._initContentHeight(e)}>
           <View style={[!fitContent && !noContainer && styles.contentBody]}>{children}</View>
         </Animated.View>
       </View>

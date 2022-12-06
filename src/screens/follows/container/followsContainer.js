@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import get from 'lodash/get';
 
 // Middleware
@@ -6,8 +6,8 @@ import get from 'lodash/get';
 // Utilities
 
 // Services and Actions
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { getFollowers, getFollowing, getFollowSearch } from '../../../providers/hive/dhive';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {getFollowers, getFollowing, getFollowSearch} from '../../../providers/hive/dhive';
 // Component
 import FollowsScreen from '../screen/followsScreen';
 
@@ -32,10 +32,10 @@ class FollowsContainer extends Component {
 
   // Component Life Cycle Functions
   async componentDidMount() {
-    const { route } = this.props;
+    const {route} = this.props;
 
     if (route && route.params) {
-      const { count, username, isFollowingPress } = route.params;
+      const {count, username, isFollowingPress} = route.params;
 
       this.setState({
         count,
@@ -51,7 +51,7 @@ class FollowsContainer extends Component {
   _loadFollows = async (_username = null, _isFollowingPress = null) => {
     let _users;
     let _startWith;
-    const { username, users, isFollowingPress, startWith, count } = this.state;
+    const {username, users, isFollowingPress, startWith, count} = this.state;
 
     if ((users && count < 100) || (users && count === users.length + 1)) {
       return;
@@ -60,15 +60,15 @@ class FollowsContainer extends Component {
     const name = username || _username;
     const isFollowing = isFollowingPress || _isFollowingPress;
 
-    this.setState({ isLoading: true });
+    this.setState({isLoading: true});
 
     if (!isFollowing) {
-      await getFollowers(name, startWith).then((result) => {
+      await getFollowers(name, startWith).then(result => {
         _users = result;
         _startWith = result && result[result.length - 1] && result[result.length - 1].follower;
       });
     } else {
-      await getFollowing(name, startWith).then((result) => {
+      await getFollowing(name, startWith).then(result => {
         _users = result;
         _startWith = result && result[result.length - 1] && result[result.length - 1].following;
       });
@@ -85,10 +85,10 @@ class FollowsContainer extends Component {
     });
   };
 
-  _handleSearch = async (text) => {
-    const { users, username, isFollowingPress } = this.state;
+  _handleSearch = async text => {
+    const {users, username, isFollowingPress} = this.state;
 
-    const newData = users.filter((item) => {
+    const newData = users.filter(item => {
       const itemName = isFollowingPress
         ? get(item, 'following', '').toUpperCase()
         : get(item, 'follower', '').toUpperCase();
@@ -102,11 +102,11 @@ class FollowsContainer extends Component {
     }
 
     if (!newData || newData.length < 1) {
-      this.setState({ isLoading: true });
+      this.setState({isLoading: true});
 
       this.timer = setTimeout(
         () =>
-          getFollowSearch(username, text).then((res) => {
+          getFollowSearch(username, text).then(res => {
             this.setState({
               filterResult: res || [],
               isLoading: false,
@@ -122,7 +122,7 @@ class FollowsContainer extends Component {
   };
 
   render() {
-    const { isFollowingPress, users, isLoading, count, username, filterResult } = this.state;
+    const {isFollowingPress, users, isLoading, count, username, filterResult} = this.state;
 
     return (
       <FollowsScreen

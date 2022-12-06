@@ -1,18 +1,18 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, ActivityIndicator, SafeAreaView } from 'react-native';
-import { injectIntl } from 'react-intl';
+import React, {useState, useRef} from 'react';
+import {View, Text, ActivityIndicator, SafeAreaView} from 'react-native';
+import {injectIntl} from 'react-intl';
 
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { TextButton } from '../..';
-import { IconButton } from '../../iconButton';
-import { DropdownButton } from '../../dropdownButton';
-import { TextInput } from '../../textInput';
+import {TextButton} from '../..';
+import {IconButton} from '../../iconButton';
+import {DropdownButton} from '../../dropdownButton';
+import {TextInput} from '../../textInput';
 
 // Constants
 // Styles
 import styles from './basicHeaderStyles';
-import { OptionsModal } from '../../atoms';
+import {OptionsModal} from '../../atoms';
 
 function BasicHeaderView({
   disabled,
@@ -73,11 +73,11 @@ function BasicHeaderView({
     }
   };
 
-  const _handleOnSearch = (value) => {
+  const _handleOnSearch = value => {
     handleOnSearch(value);
   };
 
-  const _handleRewardMenuSelect = (index) => {
+  const _handleRewardMenuSelect = index => {
     let rewardType = 'default';
 
     switch (index) {
@@ -115,7 +115,7 @@ function BasicHeaderView({
           />
           {isHasIcons && !isReply && (
             <IconButton
-              style={{ marginHorizontal: 20 }}
+              style={{marginHorizontal: 20}}
               iconStyle={[styles.gearIcon, isModalHeader && styles.closeIcon]}
               iconType="MaterialIcons"
               name="settings"
@@ -234,10 +234,10 @@ function BasicHeaderView({
       <OptionsModal
         ref={rewardMenuRef}
         options={[
-          intl.formatMessage({ id: 'editor.reward_default' }),
-          intl.formatMessage({ id: 'editor.reward_power_up' }),
-          intl.formatMessage({ id: 'editor.reward_decline' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
+          intl.formatMessage({id: 'editor.reward_default'}),
+          intl.formatMessage({id: 'editor.reward_power_up'}),
+          intl.formatMessage({id: 'editor.reward_decline'}),
+          intl.formatMessage({id: 'alert.cancel'}),
         ]}
         cancelButtonIndex={3}
         title="Reward"

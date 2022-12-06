@@ -1,4 +1,4 @@
 import LeaderBoard from './container/leaderboardContainer';
 
-export { LeaderBoard };
+export {LeaderBoard};
 export default LeaderBoard;

@@ -1,6 +1,6 @@
-import { replaceBetween } from './utils';
+import {replaceBetween} from './utils';
 
-export default async ({ text, selection, setTextAndSelection, item }) => {
+export default async ({text, selection, setTextAndSelection, item}) => {
   let newText;
   let newSelection;
 
@@ -16,21 +16,21 @@ export default async ({ text, selection, setTextAndSelection, item }) => {
       selection,
       `${item.prefix} ${text.substring(selection.start, selection.end)}\n`,
     );
-    newSelection = { start: selection.end + 3, end: selection.end + 3 };
+    newSelection = {start: selection.end + 3, end: selection.end + 3};
   } else if (!isSelected && !hasLineBreakOnStart) {
     newText = replaceBetween(
       text,
       selection,
       `\n${item.prefix} ${text.substring(selection.start, selection.end)}\n`,
     );
-    newSelection = { start: selection.end + 3, end: selection.end + 3 };
+    newSelection = {start: selection.end + 3, end: selection.end + 3};
   } else if (isSelected && hasLineBreakOnEnd) {
     newText = replaceBetween(text, selection, `${item.prefix} `);
-    newSelection = { start: selection.start + 2, end: selection.start + 2 };
+    newSelection = {start: selection.start + 2, end: selection.start + 2};
   } else if (isSelected && !hasLineBreakOnEnd) {
     newText = replaceBetween(text, selection, `\n${item.prefix} `);
-    newSelection = { start: selection.start + 3, end: selection.start + 3 };
+    newSelection = {start: selection.start + 3, end: selection.start + 3};
   }
 
-  setTextAndSelection({ text: newText, selection: newSelection });
+  setTextAndSelection({text: newText, selection: newSelection});
 };

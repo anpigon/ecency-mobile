@@ -1,14 +1,14 @@
 import React from 'react';
-import { View, Platform, ScrollView } from 'react-native';
+import {View, Platform, ScrollView} from 'react-native';
 import get from 'lodash/get';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 
 // Components
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { BasicHeader, BoostPlaceHolder, ProductItemLine } from '../../../components';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {BasicHeader, BoostPlaceHolder, ProductItemLine} from '../../../components';
 
 // Container
-import { InAppPurchaseContainer } from '../../../containers';
+import {InAppPurchaseContainer} from '../../../containers';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -20,14 +20,14 @@ const ITEM_SKUS = Platform.select({
   android: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
 });
 
-function BoostScreen({ route }) {
+function BoostScreen({route}) {
   const intl = useIntl();
 
   const username = route.params?.username ?? '';
 
   return (
     <InAppPurchaseContainer route={route} skus={ITEM_SKUS}>
-      {({ buyItem, productList, isLoading, isProcessing, getTitle }) => (
+      {({buyItem, productList, isLoading, isProcessing, getTitle}) => (
         <View style={globalStyles.container}>
           <BasicHeader
             disabled={isProcessing}
@@ -42,14 +42,14 @@ function BoostScreen({ route }) {
             <BoostPlaceHolder />
           ) : (
             <ScrollView contentContainerStyle={styles.listContainer}>
-              {productList.map((product) => (
+              {productList.map(product => (
                 <ProductItemLine
                   key={get(product, 'title')}
                   isLoading={isLoading}
                   disabled={isProcessing}
                   product={product}
                   title={getTitle(get(product, 'title'))}
-                  handleOnButtonPress={(id) => buyItem(id)}
+                  handleOnButtonPress={id => buyItem(id)}
                 />
               ))}
             </ScrollView>

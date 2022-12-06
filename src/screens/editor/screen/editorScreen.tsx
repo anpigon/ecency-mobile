@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { Alert, View } from 'react-native';
-import { injectIntl } from 'react-intl';
-import { get, isNull, isEqual } from 'lodash';
+import React, {Component} from 'react';
+import {Alert, View} from 'react-native';
+import {injectIntl} from 'react-intl';
+import {get, isNull, isEqual} from 'lodash';
 
 // Utils
-import { extractMetadata, getWordsCount, makeJsonMetadata } from '../../../utils/editor';
+import {extractMetadata, getWordsCount, makeJsonMetadata} from '../../../utils/editor';
 
 // Components
 import {
@@ -18,11 +18,11 @@ import {
 
 // dhive
 
-import { getCommunity } from '../../../providers/hive/dhive';
+import {getCommunity} from '../../../providers/hive/dhive';
 
 // Styles
 import globalStyles from '../../../globalStyles';
-import { isCommunity } from '../../../utils/communityValidation';
+import {isCommunity} from '../../../utils/communityValidation';
 
 import styles from './editorScreenStyles';
 import PostOptionsModal from '../children/postOptionsModal';
@@ -57,7 +57,7 @@ class EditorScreen extends Component {
 
   // Component Life Cycles
   componentDidMount() {
-    const { draftPost, currentAccount } = this.props;
+    const {draftPost, currentAccount} = this.props;
 
     if (draftPost) {
       if (draftPost.tags?.length > 0 && isCommunity(draftPost.tags[0])) {
@@ -71,7 +71,7 @@ class EditorScreen extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { draftPost, isUploading, community, currentAccount } = this.props;
+    const {draftPost, isUploading, community, currentAccount} = this.props;
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
       if (nextProps.draftPost.tags?.length > 0 && isCommunity(nextProps.draftPost.tags[0])) {
         this._getCommunity(nextProps.draftPost.tags[0]);
@@ -81,7 +81,7 @@ class EditorScreen extends Component {
         });
       }
 
-      await this.setState((prevState) => {
+      await this.setState(prevState => {
         if (community && community.length > 0) {
           nextProps.draftPost.tags = [...community, ...nextProps.draftPost.tags];
         }
@@ -100,7 +100,7 @@ class EditorScreen extends Component {
   }
 
   componentWillUnmount() {
-    const { isEdit } = this.props;
+    const {isEdit} = this.props;
     if (!isEdit) {
       this._saveDraftToDB();
     }
@@ -108,7 +108,7 @@ class EditorScreen extends Component {
 
   // Component Functions
   _initialFields = () => {
-    const { initialEditor } = this.props;
+    const {initialEditor} = this.props;
 
     this.setState({
       fields: {
@@ -126,36 +126,36 @@ class EditorScreen extends Component {
   };
 
   _handleOnPressPreviewButton = () => {
-    const { isPreviewActive } = this.state;
+    const {isPreviewActive} = this.state;
 
-    this.setState({ isPreviewActive: !isPreviewActive }, () => {
+    this.setState({isPreviewActive: !isPreviewActive}, () => {
       this._handleIsFormValid();
     });
   };
 
-  _setWordsCount = (content) => {
+  _setWordsCount = content => {
     const _wordsCount = getWordsCount(content);
-    const { wordsCount } = this.state;
+    const {wordsCount} = this.state;
 
     if (_wordsCount !== wordsCount) {
-      this.setState({ wordsCount: _wordsCount });
+      this.setState({wordsCount: _wordsCount});
     }
   };
 
   _handleOnSaveButtonPress = () => {
-    const { draftId, intl } = this.props;
+    const {draftId, intl} = this.props;
     if (draftId) {
-      Alert.alert(intl.formatMessage({ id: 'editor.draft_save_title' }), '', [
+      Alert.alert(intl.formatMessage({id: 'editor.draft_save_title'}), '', [
         {
-          text: intl.formatMessage({ id: 'editor.draft_update' }),
+          text: intl.formatMessage({id: 'editor.draft_update'}),
           onPress: () => this._saveDraftToDB(),
         },
         {
-          text: intl.formatMessage({ id: 'editor.draft_save_new' }),
+          text: intl.formatMessage({id: 'editor.draft_save_new'}),
           onPress: () => this._saveDraftToDB(true),
         },
         {
-          text: intl.formatMessage({ id: 'alert.cancel' }),
+          text: intl.formatMessage({id: 'alert.cancel'}),
           onPress: () => {},
           style: 'cancel',
         },
@@ -165,8 +165,8 @@ class EditorScreen extends Component {
     this._saveDraftToDB();
   };
 
-  _saveCurrentDraft = (fields) => {
-    const { saveCurrentDraft, updateDraftFields } = this.props;
+  _saveCurrentDraft = fields => {
+    const {saveCurrentDraft, updateDraftFields} = this.props;
 
     if (this.changeTimer) {
       clearTimeout(this.changeTimer);
@@ -179,8 +179,8 @@ class EditorScreen extends Component {
   };
 
   _handleOnSubmit = () => {
-    const { handleOnSubmit, handleSchedulePress } = this.props;
-    const { fields, scheduledFor } = this.state;
+    const {handleOnSubmit, handleSchedulePress} = this.props;
+    const {fields, scheduledFor} = this.state;
 
     if (scheduledFor && handleSchedulePress) {
       handleSchedulePress(scheduledFor, fields);
@@ -188,12 +188,12 @@ class EditorScreen extends Component {
     }
 
     if (handleOnSubmit) {
-      handleOnSubmit({ fields });
+      handleOnSubmit({fields});
     }
   };
 
   _handleOnThumbSelection = (url: string) => {
-    const { setThumbUrl } = this.props;
+    const {setThumbUrl} = this.props;
     if (setThumbUrl) {
       setThumbUrl(url);
     }
@@ -205,8 +205,8 @@ class EditorScreen extends Component {
     });
   };
 
-  _handleRewardChange = (value) => {
-    const { handleRewardChange } = this.props;
+  _handleRewardChange = value => {
+    const {handleRewardChange} = this.props;
     handleRewardChange(value);
   };
 
@@ -216,9 +216,9 @@ class EditorScreen extends Component {
     }
   };
 
-  _handleIsFormValid = (bodyText) => {
-    const { fields } = this.state;
-    const { isReply, isLoggedIn } = this.props;
+  _handleIsFormValid = bodyText => {
+    const {fields} = this.state;
+    const {isReply, isLoggedIn} = this.props;
     let isFormValid;
 
     if (isReply) {
@@ -232,13 +232,13 @@ class EditorScreen extends Component {
         get(fields, 'tags', null).length <= 10 &&
         isLoggedIn;
     }
-    this.setState({ isFormValid });
+    this.setState({isFormValid});
   };
 
   _handleFormUpdate = (componentID, content) => {
-    const { handleFormChanged, thumbUrl, rewardType, getBeneficiaries } = this.props;
-    const { fields: _fields } = this.state;
-    const fields = { ..._fields };
+    const {handleFormChanged, thumbUrl, rewardType, getBeneficiaries} = this.props;
+    const {fields: _fields} = this.state;
+    const fields = {..._fields};
 
     if (componentID === 'body') {
       fields.body = content;
@@ -269,13 +269,13 @@ class EditorScreen extends Component {
       this._saveCurrentDraft(fields);
     }
 
-    this.setState({ fields }, () => {
+    this.setState({fields}, () => {
       this._handleIsFormValid();
     });
   };
 
-  _handleOnTagAdded = async (tags) => {
-    const { currentAccount } = this.props;
+  _handleOnTagAdded = async tags => {
+    const {currentAccount} = this.props;
 
     if (tags.length > 0) {
       if (!isCommunity(tags[0])) {
@@ -286,27 +286,27 @@ class EditorScreen extends Component {
       }
     }
 
-    const { fields: _fields } = this.state;
+    const {fields: _fields} = this.state;
     const __tags = tags; // .map((t) => t.replace(/([^a-z0-9-]+)/gi, '').toLowerCase());
-    const __fields = { ..._fields, tags: __tags };
-    this.setState({ fields: __fields, isRemoveTag: false }, () => {
+    const __fields = {..._fields, tags: __tags};
+    this.setState({fields: __fields, isRemoveTag: false}, () => {
       this._handleFormUpdate('tag-area', __fields.tags);
     });
   };
 
-  _handleChangeTitle = (text) => {
-    const { fields: _fields } = this.state;
+  _handleChangeTitle = text => {
+    const {fields: _fields} = this.state;
 
     _fields.title = text;
 
-    this.setState({ fields: _fields }, () => {
+    this.setState({fields: _fields}, () => {
       this._handleFormUpdate('title', _fields.title);
     });
   };
 
-  _handlePressCommunity = (community) => {
-    const { fields, selectedCommunity } = this.state;
-    const { currentAccount } = this.props;
+  _handlePressCommunity = community => {
+    const {fields, selectedCommunity} = this.state;
+    const {currentAccount} = this.props;
 
     const tags = [...fields.tags];
     if (community == null) {
@@ -322,26 +322,26 @@ class EditorScreen extends Component {
     }
 
     this.setState({
-      fields: { ...fields, tags },
+      fields: {...fields, tags},
       isCommunitiesListModalOpen: false,
       selectedCommunity: community,
       selectedAccount: community ? null : currentAccount,
     });
   };
 
-  _getCommunity = (hive) => {
+  _getCommunity = hive => {
     getCommunity(hive)
-      .then((community) => {
-        this.setState({ selectedCommunity: community });
+      .then(community => {
+        this.setState({selectedCommunity: community});
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
 
   _saveDraftToDB(saveAsNew?: boolean) {
-    const { saveDraftToDB } = this.props;
-    const { fields } = this.state;
+    const {saveDraftToDB} = this.props;
+    const {fields} = this.state;
 
     // save draft only if any of field is valid
     if (fields.body || fields.title) {
@@ -404,13 +404,12 @@ class EditorScreen extends Component {
           isOpen={isCommunitiesListModalOpen}
           animationType="animationType"
           presentationStyle="pageSheet"
-          style={styles.modal}
-        >
+          style={styles.modal}>
           <SelectCommunityModalContainer
             onPressCommunity={this._handlePressCommunity}
             currentAccount={currentAccount}
             onCloseModal={() => {
-              this.setState({ isCommunitiesListModalOpen: false });
+              this.setState({isCommunitiesListModalOpen: false});
             }}
           />
         </Modal>
@@ -420,7 +419,7 @@ class EditorScreen extends Component {
     return (
       <View style={globalStyles.defaultContainer}>
         <BasicHeader
-          handleSchedulePress={(date) => handleSchedulePress(date, fields)}
+          handleSchedulePress={date => handleSchedulePress(date, fields)}
           handleRewardChange={handleRewardChange}
           handleOnBackPress={handleOnBackPress}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
@@ -445,16 +444,15 @@ class EditorScreen extends Component {
           handleBodyChange={this._setWordsCount}
           handleOnSubmit={this._handleOnSubmit}
           isFormValid={isFormValid}
-          isPreviewActive={isPreviewActive}
-        >
+          isPreviewActive={isPreviewActive}>
           {!isReply && !isEdit && (
             <SelectCommunityAreaView
               selectedAccount={selectedAccount}
               selectedCommunity={selectedCommunity}
               // because of the bug in react-native-modal
               // https://github.com/facebook/react-native/issues/26892
-              onPressOut={() => this.setState({ isCommunitiesListModalOpen: true })}
-              onPressIn={() => this.setState({ isCommunitiesListModalOpen: false })}
+              onPressOut={() => this.setState({isCommunitiesListModalOpen: true})}
+              onPressIn={() => this.setState({isCommunitiesListModalOpen: false})}
             />
           )}
           <MarkdownEditor
@@ -487,7 +485,7 @@ class EditorScreen extends Component {
         {_renderCommunityModal()}
 
         <PostOptionsModal
-          ref={(componentRef) => (this.postOptionsModalRef = componentRef)}
+          ref={componentRef => (this.postOptionsModalRef = componentRef)}
           body={fields.body}
           draftId={draftId}
           thumbUrl={thumbUrl}

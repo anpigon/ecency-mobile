@@ -1,4 +1,4 @@
-import { CoinBase } from '../redux/reducers/walletReducer';
+import {CoinBase} from '../redux/reducers/walletReducer';
 
 const DEFAULT_COINS = [
   {

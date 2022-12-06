@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import React, {useState} from 'react';
+import {View, Text} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import styles from './children.styles';
 
 interface RangeOption {
@@ -14,7 +14,7 @@ interface RangeSelectorProps {
   onRangeChange: (range: number) => void;
 }
 
-export function RangeSelector({ range, onRangeChange }: RangeSelectorProps) {
+export function RangeSelector({range, onRangeChange}: RangeSelectorProps) {
   const _onSelection = (range: number) => {
     console.log('selection', range);
     onRangeChange(range);
@@ -29,14 +29,12 @@ export function RangeSelector({ range, onRangeChange }: RangeSelectorProps) {
           backgroundColor: EStyleSheet.value(
             item.value === range ? '$darkGrayBackground' : '$primaryLightBackground',
           ),
-        }}
-      >
+        }}>
         <Text
           style={{
             ...styles.textRange,
             color: EStyleSheet.value(item.value === range ? '$white' : '$primaryDarkText'),
-          }}
-        >
+          }}>
           {item.label}
         </Text>
       </View>

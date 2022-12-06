@@ -2,11 +2,11 @@ import React from 'react';
 import get from 'lodash/get';
 
 // Components
-import { CommunitiesList, EmptyScreen } from '../../../../../../components';
+import {CommunitiesList, EmptyScreen} from '../../../../../../components';
 
 import CommunitiesResultsContainer from '../container/communitiesResultsContainer';
 
-function CommunitiesResultsScreen({ navigation, searchValue }) {
+function CommunitiesResultsScreen({navigation, searchValue}) {
   const activeVotes = get(navigation, 'state.params.activeVotes');
 
   return (

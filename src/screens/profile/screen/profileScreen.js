@@ -1,10 +1,10 @@
 import React from 'react';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 
-import { Profile } from '../../../components';
-import { ProfileContainer } from '../../../containers';
+import {Profile} from '../../../components';
+import {ProfileContainer} from '../../../containers';
 
-function ProfileScreen({ route }) {
+function ProfileScreen({route}) {
   return (
     <ProfileContainer route={route}>
       {({

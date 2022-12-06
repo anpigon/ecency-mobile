@@ -1,7 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useIntl } from 'react-intl';
-import { useAppDispatch } from '../../hooks';
-import { toastNotification } from '../../redux/actions/uiAction';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {useIntl} from 'react-intl';
+import {useAppDispatch} from '../../hooks';
+import {toastNotification} from '../../redux/actions/uiAction';
 import {
   deleteDraft,
   deleteScheduledPost,
@@ -27,12 +27,12 @@ export const useDraftDeleteMutation = () => {
   const intl = useIntl();
   return useMutation(deleteDraft, {
     retry: 3,
-    onSuccess: (data) => {
+    onSuccess: data => {
       console.log('Success draft delete', data);
       queryClient.setQueryData([QUERIES.DRAFTS.GET], _sortData(data));
     },
     onError: () => {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      dispatch(toastNotification(intl.formatMessage({id: 'alert.fail'})));
     },
   });
 };
@@ -43,12 +43,12 @@ export const useScheduleDeleteMutation = () => {
   const intl = useIntl();
   return useMutation(deleteScheduledPost, {
     retry: 3,
-    onSuccess: (data) => {
+    onSuccess: data => {
       console.log('Success scheduled post delete', data);
       queryClient.setQueryData([QUERIES.SCHEDULES.GET], _sortData(data));
     },
     onError: () => {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      dispatch(toastNotification(intl.formatMessage({id: 'alert.fail'})));
     },
   });
 };
@@ -59,14 +59,14 @@ export const useMoveScheduleToDraftsMutation = () => {
   const intl = useIntl();
   return useMutation(moveScheduledToDraft, {
     retry: 3,
-    onSuccess: (data) => {
+    onSuccess: data => {
       console.log('Moved to drafts data', data);
       queryClient.setQueryData([QUERIES.SCHEDULES.GET], _sortData(data));
       queryClient.invalidateQueries([QUERIES.DRAFTS.GET]);
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.success_moved' })));
+      dispatch(toastNotification(intl.formatMessage({id: 'alert.success_moved'})));
     },
     onError: () => {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      dispatch(toastNotification(intl.formatMessage({id: 'alert.fail'})));
     },
   });
 };
@@ -89,7 +89,7 @@ const _getSchedules = async () => {
   }
 };
 
-const _sortDataS = (data) =>
+const _sortDataS = data =>
   data.sort((a, b) => {
     const dateA = new Date(a.schedule).getTime();
     const dateB = new Date(b.schedule).getTime();
@@ -97,7 +97,7 @@ const _sortDataS = (data) =>
     return dateB > dateA ? 1 : -1;
   });
 
-const _sortData = (data) =>
+const _sortData = data =>
   data.sort((a, b) => {
     const dateA = new Date(a.created).getTime();
     const dateB = new Date(b.created).getTime();

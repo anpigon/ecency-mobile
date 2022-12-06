@@ -1,29 +1,29 @@
-import React, { PureComponent } from 'react';
-import { View } from 'react-native';
-import { injectIntl } from 'react-intl';
+import React, {PureComponent} from 'react';
+import {View} from 'react-native';
+import {injectIntl} from 'react-intl';
 import get from 'lodash/get';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { CollapsibleCard } from '../collapsibleCard';
-import { Header } from '../header';
-import { ProfileSummaryPlaceHolder, WalletDetailsPlaceHolder } from '../basicUIElements';
-import { ProfileSummary } from '../profileSummary';
-import { Wallet } from '../wallet';
+import {CollapsibleCard} from '../collapsibleCard';
+import {Header} from '../header';
+import {ProfileSummaryPlaceHolder, WalletDetailsPlaceHolder} from '../basicUIElements';
+import {ProfileSummary} from '../profileSummary';
+import {Wallet} from '../wallet';
 
 // Constants
-import { getDefaultFilters, getFilterMap } from '../../constants/options/filters';
+import {getDefaultFilters, getFilterMap} from '../../constants/options/filters';
 
 // Utils
-import { getFormatedCreatedDate } from '../../utils/time';
+import {getFormatedCreatedDate} from '../../utils/time';
 
 // Styles
 import styles from './profileStyles';
 
-import { TabbedPosts } from '../tabbedPosts';
+import {TabbedPosts} from '../tabbedPosts';
 import CommentsTabContent from './children/commentsTabContent';
-import { Icon } from '..';
+import {Icon} from '..';
 
 class ProfileView extends PureComponent {
   constructor(props) {
@@ -37,16 +37,16 @@ class ProfileView extends PureComponent {
   }
 
   _handleOnScroll = () => {
-    const { isSummaryOpen } = this.state;
+    const {isSummaryOpen} = this.state;
 
     if (isSummaryOpen) {
-      this.setState({ isSummaryOpen: false });
+      this.setState({isSummaryOpen: false});
     }
   };
 
   // eslint-disable-next-line react/no-unused-class-component-methods
   _loadMoreComments = () => {
-    const { getReplies, comments } = this.props;
+    const {getReplies, comments} = this.props;
 
     if (comments && comments.length > 0) {
       getReplies({
@@ -57,27 +57,27 @@ class ProfileView extends PureComponent {
   };
 
   _handleOnSummaryExpanded = () => {
-    const { isSummaryOpen } = this.state;
+    const {isSummaryOpen} = this.state;
 
     if (!isSummaryOpen) {
-      this.setState({ isSummaryOpen: true });
+      this.setState({isSummaryOpen: true});
     }
   };
 
-  _handleUIChange = (height) => {
-    this.setState({ collapsibleMoreHeight: height });
+  _handleUIChange = height => {
+    this.setState({collapsibleMoreHeight: height});
   };
 
   // eslint-disable-next-line class-methods-use-this
-  _getTabLabel = (value) => {
+  _getTabLabel = value => {
     if (value.length > 10) {
       return `${value.substring(0, 10)}...`;
     }
     return value;
   };
 
-  _onTabChange = ({ i }) => {
-    const { estimatedWalletValue, oldEstimatedWalletValue } = this.state;
+  _onTabChange = ({i}) => {
+    const {estimatedWalletValue, oldEstimatedWalletValue} = this.state;
 
     if (i !== 2) {
       this.setState({
@@ -85,7 +85,7 @@ class ProfileView extends PureComponent {
         oldEstimatedWalletValue: estimatedWalletValue,
       });
     } else {
-      this.setState({ estimatedWalletValue: oldEstimatedWalletValue });
+      this.setState({estimatedWalletValue: oldEstimatedWalletValue});
     }
   };
 
@@ -115,7 +115,7 @@ class ProfileView extends PureComponent {
       username,
     } = this.props;
 
-    const { isSummaryOpen, collapsibleMoreHeight } = this.state;
+    const {isSummaryOpen, collapsibleMoreHeight} = this.state;
 
     return !isReady ? (
       <ProfileSummaryPlaceHolder />
@@ -129,8 +129,7 @@ class ProfileView extends PureComponent {
         expanded={!isOwnProfile}
         isExpanded={isSummaryOpen}
         handleOnExpanded={this._handleOnSummaryExpanded}
-        moreHeight={collapsibleMoreHeight}
-      >
+        moreHeight={collapsibleMoreHeight}>
         <ProfileSummary
           date={getFormatedCreatedDate(get(selectedUser, 'created'))}
           about={about}
@@ -162,8 +161,8 @@ class ProfileView extends PureComponent {
     );
   };
 
-  _contentComentsTab = (type) => {
-    const { username, isOwnProfile, selectedUser } = this.props;
+  _contentComentsTab = type => {
+    const {username, isOwnProfile, selectedUser} = this.props;
     return (
       <CommentsTabContent
         username={username}
@@ -176,8 +175,8 @@ class ProfileView extends PureComponent {
   };
 
   _contentWalletTab = () => {
-    const { currencyRate, currencySymbol, selectedUser } = this.props;
-    const { isSummaryOpen, estimatedWalletValue } = this.state;
+    const {currencyRate, currencySymbol, selectedUser} = this.props;
+    const {isSummaryOpen, estimatedWalletValue} = this.state;
 
     return (
       <View
@@ -186,11 +185,10 @@ class ProfileView extends PureComponent {
           estimatedWalletValue
             ? `${currencySymbol} ${(estimatedWalletValue * currencyRate).toFixed(2)}`
             : null
-        }
-      >
+        }>
         {selectedUser ? (
           <Wallet
-            setEstimatedWalletValue={(value) => this.setState({ estimatedWalletValue: value })}
+            setEstimatedWalletValue={value => this.setState({estimatedWalletValue: value})}
             selectedUser={selectedUser}
             handleOnScroll={isSummaryOpen ? this._handleOnScroll : null}
           />
@@ -213,7 +211,7 @@ class ProfileView extends PureComponent {
       deepLinkFilter,
     } = this.props;
 
-    const { isSummaryOpen } = this.state;
+    const {isSummaryOpen} = this.state;
     const pageType = isOwnProfile ? 'ownProfile' : 'profile';
     const tabs = (isOwnProfile ? ownProfileTabs : profileTabs) || getDefaultFilters(pageType);
 
@@ -228,7 +226,7 @@ class ProfileView extends PureComponent {
       }
     }
 
-    const filterOptions = tabs.map((key) => getFilterMap(pageType)[key]);
+    const filterOptions = tabs.map(key => getFilterMap(pageType)[key]);
 
     // compile content overrides
     const tabContentOverrides = new Map();
@@ -279,7 +277,7 @@ class ProfileView extends PureComponent {
   // }
 
   render() {
-    const { handleOnBackPress, quickProfile, reverseHeader, isMuted } = this.props;
+    const {handleOnBackPress, quickProfile, reverseHeader, isMuted} = this.props;
 
     return (
       <View style={styles.container}>
@@ -298,7 +296,7 @@ class ProfileView extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   profileTabs: state.customTabs.profileTabs,
   ownProfileTabs: state.customTabs.ownProfileTabs,
 });

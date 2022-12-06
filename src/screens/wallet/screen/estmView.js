@@ -1,13 +1,13 @@
 import React from 'react';
 import get from 'lodash/get';
-import { View } from 'react-native';
+import {View} from 'react-native';
 
-import { WalletHeader, FormattedCurrency } from '../../../components';
-import { PointsContainer } from '../../../containers';
+import {WalletHeader, FormattedCurrency} from '../../../components';
+import {PointsContainer} from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
-function EstmView({ handleOnSelected, index, currentIndex, refreshing: reload }) {
+function EstmView({handleOnSelected, index, currentIndex, refreshing: reload}) {
   return (
     <View style={globalStyles.swipeItemWrapper}>
       <PointsContainer>
@@ -39,7 +39,7 @@ function EstmView({ handleOnSelected, index, currentIndex, refreshing: reload })
               get(userPoints, 'unclaimed_points') > 0 && get(userPoints, 'unclaimed_points')
             }
             userBalance={[
-              { balance: get(userPoints, 'points'), nameKey: 'estm', options: dropdownOptions },
+              {balance: get(userPoints, 'points'), nameKey: 'estm', options: dropdownOptions},
             ]}
             handleOnDropdownSelected={handleOnDropdownSelected}
             type="estm"

@@ -1,4 +1,4 @@
 import Launch from './screen/launchScreen';
 
-export { Launch };
+export {Launch};
 export default Launch;

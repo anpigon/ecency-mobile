@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {injectIntl} from 'react-intl';
 import get from 'lodash/get';
 
 // Action
-import { useNavigation } from '@react-navigation/native';
-import { toastNotification } from '../../../redux/actions/uiAction';
+import {useNavigation} from '@react-navigation/native';
+import {toastNotification} from '../../../redux/actions/uiAction';
 
 // Dsteem
-import { deleteComment } from '../../../providers/hive/dhive';
-import { getPostReblogs } from '../../../providers/ecency/ecency';
+import {deleteComment} from '../../../providers/hive/dhive';
+import {getPostReblogs} from '../../../providers/ecency/ecency';
 
 // Constants
-import { default as ROUTES } from '../../../constants/routeNames';
+import {default as ROUTES} from '../../../constants/routeNames';
 
 // Component
 import PostDisplayView from '../view/postDisplayView';
@@ -44,7 +44,7 @@ function PostDisplayContainer({
       const votes = get(post, 'active_votes', []);
       setActiveVotes(votes);
       setActiveVotesCount(votes.length);
-      getPostReblogs(post).then((result) => {
+      getPostReblogs(post).then(result => {
         setReblogs(result || []);
       });
     }
@@ -108,7 +108,7 @@ function PostDisplayContainer({
     }
   };
 
-  const _handleDeleteComment = (permlink) => {
+  const _handleDeleteComment = permlink => {
     deleteComment(currentAccount, pinCode, permlink).then(() => {
       navigation.goBack();
       dispatch(
@@ -149,7 +149,7 @@ function PostDisplayContainer({
   );
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
   isLoggedIn: state.application.isLoggedIn,

@@ -1,5 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { isRTL } from '../../../../../../utils/I18nUtils';
+import {isRTL} from '../../../../../../utils/I18nUtils';
 
 export default EStyleSheet.create({
   container: {

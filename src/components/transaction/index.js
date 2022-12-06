@@ -1,4 +1,4 @@
 import Transaction from './transactionView';
 
-export { Transaction };
+export {Transaction};
 export default Transaction;

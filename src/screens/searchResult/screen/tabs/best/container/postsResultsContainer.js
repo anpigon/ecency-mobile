@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import get from 'lodash/get';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import ROUTES from '../../../../../../constants/routeNames';
 
-import { search } from '../../../../../../providers/ecency/ecency';
-import { getAccountPosts } from '../../../../../../providers/hive/dhive';
+import {search} from '../../../../../../providers/ecency/ecency';
+import {getAccountPosts} from '../../../../../../providers/hive/dhive';
 
-const PostsResultsContainer = ({ children, searchValue }) => {
+const PostsResultsContainer = ({children, searchValue}) => {
   const navigation = useNavigation();
 
   const [data, setData] = useState([]);
@@ -16,15 +16,15 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   const [scrollId, setScrollId] = useState('');
   const [noResult, setNoResult] = useState(false);
 
-  const currentAccountUsername = useSelector((state) => state.account.currentAccount.username);
+  const currentAccountUsername = useSelector(state => state.account.currentAccount.username);
 
   useEffect(() => {
     setNoResult(false);
     setData([]);
 
     if (searchValue) {
-      search({ q: `${searchValue} type:post`, sort })
-        .then((res) => {
+      search({q: `${searchValue} type:post`, sort})
+        .then(res => {
           if (res) {
             setScrollId(res.scroll_id);
             setData(res.results);
@@ -36,13 +36,13 @@ const PostsResultsContainer = ({ children, searchValue }) => {
             setData([]);
           }
         })
-        .catch((err) => {
+        .catch(err => {
           setNoResult(true);
           setData([]);
         });
     } else {
       getInitialPosts()
-        .then((res) => {
+        .then(res => {
           if (res) {
             if (res.length === 0) {
               setNoResult(true);
@@ -53,7 +53,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
             setData([]);
           }
         })
-        .catch((err) => {
+        .catch(err => {
           setNoResult(true);
           setData([]);
         });
@@ -73,7 +73,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
 
   // Component Functions
 
-  const _handleOnPress = (item) => {
+  const _handleOnPress = item => {
     navigation.navigate({
       name: ROUTES.SCREENS.POST,
       params: {
@@ -86,8 +86,8 @@ const PostsResultsContainer = ({ children, searchValue }) => {
 
   const _loadMore = (index, value) => {
     if (scrollId && searchValue) {
-      search({ q: `${searchValue} type:post`, sort, scroll_id: scrollId })
-        .then((res) => {
+      search({q: `${searchValue} type:post`, sort, scroll_id: scrollId})
+        .then(res => {
           setData([...data, ...res.results]);
         })
         .catch(() => {

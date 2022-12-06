@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, {Component} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import Slider from '@esteemapp/react-native-slider';
-import { injectIntl } from 'react-intl';
+import {injectIntl} from 'react-intl';
 
 // Constants
 
 // Components
-import { CheckBox, TransferFormItem, MainButton, TextInput, UserAvatar } from '../../../components';
+import {CheckBox, TransferFormItem, MainButton, TextInput, UserAvatar} from '../../../components';
 
 // Styles
 import styles from './transferStyles';
@@ -31,20 +31,20 @@ class WithdrawAccountModal extends Component {
 
   // Component Functions
 
-  _checkValidUsers = (username) => {
-    const { getAccountsWithUsername } = this.props;
+  _checkValidUsers = username => {
+    const {getAccountsWithUsername} = this.props;
 
-    getAccountsWithUsername(username).then((res) => {
+    getAccountsWithUsername(username).then(res => {
       const isValid = res.includes(username);
 
-      this.setState({ isValidUsername: isValid });
+      this.setState({isValidUsername: isValid});
     });
   };
 
   _renderInput = (placeholder, state, keyboardType, isTextArea) => (
     <TextInput
       style={[isTextArea ? styles.textarea : styles.input]}
-      onChangeText={(value) => this.setState({ [state]: value }, this._checkValidUsers(value))}
+      onChangeText={value => this.setState({[state]: value}, this._checkValidUsers(value))}
       value={this.state[state]}
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
@@ -56,8 +56,8 @@ class WithdrawAccountModal extends Component {
   );
 
   render() {
-    const { intl, handleOnSubmit } = this.props;
-    const { percent, autoPowerUp, account, isValidUsername } = this.state;
+    const {intl, handleOnSubmit} = this.props;
+    const {percent, autoPowerUp, account, isValidUsername} = this.state;
 
     const isValidForm = isValidUsername && percent > 0;
 
@@ -65,17 +65,17 @@ class WithdrawAccountModal extends Component {
       <View style={styles.modalContainer}>
         <UserAvatar username={account} size="xl" style={styles.avatar} noAction />
         <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.from' })}
+          label={intl.formatMessage({id: 'transfer.from'})}
           rightComponent={() =>
             this._renderInput(
-              intl.formatMessage({ id: 'transfer.to_placeholder' }),
+              intl.formatMessage({id: 'transfer.to_placeholder'}),
               'account',
               'default',
             )
           }
         />
         <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.percent' })}
+          label={intl.formatMessage({id: 'transfer.percent'})}
           rightComponent={<Text style={styles.amountText}>{`${percent.toFixed(0)} %`}</Text>}
         />
         <View style={styles.informationView}>
@@ -87,28 +87,27 @@ class WithdrawAccountModal extends Component {
             thumbTintColor="#007ee5"
             maximumValue={100}
             value={percent}
-            onValueChange={(value) => {
-              this.setState({ percent: value });
+            onValueChange={value => {
+              this.setState({percent: value});
             }}
           />
         </View>
         <Text style={styles.informationText}>
-          {intl.formatMessage({ id: 'transfer.percent_information' })}
+          {intl.formatMessage({id: 'transfer.percent_information'})}
         </Text>
-        <TouchableOpacity onPress={() => this.setState({ autoPowerUp: !autoPowerUp })}>
+        <TouchableOpacity onPress={() => this.setState({autoPowerUp: !autoPowerUp})}>
           <View style={styles.checkView}>
             <CheckBox locked isChecked={autoPowerUp} />
             <Text style={styles.informationText}>
-              {intl.formatMessage({ id: 'transfer.auto_vests' })}
+              {intl.formatMessage({id: 'transfer.auto_vests'})}
             </Text>
           </View>
         </TouchableOpacity>
         <MainButton
           isDisable={!isValidForm}
           style={styles.button}
-          onPress={() => handleOnSubmit(account, percent, autoPowerUp)}
-        >
-          <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.save' })}</Text>
+          onPress={() => handleOnSubmit(account, percent, autoPowerUp)}>
+          <Text style={styles.buttonText}>{intl.formatMessage({id: 'transfer.save'})}</Text>
         </MainButton>
       </View>
     );

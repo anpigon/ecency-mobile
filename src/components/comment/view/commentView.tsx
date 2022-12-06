@@ -1,25 +1,25 @@
-import React, { Fragment, useState, useRef, useEffect } from 'react';
-import { View } from 'react-native';
-import { useIntl } from 'react-intl';
+import React, {Fragment, useState, useRef, useEffect} from 'react';
+import {View} from 'react-native';
+import {useIntl} from 'react-intl';
 import get from 'lodash/get';
-import { View as AnimatedView } from 'react-native-animatable';
+import {View as AnimatedView} from 'react-native-animatable';
 
-import { useDispatch } from 'react-redux';
-import { getTimeFromNow } from '../../../utils/time';
+import {useDispatch} from 'react-redux';
+import {getTimeFromNow} from '../../../utils/time';
 // Constants
 
 // Components
-import { CommentBody, PostHeaderDescription } from '../../postElements';
-import { Upvote } from '../../upvote';
-import { IconButton } from '../../iconButton';
-import { Comments } from '../../comments';
-import { TextWithIcon } from '../../basicUIElements';
+import {CommentBody, PostHeaderDescription} from '../../postElements';
+import {Upvote} from '../../upvote';
+import {IconButton} from '../../iconButton';
+import {Comments} from '../../comments';
+import {TextWithIcon} from '../../basicUIElements';
 
 // Styles
 import styles from './commentStyles';
-import { useAppSelector } from '../../../hooks';
-import { OptionsModal } from '../../atoms';
-import { showReplyModal } from '../../../redux/actions/uiAction';
+import {useAppSelector} from '../../../hooks';
+import {OptionsModal} from '../../atoms';
+import {showReplyModal} from '../../../redux/actions/uiAction';
 import postTypes from '../../../constants/postTypes';
 
 function CommentView({
@@ -36,7 +36,7 @@ function CommentView({
   handleOnVotersPress,
   isLoggedIn,
   isShowComments,
-  mainAuthor = { mainAuthor },
+  mainAuthor = {mainAuthor},
   isHideImage,
   isShowSubComments,
   hideManyCommentsButton,
@@ -50,10 +50,10 @@ function CommentView({
   const repliesContainerRef = useRef<AnimatedView>(null);
 
   const isMuted = useAppSelector(
-    (state) => state.account.currentAccount.mutes?.indexOf(comment.author) > -1,
+    state => state.account.currentAccount.mutes?.indexOf(comment.author) > -1,
   );
-  const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
-  const cachedComments = useAppSelector((state) => state.cache.comments);
+  const lastCacheUpdate = useAppSelector(state => state.cache.lastUpdate);
+  const cachedComments = useAppSelector(state => state.cache.comments);
 
   const [_isShowSubComments, setIsShowSubComments] = useState(false);
   const [isPressedShowButton, setIsPressedShowButton] = useState(false);
@@ -106,7 +106,7 @@ function CommentView({
     }
   }, [lastCacheUpdate]);
 
-  const _showSubCommentsToggle = (force) => {
+  const _showSubCommentsToggle = force => {
     if ((replies && replies.length > 0) || force) {
       if (repliesContainerRef.current) {
         if (_isShowSubComments) {
@@ -154,7 +154,7 @@ function CommentView({
       iconStyle={styles.iconStyle}
       iconSize={16}
       onPress={() => openReplyThread && openReplyThread()}
-      text={!isPressedShowButton ? intl.formatMessage({ id: 'comments.read_more' }) : ''}
+      text={!isPressedShowButton ? intl.formatMessage({id: 'comments.read_more'}) : ''}
     />
   );
 
@@ -187,7 +187,7 @@ function CommentView({
 
   const _renderComment = () => {
     return (
-      <View style={[{ marginLeft: 2, marginTop: -6 }]}>
+      <View style={[{marginLeft: 2, marginTop: -6}]}>
         <CommentBody
           commentDepth={comment.depth}
           reputation={comment.author_reputation}
@@ -266,13 +266,13 @@ function CommentView({
                 <OptionsModal
                   ref={actionSheet}
                   options={[
-                    intl.formatMessage({ id: 'alert.delete' }),
-                    intl.formatMessage({ id: 'alert.cancel' }),
+                    intl.formatMessage({id: 'alert.delete'}),
+                    intl.formatMessage({id: 'alert.cancel'}),
                   ]}
-                  title={intl.formatMessage({ id: 'alert.delete' })}
+                  title={intl.formatMessage({id: 'alert.delete'})}
                   destructiveButtonIndex={0}
                   cancelButtonIndex={1}
-                  onPress={(index) => {
+                  onPress={index => {
                     index === 0 ? handleDeleteComment(comment.permlink) : null;
                   }}
                 />
@@ -292,7 +292,7 @@ function CommentView({
               iconStyle={styles.iconStyle}
               iconSize={16}
               onPress={() => _showSubCommentsToggle()}
-              text={`${childCount} ${intl.formatMessage({ id: 'comments.more_replies' })}`}
+              text={`${childCount} ${intl.formatMessage({id: 'comments.more_replies'})}`}
             />
           </View>
         )}
@@ -300,10 +300,10 @@ function CommentView({
     );
   };
 
-  const customContainerStyle = commentNumber > 2 ? { marginLeft: 44 } : null;
+  const customContainerStyle = commentNumber > 2 ? {marginLeft: 44} : null;
 
   return (
-    <View style={{ ...styles.commentContainer, ...customContainerStyle }}>
+    <View style={{...styles.commentContainer, ...customContainerStyle}}>
       <PostHeaderDescription
         key={comment.permlink}
         date={getTimeFromNow(comment.created)}
@@ -314,7 +314,7 @@ function CommentView({
         isShowOwnerIndicator={mainAuthor === comment.author}
         isHideImage={isHideImage}
         inlineTime={true}
-        customStyle={{ alignItems: 'flex-start', paddingLeft: 12 }}
+        customStyle={{alignItems: 'flex-start', paddingLeft: 12}}
         showDotMenuButton={true}
         handleOnDotPress={handleOnLongPress}
         secondaryContentComponent={_renderComment()}

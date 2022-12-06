@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, {useRef, useEffect} from 'react';
 import {
   FlatList,
   View,
@@ -7,27 +7,22 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 
 // COMPONENTS
 import FastImage from 'react-native-fast-image';
-import { useNavigation } from '@react-navigation/native';
-import { FilterBar } from '../../filterBar';
-import {
-  PostCardPlaceHolder,
-  NoPost,
-  UserListItem,
-  CommunityListItem,
-} from '../../basicUIElements';
-import { ThemeContainer } from '../../../containers';
-import { IconButton } from '../../iconButton';
+import {useNavigation} from '@react-navigation/native';
+import {FilterBar} from '../../filterBar';
+import {PostCardPlaceHolder, NoPost, UserListItem, CommunityListItem} from '../../basicUIElements';
+import {ThemeContainer} from '../../../containers';
+import {IconButton} from '../../iconButton';
 
 // Styles
 import styles from './postsStyles';
-import { default as ROUTES } from '../../../constants/routeNames';
+import {default as ROUTES} from '../../../constants/routeNames';
 import globalStyles from '../../../globalStyles';
-import { PostsList } from '../../postsList';
-import { isDarkTheme } from '../../../redux/actions/applicationActions';
+import {PostsList} from '../../postsList';
+import {isDarkTheme} from '../../../redux/actions/applicationActions';
 
 let _onEndReachedCalledDuringMomentum = true;
 
@@ -87,7 +82,7 @@ function PostsView({
     }
   }, [isNoPost, selectedFilterValue, selectedFeedSubfilterValue]);
 
-  const _handleFilterOnDropdownSelect = async (index) => {
+  const _handleFilterOnDropdownSelect = async index => {
     if (index === selectedFilterIndex) {
       _scrollTop();
     } else {
@@ -99,7 +94,7 @@ function PostsView({
     }
   };
 
-  const _handleFeedSubfilterOnDropdownSelect = async (index) => {
+  const _handleFeedSubfilterOnDropdownSelect = async index => {
     if (index === selectedFeedSubfilterIndex) {
       _scrollTop();
     } else {
@@ -147,21 +142,21 @@ function PostsView({
           return (
             <>
               <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
-                {intl.formatMessage({ id: 'profile.follow_people' })}
+                {intl.formatMessage({id: 'profile.follow_people'})}
               </Text>
               <FlatList
                 data={recommendedUsers}
                 extraData={recommendedUsers}
                 keyExtractor={(item, index) => `${item._id || item.id}${index}`}
-                renderItem={({ item, index }) => (
+                renderItem={({item, index}) => (
                   <UserListItem
                     index={index}
                     username={item._id}
                     isHasRightItem
                     rightText={
                       item.isFollowing
-                        ? intl.formatMessage({ id: 'user.unfollow' })
-                        : intl.formatMessage({ id: 'user.follow' })
+                        ? intl.formatMessage({id: 'user.unfollow'})
+                        : intl.formatMessage({id: 'user.follow'})
                     }
                     // isRightColor={item.isFollowing}
                     isLoggedIn={isLoggedIn}
@@ -170,7 +165,7 @@ function PostsView({
                       item._id in followingUsers && followingUsers[item._id].loading
                     }
                     onPressRightText={handleFollowUserButtonPress}
-                    handleOnPress={(username) =>
+                    handleOnPress={username =>
                       navigation.navigate({
                         name: ROUTES.SCREENS.PROFILE,
                         params: {
@@ -188,12 +183,12 @@ function PostsView({
           return (
             <>
               <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
-                {intl.formatMessage({ id: 'profile.follow_communities' })}
+                {intl.formatMessage({id: 'profile.follow_communities'})}
               </Text>
               <FlatList
                 data={recommendedCommunities}
                 keyExtractor={(item, index) => `${item.id || item.title}${index}`}
-                renderItem={({ item, index }) => (
+                renderItem={({item, index}) => (
                   <CommunityListItem
                     index={index}
                     title={item.title}
@@ -205,7 +200,7 @@ function PostsView({
                     subscribers={item.subscribers}
                     isNsfw={item.is_nsfw}
                     name={item.name}
-                    handleOnPress={(name) =>
+                    handleOnPress={name =>
                       navigation.navigate({
                         name: ROUTES.SCREENS.COMMUNITY,
                         params: {
@@ -227,7 +222,7 @@ function PostsView({
           );
         }
       } else {
-        return <Text>{intl.formatMessage({ id: 'profile.havent_posted' })}</Text>;
+        return <Text>{intl.formatMessage({id: 'profile.havent_posted'})}</Text>;
       }
     }
 
@@ -250,13 +245,13 @@ function PostsView({
 
   return (
     <ThemeContainer>
-      {({ isDarkTheme: _isDarkTheme }) => (
+      {({isDarkTheme: _isDarkTheme}) => (
         <View style={styles.container}>
           {filterOptions && (
             <FilterBar
               dropdownIconName="arrow-drop-down"
-              options={filterOptions.map((item) =>
-                intl.formatMessage({ id: `home.${item.toLowerCase()}` }).toUpperCase(),
+              options={filterOptions.map(item =>
+                intl.formatMessage({id: `home.${item.toLowerCase()}`}).toUpperCase(),
               )}
               selectedOptionIndex={selectedFilterIndex}
               defaultText={filterOptions[selectedOptionIndex]}
@@ -269,8 +264,8 @@ function PostsView({
           {isLoggedIn && selectedFilterValue === 'feed' && (
             <FilterBar
               dropdownIconName="arrow-drop-down"
-              options={feedSubfilterOptions.map((item) =>
-                intl.formatMessage({ id: `home.${item.toLowerCase()}` }).toUpperCase(),
+              options={feedSubfilterOptions.map(item =>
+                intl.formatMessage({id: `home.${item.toLowerCase()}`}).toUpperCase(),
               )}
               selectedOptionIndex={selectedFeedSubfilterIndex}
               defaultText={feedSubfilterOptions[selectedFeedSubfilterIndex]}
@@ -315,8 +310,7 @@ function PostsView({
                     _scrollTop();
                     handleOnRefreshPosts();
                     setNewPostsPopupPictures(null);
-                  }}
-                >
+                  }}>
                   <View style={styles.popupContentContainer}>
                     <IconButton
                       iconStyle={styles.arrowUpIcon}
@@ -331,13 +325,13 @@ function PostsView({
                     {newPostsPopupPictures.map((url, index) => (
                       <FastImage
                         key={`image_bubble_${url}`}
-                        source={{ uri: url }}
-                        style={[styles.popupImage, { zIndex: 10 - index }]}
+                        source={{uri: url}}
+                        style={[styles.popupImage, {zIndex: 10 - index}]}
                       />
                     ))}
 
                     <Text style={styles.popupText}>
-                      {intl.formatMessage({ id: 'home.popup_postfix' })}
+                      {intl.formatMessage({id: 'home.popup_postfix'})}
                     </Text>
                   </View>
                 </TouchableOpacity>

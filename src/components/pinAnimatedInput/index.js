@@ -1,3 +1,3 @@
 import PinAnimatedInput from './views/pinAnimatedInputView';
 
-export { PinAnimatedInput };
+export {PinAnimatedInput};

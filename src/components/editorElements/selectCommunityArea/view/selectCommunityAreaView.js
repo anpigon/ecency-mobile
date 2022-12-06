@@ -1,9 +1,9 @@
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
-import { injectIntl } from 'react-intl';
+import {TouchableOpacity, Text} from 'react-native';
+import {injectIntl} from 'react-intl';
 
-import { UserAvatar } from '../../../userAvatar';
-import { Icon } from '../../../icon';
+import {UserAvatar} from '../../../userAvatar';
+import {Icon} from '../../../icon';
 import globalStyles from '../../../../globalStyles';
 
 import styles from './selectCommunityAreStyles';
@@ -16,22 +16,21 @@ function SelectCommunityAreaView({
   intl,
 }) {
   let username = null;
-  let title = intl.formatMessage({ id: 'editor.select_community' });
+  let title = intl.formatMessage({id: 'editor.select_community'});
 
   if (selectedCommunity) {
     username = selectedCommunity.name;
     title = selectedCommunity.title;
   } else if (selectedAccount) {
     username = selectedAccount.name;
-    title = intl.formatMessage({ id: 'editor.my_blog' });
+    title = intl.formatMessage({id: 'editor.my_blog'});
   }
 
   return (
     <TouchableOpacity
       style={[globalStyles.containerHorizontal16, styles.selectCommunityAreaViewContainer]}
       onPressIn={onPressIn}
-      onPressOut={onPressOut}
-    >
+      onPressOut={onPressOut}>
       <UserAvatar username={username} noAction />
       <Text style={[globalStyles.text, styles.chooseACommunityText]}>{title}</Text>
       <Icon

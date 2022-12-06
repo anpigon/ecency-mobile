@@ -1,19 +1,19 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { isEmpty } from 'lodash';
-import { useIntl } from 'react-intl';
+import {useState, useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {isEmpty} from 'lodash';
+import {useIntl} from 'react-intl';
 
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import ROUTES from '../../../constants/routeNames';
 
-import { getCommunities, getSubscriptions } from '../../../providers/hive/dhive';
+import {getCommunities, getSubscriptions} from '../../../providers/hive/dhive';
 
 import {
   subscribeCommunity,
   leaveCommunity,
   fetchSubscribedCommunitiesSuccess,
 } from '../../../redux/actions/communitiesAction';
-import { statusMessage } from '../../../redux/constants/communitiesConstants';
+import {statusMessage} from '../../../redux/constants/communitiesConstants';
 import {
   deleteSubscribedCommunityCacheEntry,
   updateSubscribedCommunitiesCache,
@@ -23,7 +23,7 @@ import {
   mergeSubCommunitiesCacheInSubList,
 } from '../../../utils/communitiesUtils';
 
-const CommunitiesContainer = ({ children }) => {
+const CommunitiesContainer = ({children}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const intl = useIntl();
@@ -34,16 +34,16 @@ const CommunitiesContainer = ({ children }) => {
   const [isDiscoversLoading, setIsDiscoversLoading] = useState(true);
   const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
 
-  const currentAccount = useSelector((state) => state.account.currentAccount);
-  const pinCode = useSelector((state) => state.application.pin);
-  const subscribedCommunities = useSelector((state) => state.communities.subscribedCommunities);
+  const currentAccount = useSelector(state => state.account.currentAccount);
+  const pinCode = useSelector(state => state.application.pin);
+  const subscribedCommunities = useSelector(state => state.communities.subscribedCommunities);
   const subscribingCommunitiesInDiscoverTab = useSelector(
-    (state) => state.communities.subscribingCommunitiesInCommunitiesScreenDiscoverTab,
+    state => state.communities.subscribingCommunitiesInCommunitiesScreenDiscoverTab,
   );
   const subscribingCommunitiesInJoinedTab = useSelector(
-    (state) => state.communities.subscribingCommunitiesInCommunitiesScreenJoinedTab,
+    state => state.communities.subscribingCommunitiesInCommunitiesScreenJoinedTab,
   );
-  const subscribedCommunitiesCache = useSelector((state) => state.cache.subscribedCommunities);
+  const subscribedCommunitiesCache = useSelector(state => state.cache.subscribedCommunities);
 
   useEffect(() => {
     _getSubscriptions();
@@ -52,7 +52,7 @@ const CommunitiesContainer = ({ children }) => {
   // handle cache in joined/membership tab
   useEffect(() => {
     if (subscribingCommunitiesInJoinedTab && selectedCommunityItem) {
-      const { status } = subscribingCommunitiesInJoinedTab[selectedCommunityItem.communityId];
+      const {status} = subscribingCommunitiesInJoinedTab[selectedCommunityItem.communityId];
       if (status === statusMessage.SUCCESS) {
         dispatch(updateSubscribedCommunitiesCache(selectedCommunityItem));
       }
@@ -62,7 +62,7 @@ const CommunitiesContainer = ({ children }) => {
   // handle cache in discover tab
   useEffect(() => {
     if (subscribingCommunitiesInDiscoverTab && selectedCommunityItem) {
-      const { status } = subscribingCommunitiesInDiscoverTab[selectedCommunityItem.communityId];
+      const {status} = subscribingCommunitiesInDiscoverTab[selectedCommunityItem.communityId];
       if (status === statusMessage.SUCCESS) {
         dispatch(updateSubscribedCommunitiesCache(selectedCommunityItem));
       }
@@ -97,13 +97,13 @@ const CommunitiesContainer = ({ children }) => {
       if (!subscribingCommunitiesInDiscoverTab[communityId].loading) {
         if (!subscribingCommunitiesInDiscoverTab[communityId].error) {
           if (subscribingCommunitiesInDiscoverTab[communityId].isSubscribed) {
-            discoversData.forEach((item) => {
+            discoversData.forEach(item => {
               if (item.name === communityId) {
                 item.isSubscribed = true;
               }
             });
           } else {
-            discoversData.forEach((item) => {
+            discoversData.forEach(item => {
               if (item.name === communityId) {
                 item.isSubscribed = false;
               }
@@ -127,13 +127,13 @@ const CommunitiesContainer = ({ children }) => {
         if (!subscribingCommunitiesInJoinedTab[communityId].loading) {
           if (!subscribingCommunitiesInJoinedTab[communityId].error) {
             if (subscribingCommunitiesInJoinedTab[communityId].isSubscribed) {
-              subscribedsData.forEach((item) => {
+              subscribedsData.forEach(item => {
                 if (item[0] === communityId) {
                   item[4] = true;
                 }
               });
             } else {
-              subscribedsData.forEach((item) => {
+              subscribedsData.forEach(item => {
                 if (item[0] === communityId) {
                   item[4] = false;
                 }
@@ -163,14 +163,14 @@ const CommunitiesContainer = ({ children }) => {
       setIsSubscriptionsLoading(false);
     }
     getSubscriptions(currentAccount.username)
-      .then((subs) => {
-        subs.forEach((item) => item.push(true));
+      .then(subs => {
+        subs.forEach(item => item.push(true));
         _invalidateSubscribedCommunityCache(subs); // invalidate subscribed communities cache item when latest data is available
-        getCommunities('', 50, null, 'rank').then((communities) => {
-          communities.forEach((community) =>
+        getCommunities('', 50, null, 'rank').then(communities => {
+          communities.forEach(community =>
             Object.assign(community, {
               isSubscribed: subs.some(
-                (subscribedCommunity) => subscribedCommunity[0] === community.name,
+                subscribedCommunity => subscribedCommunity[0] === community.name,
               ),
             }),
           );
@@ -184,14 +184,14 @@ const CommunitiesContainer = ({ children }) => {
           ); // register subscribed data in communities store
         });
       })
-      .catch((err) => {
+      .catch(err => {
         console.warn('Failed to get subscriptions', err);
         setIsSubscriptionsLoading(false);
         setIsDiscoversLoading(false);
       });
   };
 
-  const _invalidateSubscribedCommunityCache = (fetchedList) => {
+  const _invalidateSubscribedCommunityCache = fetchedList => {
     // eslint-disable-next-line
     fetchedList.map((listItem) => {
       const itemExists = subscribedCommunitiesCache.get(listItem[0]);
@@ -201,7 +201,7 @@ const CommunitiesContainer = ({ children }) => {
     });
   };
   // Component Functions
-  const _handleOnPress = (name) => {
+  const _handleOnPress = name => {
     navigation.navigate({
       name: ROUTES.SCREENS.COMMUNITY,
       params: {

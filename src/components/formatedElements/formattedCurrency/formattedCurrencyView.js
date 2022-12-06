@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
-import { connect } from 'react-redux';
+import React, {Fragment} from 'react';
+import {connect} from 'react-redux';
 
-function FormattedCurrency({ value, fixAt = 3, currency, isApproximate = false, isToken = false }) {
-  const { currencyRate, currencySymbol } = currency;
+function FormattedCurrency({value, fixAt = 3, currency, isApproximate = false, isToken = false}) {
+  const {currencyRate, currencySymbol} = currency;
   const valueInCurrency = value * (isToken ? 1 : currencyRate);
   const toFixedValue = valueInCurrency.toFixed(fixAt);
 
@@ -13,7 +13,7 @@ function FormattedCurrency({ value, fixAt = 3, currency, isApproximate = false, 
   );
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currency: state.application.currency,
 });
 

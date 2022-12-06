@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { Alert } from 'react-native';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {Alert} from 'react-native';
+import {connect} from 'react-redux';
 import get from 'lodash/get';
-import { injectIntl } from 'react-intl';
+import {injectIntl} from 'react-intl';
 
-import { useNavigation } from '@react-navigation/native';
-import { promote, boost, isPostAvailable } from '../providers/hive/dhive';
-import { toastNotification } from '../redux/actions/uiAction';
-import { getUserDataWithUsername } from '../realm/realm';
+import {useNavigation} from '@react-navigation/native';
+import {promote, boost, isPostAvailable} from '../providers/hive/dhive';
+import {toastNotification} from '../redux/actions/uiAction';
+import {getUserDataWithUsername} from '../realm/realm';
 
 /*
  *            Props Name        Description                                     Value
@@ -31,21 +31,21 @@ class RedeemContainer extends Component {
 
   // eslint-disable-next-line
   _redeemAction = async (redeemType = 'promote', actionSpecificParam, permlink, author, user) => {
-    this.setState({ isLoading: true });
+    this.setState({isLoading: true});
 
-    const { currentAccount, pinCode, dispatch, intl, navigation } = this.props;
+    const {currentAccount, pinCode, dispatch, intl, navigation} = this.props;
     let action;
     let specificParam;
 
     switch (redeemType) {
       case 'promote':
         action = promote;
-        specificParam = { duration: actionSpecificParam };
+        specificParam = {duration: actionSpecificParam};
         break;
 
       case 'boost':
         action = boost;
-        specificParam = { amount: `${actionSpecificParam.toFixed(3)} POINT` };
+        specificParam = {amount: `${actionSpecificParam.toFixed(3)} POINT`};
         break;
 
       default:
@@ -77,26 +77,26 @@ class RedeemContainer extends Component {
     await action(user || currentAccount, pinCode, actionSpecificParam, permlink, author)
       .then(() => {
         navigation.goBack();
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+        dispatch(toastNotification(intl.formatMessage({id: 'alert.successful'})));
       })
-      .catch((error) => {
+      .catch(error => {
         if (error) {
-          dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
+          dispatch(toastNotification(intl.formatMessage({id: 'alert.key_warning'})));
         }
       });
 
-    this.setState({ isLoading: false });
+    this.setState({isLoading: false});
   };
 
   _handleOnSubmit = async (redeemType, actionSpecificParam, fullPermlink, selectedUser) => {
-    const { intl, currentAccount } = this.props;
+    const {intl, currentAccount} = this.props;
     const separatedPermlink = fullPermlink.split('/');
     const _author = get(separatedPermlink, '[0]');
     const _permlink = get(separatedPermlink, '[1]');
     const _isPostAvailable = await isPostAvailable(_author, _permlink);
 
     if (!_isPostAvailable) {
-      Alert.alert(intl.formatMessage({ id: 'alert.not_existing_post' }));
+      Alert.alert(intl.formatMessage({id: 'alert.not_existing_post'}));
       return;
     }
 
@@ -117,12 +117,12 @@ class RedeemContainer extends Component {
   };
 
   _handleOnSCModalClose = () => {
-    this.setState({ isSCModalOpen: false, isLoading: false });
+    this.setState({isSCModalOpen: false, isLoading: false});
   };
 
   render() {
-    const { children } = this.props;
-    const { isLoading, isSCModalOpen, SCPath, actionSpecificParam } = this.state;
+    const {children} = this.props;
+    const {isLoading, isSCModalOpen, SCPath, actionSpecificParam} = this.state;
 
     return (
       children &&
@@ -139,7 +139,7 @@ class RedeemContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   username: state.account.currentAccount.name,
   activeBottomTab: state.ui.activeBottomTab,
   isConnected: state.application.isConnected,
@@ -150,7 +150,7 @@ const mapStateToProps = (state) => ({
   globalProps: state.account.globalProps,
 });
 
-const mapHooksToProps = (props) => {
+const mapHooksToProps = props => {
   const navigation = useNavigation();
   return <RedeemContainer {...props} navigation={navigation} />;
 };

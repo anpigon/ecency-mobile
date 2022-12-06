@@ -1,14 +1,14 @@
-import React, { useRef, Fragment, useEffect } from 'react';
-import { Text, View } from 'react-native';
-import { useIntl } from 'react-intl';
+import React, {useRef, Fragment, useEffect} from 'react';
+import {Text, View} from 'react-native';
+import {useIntl} from 'react-intl';
 import get from 'lodash/get';
 
 // Components
-import { useNavigation } from '@react-navigation/native';
-import { Icon, MainButton, DropdownButton, WalletLineItem } from '../..';
+import {useNavigation} from '@react-navigation/native';
+import {Icon, MainButton, DropdownButton, WalletLineItem} from '../..';
 
 // Constants
-import { default as ROUTES } from '../../../constants/routeNames';
+import {default as ROUTES} from '../../../constants/routeNames';
 
 // Styles
 import styles from './walletHeaderStyles';
@@ -63,21 +63,21 @@ function WalletHeaderView({
           dropdownRef={dropdownRef}
           isHasChildIcon
           iconName="arrow-drop-down"
-          options={options.map((itemKey) =>
-            intl.formatMessage({ id: `wallet.${itemKey}` }).toUpperCase(),
+          options={options.map(itemKey =>
+            intl.formatMessage({id: `wallet.${itemKey}`}).toUpperCase(),
           )}
           noHighlight
           dropdownButtonStyle={styles.dropdownButtonStyle}
-          onSelect={(selectedIndex) => handleOnDropdownSelected(options[selectedIndex])}
+          onSelect={selectedIndex => handleOnDropdownSelected(options[selectedIndex])}
           iconStyle={styles.dropdownIconStyle}
         />
-        <Text style={styles.subText}>{intl.formatMessage({ id: `wallet.${_key}.title` })}</Text>
+        <Text style={styles.subText}>{intl.formatMessage({id: `wallet.${_key}.title`})}</Text>
       </View>
     );
 
   return (
     <View style={styles.scrollContainer} contentContainerStyle={styles.scrollContentContainer}>
-      {userBalance.map((item) =>
+      {userBalance.map(item =>
         _getBalanceItem(
           get(item, 'balance', 0),
           get(item, 'options', []),
@@ -91,11 +91,10 @@ function WalletHeaderView({
           isDisable={isClaiming}
           style={styles.mainButton}
           height={50}
-          onPress={() => (unclaimedBalance ? claim() : navigation.navigate(ROUTES.SCREENS.BOOST))}
-        >
+          onPress={() => (unclaimedBalance ? claim() : navigation.navigate(ROUTES.SCREENS.BOOST))}>
           <View style={styles.mainButtonWrapper}>
             <Text style={styles.unclaimedText}>
-              {unclaimedBalance || intl.formatMessage({ id: `wallet.${type}.buy` })}
+              {unclaimedBalance || intl.formatMessage({id: `wallet.${type}.buy`})}
             </Text>
             <View style={styles.mainIconWrapper}>
               <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
@@ -110,11 +109,10 @@ function WalletHeaderView({
           isDisable={isClaiming}
           style={styles.mainButton}
           height={50}
-          onPress={() => getTokenAddress()}
-        >
+          onPress={() => getTokenAddress()}>
           <View style={styles.mainButtonWrapper}>
             <Text style={styles.unclaimedText}>
-              {intl.formatMessage({ id: `wallet.${type}.address` })}
+              {intl.formatMessage({id: `wallet.${type}.address`})}
             </Text>
             <View style={styles.mainIconWrapper}>
               <Icon name="qrcode" iconType="MaterialCommunityIcons" color="#357ce6" size={23} />
@@ -129,10 +127,10 @@ function WalletHeaderView({
             key={`keyl-${_index.toString()}`}
             fitContent
             style={styles.valueDescriptions}
-            text={intl.formatMessage({ id: `wallet.${get(item, 'textKey')}` })}
+            text={intl.formatMessage({id: `wallet.${get(item, 'textKey')}`})}
             hintDescription={
               get(item, 'subTextKey') &&
-              intl.formatMessage({ id: `wallet.${get(item, 'subTextKey')}` })
+              intl.formatMessage({id: `wallet.${get(item, 'subTextKey')}`})
             }
             rightText={get(item, 'value')}
             hintIconName={get(item, 'subTextKey') && 'ios-information-circle-outline'}

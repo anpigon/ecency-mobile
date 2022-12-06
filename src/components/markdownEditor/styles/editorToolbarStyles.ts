@@ -1,6 +1,6 @@
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
+import {getBottomSpace} from 'react-native-iphone-x-helper';
 
 const _dropShadow = {
   shadowOpacity: 0.1,

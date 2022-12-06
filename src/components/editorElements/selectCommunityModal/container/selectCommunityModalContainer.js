@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { debounce } from 'lodash';
+import React, {useEffect, useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {debounce} from 'lodash';
 
 // HIVE
-import { getCommunities } from '../../../../providers/hive/dhive';
+import {getCommunities} from '../../../../providers/hive/dhive';
 
 import SelectCommunityModalView from '../view/selectCommunityModalView';
 
@@ -12,18 +12,18 @@ import {
   fetchCommunities,
   fetchSubscribedCommunities,
 } from '../../../../redux/actions/communitiesAction';
-import { mergeSubCommunitiesCacheInSubList } from '../../../../utils/communitiesUtils';
+import {mergeSubCommunitiesCacheInSubList} from '../../../../utils/communitiesUtils';
 
-function SelectCommunityModalContainer({ onPressCommunity, currentAccount, onCloseModal }) {
+function SelectCommunityModalContainer({onPressCommunity, currentAccount, onCloseModal}) {
   const dispatch = useDispatch();
 
   const [searchedCommunities, setSearchedCommunities] = useState([]);
   const [showSearchedCommunities, setShowSearchedCommunities] = useState(false);
   const [subscriptions, setSubscriptions] = useState(null);
 
-  const topCommunities = useSelector((state) => state.communities.communities);
-  const subscribedCommunities = useSelector((state) => state.communities.subscribedCommunities);
-  const subscribedCommunitiesCache = useSelector((state) => state.cache.subscribedCommunities);
+  const topCommunities = useSelector(state => state.communities.communities);
+  const subscribedCommunities = useSelector(state => state.communities.subscribedCommunities);
+  const subscribedCommunitiesCache = useSelector(state => state.cache.subscribedCommunities);
 
   useEffect(() => {
     callTopCommunities();
@@ -43,20 +43,20 @@ function SelectCommunityModalContainer({ onPressCommunity, currentAccount, onClo
         subscribedCommunitiesCache,
       );
       if (updatedSubsList && updatedSubsList.length > 0) {
-        setSubscriptions(updatedSubsList.filter((item) => item[4] === true));
+        setSubscriptions(updatedSubsList.filter(item => item[4] === true));
       }
     }
     dispatch(fetchSubscribedCommunities(currentAccount.name));
   };
 
-  const handleChangeSearch = (text) => {
+  const handleChangeSearch = text => {
     if (text.length >= 3) {
       setShowSearchedCommunities(true);
       getCommunities('', 15, text, 'rank')
-        .then((searcheds) => {
+        .then(searcheds => {
           setSearchedCommunities(searcheds);
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error, 'searcheds error');
         });
     } else {

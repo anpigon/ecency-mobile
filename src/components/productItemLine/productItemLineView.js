@@ -1,16 +1,16 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import {View, Text} from 'react-native';
 import get from 'lodash/get';
 
 // Components
-import { MainButton, Icon } from '..';
+import {MainButton, Icon} from '..';
 
 import styles from './productItemLineStyles';
 
 // TODO: move to translation
-const DEALS = { '9999points': 'BEST DEAL!', '4999points': 'POPULAR!' };
+const DEALS = {'9999points': 'BEST DEAL!', '4999points': 'POPULAR!'};
 
-function ProductItemLineView({ disabled, handleOnButtonPress, product, title }) {
+function ProductItemLineView({disabled, handleOnButtonPress, product, title}) {
   return (
     <View style={styles.boostLine} key={get(product, 'productId').toString()}>
       {_renderDeal(product)}
@@ -20,8 +20,7 @@ function ProductItemLineView({ disabled, handleOnButtonPress, product, title }) 
           onPress={() => handleOnButtonPress(get(product, 'productId'))}
           height={50}
           isDisable={disabled}
-          isLoading={false}
-        >
+          isLoading={false}>
           <View style={styles.buttonContent}>
             <Text style={styles.buttonText}>{title}</Text>
             <View style={styles.buttonIconWrapper}>
@@ -40,7 +39,7 @@ function ProductItemLineView({ disabled, handleOnButtonPress, product, title }) 
   );
 }
 
-const _renderDeal = (item) => {
+const _renderDeal = item => {
   if (DEALS[item.productId]) {
     return (
       <View style={styles.descriptionWrapper}>
@@ -53,4 +52,4 @@ const _renderDeal = (item) => {
   return null;
 };
 
-export { ProductItemLineView as ProductItemLine };
+export {ProductItemLineView as ProductItemLine};

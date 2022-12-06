@@ -1,9 +1,9 @@
 import get from 'lodash/get';
-import { operationOrders } from '@hiveio/dhive/lib/utils';
-import { utils } from '@hiveio/dhive';
+import {operationOrders} from '@hiveio/dhive/lib/utils';
+import {utils} from '@hiveio/dhive';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
-import { vestsToHp } from './conversions';
+import {vestsToHp} from './conversions';
 import {
   fetchGlobalProps,
   getAccount,
@@ -13,7 +13,7 @@ import {
   getOpenOrders,
   getSavingsWithdrawFrom,
 } from '../providers/hive/dhive';
-import { getCurrencyTokenRate, getLatestQuotes } from '../providers/ecency/ecency';
+import {getCurrencyTokenRate, getLatestQuotes} from '../providers/ecency/ecency';
 import {
   CoinActivitiesCollection,
   CoinActivity,
@@ -22,12 +22,12 @@ import {
   DataPair,
   QuoteItem,
 } from '../redux/reducers/walletReducer';
-import { GlobalProps } from '../redux/reducers/accountReducer';
-import { getEstimatedAmount } from './vote';
-import { getPointsSummary, getPointsHistory } from '../providers/ecency/ePoint';
+import {GlobalProps} from '../redux/reducers/accountReducer';
+import {getEstimatedAmount} from './vote';
+import {getPointsSummary, getPointsHistory} from '../providers/ecency/ePoint';
 // Constant
 import POINTS from '../constants/options/points';
-import { COIN_IDS } from '../constants/defaultCoins';
+import {COIN_IDS} from '../constants/defaultCoins';
 import parseAsset from './parseAsset';
 
 export const transferTypes = [
@@ -74,7 +74,7 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
 
   [result.textKey] = transaction[1].op;
   const opData = transaction[1].op[1];
-  const { timestamp } = transaction[1];
+  const {timestamp} = transaction[1];
 
   result.created = timestamp;
   result.icon = 'local-activity';
@@ -83,8 +83,8 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
 
   switch (result.textKey) {
     case 'curation_reward':
-      const { reward } = opData;
-      const { comment_author: commentAuthor, comment_permlink: commentPermlink } = opData;
+      const {reward} = opData;
+      const {comment_author: commentAuthor, comment_permlink: commentPermlink} = opData;
 
       result.value = `${vestsToHp(parseToken(reward), hivePerMVests)
         .toFixed(3)
@@ -93,13 +93,9 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
       break;
     case 'author_reward':
     case 'comment_benefactor_reward':
-      let {
-        hbd_payout: hbdPayout,
-        hive_payout: hivePayout,
-        vesting_payout: vestingPayout,
-      } = opData;
+      let {hbd_payout: hbdPayout, hive_payout: hivePayout, vesting_payout: vestingPayout} = opData;
 
-      const { author, permlink } = opData;
+      const {author, permlink} = opData;
 
       hbdPayout = parseToken(hbdPayout).toFixed(3).replace(',', '.');
       hivePayout = parseToken(hivePayout).toFixed(3).replace(',', '.');
@@ -117,7 +113,7 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
       }
       break;
     case 'claim_reward_balance':
-      let { reward_hbd: rewardHdb, reward_hive: rewardHive, reward_vests: rewardVests } = opData;
+      let {reward_hbd: rewardHdb, reward_hive: rewardHive, reward_vests: rewardVests} = opData;
 
       rewardHdb = parseToken(rewardHdb).toFixed(3).replace(',', '.');
       rewardHive = parseToken(rewardHive).toFixed(3).replace(',', '.');
@@ -131,7 +127,7 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
     case 'transfer_to_savings':
     case 'transfer_from_savings':
     case 'transfer_to_vesting':
-      const { amount, memo, from, to } = opData;
+      const {amount, memo, from, to} = opData;
 
       result.value = `${amount}`;
       result.icon = 'compare-arrows';
@@ -139,8 +135,8 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
       result.memo = memo || null;
       break;
     case 'withdraw_vesting':
-      const { acc } = opData;
-      let { vesting_shares: opVestingShares } = opData;
+      const {acc} = opData;
+      let {vesting_shares: opVestingShares} = opData;
 
       opVestingShares = parseToken(opVestingShares);
       result.value = `${vestsToHp(opVestingShares, hivePerMVests).toFixed(3).replace(',', '.')} HP`;
@@ -148,7 +144,7 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
       result.details = acc ? `@${acc}` : null;
       break;
     case 'fill_order':
-      const { current_pays: currentPays, open_pays: openPays } = opData;
+      const {current_pays: currentPays, open_pays: openPays} = opData;
 
       result.value = `${currentPays} = ${openPays}`;
       result.icon = 'reorder';
@@ -157,9 +153,9 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
     case 'escrow_dispute':
     case 'escrow_release':
     case 'escrow_approve':
-      const { agent, escrow_id } = opData;
-      const { from: frome } = opData;
-      const { to: toe } = opData;
+      const {agent, escrow_id} = opData;
+      const {from: frome} = opData;
+      const {to: toe} = opData;
 
       result.value = `${escrow_id}`;
       result.icon = 'wb-iridescent';
@@ -167,35 +163,35 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
       result.memo = agent || null;
       break;
     case 'delegate_vesting_shares':
-      const { delegator, delegatee, vesting_shares } = opData;
+      const {delegator, delegatee, vesting_shares} = opData;
 
       result.value = `${vesting_shares}`;
       result.icon = 'change-history';
       result.details = delegatee && delegator ? `@${delegator} to @${delegatee}` : null;
       break;
     case 'cancel_transfer_from_savings':
-      const { from: from_who, request_id: requestId } = opData;
+      const {from: from_who, request_id: requestId} = opData;
 
       result.value = `${0}`;
       result.icon = 'cancel';
       result.details = from_who ? `from @${from_who}, id: ${requestId}` : null;
       break;
     case 'fill_convert_request':
-      const { owner: who, requestid: requestedId, amount_out } = opData;
+      const {owner: who, requestid: requestedId, amount_out} = opData;
 
       result.value = `${amount_out}`;
       result.icon = 'hourglass-full';
       result.details = who ? `@${who}, id: ${requestedId}` : null;
       break;
     case 'fill_transfer_from_savings':
-      const { from: fillwho, to: fillto, amount: fillamount, request_id: fillrequestId } = opData;
+      const {from: fillwho, to: fillto, amount: fillamount, request_id: fillrequestId} = opData;
 
       result.value = `${fillamount}`;
       result.icon = 'hourglass-full';
       result.details = fillwho ? `@${fillwho} to @${fillto}, id: ${fillrequestId}` : null;
       break;
     case 'fill_vesting_withdraw':
-      const { from_account: pd_who, to_account: pd_to, deposited } = opData;
+      const {from_account: pd_who, to_account: pd_to, deposited} = opData;
 
       result.value = `${deposited}`;
       result.icon = 'hourglass-full';
@@ -290,7 +286,7 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
 
   const history = await getAccountHistory(get(user, 'name'), ops);
 
-  const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
+  const transfers = history.filter(tx => transferTypes.includes(get(tx[1], 'op[0]', false)));
 
   transfers.sort(compare);
 
@@ -309,9 +305,9 @@ const fetchPendingRequests = async (
   console.log('fetched pending requests', _rawConversions, _rawOpenOrdres, _rawWithdrawRequests);
 
   const openOrderRequests = _rawOpenOrdres
-    .filter((request) => request.sell_price.base.includes(coinSymbol))
-    .map((request) => {
-      const { base, quote } = request?.sell_price || {};
+    .filter(request => request.sell_price.base.includes(coinSymbol))
+    .map(request => {
+      const {base, quote} = request?.sell_price || {};
       return {
         iconType: 'MaterialIcons',
         textKey: 'open_order',
@@ -324,8 +320,8 @@ const fetchPendingRequests = async (
     });
 
   const withdrawRequests = _rawWithdrawRequests
-    .filter((request) => request.amount.includes(coinSymbol))
-    .map((request) => {
+    .filter(request => request.amount.includes(coinSymbol))
+    .map(request => {
       return {
         iconType: 'MaterialIcons',
         textKey: 'withdraw_savings',
@@ -338,8 +334,8 @@ const fetchPendingRequests = async (
     });
 
   const conversionRequests = _rawConversions
-    .filter((request) => request.amount.includes(coinSymbol))
-    .map((request) => {
+    .filter(request => request.amount.includes(coinSymbol))
+    .map(request => {
       return {
         iconType: 'MaterialIcons',
         textKey: 'convert_request',
@@ -393,7 +389,7 @@ export const fetchCoinActivities = async (
       console.log('Points Activities', pointActivities);
       const completed =
         pointActivities && pointActivities.length
-          ? pointActivities.map((item) =>
+          ? pointActivities.map(item =>
               groomingPointsTransactionData({
                 ...item,
                 icon: get(POINTS[get(item, 'type')], 'icon'),
@@ -457,14 +453,14 @@ export const fetchCoinActivities = async (
       break;
   }
 
-  const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
+  const transfers = history.filter(tx => transferTypes.includes(get(tx[1], 'op[0]', false)));
   transfers.sort(compare);
 
-  const activities = transfers.map((item) =>
+  const activities = transfers.map(item =>
     groomingTransactionData(item, globalProps.hivePerMVests),
   );
   const filterdActivities: CoinActivity[] = activities
-    ? activities.filter((item) => {
+    ? activities.filter(item => {
         return item && item.value && item.value.includes(coinSymbol);
       })
     : [];
@@ -492,11 +488,11 @@ export const fetchCoinsData = async ({
   vsCurrency: string;
   currencyRate: number;
   globalProps: GlobalProps;
-  quotes: { [key: string]: QuoteItem };
+  quotes: {[key: string]: QuoteItem};
   refresh: boolean;
-}): Promise<{ [key: string]: CoinData }> => {
-  const { username } = currentAccount;
-  const coinData = {} as { [key: string]: CoinData };
+}): Promise<{[key: string]: CoinData}> => {
+  const {username} = currentAccount;
+  const coinData = {} as {[key: string]: CoinData};
   const walletData = {};
 
   if (!username) {
@@ -504,7 +500,7 @@ export const fetchCoinsData = async ({
   }
 
   // fetch latest global props if refresh or data not available
-  const { base, quote, hivePerMVests } =
+  const {base, quote, hivePerMVests} =
     refresh || !globalProps || !globalProps.hivePerMVests ? await fetchGlobalProps() : globalProps;
   // TODO: Use already available accoutn for frist wallet start
   const userdata = refresh ? await getAccount(username) : currentAccount;
@@ -512,7 +508,7 @@ export const fetchCoinsData = async ({
   // TODO: cache data in redux or fetch once on wallet startup
   const _prices = !refresh && quotes ? quotes : await getLatestQuotes(currencyRate); // TODO: figure out a way to handle other currencies
 
-  coins.forEach((coinBase) => {
+  coins.forEach(coinBase => {
     switch (coinBase.id) {
       case COIN_IDS.ECENCY: {
         const balance = _pointsSummary.points ? parseFloat(_pointsSummary.points) : 0;
@@ -724,7 +720,7 @@ function compare(a, b) {
   return 0;
 }
 
-export const groomingPointsTransactionData = (transaction) => {
+export const groomingPointsTransactionData = transaction => {
   if (!transaction) {
     return null;
   }

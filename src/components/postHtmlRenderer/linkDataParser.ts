@@ -1,4 +1,4 @@
-import { TNode } from 'react-native-render-html';
+import {TNode} from 'react-native-render-html';
 
 export interface LinkData {
   type: string;

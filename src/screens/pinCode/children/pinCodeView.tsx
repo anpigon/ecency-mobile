@@ -1,22 +1,15 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
-import { useIntl } from 'react-intl';
+import {useNavigation} from '@react-navigation/native';
+import React, {useState, useEffect, forwardRef, useImperativeHandle} from 'react';
+import {useIntl} from 'react-intl';
 
-import { Text, TouchableOpacity, View } from 'react-native';
-import { IconButton, NumericKeyboard, PinAnimatedInput, UserAvatar } from '../../../components';
+import {Text, TouchableOpacity, View} from 'react-native';
+import {IconButton, NumericKeyboard, PinAnimatedInput, UserAvatar} from '../../../components';
 
 import styles from './pinCodeStyles';
 
 const PinCodeView = forwardRef(
   (
-    {
-      informationText,
-      showForgotButton,
-      username,
-      handleForgotButton,
-      setPinCode,
-      hideCloseButton,
-    },
+    {informationText, showForgotButton, username, handleForgotButton, setPinCode, hideCloseButton},
     ref,
   ) => {
     const [pin, setPin] = useState('');
@@ -46,7 +39,7 @@ const PinCodeView = forwardRef(
       }
     };
 
-    const _handleKeyboardOnPress = async (value) => {
+    const _handleKeyboardOnPress = async value => {
       try {
         if (loading) {
           return;

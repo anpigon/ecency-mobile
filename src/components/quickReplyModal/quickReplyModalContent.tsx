@@ -1,27 +1,27 @@
-import React, { useEffect, useState, useRef, useImperativeHandle, forwardRef } from 'react';
+import React, {useEffect, useState, useRef, useImperativeHandle, forwardRef} from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, Alert, TouchableOpacity, Keyboard, Platform } from 'react-native';
-import { useIntl } from 'react-intl';
-import { useSelector, useDispatch } from 'react-redux';
-import { get } from 'lodash';
-import { postBodySummary } from '@ecency/render-helper';
+import {View, Text, Alert, TouchableOpacity, Keyboard, Platform} from 'react-native';
+import {useIntl} from 'react-intl';
+import {useSelector, useDispatch} from 'react-redux';
+import {get} from 'lodash';
+import {postBodySummary} from '@ecency/render-helper';
 import styles from './quickReplyModalStyles';
-import { IconButton, MainButton, TextButton, TextInput, UserAvatar } from '..';
-import { delay, generateReplyPermlink } from '../../utils/editor';
-import { postComment } from '../../providers/hive/dhive';
-import { toastNotification } from '../../redux/actions/uiAction';
+import {IconButton, MainButton, TextButton, TextInput, UserAvatar} from '..';
+import {delay, generateReplyPermlink} from '../../utils/editor';
+import {postComment} from '../../providers/hive/dhive';
+import {toastNotification} from '../../redux/actions/uiAction';
 import {
   deleteDraftCacheEntry,
   updateCommentCache,
   updateDraftCache,
 } from '../../redux/actions/cacheActions';
-import { default as ROUTES } from '../../constants/routeNames';
+import {default as ROUTES} from '../../constants/routeNames';
 import RootNavigation from '../../navigation/rootNavigation';
-import { Draft } from '../../redux/reducers/cacheReducer';
-import { RootState } from '../../redux/store/store';
+import {Draft} from '../../redux/reducers/cacheReducer';
+import {RootState} from '../../redux/store/store';
 
-import { PointActivityIds } from '../../providers/ecency/ecency.types';
-import { useUserActivityMutation } from '../../providers/queries/pointQueries';
+import {PointActivityIds} from '../../providers/ecency/ecency.types';
+import {useUserActivityMutation} from '../../providers/queries/pointQueries';
 
 export interface QuickReplyModalContentProps {
   selectedPost?: any;
@@ -30,7 +30,7 @@ export interface QuickReplyModalContentProps {
 }
 
 export const QuickReplyModalContent = forwardRef(
-  ({ selectedPost, onClose }: QuickReplyModalContentProps, ref) => {
+  ({selectedPost, onClose}: QuickReplyModalContentProps, ref) => {
     const intl = useIntl();
     const dispatch = useDispatch();
     const userActivityMutation = useUserActivityMutation();
@@ -137,7 +137,7 @@ export const QuickReplyModalContent = forwardRef(
           commentValue,
           parentTags,
         )
-          .then((response) => {
+          .then(response => {
             userActivityMutation.mutate({
               pointsTy: PointActivityIds.COMMENT,
               transactionId: response.id,
@@ -184,7 +184,7 @@ export const QuickReplyModalContent = forwardRef(
             // close should alwasy be called at method end
             onClose();
           })
-          .catch((error) => {
+          .catch(error => {
             console.log(error);
             Alert.alert(
               intl.formatMessage({
@@ -219,7 +219,7 @@ export const QuickReplyModalContent = forwardRef(
     // REMOVED FOR TESTING, CAN BE PUT BACK IF APP STILL CRASHES
     // const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), [])
 
-    const _onChangeText = (value) => {
+    const _onChangeText = value => {
       setCommentValue(value);
       // REMOVED FOR TESTING, CAN BE PUT BACK IF APP STILL CRASHES
       // _deboucedCacheUpdate(value)

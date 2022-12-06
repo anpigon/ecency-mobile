@@ -1,4 +1,4 @@
 import DropdownButton from './view/dropdownButtonView';
 
-export { DropdownButton };
+export {DropdownButton};
 export default DropdownButton;

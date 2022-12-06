@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { Platform, Alert, Appearance } from 'react-native';
-import { connect } from 'react-redux';
-import { Client } from '@hiveio/dhive';
+import React, {Component} from 'react';
+import {Platform, Alert, Appearance} from 'react-native';
+import {connect} from 'react-redux';
+import {Client} from '@hiveio/dhive';
 import VersionNumber from 'react-native-version-number';
 import Config from 'react-native-config';
-import { injectIntl } from 'react-intl';
+import {injectIntl} from 'react-intl';
 import messaging from '@react-native-firebase/messaging';
-import { useNavigation } from '@react-navigation/native';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { languageRestart } from '../../../utils/I18nUtils';
+import {useNavigation} from '@react-navigation/native';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {languageRestart} from '../../../utils/I18nUtils';
 import THEME_OPTIONS from '../../../constants/options/theme';
 
 // Realm
@@ -43,24 +43,24 @@ import {
   logout,
   setIsDarkTheme,
 } from '../../../redux/actions/applicationActions';
-import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
-import { setPushToken, getNodes, deleteAccount } from '../../../providers/ecency/ecency';
-import { checkClient } from '../../../providers/hive/dhive';
-import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
+import {showActionModal, toastNotification} from '../../../redux/actions/uiAction';
+import {setPushToken, getNodes, deleteAccount} from '../../../providers/ecency/ecency';
+import {checkClient} from '../../../providers/hive/dhive';
+import {removeOtherAccount, updateCurrentAccount} from '../../../redux/actions/accountAction';
 // Middleware
 
 // Constants
-import { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
-import { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
+import {VALUE as CURRENCY_VALUE} from '../../../constants/options/currency';
+import {VALUE as LANGUAGE_VALUE} from '../../../constants/options/language';
 import settingsTypes from '../../../constants/settingsTypes';
 
 // Utilities
-import { sendEmail } from '../../../utils/sendEmail';
-import { encryptKey, decryptKey } from '../../../utils/crypto';
+import {sendEmail} from '../../../utils/sendEmail';
+import {encryptKey, decryptKey} from '../../../utils/crypto';
 
 // Component
 import SettingsScreen from '../screen/settingsScreen';
-import { SERVER_LIST } from '../../../constants/options/api';
+import {SERVER_LIST} from '../../../constants/options/api';
 import ROUTES from '../../../constants/routeNames';
 
 /*
@@ -82,7 +82,7 @@ class SettingsContainer extends Component {
   // Component Life Cycle Functions
   componentDidMount() {
     getNodes()
-      .then((resp) => {
+      .then(resp => {
         this.setState({
           serverList: resp,
         });
@@ -96,7 +96,7 @@ class SettingsContainer extends Component {
 
   // Component Functions
   _handleDropdownSelected = async (action, actionType) => {
-    const { dispatch, selectedLanguage, intl } = this.props;
+    const {dispatch, selectedLanguage, intl} = this.props;
     switch (actionType) {
       case 'currency':
         this._currencyChange(action);
@@ -131,9 +131,9 @@ class SettingsContainer extends Component {
     }
   };
 
-  _changeApi = async (action) => {
-    const { dispatch, selectedApi, intl } = this.props;
-    const { serverList } = this.state;
+  _changeApi = async action => {
+    const {dispatch, selectedApi, intl} = this.props;
+    const {serverList} = this.state;
     const server = serverList[action];
     let serverResp;
     let isError = false;
@@ -194,15 +194,15 @@ class SettingsContainer extends Component {
     );
   };
 
-  _currencyChange = (action) => {
-    const { dispatch } = this.props;
+  _currencyChange = action => {
+    const {dispatch} = this.props;
 
     dispatch(setCurrency(CURRENCY_VALUE[action]));
     setCurrency2DB(CURRENCY_VALUE[action]);
   };
 
   _handleToggleChanged = (action, actionType) => {
-    const { dispatch, isHideImages, navigation } = this.props;
+    const {dispatch, isHideImages, navigation} = this.props;
 
     switch (actionType) {
       case 'notification':
@@ -252,7 +252,7 @@ class SettingsContainer extends Component {
   };
 
   _handleNotification = async (action, actionType) => {
-    const { dispatch, notificationDetails } = this.props;
+    const {dispatch, notificationDetails} = this.props;
     const notifyTypesConst = {
       vote: 1,
       mention: 2,
@@ -277,7 +277,7 @@ class SettingsContainer extends Component {
     });
 
     const notifyTypes = Object.keys(notificationDetails)
-      .map((item) => {
+      .map(item => {
         const notificationType = item.replace('Notification', '');
         if (notificationType === actionType.replace('notification.', '') && action) {
           return notifyTypesConst[notificationType];
@@ -286,7 +286,7 @@ class SettingsContainer extends Component {
         }
         return null;
       })
-      .filter((e) => e)
+      .filter(e => e)
       .sort();
 
     if (actionType === 'notification') {
@@ -296,8 +296,8 @@ class SettingsContainer extends Component {
     }
   };
 
-  _handleButtonPress = (actionType) => {
-    const { navigation } = this.props;
+  _handleButtonPress = actionType => {
+    const {navigation} = this.props;
     switch (actionType) {
       case 'reset_pin':
         navigation.navigate(ROUTES.SCREENS.PINCODE, {
@@ -333,18 +333,18 @@ class SettingsContainer extends Component {
     }
   };
 
-  _setPushToken = async (notifyTypes) => {
-    const { isLoggedIn, otherAccounts = [] } = this.props;
+  _setPushToken = async notifyTypes => {
+    const {isLoggedIn, otherAccounts = []} = this.props;
 
     if (isLoggedIn) {
-      getExistUser().then((isExistUser) => {
+      getExistUser().then(isExistUser => {
         if (isExistUser) {
-          otherAccounts.forEach((item) => {
-            const { isNotificationSettingsOpen } = this.props;
+          otherAccounts.forEach(item => {
+            const {isNotificationSettingsOpen} = this.props;
 
             messaging()
               .getToken()
-              .then((token) => {
+              .then(token => {
                 const data = {
                   username: item.username,
                   token,
@@ -361,7 +361,7 @@ class SettingsContainer extends Component {
   };
 
   _handleSendFeedback = async () => {
-    const { dispatch, intl } = this.props;
+    const {dispatch, intl} = this.props;
     let message;
 
     await sendEmail(
@@ -391,7 +391,7 @@ class SettingsContainer extends Component {
   };
 
   _handleDeleteAccount = () => {
-    const { dispatch, intl, currentAccount } = this.props;
+    const {dispatch, intl, currentAccount} = this.props;
 
     const _onConfirm = () => {
       deleteAccount(currentAccount.username)
@@ -419,15 +419,15 @@ class SettingsContainer extends Component {
 
     dispatch(
       showActionModal({
-        title: intl.formatMessage({ id: 'delete.confirm_delete_title' }),
-        body: intl.formatMessage({ id: 'delete.confirm_delete_body' }),
+        title: intl.formatMessage({id: 'delete.confirm_delete_title'}),
+        body: intl.formatMessage({id: 'delete.confirm_delete_body'}),
         buttons: [
           {
-            text: intl.formatMessage({ id: 'alert.cancel' }),
+            text: intl.formatMessage({id: 'alert.cancel'}),
             onPress: () => {},
           },
           {
-            text: intl.formatMessage({ id: 'alert.delete' }),
+            text: intl.formatMessage({id: 'alert.delete'}),
             onPress: _onConfirm,
           },
         ],
@@ -436,28 +436,28 @@ class SettingsContainer extends Component {
   };
 
   _clearUserData = async () => {
-    const { otherAccounts, dispatch } = this.props;
+    const {otherAccounts, dispatch} = this.props;
 
     await removeAllUserData()
       .then(async () => {
         dispatch(updateCurrentAccount({}));
         dispatch(login(false));
         removePinCode();
-        setAuthStatus({ isLoggedIn: false });
+        setAuthStatus({isLoggedIn: false});
         setExistUser(false);
         if (otherAccounts.length > 0) {
-          otherAccounts.map((item) => dispatch(removeOtherAccount(item.username)));
+          otherAccounts.map(item => dispatch(removeOtherAccount(item.username)));
         }
         dispatch(logoutDone());
         dispatch(isPinCodeOpen(false));
       })
-      .catch((err) => {
+      .catch(err => {
         console.warn('Failed to remove user data', err);
       });
   };
 
   _onDecryptFail = () => {
-    const { intl } = this.props;
+    const {intl} = this.props;
     setTimeout(() => {
       Alert.alert(
         intl.formatMessage({
@@ -467,15 +467,15 @@ class SettingsContainer extends Component {
           id: 'alert.decrypt_fail_alert',
         }),
         [
-          { text: intl.formatMessage({ id: 'alert.clear' }), onPress: () => this._clearUserData() },
-          { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },
+          {text: intl.formatMessage({id: 'alert.clear'}), onPress: () => this._clearUserData()},
+          {text: intl.formatMessage({id: 'alert.cancel'}), style: 'destructive'},
         ],
       );
     }, 500);
   };
 
-  _enableDefaultUnlockPin = (isEnabled) => {
-    const { dispatch, encUnlockPin } = this.props;
+  _enableDefaultUnlockPin = isEnabled => {
+    const {dispatch, encUnlockPin} = this.props;
 
     dispatch(isPinCodeOpen(isEnabled));
 
@@ -492,8 +492,8 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    const { serverList, isNotificationMenuOpen, isLoading } = this.state;
-    const { colorTheme } = this.props;
+    const {serverList, isNotificationMenuOpen, isLoading} = this.state;
+    const {colorTheme} = this.props;
 
     return (
       <SettingsScreen
@@ -509,7 +509,7 @@ class SettingsContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isDarkTheme: state.application.isDarkTheme,
   colorTheme: state.application.colorTheme,
   isPinCodeOpen: state.application.isPinCodeOpen,
@@ -537,7 +537,7 @@ const mapStateToProps = (state) => ({
   isHideImages: state.application.hidePostsThumbnails,
 });
 
-const mapHooksToProps = (props) => {
+const mapHooksToProps = props => {
   const navigation = useNavigation();
   return <SettingsContainer {...props} navigation={navigation} />;
 };

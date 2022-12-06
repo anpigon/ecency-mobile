@@ -1,17 +1,17 @@
-import React, { PureComponent } from 'react';
-import { Alert } from 'react-native';
-import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
+import React, {PureComponent} from 'react';
+import {Alert} from 'react-native';
+import {injectIntl} from 'react-intl';
+import {connect} from 'react-redux';
 
 // Services and Actions
-import { getLeaderboard } from '../../../providers/ecency/ecency';
+import {getLeaderboard} from '../../../providers/ecency/ecency';
 
 // Constants
-import FILTER_OPTIONS, { VALUE } from '../../../constants/options/leaderboard';
+import FILTER_OPTIONS, {VALUE} from '../../../constants/options/leaderboard';
 
 // Component
 import LeaderboardView from '../view/leaderboardView';
-import { showProfileModal } from '../../../redux/actions/uiAction';
+import {showProfileModal} from '../../../redux/actions/uiAction';
 
 /*
  *            Props Name        Description                                     Value
@@ -31,21 +31,21 @@ class LeaderboardContainer extends PureComponent {
 
   // Component Life Cycle Functions
   componentDidMount() {
-    const { isConnected } = this.props;
+    const {isConnected} = this.props;
 
     if (isConnected) {
       this._fetchLeaderBoard('day');
     }
   }
 
-  _handleOnUserPress = (username) => {
-    const { dispatch } = this.props;
+  _handleOnUserPress = username => {
+    const {dispatch} = this.props;
     dispatch(showProfileModal(username));
   };
 
   _fetchLeaderBoard = async (selectedFilter, index) => {
-    const { intl, isConnected } = this.props;
-    const { selectedIndex } = this.state;
+    const {intl, isConnected} = this.props;
+    const {selectedIndex} = this.state;
 
     if (index === undefined) {
       index = selectedIndex;
@@ -57,22 +57,22 @@ class LeaderboardContainer extends PureComponent {
       return;
     }
 
-    this.setState({ refreshing: true, selectedIndex: index });
+    this.setState({refreshing: true, selectedIndex: index});
 
     try {
       users = await getLeaderboard(selectedFilter);
     } catch (error) {
       Alert.alert(
-        intl.formatMessage({ id: 'alert.error' }),
-        intl.formatMessage({ id: 'alert.unknow_error' }),
+        intl.formatMessage({id: 'alert.error'}),
+        intl.formatMessage({id: 'alert.unknow_error'}),
       );
     }
 
-    this.setState({ users, refreshing: false });
+    this.setState({users, refreshing: false});
   };
 
   render() {
-    const { users, refreshing, selectedIndex } = this.state;
+    const {users, refreshing, selectedIndex} = this.state;
 
     return (
       <LeaderboardView
@@ -86,7 +86,7 @@ class LeaderboardContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isConnected: state.application.isConnected,
 });
 

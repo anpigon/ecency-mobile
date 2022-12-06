@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import {TouchableOpacity, Text} from 'react-native';
 
 import styles from './squareButtonStyles';
 
@@ -11,7 +11,7 @@ import styles from './squareButtonStyles';
  *   @prop { array }     textStyle        - It is addionatly syle for text of button.
  *   @prop { any }       value            - When button clicked, this value will push with on press func.
  */
-function SquareButtonView({ text, onPress, style, value, textStyle }) {
+function SquareButtonView({text, onPress, style, value, textStyle}) {
   return (
     <TouchableOpacity style={[styles.button, style]} onPress={() => onPress && onPress(value)}>
       <Text style={[styles.buttonText, textStyle]}>{text}</Text>

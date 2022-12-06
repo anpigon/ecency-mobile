@@ -1,5 +1,5 @@
 import getSymbolFromCurrency from 'currency-symbol-map';
-import { getCurrencyRate } from '../../providers/ecency/ecency';
+import {getCurrencyRate} from '../../providers/ecency/ecency';
 import {
   CHANGE_COMMENT_NOTIFICATION,
   CHANGE_FOLLOW_NOTIFICATION,
@@ -36,7 +36,7 @@ import {
   SET_COMMENT_UPVOTE_PERCENT,
 } from '../constants/constants';
 
-export const login = (payload) => ({
+export const login = payload => ({
   payload,
   type: LOGIN,
 });
@@ -54,32 +54,32 @@ export const isLoginDone = () => ({
 });
 
 // Settings actions
-export const setLanguage = (payload) => ({
+export const setLanguage = payload => ({
   payload,
   type: SET_LANGUAGE,
 });
 
-export const setApi = (payload) => ({
+export const setApi = payload => ({
   payload,
   type: SET_API,
 });
 
-export const setPostUpvotePercent = (payload) => ({
+export const setPostUpvotePercent = payload => ({
   payload,
   type: SET_POST_UPVOTE_PERCENT,
 });
 
-export const setCommentUpvotePercent = (payload) => ({
+export const setCommentUpvotePercent = payload => ({
   payload,
   type: SET_COMMENT_UPVOTE_PERCENT,
 });
 
-export const changeAllNotificationSettings = (payload) => ({
+export const changeAllNotificationSettings = payload => ({
   payload,
   type: CHANGE_ALL_NOTIFICATION_SETTINGS,
 });
 
-export const changeNotificationSettings = (payload) => {
+export const changeNotificationSettings = payload => {
   switch (payload.type) {
     case 'notification.follow':
       return {
@@ -140,7 +140,7 @@ export const changeNotificationSettings = (payload) => {
   }
 };
 
-export const setIsDarkTheme = (payload) => ({
+export const setIsDarkTheme = payload => ({
   payload,
   type: IS_DARK_THEME,
 });
@@ -150,22 +150,22 @@ export const setColorTheme = (payload: number) => ({
   type: SET_COLOR_THEME,
 });
 
-export const isPinCodeOpen = (payload) => ({
+export const isPinCodeOpen = payload => ({
   payload,
   type: IS_PIN_CODE_OPEN,
 });
 
-export const setConnectivityStatus = (payload) => ({
+export const setConnectivityStatus = payload => ({
   payload,
   type: IS_CONNECTED,
 });
 
-export const setNsfw = (payload) => ({
+export const setNsfw = payload => ({
   payload,
   type: SET_NSFW,
 });
 
-export const isDefaultFooter = (payload) => ({
+export const isDefaultFooter = payload => ({
   payload,
   type: IS_DEFAULT_FOOTER,
 });
@@ -173,22 +173,22 @@ export const isDefaultFooter = (payload) => ({
 /**
  * MW
  */
-export const setCurrency = (currency) => async (dispatch) => {
+export const setCurrency = currency => async dispatch => {
   const currencySymbol = getSymbolFromCurrency(currency);
 
   const currencyRate = await getCurrencyRate(currency);
   dispatch({
     type: SET_CURRENCY,
-    payload: { currency, currencyRate, currencySymbol },
+    payload: {currency, currencyRate, currencySymbol},
   });
 };
 
-export const setPinCode = (data) => ({
+export const setPinCode = data => ({
   type: SET_PIN_CODE,
   payload: data,
 });
 
-export const isRenderRequired = (payload) => ({
+export const isRenderRequired = payload => ({
   payload,
   type: IS_RENDER_REQUIRED,
 });

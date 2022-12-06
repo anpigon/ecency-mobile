@@ -1,4 +1,4 @@
 import MarkdownEditor from './view/markdownEditorView';
 
-export { MarkdownEditor };
+export {MarkdownEditor};
 export default MarkdownEditor;

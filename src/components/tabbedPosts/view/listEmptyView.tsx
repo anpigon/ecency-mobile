@@ -1,45 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { get } from 'lodash';
-import { Text, View, FlatList } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
-import { NoPost, PostCardPlaceHolder, UserListItem } from '../..';
+import React, {useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {get} from 'lodash';
+import {Text, View, FlatList} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {NoPost, PostCardPlaceHolder, UserListItem} from '../..';
 import globalStyles from '../../../globalStyles';
-import { CommunityListItem, EmptyScreen } from '../../basicUIElements';
+import {CommunityListItem, EmptyScreen} from '../../basicUIElements';
 import styles from './tabbedPostsStyles';
-import { default as ROUTES } from '../../../constants/routeNames';
+import {default as ROUTES} from '../../../constants/routeNames';
 import {
   fetchCommunities,
   leaveCommunity,
   subscribeCommunity,
 } from '../../../redux/actions/communitiesAction';
-import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
-import { getCommunity } from '../../../providers/hive/dhive';
+import {fetchLeaderboard, followUser, unfollowUser} from '../../../redux/actions/userAction';
+import {getCommunity} from '../../../providers/hive/dhive';
 
 interface TabEmptyViewProps {
   filterKey: string;
   isNoPost: boolean;
 }
 
-function TabEmptyView({ filterKey, isNoPost }: TabEmptyViewProps) {
+function TabEmptyView({filterKey, isNoPost}: TabEmptyViewProps) {
   const intl = useIntl();
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   // redux properties
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
+  const isLoggedIn = useSelector(state => state.application.isLoggedIn);
   const subscribingCommunities = useSelector(
-    (state) => state.communities.subscribingCommunitiesInFeedScreen,
+    state => state.communities.subscribingCommunitiesInFeedScreen,
   );
   const [recommendedCommunities, setRecommendedCommunities] = useState([]);
   const [recommendedUsers, setRecommendedUsers] = useState([]);
-  const followingUsers = useSelector((state) => state.user.followingUsersInFeedScreen);
-  const currentAccount = useSelector((state) => state.account.currentAccount);
-  const pinCode = useSelector((state) => state.application.pin);
+  const followingUsers = useSelector(state => state.user.followingUsersInFeedScreen);
+  const currentAccount = useSelector(state => state.account.currentAccount);
+  const pinCode = useSelector(state => state.application.pin);
 
-  const leaderboard = useSelector((state) => state.user.leaderboard);
-  const communities = useSelector((state) => state.communities.communities);
+  const leaderboard = useSelector(state => state.user.leaderboard);
+  const communities = useSelector(state => state.communities.communities);
 
   // hooks
 
@@ -58,7 +58,7 @@ function TabEmptyView({ filterKey, isNoPost }: TabEmptyViewProps) {
   }, [isNoPost]);
 
   useEffect(() => {
-    const { loading, error, data } = leaderboard;
+    const {loading, error, data} = leaderboard;
     if (!loading) {
       if (!error && data && data.length > 0) {
         _formatRecommendedUsers(data);
@@ -67,7 +67,7 @@ function TabEmptyView({ filterKey, isNoPost }: TabEmptyViewProps) {
   }, [leaderboard]);
 
   useEffect(() => {
-    const { loading, error, data } = communities;
+    const {loading, error, data} = communities;
     if (!loading) {
       if (!error && data && data?.length > 0) {
         _formatRecommendedCommunities(data);
@@ -83,13 +83,13 @@ function TabEmptyView({ filterKey, isNoPost }: TabEmptyViewProps) {
       if (!subscribingCommunities[communityId].loading) {
         if (!subscribingCommunities[communityId].error) {
           if (subscribingCommunities[communityId].isSubscribed) {
-            recommendeds.forEach((item) => {
+            recommendeds.forEach(item => {
               if (item.name === communityId) {
                 item.isSubscribed = true;
               }
             });
           } else {
-            recommendeds.forEach((item) => {
+            recommendeds.forEach(item => {
               if (item.name === communityId) {
                 item.isSubscribed = false;
               }
@@ -110,13 +110,13 @@ function TabEmptyView({ filterKey, isNoPost }: TabEmptyViewProps) {
       if (!followingUsers[following].loading) {
         if (!followingUsers[following].error) {
           if (followingUsers[following].isFollowing) {
-            recommendeds.forEach((item) => {
+            recommendeds.forEach(item => {
               if (item._id === following) {
                 item.isFollowing = true;
               }
             });
           } else {
-            recommendeds.forEach((item) => {
+            recommendeds.forEach(item => {
               if (item._id === following) {
                 item.isFollowing = false;
               }
@@ -134,12 +134,12 @@ function TabEmptyView({ filterKey, isNoPost }: TabEmptyViewProps) {
   const _getRecommendedCommunities = () => dispatch(fetchCommunities('', 10));
 
   // formating
-  const _formatRecommendedCommunities = async (communitiesArray) => {
+  const _formatRecommendedCommunities = async communitiesArray => {
     try {
       const ecency = await getCommunity('hive-125125');
 
       const recommendeds = [ecency, ...communitiesArray];
-      recommendeds.forEach((item) => Object.assign(item, { isSubscribed: false }));
+      recommendeds.forEach(item => Object.assign(item, {isSubscribed: false}));
 
       setRecommendedCommunities(recommendeds);
     } catch (err) {
@@ -147,19 +147,19 @@ function TabEmptyView({ filterKey, isNoPost }: TabEmptyViewProps) {
     }
   };
 
-  const _formatRecommendedUsers = (usersArray) => {
+  const _formatRecommendedUsers = usersArray => {
     const recommendeds = usersArray.slice(0, 10);
 
-    recommendeds.unshift({ _id: 'good-karma' });
-    recommendeds.unshift({ _id: 'ecency' });
+    recommendeds.unshift({_id: 'good-karma'});
+    recommendeds.unshift({_id: 'ecency'});
 
-    recommendeds.forEach((item) => Object.assign(item, { isFollowing: false }));
+    recommendeds.forEach(item => Object.assign(item, {isFollowing: false}));
 
     setRecommendedUsers(recommendeds);
   };
 
   // actions related routines
-  const _handleSubscribeCommunityButtonPress = (data) => {
+  const _handleSubscribeCommunityButtonPress = data => {
     let subscribeAction;
     let successToastText = '';
     let failToastText = '';
@@ -245,21 +245,21 @@ function TabEmptyView({ filterKey, isNoPost }: TabEmptyViewProps) {
       return (
         <>
           <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
-            {intl.formatMessage({ id: 'profile.follow_people' })}
+            {intl.formatMessage({id: 'profile.follow_people'})}
           </Text>
           <FlatList
             data={recommendedUsers}
             extraData={recommendedUsers}
             keyExtractor={(item, index) => `${item._id || item.id}${index}`}
-            renderItem={({ item, index }) => (
+            renderItem={({item, index}) => (
               <UserListItem
                 index={index}
                 username={item._id}
                 isHasRightItem
                 rightText={
                   item.isFollowing
-                    ? intl.formatMessage({ id: 'user.unfollow' })
-                    : intl.formatMessage({ id: 'user.follow' })
+                    ? intl.formatMessage({id: 'user.unfollow'})
+                    : intl.formatMessage({id: 'user.follow'})
                 }
                 rightTextStyle={[styles.followText, item.isFollowing && styles.unfollowText]}
                 isLoggedIn={isLoggedIn}
@@ -268,7 +268,7 @@ function TabEmptyView({ filterKey, isNoPost }: TabEmptyViewProps) {
                   item._id in followingUsers && followingUsers[item._id].loading
                 }
                 onPressRightText={_handleFollowUserButtonPress}
-                handleOnPress={(username) =>
+                handleOnPress={username =>
                   navigation.navigate({
                     name: ROUTES.SCREENS.PROFILE,
                     params: {
@@ -286,12 +286,12 @@ function TabEmptyView({ filterKey, isNoPost }: TabEmptyViewProps) {
       return (
         <>
           <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
-            {intl.formatMessage({ id: 'profile.follow_communities' })}
+            {intl.formatMessage({id: 'profile.follow_communities'})}
           </Text>
           <FlatList
             data={recommendedCommunities}
             keyExtractor={(item, index) => `${item.id || item.title}${index}`}
-            renderItem={({ item, index }) => (
+            renderItem={({item, index}) => (
               <CommunityListItem
                 index={index}
                 title={item.title}
@@ -303,7 +303,7 @@ function TabEmptyView({ filterKey, isNoPost }: TabEmptyViewProps) {
                 subscribers={item.subscribers}
                 isNsfw={item.is_nsfw}
                 name={item.name}
-                handleOnPress={(name) =>
+                handleOnPress={name =>
                   navigation.navigate({
                     name: ROUTES.SCREENS.COMMUNITY,
                     params: {

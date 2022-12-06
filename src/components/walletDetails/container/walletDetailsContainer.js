@@ -1,7 +1,7 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { PureComponent } from 'react';
-import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import React, {PureComponent} from 'react';
+import {injectIntl} from 'react-intl';
+import {connect} from 'react-redux';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -26,7 +26,7 @@ class WalletContainer extends PureComponent {
 
   // Component Functions
   _navigate = async (transferType, fundType) => {
-    const { dispatch, walletData, isPinCodeOpen, navigation } = this.props;
+    const {dispatch, walletData, isPinCodeOpen, navigation} = this.props;
     let balance;
 
     switch (fundType) {
@@ -51,19 +51,19 @@ class WalletContainer extends PureComponent {
         name: ROUTES.SCREENS.PINCODE,
         params: {
           navigateTo: ROUTES.SCREENS.TRANSFER,
-          navigateParams: { transferType, fundType, balance },
+          navigateParams: {transferType, fundType, balance},
         },
       });
     } else {
       navigation.navigate({
         name: ROUTES.SCREENS.TRANSFER,
-        params: { transferType, fundType, balance },
+        params: {transferType, fundType, balance},
       });
     }
   };
 
   render() {
-    const { intl, walletData, isShowDropdowns } = this.props;
+    const {intl, walletData, isShowDropdowns} = this.props;
 
     return (
       <WalletDetailsView
@@ -76,11 +76,11 @@ class WalletContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isPinCodeOpen: state.application.isPinCodeOpen,
 });
 
-const mapHooksToProps = (props) => {
+const mapHooksToProps = props => {
   const navigation = useNavigation();
   return <WalletContainer {...props} navigation={navigation} />;
 };

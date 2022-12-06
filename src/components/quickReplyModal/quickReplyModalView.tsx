@@ -1,14 +1,14 @@
-import React, { useRef } from 'react';
-import { QuickReplyModalContent } from './quickReplyModalContent';
-import { InputSupportModal } from '../organisms';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { hideReplyModal } from '../../redux/actions/uiAction';
+import React, {useRef} from 'react';
+import {QuickReplyModalContent} from './quickReplyModalContent';
+import {InputSupportModal} from '../organisms';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {hideReplyModal} from '../../redux/actions/uiAction';
 
 function QuickReplyModal() {
   const dispatch = useAppDispatch();
 
-  const replyModalVisible = useAppSelector((state) => state.ui.replyModalVisible);
-  const replyModalPost = useAppSelector((state) => state.ui.replyModalPost);
+  const replyModalVisible = useAppSelector(state => state.ui.replyModalVisible);
+  const replyModalPost = useAppSelector(state => state.ui.replyModalPost);
   const modalContentRef = useRef(null);
 
   const _onClose = () => {

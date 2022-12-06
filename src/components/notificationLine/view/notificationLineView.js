@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TouchableHighlight, TouchableOpacity } from 'react-native';
-import { useIntl } from 'react-intl';
+import React, {useState, useEffect} from 'react';
+import {View, Text, Image, TouchableHighlight, TouchableOpacity} from 'react-native';
+import {useIntl} from 'react-intl';
 import get from 'lodash/get';
 
 // Components
-import { UserAvatar } from '../../userAvatar';
+import {UserAvatar} from '../../userAvatar';
 
-import { vestsToHp } from '../../../utils/conversions';
+import {vestsToHp} from '../../../utils/conversions';
 
 // Styles
 import styles from './notificationLineStyles';
@@ -72,8 +72,7 @@ function NotificationLineView({
     <TouchableHighlight onPress={_handleOnNotificationPress}>
       <View
         key={`${get(notification, 'id')}${_title}`}
-        style={[styles.notificationWrapper, !isRead && styles.isNewNotification]}
-      >
+        style={[styles.notificationWrapper, !isRead && styles.isNewNotification]}>
         <TouchableOpacity onPress={handleOnUserPress}>
           <UserAvatar
             noAction={true}
@@ -100,7 +99,7 @@ function NotificationLineView({
         {get(notification, 'image', null) && (
           <Image
             style={styles.image}
-            source={{ uri: notification.image }}
+            source={{uri: notification.image}}
             defaultSource={require('../../../assets/no_image.png')}
           />
         )}

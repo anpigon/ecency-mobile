@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
-import React, { Component } from 'react';
-import { Animated, Easing, View } from 'react-native';
+import React, {Component} from 'react';
+import {Animated, Easing, View} from 'react-native';
 
 // Styles
 import styles from './pinAnimatedInputStyles';
@@ -24,7 +24,7 @@ class PinAnimatedInput extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { loading } = this.props;
+    const {loading} = this.props;
     if (loading !== nextProps.loading) {
       if (nextProps.loading) {
         this._startLoadingAnimation();
@@ -37,7 +37,7 @@ class PinAnimatedInput extends Component {
   _startLoadingAnimation = () => {
     [...Array(4)].map((_, index) => this.dots[index].setValue(0));
     Animated.sequence([
-      ...this.dots.map((item) =>
+      ...this.dots.map(item =>
         Animated.timing(item, {
           toValue: 1,
           duration: 250,
@@ -45,7 +45,7 @@ class PinAnimatedInput extends Component {
           useNativeDriver: false, // setting it to false as animation is not being used
         }),
       ),
-    ]).start((o) => {
+    ]).start(o => {
       if (o.finished) {
         this._startLoadingAnimation();
       }
@@ -57,7 +57,7 @@ class PinAnimatedInput extends Component {
   };
 
   render() {
-    const { pin } = this.props;
+    const {pin} = this.props;
     const marginBottom = [];
 
     // eslint-disable-next-line array-callback-return
@@ -75,7 +75,7 @@ class PinAnimatedInput extends Component {
             return (
               <Animated.View
                 key={`passwordItem-${index}`}
-                style={[styles.input, styles.inputWithBackground, { bottom: marginBottom[index] }]}
+                style={[styles.input, styles.inputWithBackground, {bottom: marginBottom[index]}]}
               />
             );
           }

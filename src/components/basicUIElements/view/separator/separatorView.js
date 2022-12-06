@@ -1,9 +1,9 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 
 import styles from './separatorStyles';
 
-function Separator({ style }) {
+function Separator({style}) {
   return <View style={[styles.separator, style]} />;
 }
 

@@ -22,44 +22,44 @@ import {
 
 // Fetch Communities
 export const fetchCommunities = (last, limit, query, sort, observer) => {
-  return (dispatch) => {
-    dispatch({ type: FETCH_COMMUNITIES });
+  return dispatch => {
+    dispatch({type: FETCH_COMMUNITIES});
     getCommunities(last, limit, query, sort, observer)
-      .then((res) => dispatch(fetchCommunitiesSuccess(res)))
-      .catch((err) => dispatch(fetchCommunitiesFail(err)));
+      .then(res => dispatch(fetchCommunitiesSuccess(res)))
+      .catch(err => dispatch(fetchCommunitiesFail(err)));
   };
 };
 
-export const fetchCommunitiesSuccess = (payload) => ({
+export const fetchCommunitiesSuccess = payload => ({
   payload,
   type: FETCH_COMMUNITIES_SUCCESS,
 });
 
-export const fetchCommunitiesFail = (payload) => ({
+export const fetchCommunitiesFail = payload => ({
   payload,
   type: FETCH_COMMUNITIES_FAIL,
 });
 
 // Fetch Subscribed Communities
-export const fetchSubscribedCommunities = (username) => {
-  return (dispatch) => {
-    dispatch({ type: FETCH_SUBSCRIBED_COMMUNITIES });
+export const fetchSubscribedCommunities = username => {
+  return dispatch => {
+    dispatch({type: FETCH_SUBSCRIBED_COMMUNITIES});
     getSubscriptions(username)
-      .then((res) => {
-        res.forEach((item) => item.push(true)); // add true value for subscribe status
+      .then(res => {
+        res.forEach(item => item.push(true)); // add true value for subscribe status
         res.sort((a, b) => a[1].localeCompare(b[1]));
         dispatch(fetchSubscribedCommunitiesSuccess(res));
       })
-      .catch((err) => dispatch(fetchSubscribedCommunitiesFail(err)));
+      .catch(err => dispatch(fetchSubscribedCommunitiesFail(err)));
   };
 };
 
-export const fetchSubscribedCommunitiesSuccess = (payload) => ({
+export const fetchSubscribedCommunitiesSuccess = payload => ({
   payload,
   type: FETCH_SUBSCRIBED_COMMUNITIES_SUCCESS,
 });
 
-export const fetchSubscribedCommunitiesFail = (payload) => ({
+export const fetchSubscribedCommunitiesFail = payload => ({
   payload,
   type: FETCH_SUBSCRIBED_COMMUNITIES_FAIL,
 });
@@ -73,18 +73,18 @@ export const subscribeCommunity = (
   failToastText,
   screen,
 ) => {
-  return (dispatch) => {
-    dispatch({ type: SUBSCRIBE_COMMUNITY, payload: { ...data, screen } });
+  return dispatch => {
+    dispatch({type: SUBSCRIBE_COMMUNITY, payload: {...data, screen}});
     subscribeCommunityReq(currentAccount, pin, data)
-      .then((res) => dispatch(subscribeCommunitySuccess(data, successToastText, screen)))
-      .catch((err) => dispatch(subscribeCommunityFail(err, data, failToastText, screen)));
+      .then(res => dispatch(subscribeCommunitySuccess(data, successToastText, screen)))
+      .catch(err => dispatch(subscribeCommunityFail(err, data, failToastText, screen)));
   };
 };
 
 export const subscribeCommunitySuccess = (data, successToastText, screen) => {
-  return (dispatch) => [
+  return dispatch => [
     dispatch({
-      payload: { ...data, screen },
+      payload: {...data, screen},
       type: SUBSCRIBE_COMMUNITY_SUCCESS,
     }),
     dispatch({
@@ -95,9 +95,9 @@ export const subscribeCommunitySuccess = (data, successToastText, screen) => {
 };
 
 export const subscribeCommunityFail = (error, data, failToastText, screen) => {
-  return (dispatch) => [
+  return dispatch => [
     dispatch({
-      payload: { ...data, screen },
+      payload: {...data, screen},
       type: SUBSCRIBE_COMMUNITY_FAIL,
     }),
     dispatch({
@@ -116,18 +116,18 @@ export const leaveCommunity = (
   failToastText,
   screen,
 ) => {
-  return (dispatch) => {
-    dispatch({ type: LEAVE_COMMUNITY, payload: { ...data, screen } });
+  return dispatch => {
+    dispatch({type: LEAVE_COMMUNITY, payload: {...data, screen}});
     subscribeCommunityReq(currentAccount, pin, data)
-      .then((res) => dispatch(leaveCommunitySuccess(data, successToastText, screen)))
-      .catch((err) => dispatch(leaveCommunityFail(err, data, failToastText, screen)));
+      .then(res => dispatch(leaveCommunitySuccess(data, successToastText, screen)))
+      .catch(err => dispatch(leaveCommunityFail(err, data, failToastText, screen)));
   };
 };
 
 export const leaveCommunitySuccess = (data, successToastText, screen) => {
-  return (dispatch) => [
+  return dispatch => [
     dispatch({
-      payload: { ...data, screen },
+      payload: {...data, screen},
       type: LEAVE_COMMUNITY_SUCCESS,
     }),
     dispatch({
@@ -138,9 +138,9 @@ export const leaveCommunitySuccess = (data, successToastText, screen) => {
 };
 
 export const leaveCommunityFail = (error, data, failToastText, screen) => {
-  return (dispatch) => [
+  return dispatch => [
     dispatch({
-      payload: { ...data, screen },
+      payload: {...data, screen},
       type: LEAVE_COMMUNITY_FAIL,
     }),
     dispatch({

@@ -1,17 +1,17 @@
-import { Keyboard, View, ViewStyle } from 'react-native';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import {Keyboard, View, ViewStyle} from 'react-native';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {
   FlatList,
   HandlerStateChangeEvent,
   PanGestureHandler,
   PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
-import Animated, { EasingNode, Extrapolate } from 'react-native-reanimated';
-import { IconButton, UploadsGalleryModal } from '../..';
+import {getBottomSpace} from 'react-native-iphone-x-helper';
+import Animated, {EasingNode, Extrapolate} from 'react-native-reanimated';
+import {IconButton, UploadsGalleryModal} from '../..';
 import styles from '../styles/editorToolbarStyles';
-import { useAppSelector } from '../../../hooks';
-import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
+import {useAppSelector} from '../../../hooks';
+import {MediaInsertData} from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import Formats from './formats/formats';
 
 type Props = {
@@ -39,7 +39,7 @@ export function EditorToolbar({
   handleOnMarkupButtonPress,
   handleShowSnippets,
 }: Props) {
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
   const translateY = useRef(new Animated.Value(200));
   const shouldHideExtension = useRef(false);
@@ -63,7 +63,7 @@ export function EditorToolbar({
     };
   }, []);
 
-  const _renderMarkupButton = ({ item }) => (
+  const _renderMarkupButton = ({item}) => (
     <View style={styles.buttonWrapper}>
       <IconButton
         size={20}
@@ -171,16 +171,14 @@ export function EditorToolbar({
       <PanGestureHandler
         onGestureEvent={_onGestureEvent}
         onHandlerStateChange={_onPanHandlerStateChange}
-        onEnded={_onPanEnded}
-      >
+        onEnded={_onPanEnded}>
         <Animated.View style={_animatedStyle}>
           <View
-            onLayout={(e) => {
+            onLayout={e => {
               extensionHeight.current = e.nativeEvent.layout.height;
               console.log('extension height', extensionHeight.current);
             }}
-            style={styles.dropShadow}
-          >
+            style={styles.dropShadow}>
             {isExtensionVisible && <View style={styles.indicator} />}
             <UploadsGalleryModal
               ref={uploadsGalleryModalRef}
@@ -218,7 +216,7 @@ export function EditorToolbar({
             <FlatList
               data={Formats}
               keyboardShouldPersistTaps="always"
-              renderItem={({ item, index }) => index < 3 && _renderMarkupButton({ item })}
+              renderItem={({item, index}) => index < 3 && _renderMarkupButton({item})}
               horizontal
             />
           </View>

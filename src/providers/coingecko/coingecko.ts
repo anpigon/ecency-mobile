@@ -1,7 +1,7 @@
 import bugsnagInstance from '../../config/bugsnag';
 import coingeckoApi from '../../config/coingeckoApi';
-import { convertMarketData } from './converters';
-import { MarketData } from './models';
+import {convertMarketData} from './converters';
+import {MarketData} from './models';
 
 const PATH_COINS = 'coins';
 const PATH_MARKET_CHART = 'market_chart';

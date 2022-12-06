@@ -1,10 +1,10 @@
 /* eslint-disable radix */
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 import times from 'lodash/times';
 import Placeholder from 'rn-placeholder';
 
-import { ThemeContainer } from '../../../../containers';
+import {ThemeContainer} from '../../../../containers';
 
 import styles from './boostPlaceHolderStyles';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
@@ -15,10 +15,10 @@ function BoostPlaceHolder() {
   const ratio = (HEIGHT - 300) / 50 / 1.3;
   const listElements = [];
 
-  times(parseInt(ratio), (i) => {
+  times(parseInt(ratio), i => {
     listElements.push(
       <ThemeContainer>
-        {({ isDarkTheme }) => {
+        {({isDarkTheme}) => {
           const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
           return (
             <View style={styles.container} key={`key-${i.toString()}`}>

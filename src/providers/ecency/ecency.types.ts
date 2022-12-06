@@ -1,4 +1,4 @@
-import { QuoteItem } from '../../redux/reducers/walletReducer';
+import {QuoteItem} from '../../redux/reducers/walletReducer';
 
 export interface ReceivedVestingShare {
   delegator: string;
@@ -26,8 +26,8 @@ export interface EcencyUser {
   username: string;
   points: string;
   unclaimed_points: string;
-  points_by_type: { [key: string]: string };
-  unclaimed_points_by_type: { [key: string]: string };
+  points_by_type: {[key: string]: string};
+  unclaimed_points_by_type: {[key: string]: string};
 }
 
 export interface Referral {

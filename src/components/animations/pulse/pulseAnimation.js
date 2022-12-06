@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import React, {Component} from 'react';
+import {View, Image, StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -54,9 +54,9 @@ class PulseAnimation extends Component {
   }
 
   componentDidMount() {
-    const { numPulses, duration, speed } = this.state;
+    const {numPulses, duration, speed} = this.state;
 
-    this.setState({ started: true });
+    this.setState({started: true});
 
     let a = 0;
     while (a < numPulses) {
@@ -80,8 +80,8 @@ class PulseAnimation extends Component {
 
   createPulse = () => {
     if (this.mounted) {
-      const { pulses, maxDiameter } = this.state;
-      const { initialDiameter } = this.props;
+      const {pulses, maxDiameter} = this.state;
+      const {initialDiameter} = this.props;
 
       const pulse = {
         pulseKey: pulses.length + 1,
@@ -92,7 +92,7 @@ class PulseAnimation extends Component {
 
       pulses.push(pulse);
 
-      this.setState({ pulses });
+      this.setState({pulses});
     }
   };
 
@@ -100,7 +100,7 @@ class PulseAnimation extends Component {
     if (this.mounted) {
       // eslint-disable-next-line react/no-access-state-in-setstate
       const pulses = this.state.pulses.map((p, i) => {
-        const { maxDiameter } = this.state;
+        const {maxDiameter} = this.state;
         const newDiameter = p.diameter > maxDiameter ? 0 : p.diameter + 2;
         const centerOffset = (maxDiameter - newDiameter) / 2;
         const opacity = Math.abs(newDiameter / maxDiameter - 1);
@@ -115,20 +115,20 @@ class PulseAnimation extends Component {
         return pulse;
       });
 
-      this.setState({ pulses });
+      this.setState({pulses});
     }
   };
 
   render() {
-    const { color, image, maxDiameter, pulses, pulseStyle, started, style } = this.state;
+    const {color, image, maxDiameter, pulses, pulseStyle, started, style} = this.state;
     const containerStyle = [styles.container, style];
-    const pulseWrapperStyle = { width: maxDiameter, height: maxDiameter };
+    const pulseWrapperStyle = {width: maxDiameter, height: maxDiameter};
 
     return (
       <View style={containerStyle}>
         {started && (
           <View style={pulseWrapperStyle}>
-            {pulses.map((pulse) => (
+            {pulses.map(pulse => (
               <View
                 key={pulse.pulseKey}
                 style={[
@@ -154,4 +154,4 @@ class PulseAnimation extends Component {
   }
 }
 
-export { PulseAnimation };
+export {PulseAnimation};

@@ -10,32 +10,32 @@ import {
   Operation,
   TransactionConfirmation,
 } from '@hiveio/dhive';
-import { PrivateKey } from '@esteemapp/dhive';
+import {PrivateKey} from '@esteemapp/dhive';
 import bytebuffer from 'bytebuffer';
-import { createHash } from 'react-native-crypto';
+import {createHash} from 'react-native-crypto';
 
-import { Client as hsClient } from 'hivesigner';
+import {Client as hsClient} from 'hivesigner';
 import Config from 'react-native-config';
-import { get, has } from 'lodash';
-import { getServer, getCache, setCache } from '../../realm/realm';
+import {get, has} from 'lodash';
+import {getServer, getCache, setCache} from '../../realm/realm';
 
 // Utils
-import { decryptKey } from '../../utils/crypto';
-import { parsePosts, parsePost, parseComments, parseCommentThreads } from '../../utils/postParser';
-import { getName, getAvatar, parseReputation } from '../../utils/user';
+import {decryptKey} from '../../utils/crypto';
+import {parsePosts, parsePost, parseComments, parseCommentThreads} from '../../utils/postParser';
+import {getName, getAvatar, parseReputation} from '../../utils/user';
 import parseToken from '../../utils/parseToken';
 import parseAsset from '../../utils/parseAsset';
 import filterNsfwPost from '../../utils/filterNsfwPost';
-import { jsonStringify } from '../../utils/jsonUtils';
-import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
+import {jsonStringify} from '../../utils/jsonUtils';
+import {getDsteemDateErrorMessage} from '../../utils/dsteemUtils';
 
 // Constant
 import AUTH_TYPE from '../../constants/authType';
-import { SERVER_LIST } from '../../constants/options/api';
-import { b64uEnc } from '../../utils/b64';
+import {SERVER_LIST} from '../../constants/options/api';
+import {b64uEnc} from '../../utils/b64';
 import bugsnagInstance from '../../config/bugsnag';
 import bugsnapInstance from '../../config/bugsnag';
-import { makeJsonMetadataReply } from '../../utils/editor';
+import {makeJsonMetadataReply} from '../../utils/editor';
 
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
@@ -49,7 +49,7 @@ let client = new Client(DEFAULT_SERVER, {
 export const checkClient = async () => {
   const selectedServer = DEFAULT_SERVER;
 
-  await getServer().then((response) => {
+  await getServer().then(response => {
     if (response) {
       selectedServer.unshift(response);
     }
@@ -68,7 +68,7 @@ const sha256 = (input: Buffer | string): Buffer => {
   return createHash('sha256').update(input).digest();
 };
 
-export const generateTrxId = (transaction) => {
+export const generateTrxId = transaction => {
   const buffer = new bytebuffer(bytebuffer.DEFAULT_CAPACITY, bytebuffer.LITTLE_ENDIAN);
   try {
     Types.Transaction(buffer, transaction);
@@ -84,7 +84,7 @@ export const sendHiveOperations = async (
   operations: Operation[],
   key: PrivateKey | PrivateKey[],
 ): Promise<TransactionConfirmation> => {
-  const { head_block_number, head_block_id, time } = await getDynamicGlobalProperties();
+  const {head_block_number, head_block_id, time} = await getDynamicGlobalProperties();
   const ref_block_num = head_block_number & 0xffff;
   const ref_block_prefix = Buffer.from(head_block_id, 'hex').readUInt32LE(4);
   const expireTime = 60 * 1000;
@@ -108,11 +108,11 @@ export const sendHiveOperations = async (
   const transaction = await cryptoUtils.signTransaction(tx, key, chainId);
   const trxId = generateTrxId(transaction);
   const resultHive = await client.broadcast.call('broadcast_transaction', [transaction]);
-  const result = { id: trxId, ...resultHive };
+  const result = {id: trxId, ...resultHive};
   return result;
 };
 
-export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
+export const getDigitPinCode = pin => decryptKey(pin, Config.PIN_KEY);
 
 export const getDynamicGlobalProperties = () => client.database.getDynamicGlobalProperties();
 
@@ -176,7 +176,7 @@ export const fetchGlobalProps = async () => {
  * @param {string} username
  * @returns {Promise<OpenOrderItem[]>} array of openorders both hive and hbd
  */
-export const getOpenOrders = async (username) => {
+export const getOpenOrders = async username => {
   try {
     const rawData = await client.call('condenser_api', 'get_open_orders', [username]);
     if (!rawData || !rawData.length) {
@@ -194,7 +194,7 @@ export const getOpenOrders = async (username) => {
  * @param {string} account
  * @returns {Promise<ConversionRequest[]>}  array of conversion requests
  */
-export const getConversionRequests = async (username) => {
+export const getConversionRequests = async username => {
   try {
     const rawData = await client.database.call('get_conversion_requests', [username]);
     if (!rawData || !rawData.length) {
@@ -213,7 +213,7 @@ export const getConversionRequests = async (username) => {
  * @returns {Promise<SavingsWithdrawRequest[]>}  array of requested savings withdraw
  */
 
-export const getSavingsWithdrawFrom = async (username) => {
+export const getSavingsWithdrawFrom = async username => {
   try {
     const rawData = await client.database.call('get_savings_withdraw_from', [username]);
     if (!rawData || !rawData.length) {
@@ -230,8 +230,8 @@ export const getSavingsWithdrawFrom = async (username) => {
  * @method getAccount fetch raw account data without post processings
  * @param username username
  */
-export const getAccount = (username) =>
-  client.database.getAccounts([username]).then((response) => {
+export const getAccount = username =>
+  client.database.getAccounts([username]).then(response => {
     if (response.length) {
       return response[0];
     }
@@ -253,13 +253,13 @@ export const getAccountHistory = async (user, operations, startIndex = -1, limit
  * @method getAccount get account data
  * @param user username
  */
-export const getState = async (path) => client.database.getState(path);
+export const getState = async path => client.database.getState(path);
 
 /**
  * @method getUser get account data
  * @param user username
  */
-export const getUser = async (user) => {
+export const getUser = async user => {
   const account = await client.database.getAccounts([user]);
   const _account = {
     ...account[0],
@@ -330,7 +330,7 @@ export const getCommunity = async (tag, observer = '') => {
   return community ?? {};
 };
 
-export const getCommunityTitle = async (tag) => {
+export const getCommunityTitle = async tag => {
   if (cache[tag] !== undefined) {
     return cache[tag];
   }
@@ -342,7 +342,7 @@ export const getCommunityTitle = async (tag) => {
         observer: '',
       });
       if (community) {
-        const { title } = community;
+        const {title} = community;
         cache[tag] = title;
         return title;
       } else {
@@ -392,7 +392,7 @@ export const vestToSteem = async (vestingShares, totalVestingShares, totalVestin
     (parseFloat(vestingShares) / parseFloat(totalVestingShares))
   ).toFixed(0);
 
-export const getFollows = (username) => client.database.call('get_follow_count', [username]);
+export const getFollows = username => client.database.call('get_follow_count', [username]);
 
 export const getFollowing = (follower, startFollowing, followType = 'blog', limit = 100) =>
   client.database.call('get_following', [follower, startFollowing, followType, limit]);
@@ -400,7 +400,7 @@ export const getFollowing = (follower, startFollowing, followType = 'blog', limi
 export const getFollowers = (follower, startFollowing, followType = 'blog', limit = 100) =>
   client.database.call('get_followers', [follower, startFollowing, followType, limit]);
 
-export const getMutes = async (currentUsername) => {
+export const getMutes = async currentUsername => {
   try {
     const type = 'ignore';
     const limit = 1000;
@@ -413,7 +413,7 @@ export const getMutes = async (currentUsername) => {
     if (!response) {
       return [];
     }
-    return response.map((item) => item.following);
+    return response.map(item => item.following);
   } catch (err) {
     console.warn('Failed to get muted accounts', err);
     bugsnapInstance.notify(err);
@@ -436,7 +436,7 @@ export const getFollowSearch = async (user, targetUser) => {
   if (!targetUser) {
     return null;
   }
-  return client.database.call('get_following', [targetUser, user, 'blog', 1]).then((result) => {
+  return client.database.call('get_following', [targetUser, user, 'blog', 1]).then(result => {
     if (result[0] && result[0].follower === targetUser && result[0].following === user) {
       return result;
     } else {
@@ -528,7 +528,7 @@ export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
   }
 };
 
-export const getRepliesByLastUpdate = async (query) => {
+export const getRepliesByLastUpdate = async query => {
   try {
     console.log('Getting replies: ', query);
     const replies = await client.database.call('get_replies_by_last_update', [
@@ -548,7 +548,7 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
   permlink = permlink && permlink.toLowerCase();
   try {
     console.log('Getting post: ', author, permlink);
-    const post = await client.call('bridge', 'get_post', { author, permlink });
+    const post = await client.call('bridge', 'get_post', {author, permlink});
     return post ? parsePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
     return error;
@@ -559,7 +559,7 @@ export const isPostAvailable = async (author, permlink) => {
   author = author && author.toLowerCase();
   permlink = permlink && permlink.toLowerCase();
   try {
-    const post = await client.call('bridge', 'get_post', { author, permlink });
+    const post = await client.call('bridge', 'get_post', {author, permlink});
     return get(post, 'post_id', 0) !== 0;
   } catch (error) {
     return false;
@@ -570,7 +570,7 @@ export const getPurePost = async (author, permlink) => {
   author = author && author.toLowerCase();
   permlink = permlink && permlink.toLowerCase();
   try {
-    return await client.call('bridge', 'get_post', { author, permlink });
+    return await client.call('bridge', 'get_post', {author, permlink});
   } catch (error) {
     console.warn('Failed to get pure post', error);
     bugsnagInstance.notify(error);
@@ -579,7 +579,7 @@ export const getPurePost = async (author, permlink) => {
 };
 
 export const deleteComment = (currentAccount, pin, permlink) => {
-  const { name: author } = currentAccount;
+  const {name: author} = currentAccount;
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
@@ -596,7 +596,7 @@ export const deleteComment = (currentAccount, pin, permlink) => {
 
     const opArray = [['delete_comment', params]];
 
-    return api.broadcast(opArray).then((resp) => resp.result);
+    return api.broadcast(opArray).then(resp => resp.result);
   }
 
   if (key) {
@@ -618,7 +618,7 @@ export const deleteComment = (currentAccount, pin, permlink) => {
 
 export const getComments = async (author, permlink) => {
   try {
-    const commentsMap = await client.call('bridge', 'get_discussion', { author, permlink });
+    const commentsMap = await client.call('bridge', 'get_discussion', {author, permlink});
 
     // it appear the get_discussion fetches the parent post as an intry in thread
     // may be later we can make use of this to save post fetch call in post display
@@ -641,10 +641,10 @@ export const getPostWithComments = async (user, permlink) => {
   let post;
   let comments;
 
-  await getPost(user, permlink).then((result) => {
+  await getPost(user, permlink).then(result => {
     post = result;
   });
-  await getComments(user, permlink).then((result) => {
+  await getComments(user, permlink).then(result => {
     comments = result;
   });
 
@@ -660,7 +660,7 @@ export const signImage = async (file, currentAccount, pin) => {
   }
   if (key) {
     const message = {
-      signed_message: { type: 'posting', app: 'ecency.app' },
+      signed_message: {type: 'posting', app: 'ecency.app'},
       authors: [currentAccount.name],
       timestamp: parseInt(new Date().getTime() / 1000, 10),
     };
@@ -677,7 +677,7 @@ export const signImage = async (file, currentAccount, pin) => {
  * @method getBlockNum return block num based on transaction id
  * @param trx_id transactionId
  */
-const getBlockNum = async (trx_id) => {
+const getBlockNum = async trx_id => {
   try {
     console.log('Getting transaction data', trx_id);
     const transData = await client.call('condenser_api', 'get_transaction', [trx_id]);
@@ -721,8 +721,8 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
 
     return api
       .vote(voter, author, permlink, weight)
-      .then((result) => result.result)
-      .catch((err) => {
+      .then(result => result.result)
+      .catch(err => {
         bugsnagInstance.notify(err);
         return Promise.reject(err);
       });
@@ -743,7 +743,7 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
       ],
     ];
 
-    return sendHiveOperations(args, privateKey).catch((err) => {
+    return sendHiveOperations(args, privateKey).catch(err => {
       if (err && get(err, 'jse_info.code') === 4030100) {
         err.message = getDsteemDateErrorMessage(err);
       }
@@ -758,11 +758,11 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
 /**
  * @method upvoteAmount estimate upvote amount
  */
-export const upvoteAmount = async (input) => {
+export const upvoteAmount = async input => {
   let medianPrice;
   const rewardFund = await getRewardFund();
 
-  await client.database.getCurrentMedianHistoryPrice().then((res) => {
+  await client.database.getCurrentMedianHistoryPrice().then(res => {
     medianPrice = res;
   });
 
@@ -1027,7 +1027,7 @@ export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
   throw new Error('Check private key permission! Required private active key or above.');
 };
 
-export const getWithdrawRoutes = (account) =>
+export const getWithdrawRoutes = account =>
   client.database.call('get_withdraw_routes', [account, 'outgoing']);
 
 export const followUser = async (currentAccount, pin, data) => {
@@ -1113,13 +1113,13 @@ export const markHiveNotifications = async (currentAccount, pinHash) => {
     id: 'notify',
     required_auths: [],
     required_posting_auths: [currentAccount.name],
-    json: JSON.stringify(['setLastRead', { date }]),
+    json: JSON.stringify(['setLastRead', {date}]),
   };
   const params1 = {
     id: 'ecency_notify',
     required_auths: [],
     required_posting_auths: [currentAccount.name],
-    json: JSON.stringify(['setLastRead', { date }]),
+    json: JSON.stringify(['setLastRead', {date}]),
   };
 
   const opArray: Operation[] = [
@@ -1133,7 +1133,7 @@ export const markHiveNotifications = async (currentAccount, pinHash) => {
       accessToken: token,
     });
 
-    return api.broadcast(opArray).then((resp) => resp.result);
+    return api.broadcast(opArray).then(resp => resp.result);
   }
 
   if (key) {
@@ -1145,7 +1145,7 @@ export const markHiveNotifications = async (currentAccount, pinHash) => {
   throw new Error('Check private key permission! Required private active key or above.');
 };
 
-export const lookupAccounts = async (username) => {
+export const lookupAccounts = async username => {
   try {
     const users = await client.database.call('lookup_accounts', [username, 20]);
     return users;
@@ -1190,10 +1190,10 @@ export const postContent = (
     options,
     voteWeight,
   )
-    .then((resp) => {
+    .then(resp => {
       return resp;
     })
-    .catch((err) => {
+    .catch(err => {
       console.warn('Failed to post conent', err);
       bugsnagInstance.notify(err);
       throw err;
@@ -1233,10 +1233,10 @@ export const postComment = (
     null,
     null,
   )
-    .then((resp) => {
+    .then(resp => {
       return resp;
     })
-    .catch((err) => {
+    .catch(err => {
       console.warn('Failed to post conent', err);
       bugsnagInstance.notify(err);
       throw err;
@@ -1258,7 +1258,7 @@ const _postContent = async (
   options = null,
   voteWeight = null,
 ) => {
-  const { name: author } = account;
+  const {name: author} = account;
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(account.local, digitPinCode);
 
@@ -1298,7 +1298,7 @@ const _postContent = async (
       opArray.push(e);
     }
 
-    return api.broadcast(opArray).then((resp) => resp.result);
+    return api.broadcast(opArray).then(resp => resp.result);
   }
 
   if (key) {
@@ -1337,7 +1337,7 @@ const _postContent = async (
 
     const privateKey = PrivateKey.fromString(key);
 
-    return sendHiveOperations(opArray, privateKey).catch((error) => {
+    return sendHiveOperations(opArray, privateKey).catch(error => {
       if (error && get(error, 'jse_info.code') === 4030100) {
         error.message = getDsteemDateErrorMessage(error);
       }
@@ -1351,7 +1351,7 @@ const _postContent = async (
 // Re-blog
 // TODO: remove pinCode
 export const reblog = (account, pinCode, author, permlink) =>
-  _reblog(account, pinCode, author, permlink).then((resp) => {
+  _reblog(account, pinCode, author, permlink).then(resp => {
     return resp;
   });
 
@@ -1367,7 +1367,7 @@ const _reblog = async (account, pinCode, author, permlink) => {
 
     const follower = account.name;
 
-    return api.reblog(follower, author, permlink).then((resp) => resp.result);
+    return api.reblog(follower, author, permlink).then(resp => resp.result);
   }
 
   if (key) {
@@ -1541,8 +1541,8 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
 
     return api
       .broadcast(opArray)
-      .then((resp) => resp.result)
-      .catch((error) => {
+      .then(resp => resp.result)
+      .catch(error => {
         console.warn('Failed to update posting key');
         bugsnagInstance.notify(error);
         console.log(error);
@@ -1563,7 +1563,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
     ];
     const privateKey = PrivateKey.fromString(key);
 
-    return sendHiveOperations(opArray, privateKey).catch((error) => {
+    return sendHiveOperations(opArray, privateKey).catch(error => {
       if (error && get(error, 'jse_info.code') === 4030100) {
         error.message = getDsteemDateErrorMessage(error);
       }
@@ -1589,7 +1589,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
     const _params = {
       account: get(currentAccount, 'name'),
       json_metadata: '',
-      posting_json_metadata: jsonStringify({ profile: params }),
+      posting_json_metadata: jsonStringify({profile: params}),
       extensions: [],
     };
 
@@ -1597,8 +1597,8 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 
     return api
       .broadcast(opArray)
-      .then((resp) => resp.result)
-      .catch((error) => console.log(error));
+      .then(resp => resp.result)
+      .catch(error => console.log(error));
   }
 
   if (key) {
@@ -1608,7 +1608,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
         {
           account: get(currentAccount, 'name'),
           json_metadata: '',
-          posting_json_metadata: jsonStringify({ profile: params }),
+          posting_json_metadata: jsonStringify({profile: params}),
           extensions: [],
         },
       ],
@@ -1616,7 +1616,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 
     const privateKey = PrivateKey.fromString(key);
 
-    return sendHiveOperations(opArray, privateKey).catch((error) => {
+    return sendHiveOperations(opArray, privateKey).catch(error => {
       if (error && get(error, 'jse_info.code') === 4030100) {
         error.message = getDsteemDateErrorMessage(error);
       }
@@ -1634,7 +1634,7 @@ export const subscribeCommunity = (currentAccount, pinCode, data) => {
 
   const json = JSON.stringify([
     data.isSubscribed ? 'unsubscribe' : 'subscribe',
-    { community: data.communityId },
+    {community: data.communityId},
   ]);
 
   const op = {
@@ -1726,7 +1726,7 @@ export const getBtcAddress = (pin, currentAccount) => {
 // HELPERS
 
 const getAnyPrivateKey = (local, pin) => {
-  const { postingKey, activeKey } = local;
+  const {postingKey, activeKey} = local;
 
   if (activeKey) {
     return decryptKey(local.activeKey, pin);
@@ -1740,7 +1740,7 @@ const getAnyPrivateKey = (local, pin) => {
 };
 
 const getActiveKey = (local, pin) => {
-  const { activeKey } = local;
+  const {activeKey} = local;
 
   if (activeKey) {
     return decryptKey(local.activeKey, pin);
@@ -1749,10 +1749,10 @@ const getActiveKey = (local, pin) => {
   return false;
 };
 
-export const votingPower = (account) => {
+export const votingPower = account => {
   // @ts-ignore "Account" is compatible with dhive's "ExtendedAccount"
   const calc = client.rc.calculateVPMana(account);
-  const { percentage } = calc;
+  const {percentage} = calc;
 
   return percentage / 100;
 };

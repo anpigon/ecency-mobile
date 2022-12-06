@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 
-import { UserAvatar } from '../userAvatar';
-import { IconButton } from '../iconButton';
+import {UserAvatar} from '../userAvatar';
+import {IconButton} from '../iconButton';
 
 // Styles
 import styles from './avatarHeaderStyles';
@@ -21,11 +21,10 @@ function AvatarHeader({
 
   return (
     <LinearGradient
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 0 }}
+      start={{x: 0, y: 0}}
+      end={{x: 1, y: 0}}
       colors={['#357ce6', '#2d5aa0']}
-      style={styles.headerView}
-    >
+      style={styles.headerView}>
       <SafeAreaView>
         <View style={styles.headerContainer}>
           <IconButton

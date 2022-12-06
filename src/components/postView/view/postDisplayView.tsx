@@ -1,31 +1,31 @@
-import React, { useCallback, useEffect, useRef, useState, Fragment } from 'react';
-import { View, Text, ScrollView, RefreshControl } from 'react-native';
-import { injectIntl } from 'react-intl';
+import React, {useCallback, useEffect, useRef, useState, Fragment} from 'react';
+import {View, Text, ScrollView, RefreshControl} from 'react-native';
+import {injectIntl} from 'react-intl';
 import get from 'lodash/get';
 
 // Providers
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 // Utils
-import { getTimeFromNow } from '../../../utils/time';
+import {getTimeFromNow} from '../../../utils/time';
 
 // Components
-import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
-import { PostPlaceHolder, StickyBar, TextWithIcon, NoPost } from '../../basicUIElements';
-import { Upvote } from '../../upvote';
-import { IconButton } from '../../iconButton';
-import { CommentsDisplay } from '../../commentsDisplay';
-import { ParentPost } from '../../parentPost';
+import {PostHeaderDescription, PostBody, Tags} from '../../postElements';
+import {PostPlaceHolder, StickyBar, TextWithIcon, NoPost} from '../../basicUIElements';
+import {Upvote} from '../../upvote';
+import {IconButton} from '../../iconButton';
+import {CommentsDisplay} from '../../commentsDisplay';
+import {ParentPost} from '../../parentPost';
 
 // Styles
 import styles from './postDisplayStyles';
-import { OptionsModal } from '../../atoms';
+import {OptionsModal} from '../../atoms';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
-import { useAppDispatch } from '../../../hooks';
-import { showReplyModal } from '../../../redux/actions/uiAction';
+import {useAppDispatch} from '../../../hooks';
+import {showReplyModal} from '../../../redux/actions/uiAction';
 import postTypes from '../../../constants/postTypes';
-import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
-import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+import {useUserActivityMutation} from '../../../providers/queries/pointQueries';
+import {PointActivityIds} from '../../../providers/ecency/ecency.types';
 
 const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;
@@ -91,8 +91,8 @@ function PostDisplayView({
     fetchPost().then(() => setRefreshing(false));
   }, [refreshing]);
 
-  const _handleOnScroll = (event) => {
-    const { y } = event.nativeEvent.contentOffset;
+  const _handleOnScroll = event => {
+    const {y} = event.nativeEvent.contentOffset;
     console.log('scroll height', y);
     setScrollHeight(HEIGHT + y);
 
@@ -107,8 +107,8 @@ function PostDisplayView({
     }
   };
 
-  const _handleOnPostLayout = (event) => {
-    const { height } = event.nativeEvent.layout;
+  const _handleOnPostLayout = event => {
+    const {height} = event.nativeEvent.layout;
     console.log('post height', height);
     setPostHeight(height);
   };
@@ -116,7 +116,7 @@ function PostDisplayView({
   const _scrollToComments = () => {
     if (scrollRef.current) {
       const pos = postHeight;
-      scrollRef.current.scrollTo({ y: pos });
+      scrollRef.current.scrollTo({y: pos});
     }
   };
 
@@ -133,7 +133,7 @@ function PostDisplayView({
   const _getTabBar = (isFixedFooter = false) => {
     return (
       <StickyBar isFixedFooter={isFixedFooter} style={styles.stickyBar}>
-        <View style={[styles.stickyWrapper, { paddingBottom: insets.bottom ? insets.bottom : 8 }]}>
+        <View style={[styles.stickyWrapper, {paddingBottom: insets.bottom ? insets.bottom : 8}]}>
           <Upvote
             activeVotes={activeVotes}
             isShowPayoutValue
@@ -209,7 +209,7 @@ function PostDisplayView({
     );
   };
 
-  const { name } = currentAccount;
+  const {name} = currentAccount;
 
   // const isPostEnd = scrollHeight > postHeight;
   const isGetComment = scrollHeight + 300 > postHeight;
@@ -249,19 +249,18 @@ function PostDisplayView({
         ref={scrollRef}
         style={styles.scroll}
         contentContainerStyle={[styles.scrollContent]}
-        onScroll={(event) => _handleOnScroll(event)}
+        onScroll={event => _handleOnScroll(event)}
         scrollEventThrottle={16}
         overScrollMode="never"
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-      >
-        <View style={{ width: WIDTH }}>
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+        <View style={{width: WIDTH}}>
           {parentPost && <ParentPost post={parentPost} />}
 
           <View style={styles.header}>
             {!post ? (
               <PostPlaceHolder />
             ) : (
-              <View onLayout={(event) => _handleOnPostLayout(event)}>
+              <View onLayout={event => _handleOnPostLayout(event)}>
                 {!!post.title && <Text style={styles.title}>{post.title}</Text>}
                 <PostHeaderDescription
                   date={formatedTime}
@@ -305,12 +304,12 @@ function PostDisplayView({
       <OptionsModal
         ref={actionSheet}
         options={[
-          intl.formatMessage({ id: 'alert.delete' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
+          intl.formatMessage({id: 'alert.delete'}),
+          intl.formatMessage({id: 'alert.cancel'}),
         ]}
-        title={intl.formatMessage({ id: 'alert.remove_alert' })}
+        title={intl.formatMessage({id: 'alert.remove_alert'})}
         cancelButtonIndex={1}
-        onPress={(index) => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
+        onPress={index => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
       />
     </View>
   );

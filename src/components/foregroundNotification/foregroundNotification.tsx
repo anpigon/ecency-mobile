@@ -1,16 +1,16 @@
-import { get } from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import { View as AnimatedView } from 'react-native-animatable';
-import { useDispatch } from 'react-redux';
-import { useIntl } from 'react-intl';
-import { IconButton } from '..';
-import { toastNotification } from '../../redux/actions/uiAction';
+import {get} from 'lodash';
+import React, {useEffect, useRef, useState} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
+import {View as AnimatedView} from 'react-native-animatable';
+import {useDispatch} from 'react-redux';
+import {useIntl} from 'react-intl';
+import {IconButton} from '..';
+import {toastNotification} from '../../redux/actions/uiAction';
 import UserAvatar from '../userAvatar';
 import ROUTES from '../../constants/routeNames';
 
 // Styles
-import styles, { CONTAINER_HEIGHT } from './styles';
+import styles, {CONTAINER_HEIGHT} from './styles';
 import RootNavigation from '../../navigation/rootNavigation';
 
 interface RemoteMessage {
@@ -33,7 +33,7 @@ interface Props {
   remoteMessage: RemoteMessage;
 }
 
-function ForegroundNotification({ remoteMessage }: Props) {
+function ForegroundNotification({remoteMessage}: Props) {
   const intl = useIntl();
 
   const hideTimeoutRef = useRef<any>(null);
@@ -48,7 +48,7 @@ function ForegroundNotification({ remoteMessage }: Props) {
 
   useEffect(() => {
     if (remoteMessage) {
-      const { source, target, type, id } = remoteMessage.data;
+      const {source, target, type, id} = remoteMessage.data;
       if (activeId !== id && (type === 'reply' || type === 'mention')) {
         let titlePrefixId = '';
         switch (type) {
@@ -62,8 +62,8 @@ function ForegroundNotification({ remoteMessage }: Props) {
 
         setActiveId(id);
         setUsername(source);
-        setTitle(`${intl.formatMessage({ id: titlePrefixId })} @${target}`);
-        setBody(intl.formatMessage({ id: 'notification.reply_body' }));
+        setTitle(`${intl.formatMessage({id: titlePrefixId})} @${target}`);
+        setBody(intl.formatMessage({id: 'notification.reply_body'}));
         show();
       }
     }
@@ -94,7 +94,7 @@ function ForegroundNotification({ remoteMessage }: Props) {
   };
 
   const _onPress = () => {
-    const { data } = remoteMessage;
+    const {data} = remoteMessage;
     const fullPermlink =
       get(data, 'permlink1', '') + get(data, 'permlink2', '') + get(data, 'permlink3', '');
 
@@ -119,14 +119,13 @@ function ForegroundNotification({ remoteMessage }: Props) {
         ref={containerRef}
         style={styles.container}
         animation="slideInDown"
-        duration={500}
-      >
+        duration={500}>
         <View style={styles.contentContainer}>
-          <TouchableOpacity onPress={_onPress} style={{ flexShrink: 1 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 24 }}>
+          <TouchableOpacity onPress={_onPress} style={{flexShrink: 1}}>
+            <View style={{flexDirection: 'row', alignItems: 'center', marginRight: 24}}>
               <UserAvatar username={username} />
 
-              <View style={{ flexShrink: 1 }}>
+              <View style={{flexShrink: 1}}>
                 <Text style={styles.text} numberOfLines={1}>
                   {title}
                 </Text>

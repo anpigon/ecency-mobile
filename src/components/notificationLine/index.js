@@ -1,3 +1,3 @@
 import NotificationLine from './view/notificationLineView';
 
-export { NotificationLine };
+export {NotificationLine};

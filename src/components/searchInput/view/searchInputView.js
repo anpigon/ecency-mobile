@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {SafeAreaView, View} from 'react-native';
 
 // Components
-import { Icon } from '../../icon';
-import { IconButton } from '../../iconButton';
-import { TextInput } from '../../textInput';
+import {Icon} from '../../icon';
+import {IconButton} from '../../iconButton';
+import {TextInput} from '../../textInput';
 
 // Styles
 import styles from './searchInputStyles';
@@ -35,7 +35,7 @@ function SearchInputView({
     setInputValue(value);
   }, [value]);
 
-  const _onChangeText = (text) => {
+  const _onChangeText = text => {
     if (prefix !== '') {
       text = text.replace(prefix, '');
     }
@@ -45,7 +45,7 @@ function SearchInputView({
     }
   };
 
-  const _renderCrossButton = (onPress) => (
+  const _renderCrossButton = onPress => (
     <IconButton
       iconStyle={styles.closeIcon}
       iconType="Ionicons"
@@ -55,7 +55,7 @@ function SearchInputView({
     />
   );
 
-  const inputWrapperFlex = { flex: backEnabled ? 16 : 1 };
+  const inputWrapperFlex = {flex: backEnabled ? 16 : 1};
 
   return (
     <SafeAreaView style={styles.container}>

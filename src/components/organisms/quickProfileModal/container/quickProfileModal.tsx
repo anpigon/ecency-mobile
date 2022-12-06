@@ -1,16 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef} from 'react';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { QuickProfileContent } from '../children/quickProfileContent';
+import {QuickProfileContent} from '../children/quickProfileContent';
 import styles from '../children/quickProfileStyles';
-import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import { hideProfileModal } from '../../../../redux/actions/uiAction';
+import {useAppDispatch, useAppSelector} from '../../../../hooks';
+import {hideProfileModal} from '../../../../redux/actions/uiAction';
 
 export function QuickProfileModal() {
   const sheetModalRef = useRef<ActionSheet>();
   const dispatch = useAppDispatch();
 
-  const profileModalUsername = useAppSelector((state) => state.ui.profileModalUsername);
+  const profileModalUsername = useAppSelector(state => state.ui.profileModalUsername);
 
   useEffect(() => {
     if (profileModalUsername) {
@@ -30,8 +30,7 @@ export function QuickProfileModal() {
       gestureEnabled={true}
       containerStyle={styles.sheetContent}
       onClose={_onClose}
-      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
-    >
+      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}>
       <QuickProfileContent username={profileModalUsername} onClose={_onClose} />
     </ActionSheet>
   );

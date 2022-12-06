@@ -1,4 +1,4 @@
-import { default as ROUTES } from './routeNames';
+import {default as ROUTES} from './routeNames';
 
 const authMenuItems = [
   {

@@ -1,1 +1,1 @@
-export { default as TransferFormItem } from './view/transferFormItemView';
+export {default as TransferFormItem} from './view/transferFormItemView';

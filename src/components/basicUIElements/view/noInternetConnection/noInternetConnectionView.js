@@ -1,12 +1,12 @@
 import React from 'react';
-import { injectIntl } from 'react-intl';
-import { Text, SafeAreaView, View } from 'react-native';
+import {injectIntl} from 'react-intl';
+import {Text, SafeAreaView, View} from 'react-native';
 
-import { Icon } from '../../../icon';
+import {Icon} from '../../../icon';
 
 import styles from './noInternetConnectionStyle';
 
-function NoInternetConnection({ intl }) {
+function NoInternetConnection({intl}) {
   return (
     <SafeAreaView style={styles.grayBackground}>
       <View style={styles.container}>

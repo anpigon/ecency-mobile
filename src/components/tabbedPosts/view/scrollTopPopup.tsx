@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { useIntl } from 'react-intl';
-import { Text, View, TouchableOpacity } from 'react-native';
+import {useIntl} from 'react-intl';
+import {Text, View, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { View as AnimatedView } from 'react-native-animatable';
-import { IconButton } from '../..';
+import {View as AnimatedView} from 'react-native-animatable';
+import {IconButton} from '../..';
 import styles from './tabbedPostsStyles';
 
 interface ScrollTopPopupProps {
@@ -13,7 +13,7 @@ interface ScrollTopPopupProps {
   enableScrollTop: boolean;
 }
 
-function ScrollTopPopup({ onPress, onClose, popupAvatars, enableScrollTop }: ScrollTopPopupProps) {
+function ScrollTopPopup({onPress, onClose, popupAvatars, enableScrollTop}: ScrollTopPopupProps) {
   const intl = useIntl();
 
   if (popupAvatars.length == 0 && !enableScrollTop) {
@@ -36,18 +36,18 @@ function ScrollTopPopup({ onPress, onClose, popupAvatars, enableScrollTop }: Scr
             {popupAvatars.map((url, index) => (
               <FastImage
                 key={`image_bubble_${url}`}
-                source={{ uri: url }}
-                style={[styles.popupImage, { zIndex: 10 - index }]}
+                source={{uri: url}}
+                style={[styles.popupImage, {zIndex: 10 - index}]}
               />
             ))}
 
             {popupAvatars.length > 0 ? (
               <Text style={styles.postedText}>
-                {intl.formatMessage({ id: 'home.popup_postfix' })}
+                {intl.formatMessage({id: 'home.popup_postfix'})}
               </Text>
             ) : (
               <Text style={styles.scrollTopText}>
-                {intl.formatMessage({ id: 'home.scroll_top' })}
+                {intl.formatMessage({id: 'home.scroll_top'})}
               </Text>
             )}
           </View>

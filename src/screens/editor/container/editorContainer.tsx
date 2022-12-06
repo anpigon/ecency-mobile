@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
-import { Alert, AppState, AppStateStatus, NativeEventSubscription } from 'react-native';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {injectIntl} from 'react-intl';
+import {Alert, AppState, AppStateStatus, NativeEventSubscription} from 'react-native';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { isArray } from 'lodash';
+import {isArray} from 'lodash';
 
 // Services and Actions
-import { Buffer } from 'buffer';
-import { useQueryClient } from '@tanstack/react-query';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
-import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
+import {Buffer} from 'buffer';
+import {useQueryClient} from '@tanstack/react-query';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {addDraft, updateDraft, getDrafts, addSchedule} from '../../../providers/ecency/ecency';
+import {toastNotification, setRcOffer} from '../../../redux/actions/uiAction';
 import {
   postContent,
   getPurePost,
@@ -21,7 +21,7 @@ import {
 } from '../../../providers/hive/dhive';
 
 // Constants
-import { default as ROUTES } from '../../../constants/routeNames';
+import {default as ROUTES} from '../../../constants/routeNames';
 
 // Utilities
 import {
@@ -37,8 +37,8 @@ import {
 
 // Component
 import EditorScreen from '../screen/editorScreen';
-import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
-import { DEFAULT_USER_DRAFT_ID, TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
+import {removeBeneficiaries, setBeneficiaries} from '../../../redux/actions/editorActions';
+import {DEFAULT_USER_DRAFT_ID, TEMP_BENEFICIARIES_ID} from '../../../redux/constants/constants';
 import {
   deleteDraftCacheEntry,
   updateCommentCache,
@@ -46,8 +46,8 @@ import {
 } from '../../../redux/actions/cacheActions';
 import QUERIES from '../../../providers/queries/queryKeys';
 import bugsnapInstance from '../../../config/bugsnag';
-import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
-import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+import {useUserActivityMutation} from '../../../providers/queries/pointQueries';
+import {PointActivityIds} from '../../../providers/ecency/ecency.types';
 
 /*
  *            Props Name        Description                                     Value
@@ -92,7 +92,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   // Component Life Cycle Functions
   componentDidMount() {
     this._isMounted = true;
-    const { currentAccount, route, queryClient } = this.props;
+    const {currentAccount, route, queryClient} = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
     let isReply;
     let draftId;
@@ -111,7 +111,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
         if (cachedDrafts && cachedDrafts.length) {
           // get draft from query cache
-          const _draft = cachedDrafts.find((draft) => draft._id === draftId);
+          const _draft = cachedDrafts.find(draft => draft._id === draftId);
 
           this.setState({
             draftId,
@@ -128,14 +128,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       }
 
       if (navigationParams.post) {
-        ({ post } = navigationParams);
+        ({post} = navigationParams);
         this.setState({
           post,
         });
       }
 
       if (navigationParams.isReply) {
-        ({ isReply } = navigationParams);
+        ({isReply} = navigationParams);
         if (post) {
           draftId = `${currentAccount.name}/${post.author}/${post.permlink}`;
         }
@@ -146,12 +146,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           autoFocusText: true,
         });
         if (draftId) {
-          this._getStorageDraft(username, isReply, { _id: draftId });
+          this._getStorageDraft(username, isReply, {_id: draftId});
         }
       }
 
       if (navigationParams.isEdit) {
-        ({ isEdit } = navigationParams);
+        ({isEdit} = navigationParams);
         this.setState({
           isEdit,
           draftPost: {
@@ -168,10 +168,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       // handle file/text shared from ReceiveSharingIntent
       if (hasSharedIntent) {
-        const { files } = navigationParams;
+        const {files} = navigationParams;
         console.log('files : ', files);
 
-        files.forEach((el) => {
+        files.forEach(el => {
           if (el.text) {
             this.setState({
               sharedSnippetText: el.text,
@@ -214,7 +214,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _getStorageDraft = async (username, isReply, paramDraft) => {
-    const { drafts } = this.props;
+    const {drafts} = this.props;
     if (isReply) {
       const _draft = drafts.get(paramDraft._id);
       if (_draft && _draft.body) {
@@ -270,7 +270,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
   // load meta from local/param drfat into state
   _loadMeta = (draft: any) => {
-    const { dispatch, currentAccount } = this.props;
+    const {dispatch, currentAccount} = this.props;
     // if meta exist on draft, get the index of 1st image in meta from images urls in body
     // const body = draft.body;
     if (draft.meta && draft.meta.image) {
@@ -290,7 +290,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     if (draft._id && draft.meta && draft.meta.beneficiaries) {
       if (isArray(draft.meta.beneficiaries)) {
         const filteredBeneficiaries = draft.meta.beneficiaries.filter(
-          (item) => item.account !== currentAccount.username,
+          item => item.account !== currentAccount.username,
         ); // remove default beneficiary from array while saving
         dispatch(setBeneficiaries(draft._id || TEMP_BENEFICIARIES_ID, filteredBeneficiaries));
       }
@@ -314,8 +314,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
    * prompts user as well
    * @param isReply
    * */
-  _fetchDraftsForComparison = async (isReply) => {
-    const { currentAccount, isLoggedIn, drafts } = this.props;
+  _fetchDraftsForComparison = async isReply => {
+    const {currentAccount, isLoggedIn, drafts} = this.props;
     const username = get(currentAccount, 'name', '');
 
     // initilizes editor with reply or non remote id less draft
@@ -386,19 +386,19 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _extractBeneficiaries = () => {
-    const { draftId } = this.state;
-    const { beneficiariesMap, currentAccount } = this.props;
+    const {draftId} = this.state;
+    const {beneficiariesMap, currentAccount} = this.props;
 
     return (
       beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID] || [
-        { account: currentAccount.name, weight: 10000 },
+        {account: currentAccount.name, weight: 10000},
       ]
     );
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
-    const { isDraftSaved, draftId, thumbUrl, isReply, rewardType } = this.state;
-    const { currentAccount, dispatch, intl, queryClient } = this.props;
+    const {isDraftSaved, draftId, thumbUrl, isReply, rewardType} = this.state;
+    const {currentAccount, dispatch, intl, queryClient} = this.props;
 
     try {
       // saves draft locallly
@@ -474,7 +474,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             });
           }
           const filteredBeneficiaries = beneficiaries.filter(
-            (item) => item.account !== currentAccount.username,
+            item => item.account !== currentAccount.username,
           ); // remove default beneficiary from array while saving
           dispatch(setBeneficiaries(response._id, filteredBeneficiaries));
           dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID));
@@ -517,19 +517,19 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
   };
 
-  _updateDraftFields = (fields) => {
+  _updateDraftFields = fields => {
     this._updatedDraftFields = fields;
   };
 
-  _saveCurrentDraft = async (fields) => {
-    const { draftId, isReply, isEdit, isPostSending } = this.state;
+  _saveCurrentDraft = async fields => {
+    const {draftId, isReply, isEdit, isPostSending} = this.state;
 
     // skip draft save in case post is sending or is post beign edited
     if (isPostSending || isEdit) {
       return;
     }
 
-    const { currentAccount, dispatch } = this.props;
+    const {currentAccount, dispatch} = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
 
     const draftField = {
@@ -555,7 +555,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
   };
 
-  _submitPost = async ({ fields, scheduleDate }: { fields: any; scheduleDate?: string }) => {
+  _submitPost = async ({fields, scheduleDate}: {fields: any; scheduleDate?: string}) => {
     const {
       currentAccount,
       dispatch,
@@ -565,7 +565,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       userActivityMutation,
       // isDefaultFooter,
     } = this.props;
-    const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
+    const {rewardType, isPostSending, thumbUrl, draftId, shouldReblog} = this.state;
 
     const beneficiaries = this._extractBeneficiaries();
 
@@ -579,7 +579,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       });
 
       const meta = extractMetadata(fields.body, thumbUrl);
-      const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
+      const _tags = fields.tags.filter(tag => tag && tag !== ' ');
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
       // TODO: check if permlink is available github: #314 https://github.com/ecency/ecency-mobile/pull/314
@@ -630,7 +630,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           options,
           voteWeight,
         )
-          .then((response) => {
+          .then(response => {
             console.log(response);
             // track user activity for points
             userActivityMutation.mutate({
@@ -641,7 +641,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             // reblog if flag is active
             if (shouldReblog) {
               reblog(currentAccount, pinCode, author, permlink)
-                .then((resp) => {
+                .then(resp => {
                   // track user activity for points on reblog
                   userActivityMutation.mutate({
                     pointsTy: PointActivityIds.REBLOG,
@@ -649,7 +649,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
                   });
                   console.log('Successfully reblogged post', resp);
                 })
-                .catch((err) => {
+                .catch(err => {
                   console.warn('Failed to reblog post', err);
                 });
             }
@@ -684,16 +684,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
               );
             }, 3000);
           })
-          .catch((error) => {
+          .catch(error => {
             this._handleSubmitFailure(error);
           });
       }
     }
   };
 
-  _submitReply = async (fields) => {
-    const { currentAccount, pinCode, dispatch, userActivityMutation } = this.props;
-    const { isPostSending } = this.state;
+  _submitReply = async fields => {
+    const {currentAccount, pinCode, dispatch, userActivityMutation} = this.props;
+    const {isPostSending} = this.state;
 
     if (isPostSending) {
       return;
@@ -704,7 +704,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         isPostSending: true,
       });
 
-      const { post } = this.state;
+      const {post} = this.state;
       const permlink = generateReplyPermlink(post.author);
 
       const parentAuthor = post.author;
@@ -720,7 +720,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         fields.body,
         parentTags,
       )
-        .then((response) => {
+        .then(response => {
           // record user activity for points
           userActivityMutation.mutate({
             pointsTy: PointActivityIds.COMMENT,
@@ -747,15 +747,15 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             ),
           );
         })
-        .catch((error) => {
+        .catch(error => {
           this._handleSubmitFailure(error);
         });
     }
   };
 
-  _submitEdit = async (fields) => {
-    const { currentAccount, pinCode, dispatch } = this.props;
-    const { post, isEdit, isPostSending, thumbUrl, isReply } = this.state;
+  _submitEdit = async fields => {
+    const {currentAccount, pinCode, dispatch} = this.props;
+    const {post, isEdit, isPostSending, thumbUrl, isReply} = this.state;
 
     if (isPostSending) {
       return;
@@ -765,7 +765,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       this.setState({
         isPostSending: true,
       });
-      const { tags, body, title } = fields;
+      const {tags, body, title} = fields;
       const {
         markdownBody: oldBody,
         parent_permlink: parentPermlink,
@@ -832,14 +832,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             );
           }
         })
-        .catch((error) => {
+        .catch(error => {
           this._handleSubmitFailure(error);
         });
     }
   };
 
-  _handleSubmitFailure = (error) => {
-    const { intl, dispatch } = this.props;
+  _handleSubmitFailure = error => {
+    const {intl, dispatch} = this.props;
     console.log(error);
     if (
       error &&
@@ -871,7 +871,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _handleSubmitSuccess = () => {
-    const { navigation, route } = this.props;
+    const {navigation, route} = this.props;
 
     this.stateTimer = setTimeout(() => {
       if (navigation) {
@@ -888,8 +888,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _handleSubmit = (form: any) => {
-    const { isReply, isEdit } = this.state;
-    const { intl } = this.props;
+    const {isReply, isEdit} = this.state;
+    const {intl} = this.props;
 
     if (isReply && !isEdit) {
       this._submitReply(form.fields);
@@ -916,7 +916,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             onPress: () => this._submitEdit(form.fields),
           },
         ],
-        { cancelable: false },
+        {cancelable: false},
       );
     } else {
       Alert.alert(
@@ -938,16 +938,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             text: intl.formatMessage({
               id: 'editor.alert_btn_yes',
             }),
-            onPress: () => this._submitPost({ fields: form.fields }),
+            onPress: () => this._submitPost({fields: form.fields}),
           },
         ],
-        { cancelable: false },
+        {cancelable: false},
       );
     }
   };
 
   _handleFormChanged = () => {
-    const { isDraftSaved } = this.state;
+    const {isDraftSaved} = this.state;
 
     if (isDraftSaved) {
       this.setState({
@@ -957,7 +957,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _handleSchedulePress = async (datePickerValue, fields) => {
-    const { currentAccount, pinCode, intl } = this.props;
+    const {currentAccount, pinCode, intl} = this.props;
 
     if (fields.title === '' || fields.body === '') {
       const timer = setTimeout(() => {
@@ -978,17 +978,17 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       if (currentAccount && currentAccount.posting) {
         hasPostingPerm =
-          currentAccount.posting.account_auths.filter((x) => x[0] === 'ecency.app').length > 0;
+          currentAccount.posting.account_auths.filter(x => x[0] === 'ecency.app').length > 0;
       }
 
       if (hasPostingPerm) {
-        this._submitPost({ fields, scheduleDate: datePickerValue });
+        this._submitPost({fields, scheduleDate: datePickerValue});
       } else {
         await grantPostingPermission(json, pinCode, currentAccount)
           .then(() => {
-            this._submitPost({ fields, scheduleDate: datePickerValue });
+            this._submitPost({fields, scheduleDate: datePickerValue});
           })
-          .catch((error) => {
+          .catch(error => {
             Alert.alert(
               intl.formatMessage({
                 id: 'alert.fail',
@@ -1000,9 +1000,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
   };
 
-  _setScheduledPost = (data) => {
-    const { dispatch, intl, currentAccount, navigation } = this.props;
-    const { rewardType } = this.state;
+  _setScheduledPost = data => {
+    const {dispatch, intl, currentAccount, navigation} = this.props;
+    const {rewardType} = this.state;
     const beneficiaries = this._extractBeneficiaries();
 
     const options = makeOptions({
@@ -1040,7 +1040,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           });
         }, 3000);
       })
-      .catch((error) => {
+      .catch(error => {
         console.warn('Failed to schedule post', error);
         this.setState({
           isPostSending: false,
@@ -1050,7 +1050,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
   _initialEditor = () => {
     const {
-      currentAccount: { name },
+      currentAccount: {name},
       dispatch,
     } = this.props;
 
@@ -1061,8 +1061,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     });
   };
 
-  _handleRewardChange = (value) => {
-    this.setState({ rewardType: value });
+  _handleRewardChange = value => {
+    this.setState({rewardType: value});
   };
 
   _handleShouldReblogChange = (value: boolean) => {
@@ -1084,7 +1084,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   render() {
-    const { isLoggedIn, isDarkTheme, currentAccount, route } = this.props;
+    const {isLoggedIn, isDarkTheme, currentAccount, route} = this.props;
     const {
       autoFocusText,
       draftPost,
@@ -1153,7 +1153,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   isDefaultFooter: state.account.isDefaultFooter,
   isLoggedIn: state.application.isLoggedIn,
@@ -1169,6 +1169,6 @@ const mapQueriesToProps = () => ({
 
 export default gestureHandlerRootHOC(
   connect(mapStateToProps)(
-    injectIntl((props) => <EditorContainer {...props} {...mapQueriesToProps()} />),
+    injectIntl(props => <EditorContainer {...props} {...mapQueriesToProps()} />),
   ),
 );

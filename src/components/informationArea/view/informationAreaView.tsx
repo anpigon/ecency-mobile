@@ -1,6 +1,6 @@
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ROUTES from '../../../constants/routeNames';
 
@@ -11,7 +11,7 @@ import ROUTES from '../../../constants/routeNames';
 // Styles
 import styles from './informationAreaStyles';
 
-function FormInputView({ description, iconName, bold, link }) {
+function FormInputView({description, iconName, bold, link}) {
   const navigation = useNavigation();
 
   const _onPress = () => {

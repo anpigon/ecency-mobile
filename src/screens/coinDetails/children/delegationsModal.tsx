@@ -1,18 +1,18 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { FlatList } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RefreshControl } from 'react-native';
+import React, {forwardRef, useEffect, useImperativeHandle, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {FlatList} from 'react-native-gesture-handler';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RefreshControl} from 'react-native';
 import unionBy from 'lodash/unionBy';
 import AccountListContainer from '../../../containers/accountListContainer';
 import ROUTES from '../../../constants/routeNames';
 import styles from './children.styles';
-import { BasicHeader, Modal, UserListItem } from '../../../components';
-import { useAppSelector } from '../../../hooks';
-import { getVestingDelegations } from '../../../providers/hive/dhive';
-import { getReceivedVestingShares } from '../../../providers/ecency/ecency';
-import { vestsToHp } from '../../../utils/conversions';
+import {BasicHeader, Modal, UserListItem} from '../../../components';
+import {useAppSelector} from '../../../hooks';
+import {getVestingDelegations} from '../../../providers/hive/dhive';
+import {getReceivedVestingShares} from '../../../providers/ecency/ecency';
+import {vestsToHp} from '../../../utils/conversions';
 
 export enum MODES {
   DELEGATEED = 'delegated_hive_power',
@@ -29,9 +29,9 @@ export const DelegationsModal = forwardRef(({}, ref) => {
   const intl = useIntl();
   const navigation = useNavigation<StackNavigationProp<any>>();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const globalProps = useAppSelector((state) => state.account.globalProps);
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const globalProps = useAppSelector(state => state.account.globalProps);
+  const isDarkTheme = useAppSelector(state => state.application.isDarkTheme);
 
   const [delegations, setDelegations] = useState<DelegationItem[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -58,7 +58,7 @@ export const DelegationsModal = forwardRef(({}, ref) => {
 
     const response = await getVestingDelegations(currentAccount.username, startUsername, limit);
     resData = response.map(
-      (item) =>
+      item =>
         ({
           username: item.delegatee,
           vestingShares: item.vesting_shares,
@@ -76,7 +76,7 @@ export const DelegationsModal = forwardRef(({}, ref) => {
 
   const _getReceivedDelegations = async () => {
     const response = await getReceivedVestingShares(currentAccount.username);
-    return response.map((item) => ({
+    return response.map(item => ({
       username: item.delegator,
       vestingShares: item.vesting_shares,
       timestamp: item.timestamp,
@@ -129,13 +129,12 @@ export const DelegationsModal = forwardRef(({}, ref) => {
     }
   };
 
-  const title = intl.formatMessage({ id: `wallet.${mode}` });
+  const title = intl.formatMessage({id: `wallet.${mode}`});
 
-  const _renderItem = ({ item, index }: { item: DelegationItem; index: number }) => {
+  const _renderItem = ({item, index}: {item: DelegationItem; index: number}) => {
     const value = `${vestsToHp(item.vestingShares, globalProps.hivePerMVests).toFixed(3)} HP`;
     const timeString = new Date(item.timestamp).toDateString();
-    const subRightText =
-      mode === MODES.DELEGATEED && intl.formatMessage({ id: 'wallet.tap_update' });
+    const subRightText = mode === MODES.DELEGATEED && intl.formatMessage({id: 'wallet.tap_update'});
 
     return (
       <UserListItem
@@ -157,7 +156,7 @@ export const DelegationsModal = forwardRef(({}, ref) => {
   const _renderContent = () => {
     return (
       <AccountListContainer data={delegations}>
-        {({ data, filterResult, handleSearch }) => (
+        {({data, filterResult, handleSearch}) => (
           <>
             <BasicHeader
               backIconName="close"
@@ -167,11 +166,11 @@ export const DelegationsModal = forwardRef(({}, ref) => {
               }}
               title={`${title} (${data && data.length})`}
               isHasSearch
-              handleOnSearch={(text) => handleSearch(text, 'username')}
+              handleOnSearch={text => handleSearch(text, 'username')}
             />
             <FlatList
               data={filterResult || data}
-              keyExtractor={(item) => item.delegator}
+              keyExtractor={item => item.delegator}
               removeClippedSubviews={false}
               renderItem={_renderItem}
               refreshControl={
@@ -199,8 +198,7 @@ export const DelegationsModal = forwardRef(({}, ref) => {
       isCloseButton
       presentationStyle="formSheet"
       animationType="slide"
-      style={styles.delegationsModal}
-    >
+      style={styles.delegationsModal}>
       {_renderContent()}
     </Modal>
   );

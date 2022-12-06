@@ -1,7 +1,7 @@
-import { createStore, applyMiddleware, compose } from '@reduxjs/toolkit';
+import {createStore, applyMiddleware, compose} from '@reduxjs/toolkit';
 
 import thunk from 'redux-thunk';
-import { createMigrate, createTransform, persistReducer, persistStore } from 'redux-persist';
+import {createMigrate, createTransform, persistReducer, persistStore} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Reactotron from '../../../reactotron-config';
 
@@ -17,7 +17,7 @@ const transformCacheVoteMap = createTransform(
     subscribedCommunities: Array.from(inboundState.subscribedCommunities),
     pointActivities: Array.from(inboundState.pointActivities),
   }),
-  (outboundState) => ({
+  outboundState => ({
     ...outboundState,
     votes: new Map(outboundState.votes),
     comments: new Map(outboundState.comments),
@@ -25,7 +25,7 @@ const transformCacheVoteMap = createTransform(
     subscribedCommunities: new Map(outboundState.subscribedCommunities),
     pointActivities: new Map(outboundState.pointActivities),
   }),
-  { whitelist: ['cache'] },
+  {whitelist: ['cache']},
 );
 
 const transformWalkthroughMap = createTransform(
@@ -33,8 +33,8 @@ const transformWalkthroughMap = createTransform(
     ...inboundState,
     walkthroughMap: Array.from(inboundState.walkthroughMap),
   }),
-  (outboundState) => ({ ...outboundState, walkthroughMap: new Map(outboundState.walkthroughMap) }),
-  { whitelist: ['walkthrough'] },
+  outboundState => ({...outboundState, walkthroughMap: new Map(outboundState.walkthroughMap)}),
+  {whitelist: ['walkthrough']},
 );
 
 // // Middleware: Redux Persist Config
@@ -47,7 +47,7 @@ const persistConfig = {
   // // Blacklist (Don't Save Specific Reducers)
   blacklist: ['communities', 'user', 'ui'],
   transforms: [transformCacheVoteMap, transformWalkthroughMap],
-  migrate: createMigrate(MigrationHelpers.reduxMigrations, { debug: false }),
+  migrate: createMigrate(MigrationHelpers.reduxMigrations, {debug: false}),
 };
 
 // // Middleware: Redux Persist Persisted Reducer

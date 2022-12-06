@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { View, FlatList, Text, TouchableOpacity } from 'react-native';
-import { debounce } from 'lodash';
-import { UserAvatar } from '../..';
-import { lookupAccounts } from '../../../providers/hive/dhive';
-import { extractWordAtIndex } from '../../../utils/editor';
+import React, {useState, useEffect, useCallback} from 'react';
+import {View, FlatList, Text, TouchableOpacity} from 'react-native';
+import {debounce} from 'lodash';
+import {UserAvatar} from '../..';
+import {lookupAccounts} from '../../../providers/hive/dhive';
+import {extractWordAtIndex} from '../../../utils/editor';
 import styles from '../styles/markdownEditorStyles';
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
   onApplyUsername: (username: string) => void;
 }
 
-export function UsernameAutofillBar({ text, selection, onApplyUsername }: Props) {
+export function UsernameAutofillBar({text, selection, onApplyUsername}: Props) {
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [query, setQuery] = useState('');
 
@@ -39,14 +39,14 @@ export function UsernameAutofillBar({ text, selection, onApplyUsername }: Props)
         }
       },
       300,
-      { leading: true },
+      {leading: true},
     ),
     [],
   );
 
   const _handleUserSearch = useCallback(
     debounce(
-      async (username) => {
+      async username => {
         if (query !== username) {
           let users = [];
           if (username) {
@@ -58,12 +58,12 @@ export function UsernameAutofillBar({ text, selection, onApplyUsername }: Props)
         }
       },
       200,
-      { leading: true },
+      {leading: true},
     ),
     [],
   );
 
-  const _onUserSelect = (username) => {
+  const _onUserSelect = username => {
     onApplyUsername(username);
     setSearchedUsers([]);
     setQuery('');
@@ -73,14 +73,13 @@ export function UsernameAutofillBar({ text, selection, onApplyUsername }: Props)
     return null;
   }
 
-  const _renderItem = ({ item }: { item: string }) => {
+  const _renderItem = ({item}: {item: string}) => {
     const username = item;
     return (
       <TouchableOpacity
         onPress={() => {
           _onUserSelect(username);
-        }}
-      >
+        }}>
         <View style={styles.userBubble}>
           <UserAvatar username={username} />
           <Text style={styles.userBubbleText}>{username}</Text>
@@ -97,7 +96,7 @@ export function UsernameAutofillBar({ text, selection, onApplyUsername }: Props)
         keyboardShouldPersistTaps="always"
         showsHorizontalScrollIndicator={false}
         renderItem={_renderItem}
-        keyExtractor={(item) => `searched-user-${item}`}
+        keyExtractor={item => `searched-user-${item}`}
       />
     </View>
   );

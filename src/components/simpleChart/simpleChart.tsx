@@ -1,5 +1,5 @@
 import React from 'react';
-import { LineChart } from 'react-native-chart-kit';
+import {LineChart} from 'react-native-chart-kit';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 interface CoinChartProps {

@@ -1,4 +1,4 @@
-import { TextStyle, ViewStyle } from 'react-native';
+import {TextStyle, ViewStyle} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import isAndroidOreo from '../../../../utils/isAndroidOreo';
 

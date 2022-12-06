@@ -1,13 +1,13 @@
-import React, { PureComponent } from 'react';
-import { View, Text } from 'react-native';
+import React, {PureComponent} from 'react';
+import {View, Text} from 'react-native';
 
 // Constants
 
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { DropdownButton } from '../../dropdownButton';
-import { TextButton } from '../../buttons';
-import { ToggleSwitch } from '../../toggleSwitch';
+import {DropdownButton} from '../../dropdownButton';
+import {TextButton} from '../../buttons';
+import {ToggleSwitch} from '../../toggleSwitch';
 // Styles
 import styles from './settingsItemStyles';
 import IconButton from '../../iconButton';
@@ -53,7 +53,7 @@ class SettingsItemView extends PureComponent {
             dropdownStyle={styles.dropdownStyle}
             textStyle={styles.dropdownText}
             options={options}
-            onSelect={(e) => handleOnChange(e, type, actionType)}
+            onSelect={e => handleOnChange(e, type, actionType)}
             isHasChildIcon
           />
         );
@@ -63,7 +63,7 @@ class SettingsItemView extends PureComponent {
           <ToggleSwitch
             size="large"
             isOn={isOn}
-            onToggle={(e) => handleOnChange(e, type, actionType)}
+            onToggle={e => handleOnChange(e, type, actionType)}
             latchBack={toggleLatchBack}
           />
         );
@@ -101,7 +101,7 @@ class SettingsItemView extends PureComponent {
   };
 
   render() {
-    const { title, titleStyle } = this.props;
+    const {title, titleStyle} = this.props;
 
     return (
       <View style={styles.wrapper}>

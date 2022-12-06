@@ -1,4 +1,4 @@
 import Wallet from './screen/walletScreen';
 
-export { Wallet };
+export {Wallet};
 export default Wallet;

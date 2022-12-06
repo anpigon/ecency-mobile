@@ -1,20 +1,20 @@
 import isEmpty from 'lodash/isEmpty';
 import forEach from 'lodash/forEach';
-import { get } from 'lodash';
-import { Platform } from 'react-native';
-import { postBodySummary, renderPostBody, catchPostImage } from '@ecency/render-helper';
+import {get} from 'lodash';
+import {Platform} from 'react-native';
+import {postBodySummary, renderPostBody, catchPostImage} from '@ecency/render-helper';
 import FastImage from 'react-native-fast-image';
 
 // Utils
 import parseAsset from './parseAsset';
-import { getResizedAvatar } from './image';
-import { parseReputation } from './user';
+import {getResizedAvatar} from './image';
+import {parseReputation} from './user';
 
 const webp = Platform.OS !== 'ios';
 
 export const parsePosts = (posts, currentUserName) => {
   if (posts) {
-    const formattedPosts = posts.map((post) => parsePost(post, currentUserName, false, true));
+    const formattedPosts = posts.map(post => parsePost(post, currentUserName, false, true));
     return formattedPosts;
   }
   return null;
@@ -47,7 +47,7 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
   post.author_reputation = parseReputation(post.author_reputation);
   post.avatar = getResizedAvatar(get(post, 'author'));
   if (!isList) {
-    post.body = renderPostBody({ ...post, last_update: post.updated }, true, webp);
+    post.body = renderPostBody({...post, last_update: post.updated}, true, webp);
   }
   post.summary = postBodySummary(post, 150, Platform.OS as 'ios' | 'android' | 'web');
   post.max_payout = parseAsset(post.max_accepted_payout).amount || 0;
@@ -70,7 +70,7 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
 
   // cache image
   if (post.image) {
-    FastImage.preload([{ uri: post.image }]);
+    FastImage.preload([{uri: post.image}]);
   }
 
   return post;
@@ -81,7 +81,7 @@ const MAX_THREAD_LEVEL = 3;
 // traverse map to curate threads
 const parseReplies = (commentsMap: Record<string, any>, replies: any[], level: number) => {
   if (replies && replies.length > 0 && MAX_THREAD_LEVEL > level) {
-    return replies.map((pathKey) => {
+    return replies.map(pathKey => {
       const comment = commentsMap[pathKey];
       if (comment) {
         const parsedComment = parseComment(comment);
@@ -106,7 +106,7 @@ export const parseCommentThreads = async (
 
   const comments = commentsMap
     .values()
-    .map((comment) => {
+    .map(comment => {
       if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
         const _parsedComment = parseComment(comment);
         _parsedComment.replies = parseReplies(commentsMap, _parsedComment.replies, 1);
@@ -114,7 +114,7 @@ export const parseCommentThreads = async (
       }
       return null;
     })
-    .filter((e) => e);
+    .filter(e => e);
 
   return comments;
 };
@@ -124,7 +124,7 @@ export const parseComments = (comments: any[]) => {
     return null;
   }
 
-  return comments.map((comment) => parseComment(comment));
+  return comments.map(comment => parseComment(comment));
 };
 
 export const parseComment = (comment: any) => {
@@ -132,7 +132,7 @@ export const parseComment = (comment: any) => {
   comment.author_reputation = parseReputation(get(comment, 'author_reputation'));
   comment.avatar = getResizedAvatar(get(comment, 'author'));
   comment.markdownBody = get(comment, 'body');
-  comment.body = renderPostBody({ ...comment, last_update: comment.updated }, true, webp);
+  comment.body = renderPostBody({...comment, last_update: comment.updated}, true, webp);
 
   // parse json meta;
   if (typeof comment.json_metadata === 'string' || comment.json_metadata instanceof String) {
@@ -175,7 +175,7 @@ export const isVoted = async (activeVotes, currentUserName) => {
     return false;
   }
   const result = activeVotes.find(
-    (element) => get(element, 'voter') === currentUserName && get(element, 'rshares', 0) > 0,
+    element => get(element, 'voter') === currentUserName && get(element, 'rshares', 0) > 0,
   );
   if (result) {
     return result.rshares;
@@ -188,7 +188,7 @@ export const isDownVoted = async (activeVotes, currentUserName) => {
     return false;
   }
   const result = activeVotes.find(
-    (element) => get(element, 'voter') === currentUserName && get(element, 'rshares') < 0,
+    element => get(element, 'voter') === currentUserName && get(element, 'rshares') < 0,
   );
   if (result) {
     return result.rshares;
@@ -196,7 +196,7 @@ export const isDownVoted = async (activeVotes, currentUserName) => {
   return false;
 };
 
-export const parseActiveVotes = (post) => {
+export const parseActiveVotes = post => {
   const totalPayout =
     post.total_payout ||
     parseFloat(post.pending_payout_value) +
@@ -207,7 +207,7 @@ export const parseActiveVotes = (post) => {
   const ratio = totalPayout / voteRshares || 0;
 
   if (!isEmpty(post.active_votes)) {
-    forEach(post.active_votes, (value) => {
+    forEach(post.active_votes, value => {
       value.reward = (value.rshares * ratio).toFixed(3);
       value.percent /= 100;
       value.is_down_vote = Math.sign(value.percent) < 0;

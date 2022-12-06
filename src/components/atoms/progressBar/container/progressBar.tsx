@@ -1,11 +1,11 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 import styles from '../children/progresBarStyles';
 
-export function ProgressBar({ progress }) {
-  const containerStyle = { ...styles.container };
-  const filledStyle = { ...styles.filled, flex: progress };
-  const unfilledStyle = { flex: 100 - progress };
+export function ProgressBar({progress}) {
+  const containerStyle = {...styles.container};
+  const filledStyle = {...styles.filled, flex: progress};
+  const unfilledStyle = {flex: 100 - progress};
   return (
     <View style={containerStyle}>
       <View style={filledStyle} />

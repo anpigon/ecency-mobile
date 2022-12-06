@@ -16,7 +16,7 @@ export const setFeedPosts = (posts, scrollPosition = 0) => ({
   },
   type: SET_FEED_POSTS,
 });
-export const setInitPosts = (payload) => ({
+export const setInitPosts = payload => ({
   payload,
   type: SET_INIT_POSTS,
 });
@@ -28,19 +28,19 @@ export const setOtherPosts = (posts, scrollPosition = 0) => ({
   type: SET_OTHER_POSTS,
 });
 
-export const fetchPosts = (payload) => ({
+export const fetchPosts = payload => ({
   payload,
   type: FETCH_POSTS,
 });
-export const fetchPostsSuccess = (payload) => ({
+export const fetchPostsSuccess = payload => ({
   payload,
   type: FETCH_POSTS_SUCCESS,
 });
-export const reset = (payload) => ({
+export const reset = payload => ({
   payload,
   type: RESET,
 });
-export const filterSelected = (payload) => ({
+export const filterSelected = payload => ({
   payload,
   type: FILTER_SELECTED,
 });

@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Platform } from 'react-native';
-import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import React, {useState, useEffect} from 'react';
+import {Platform} from 'react-native';
+import {connect} from 'react-redux';
+import {injectIntl} from 'react-intl';
 import get from 'lodash/get';
 
-import { postBodySummary } from '@ecency/render-helper';
-import { useNavigation } from '@react-navigation/native';
-import { getComments, deleteComment } from '../../../providers/hive/dhive';
+import {postBodySummary} from '@ecency/render-helper';
+import {useNavigation} from '@react-navigation/native';
+import {getComments, deleteComment} from '../../../providers/hive/dhive';
 // Services and Actions
-import { writeToClipboard } from '../../../utils/clipboard';
-import { toastNotification } from '../../../redux/actions/uiAction';
+import {writeToClipboard} from '../../../utils/clipboard';
+import {toastNotification} from '../../../redux/actions/uiAction';
 
 // Middleware
 
@@ -18,15 +18,15 @@ import ROUTES from '../../../constants/routeNames';
 
 // Component
 import CommentsView from '../view/commentsView';
-import { useAppSelector } from '../../../hooks';
-import { updateCommentCache } from '../../../redux/actions/cacheActions';
-import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
+import {useAppSelector} from '../../../hooks';
+import {updateCommentCache} from '../../../redux/actions/cacheActions';
+import {CommentCacheStatus} from '../../../redux/reducers/cacheReducer';
 
 function CommentsContainer({
   author,
   permlink,
   selectedFilter,
-  currentAccount: { name },
+  currentAccount: {name},
   isOwnProfile,
   fetchPost,
   currentAccount,
@@ -51,8 +51,8 @@ function CommentsContainer({
 }) {
   const navigation = useNavigation();
 
-  const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
-  const cachedComments = useAppSelector((state) => state.cache.comments);
+  const lastCacheUpdate = useAppSelector(state => state.cache.lastUpdate);
+  const cachedComments = useAppSelector(state => state.cache.comments);
 
   const [lcomments, setLComments] = useState([]);
   const [propComments, setPropComments] = useState(comments);
@@ -94,7 +94,7 @@ function CommentsContainer({
   const _sortComments = (sortOrder = 'trending', _comments = []) => {
     const sortedComments = _comments || lcomments;
 
-    const absNegative = (a) => a.net_rshares < 0;
+    const absNegative = a => a.net_rshares < 0;
 
     const sortOrders = {
       trending: (a, b) => {
@@ -174,7 +174,7 @@ function CommentsContainer({
       fetchPost();
     } else if (author && permlink && !propComments) {
       await getComments(author, permlink, name)
-        .then((__comments) => {
+        .then(__comments => {
           // favourable place for merging comment cache
           __comments = _handleCachedComment(__comments);
           __comments = _sortComments(selectedFilter, __comments);
@@ -243,7 +243,7 @@ function CommentsContainer({
     return _comments;
   };
 
-  const _handleOnReplyPress = (item) => {
+  const _handleOnReplyPress = item => {
     navigation.navigate({
       name: ROUTES.SCREENS.EDITOR,
       key: 'editor_reply',
@@ -266,7 +266,7 @@ function CommentsContainer({
     });
   };
 
-  const _handleOnEditPress = (item) => {
+  const _handleOnEditPress = item => {
     navigation.navigate({
       name: ROUTES.SCREENS.EDITOR,
       key: `editor_edit_reply_${item.permlink}`,
@@ -279,13 +279,13 @@ function CommentsContainer({
     });
   };
 
-  const _handleDeleteComment = (_permlink) => {
+  const _handleDeleteComment = _permlink => {
     let filteredComments;
 
     deleteComment(currentAccount, pinCode, _permlink).then(() => {
       let deletedItem = null;
 
-      const _applyFilter = (item) => {
+      const _applyFilter = item => {
         if (item.permlink === _permlink) {
           deletedItem = item;
           return false;
@@ -306,12 +306,12 @@ function CommentsContainer({
         const cachePath = `${deletedItem.parent_author}/${deletedItem.parent_permlink}`;
         deletedItem.status = CommentCacheStatus.DELETED;
         delete deletedItem.updated;
-        dispatch(updateCommentCache(cachePath, deletedItem, { isUpdate: true }));
+        dispatch(updateCommentCache(cachePath, deletedItem, {isUpdate: true}));
       }
     });
   };
 
-  const _openReplyThread = (comment) => {
+  const _openReplyThread = comment => {
     navigation.navigate({
       name: ROUTES.SCREENS.POST,
       key: comment.permlink,
@@ -376,7 +376,7 @@ function CommentsContainer({
   );
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,

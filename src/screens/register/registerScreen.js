@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   StatusBar,
@@ -9,13 +9,13 @@ import {
   Keyboard,
   KeyboardAvoidingView,
 } from 'react-native';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 import * as Animatable from 'react-native-animatable';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import RegisterContainer from './registerContainer';
 
 // Internal Components
-import { FormInput, InformationArea, MainButton, TextButton } from '../../components';
+import {FormInput, InformationArea, MainButton, TextButton} from '../../components';
 
 // Constants
 import ROUTES from '../../constants/routeNames';
@@ -26,9 +26,9 @@ import styles from './registerStyles';
 import ESTEEM_LOGO from '../../assets/like_new.png';
 import ESTEEM_SMALL_LOGO from '../../assets/ecency_logo_transparent.png';
 import getWindowDimensions from '../../utils/getWindowDimensions';
-import { ECENCY_TERMS_URL } from '../../config/ecencyApi';
+import {ECENCY_TERMS_URL} from '../../config/ecencyApi';
 
-function RegisterScreen({ navigation, route }) {
+function RegisterScreen({navigation, route}) {
   const intl = useIntl();
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
   const [username, setUsername] = useState('');
@@ -51,32 +51,32 @@ function RegisterScreen({ navigation, route }) {
     };
   }, []);
 
-  const _handleEmailChange = (value) => {
+  const _handleEmailChange = value => {
     const re =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     setIsEmailValid(re.test(value));
     setEmail(value);
   };
 
-  const _handleUsernameChange = ({ value, getAccountsWithUsername }) => {
+  const _handleUsernameChange = ({value, getAccountsWithUsername}) => {
     setUsername(value);
     if (!value || value.length <= 2 || value.length >= 16) {
       setIsUsernameValid(false);
       return;
     }
-    getAccountsWithUsername(value).then((res) => {
+    getAccountsWithUsername(value).then(res => {
       const isValid = !res.includes(value);
       setIsUsernameValid(isValid);
     });
   };
 
-  const _handleRefUsernameChange = ({ value, getAccountsWithUsername }) => {
+  const _handleRefUsernameChange = ({value, getAccountsWithUsername}) => {
     setRefUsername(value);
     if (!value) {
       setIsRefUsernameValid(true);
       return;
     }
-    getAccountsWithUsername(value).then((res) => {
+    getAccountsWithUsername(value).then(res => {
       const isValid = res.includes(value);
       setIsRefUsernameValid(isValid);
     });
@@ -84,7 +84,7 @@ function RegisterScreen({ navigation, route }) {
 
   return (
     <RegisterContainer>
-      {({ getAccountsWithUsername, isLoading, handleOnPressRegister, referredUser }) => (
+      {({getAccountsWithUsername, isLoading, handleOnPressRegister, referredUser}) => (
         <SafeAreaView style={styles.container}>
           <StatusBar hidden translucent />
           <View style={styles.headerRow}>
@@ -95,20 +95,19 @@ function RegisterScreen({ navigation, route }) {
                   navigation.replace(ROUTES.SCREENS.LOGIN);
                 }}
                 text="LOGIN"
-                textStyle={{ color: '#357ce6' }}
+                textStyle={{color: '#357ce6'}}
               />
             </View>
           </View>
           <Animatable.View
             animation={keyboardIsOpen ? hideAnimation : showAnimation}
             delay={0}
-            duration={300}
-          >
+            duration={300}>
             <View style={styles.header}>
               <View style={styles.titleText}>
-                <Text style={styles.title}>{intl.formatMessage({ id: 'register.title' })}</Text>
+                <Text style={styles.title}>{intl.formatMessage({id: 'register.title'})}</Text>
                 <Text style={styles.description}>
-                  {intl.formatMessage({ id: 'register.title_description' })}
+                  {intl.formatMessage({id: 'register.title_description'})}
                 </Text>
               </View>
               <Image style={styles.mascot} source={ESTEEM_LOGO} />
@@ -117,15 +116,14 @@ function RegisterScreen({ navigation, route }) {
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.formWrapper}
-            keyboardShouldPersistTaps
-          >
+            keyboardShouldPersistTaps>
             <View style={styles.body}>
               <FormInput
                 rightIconName="at"
                 leftIconName="close"
                 iconType="MaterialCommunityIcons"
                 isValid={isUsernameValid}
-                onChange={(value) => _handleUsernameChange({ value, getAccountsWithUsername })}
+                onChange={value => _handleUsernameChange({value, getAccountsWithUsername})}
                 placeholder={intl.formatMessage({
                   id: 'register.username',
                 })}
@@ -154,7 +152,7 @@ function RegisterScreen({ navigation, route }) {
                 rightIconName="person"
                 leftIconName="close"
                 isValid={isRefUsernameValid}
-                onChange={(value) => _handleRefUsernameChange({ value, getAccountsWithUsername })}
+                onChange={value => _handleRefUsernameChange({value, getAccountsWithUsername})}
                 placeholder={intl.formatMessage({
                   id: 'register.ref_user',
                 })}
@@ -166,7 +164,7 @@ function RegisterScreen({ navigation, route }) {
                 onFocus={() => setKeyboardIsOpen(true)}
               />
               <InformationArea
-                description={intl.formatMessage({ id: 'register.form_description' })}
+                description={intl.formatMessage({id: 'register.form_description'})}
                 iconName="ios-information-circle-outline"
                 link={ECENCY_TERMS_URL}
               />
@@ -184,7 +182,7 @@ function RegisterScreen({ navigation, route }) {
                 })}
               />
               <MainButton
-                onPress={() => handleOnPressRegister({ username, email, refUsername })}
+                onPress={() => handleOnPressRegister({username, email, refUsername})}
                 iconName="person"
                 iconColor="white"
                 text={intl.formatMessage({
@@ -202,7 +200,7 @@ function RegisterScreen({ navigation, route }) {
   );
 }
 
-const { height } = getWindowDimensions();
+const {height} = getWindowDimensions();
 const bodyHeight = height / 5;
 const showAnimation = {
   from: {

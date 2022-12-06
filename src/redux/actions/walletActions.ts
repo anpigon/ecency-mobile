@@ -1,5 +1,5 @@
-import { getLatestQuotes } from '../../providers/ecency/ecency';
-import { fetchCoinsData } from '../../utils/wallet';
+import {getLatestQuotes} from '../../providers/ecency/ecency';
+import {fetchCoinsData} from '../../utils/wallet';
 import {
   SET_SELECTED_COINS,
   SET_PRICE_HISTORY,
@@ -8,8 +8,8 @@ import {
   SET_COIN_QUOTES,
   RESET_WALLET_DATA,
 } from '../constants/constants';
-import { CoinActivitiesCollection, CoinBase, CoinData } from '../reducers/walletReducer';
-import { AppDispatch, RootState } from '../store/store';
+import {CoinActivitiesCollection, CoinBase, CoinData} from '../reducers/walletReducer';
+import {AppDispatch, RootState} from '../store/store';
 
 export const setSelectedCoins = (coins: CoinBase[]) => ({
   payload: coins,
@@ -17,7 +17,7 @@ export const setSelectedCoins = (coins: CoinBase[]) => ({
 });
 
 export const setCoinsData = (
-  data: { [key: string]: CoinData },
+  data: {[key: string]: CoinData},
   vsCurrency: string,
   username: string,
 ) => ({
@@ -51,13 +51,13 @@ export const resetWalletData = () => ({
 });
 
 export const fetchCoinQuotes = () => (dispatch, getState) => {
-  const { currency } = getState().application;
+  const {currency} = getState().application;
   console.log('fetching quotes for currency', currency);
-  getLatestQuotes(currency.currencyRate).then((quotes) => {
+  getLatestQuotes(currency.currencyRate).then(quotes => {
     console.log('Fetched quotes', quotes);
     dispatch({
       type: SET_COIN_QUOTES,
-      payload: { ...quotes },
+      payload: {...quotes},
     });
   });
 };
@@ -66,10 +66,10 @@ export const fetchAndSetCoinsData =
   (refresh: boolean = false) =>
   async (dispatch: AppDispatch, getState: RootState) => {
     const coins = getState().wallet.selectedCoins;
-    const { quotes } = getState().wallet;
-    const { currentAccount } = getState().account;
-    const { currency } = getState().application;
-    const { globalProps } = getState().account;
+    const {quotes} = getState().wallet;
+    const {currentAccount} = getState().account;
+    const {currency} = getState().application;
+    const {globalProps} = getState().account;
 
     const coinsData = await fetchCoinsData({
       coins,

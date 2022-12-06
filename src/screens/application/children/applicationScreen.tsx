@@ -1,12 +1,12 @@
-import React, { Component, Fragment } from 'react';
-import { StatusBar, Platform, View, Alert } from 'react-native';
+import React, {Component, Fragment} from 'react';
+import {StatusBar, Platform, View, Alert} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
-import { injectIntl } from 'react-intl';
+import {injectIntl} from 'react-intl';
 
 import RootNavigation from '../../../navigation/rootNavigation';
-import { AppNavigator } from '../../../navigation';
+import {AppNavigator} from '../../../navigation';
 
 // Services
 import {
@@ -41,20 +41,20 @@ class ApplicationScreen extends Component {
   }
 
   UNSAFE_componentWillMount() {
-    const { isDarkTheme } = this.props;
+    const {isDarkTheme} = this.props;
     EStyleSheet.build(isDarkTheme ? darkTheme : lightTheme);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { toastNotification } = this.props;
+    const {toastNotification} = this.props;
     if (nextProps.toastNotification && nextProps.toastNotification !== toastNotification) {
-      this.setState({ isShowToastNotification: true });
+      this.setState({isShowToastNotification: true});
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { rcOffer, dispatch, intl } = this.props;
-    const { rcOffer: rcOfferPrev } = prevProps;
+    const {rcOffer, dispatch, intl} = this.props;
+    const {rcOffer: rcOfferPrev} = prevProps;
 
     // TODO: display action modal instead
     if (!rcOfferPrev && rcOffer) {
@@ -82,20 +82,20 @@ class ApplicationScreen extends Component {
               },
             },
           ],
-          { cancelable: false },
+          {cancelable: false},
         );
       }, 300);
     }
   }
 
   _handleOnHideToastNotification = () => {
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
     dispatch(toastNotificationAction(''));
-    this.setState({ isShowToastNotification: false });
+    this.setState({isShowToastNotification: false});
   };
 
   _renderStatusBar() {
-    const { isDarkTheme } = this.props;
+    const {isDarkTheme} = this.props;
     const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
     const barColor = isDarkTheme ? '#1e2835' : '#fff';
     return Platform.OS === 'ios' ? (
@@ -106,7 +106,7 @@ class ApplicationScreen extends Component {
   }
 
   _renderAppNavigator() {
-    const { isConnected } = this.props;
+    const {isConnected} = this.props;
     return (
       <>
         {!isConnected && <NoInternetConnection />}
@@ -117,8 +117,8 @@ class ApplicationScreen extends Component {
   }
 
   _renderAppModals() {
-    const { toastNotification, foregroundNotificationData } = this.props;
-    const { isShowToastNotification } = this.state;
+    const {toastNotification, foregroundNotificationData} = this.props;
+    const {isShowToastNotification} = this.state;
 
     return (
       <>
@@ -141,7 +141,7 @@ class ApplicationScreen extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         {this._renderStatusBar()}
         {this._renderAppNavigator()}
         {this._renderAppModals()}

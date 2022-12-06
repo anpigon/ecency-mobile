@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, {PureComponent, Fragment} from 'react';
 import {
   View,
   Text,
@@ -17,19 +17,19 @@ import LIGHT_COVER_IMAGE from '../../../assets/default_cover_image.png';
 import DARK_COVER_IMAGE from '../../../assets/dark_cover_image.png';
 
 // Components
-import { TextWithIcon } from '../../basicUIElements';
-import { PercentBar } from '../../percentBar';
-import { IconButton } from '../../iconButton';
-import { DropdownButton } from '../../dropdownButton';
+import {TextWithIcon} from '../../basicUIElements';
+import {PercentBar} from '../../percentBar';
+import {IconButton} from '../../iconButton';
+import {DropdownButton} from '../../dropdownButton';
 
 // Utils
-import { makeCountFriendly } from '../../../utils/formatter';
-import { getCoverImageUrl } from '../../../utils/image';
+import {makeCountFriendly} from '../../../utils/formatter';
+import {getCoverImageUrl} from '../../../utils/image';
 
 // Styles
 import styles from './profileSummaryStyles';
-import { TextButton } from '../../buttons';
-import { Icon } from '../..';
+import {TextButton} from '../../buttons';
+import {Icon} from '../..';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 const DEVICE_WIDTH = getWindowDimensions().width;
@@ -57,7 +57,7 @@ class ProfileSummaryView extends PureComponent {
     }
   };
 
-  _handleOnDropdownSelect = (index) => {
+  _handleOnDropdownSelect = index => {
     const {
       isMuted,
       isFavorite,
@@ -96,7 +96,7 @@ class ProfileSummaryView extends PureComponent {
   };
 
   render() {
-    const { isShowPercentText } = this.state;
+    const {isShowPercentText} = this.state;
     const {
       date,
       about,
@@ -130,9 +130,9 @@ class ProfileSummaryView extends PureComponent {
     const location = get(about, 'location', '');
 
     const ABOUT_DATA = [
-      { id: 1, text: date, icon: 'calendar' },
-      { id: 2, text: link, icon: 'earth', onPress: () => this._handleOnPressLink(link) },
-      { id: 3, text: location, icon: 'near-me' },
+      {id: 1, text: date, icon: 'calendar'},
+      {id: 2, text: link, icon: 'earth', onPress: () => this._handleOnPressLink(link)},
+      {id: 3, text: location, icon: 'near-me'},
     ];
 
     const rowLength =
@@ -149,7 +149,7 @@ class ProfileSummaryView extends PureComponent {
         ? require('../../../assets/dark_cover_image.png')
         : require('../../../assets/default_cover_image.png');
     } else {
-      coverImageUrl = { uri: coverImageUrl };
+      coverImageUrl = {uri: coverImageUrl};
     }
 
     // compile dropdown options
@@ -171,7 +171,7 @@ class ProfileSummaryView extends PureComponent {
     return (
       <>
         <View style={[isColumn ? styles.textWithIconWrapperColumn : styles.textWithIconWrapper]}>
-          {ABOUT_DATA.map((item) =>
+          {ABOUT_DATA.map(item =>
             get(item, 'text', null) ? (
               <TextWithIcon
                 isClickable={get(item, 'onPress')}
@@ -193,11 +193,10 @@ class ProfileSummaryView extends PureComponent {
         />
         <TouchableOpacity
           onPress={() =>
-            this.setState({ isShowPercentText: !isShowPercentText }, () => {
+            this.setState({isShowPercentText: !isShowPercentText}, () => {
               handleUIChange(!isShowPercentText ? 30 : 0);
             })
-          }
-        >
+          }>
           <PercentBar
             isShowText={isShowPercentText}
             percent={percentVP}
@@ -248,8 +247,7 @@ class ProfileSummaryView extends PureComponent {
               <TouchableOpacity
                 style={styles.followActionWrapper}
                 onPress={() => handleFollowUnfollowUser(!isFollowing)}
-                disabled={isProfileLoading}
-              >
+                disabled={isProfileLoading}>
                 <Text style={styles.actionText}>{followButtonText}</Text>
               </TouchableOpacity>
 
@@ -275,10 +273,9 @@ class ProfileSummaryView extends PureComponent {
               <View style={styles.rightIcons}>
                 <TouchableOpacity
                   style={styles.editActionWrapper}
-                  onPress={handleOnPressProfileEdit}
-                >
+                  onPress={handleOnPressProfileEdit}>
                   <Text style={styles.actionText}>
-                    {intl.formatMessage({ id: 'profile.edit_label' })}
+                    {intl.formatMessage({id: 'profile.edit_label'})}
                   </Text>
                 </TouchableOpacity>
               </View>

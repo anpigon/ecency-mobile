@@ -1,9 +1,9 @@
 import React from 'react';
-import { View } from 'react-native';
-import { CoinActions, CoinBasics, CoinChart } from '.';
-import { FormattedCurrency } from '../../../components';
-import { COIN_IDS } from '../../../constants/defaultCoins';
-import { CoinData, DataPair } from '../../../redux/reducers/walletReducer';
+import {View} from 'react-native';
+import {CoinActions, CoinBasics, CoinChart} from '.';
+import {FormattedCurrency} from '../../../components';
+import {COIN_IDS} from '../../../constants/defaultCoins';
+import {CoinData, DataPair} from '../../../redux/reducers/walletReducer';
 
 export interface CoinSummaryProps {
   id: string;
@@ -22,7 +22,7 @@ export function CoinSummary({
   onActionPress,
   onInfoPress,
 }: CoinSummaryProps) {
-  const { balance, estimateValue, savings, extraDataPairs, actions } = coinData;
+  const {balance, estimateValue, savings, extraDataPairs, actions} = coinData;
 
   const valuePairs = [
     {

@@ -3,7 +3,7 @@ import get from 'lodash/get';
 export default (posts, option) => {
   const updatedPosts = [];
   if (option === '1') {
-    posts.map((post) => {
+    posts.map(post => {
       if (post.parent_permlink === 'nsfw' || get(post, 'json_metadata.tags', []).includes('nsfw')) {
         post.nsfw = true;
       }
@@ -13,7 +13,7 @@ export default (posts, option) => {
 
   // removes nsfw post from array ... filter value '2'
   if (posts) {
-    posts.map((post) => {
+    posts.map(post => {
       if (
         post.parent_permlink !== 'nsfw' &&
         !get(post, 'json_metadata.tags', []).includes('nsfw')

@@ -1,18 +1,18 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { connect } from 'react-redux';
+import React, {useState, useEffect, useMemo} from 'react';
+import {connect} from 'react-redux';
 import get from 'lodash/get';
 
 // Services
-import { useNavigation } from '@react-navigation/native';
-import { getPost } from '../../../providers/hive/dhive';
-import { getPostReblogs } from '../../../providers/ecency/ecency';
+import {useNavigation} from '@react-navigation/native';
+import {getPost} from '../../../providers/hive/dhive';
+import {getPostReblogs} from '../../../providers/ecency/ecency';
 
 import PostCardView from '../view/postCardView';
 
 // Constants
-import { default as ROUTES } from '../../../constants/routeNames';
-import { useAppDispatch } from '../../../hooks';
-import { showProfileModal } from '../../../redux/actions/uiAction';
+import {default as ROUTES} from '../../../constants/routeNames';
+import {useAppDispatch} from '../../../hooks';
+import {showProfileModal} from '../../../redux/actions/uiAction';
 
 /*
  *            Props Name        Description                                     Value
@@ -42,7 +42,7 @@ function PostCardContainer({
   useEffect(() => {
     let isCancelled = false;
 
-    const fetchData = async (val) => {
+    const fetchData = async val => {
       try {
         const dd = await getPostReblogs(val);
         if (!isCancelled) {
@@ -72,7 +72,7 @@ function PostCardContainer({
       get(_content, 'permlink'),
       get(currentAccount, 'username'),
     )
-      .then((result) => {
+      .then(result => {
         if (result) {
           setContent(result);
         }
@@ -80,14 +80,14 @@ function PostCardContainer({
       .catch(() => {});
   };
 
-  const _handleOnUserPress = (username) => {
+  const _handleOnUserPress = username => {
     if (_content) {
       username = username || get(_content, 'author');
       dispatch(showProfileModal(username));
     }
   };
 
-  const _handleOnContentPress = (value) => {
+  const _handleOnContentPress = value => {
     if (value) {
       navigation.navigate({
         name: ROUTES.SCREENS.POST,
@@ -149,7 +149,7 @@ function PostCardContainer({
   );
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   nsfw: state.application.nsfw,
 });

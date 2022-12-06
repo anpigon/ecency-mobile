@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
+import React, {Component} from 'react';
+import {View} from 'react-native';
 // Constants
 
 // Components
-import { TextInput } from '../../../textInput';
-import { ThemeContainer } from '../../../../containers';
+import {TextInput} from '../../../textInput';
+import {ThemeContainer} from '../../../../containers';
 
 // Styles
 import styles from './titleAreaStyles';
@@ -27,15 +27,15 @@ export default class TitleAreaView extends Component {
 
   // Component Life Cycles
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { text } = this.state;
+    const {text} = this.state;
     if (nextProps.value !== text) {
-      this.setState({ text: nextProps.value });
+      this.setState({text: nextProps.value});
     }
   }
 
   // Component Functions
-  _handleOnChange = (text) => {
-    const { onChange, handleIsValid, componentID } = this.props;
+  _handleOnChange = text => {
+    const {onChange, handleIsValid, componentID} = this.props;
     if (onChange) {
       onChange(text);
     }
@@ -46,17 +46,17 @@ export default class TitleAreaView extends Component {
   };
 
   render() {
-    const { intl, isPreviewActive, autoFocus } = this.props;
-    const { text, height } = this.state;
+    const {intl, isPreviewActive, autoFocus} = this.props;
+    const {text, height} = this.state;
 
     const maxHeight = isAndroidOreo() ? 24 : 35;
 
     return (
-      <View style={[globalStyles.containerHorizontal16, { height: Math.max(maxHeight, height) }]}>
+      <View style={[globalStyles.containerHorizontal16, {height: Math.max(maxHeight, height)}]}>
         <ThemeContainer>
-          {({ isDarkTheme }) => (
+          {({isDarkTheme}) => (
             <TextInput
-              style={[styles.textInput, { height: Math.max(maxHeight, height) }]}
+              style={[styles.textInput, {height: Math.max(maxHeight, height)}]}
               placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
               editable={!isPreviewActive}
               maxLength={250}
@@ -65,11 +65,11 @@ export default class TitleAreaView extends Component {
               })}
               multiline
               numberOfLines={2}
-              onContentSizeChange={(event) => {
-                this.setState({ height: event.nativeEvent.contentSize.height });
+              onContentSizeChange={event => {
+                this.setState({height: event.nativeEvent.contentSize.height});
               }}
               autoFocus={autoFocus}
-              onChangeText={(textT) => this._handleOnChange(textT)}
+              onChangeText={textT => this._handleOnChange(textT)}
               value={text}
             />
           )}

@@ -1,20 +1,20 @@
-import React, { useRef, useState, useEffect, Fragment } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { injectIntl } from 'react-intl';
+import React, {useRef, useState, useEffect, Fragment} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
+import {injectIntl} from 'react-intl';
 
 // Utils
 import FastImage from 'react-native-fast-image';
-import { getTimeFromNow } from '../../../utils/time';
+import {getTimeFromNow} from '../../../utils/time';
 
 // Components
-import { PostHeaderDescription } from '../../postElements';
-import { IconButton } from '../../iconButton';
-import { OptionsModal } from '../../atoms';
+import {PostHeaderDescription} from '../../postElements';
+import {IconButton} from '../../iconButton';
+import {OptionsModal} from '../../atoms';
 
 // Styles
 import styles from './draftListItemStyles';
-import { ScheduledPostStatus } from '../../../providers/ecency/ecency.types';
-import { PopoverWrapper } from '../../popoverWrapper/popoverWrapperView';
+import {ScheduledPostStatus} from '../../../providers/ecency/ecency.types';
+import {PopoverWrapper} from '../../popoverWrapper/popoverWrapperView';
 
 function DraftListItemView({
   title,
@@ -56,12 +56,12 @@ function DraftListItemView({
   // consts
   const scheduleStatus =
     status === ScheduledPostStatus.PENDING
-      ? intl.formatMessage({ id: 'schedules.pending' })
+      ? intl.formatMessage({id: 'schedules.pending'})
       : status === ScheduledPostStatus.POSTPONED
-      ? intl.formatMessage({ id: 'schedules.postponed' })
+      ? intl.formatMessage({id: 'schedules.postponed'})
       : status === ScheduledPostStatus.PUBLISHED
-      ? intl.formatMessage({ id: 'schedules.published' })
-      : intl.formatMessage({ id: 'schedules.error' });
+      ? intl.formatMessage({id: 'schedules.published'})
+      : intl.formatMessage({id: 'schedules.error'});
   const statusIcon =
     status === ScheduledPostStatus.PENDING
       ? 'timer'
@@ -135,13 +135,13 @@ function DraftListItemView({
       <OptionsModal
         ref={actionSheet}
         options={[
-          intl.formatMessage({ id: 'alert.delete' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
+          intl.formatMessage({id: 'alert.delete'}),
+          intl.formatMessage({id: 'alert.cancel'}),
         ]}
-        title={intl.formatMessage({ id: 'alert.remove_alert' })}
+        title={intl.formatMessage({id: 'alert.remove_alert'})}
         cancelButtonIndex={1}
         destructiveButtonIndex={0}
-        onPress={(index) => {
+        onPress={index => {
           if (index === 0) {
             handleOnRemoveItem(id);
             setIsDeleteRequested(true);
@@ -163,7 +163,7 @@ function DraftListItemView({
           }),
         ]}
         cancelButtonIndex={1}
-        onPress={(index) => {
+        onPress={index => {
           if (index === 0) {
             handleOnMovePress(id);
             setIsDeleteRequested(true);

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 
 // Services and Actions
-import { useNavigation } from '@react-navigation/native';
-import { getCommunityTitle } from '../../../../providers/hive/dhive';
+import {useNavigation} from '@react-navigation/native';
+import {getCommunityTitle} from '../../../../providers/hive/dhive';
 // Middleware
 
 // Constants
@@ -39,7 +39,7 @@ function TagContainer({
 
   useEffect(() => {
     let isCancelled = false;
-    const fetchData = async (val) => {
+    const fetchData = async val => {
       try {
         const dd = await getCommunityTitle(val);
         if (!isCancelled) {

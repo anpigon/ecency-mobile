@@ -1,6 +1,6 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
-import { isRTL } from '../../../utils/I18nUtils';
+import {getBottomSpace} from 'react-native-iphone-x-helper';
+import {isRTL} from '../../../utils/I18nUtils';
 import scalePx from '../../../utils/scalePx';
 
 export default EStyleSheet.create({

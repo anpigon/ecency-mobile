@@ -1,16 +1,16 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 
-import { WalletHeader, FormattedCurrency } from '../../../components';
-import { WalletContainer, AccountContainer } from '../../../containers';
+import {WalletHeader, FormattedCurrency} from '../../../components';
+import {WalletContainer, AccountContainer} from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
-function HiveView({ handleOnSelected, index, currentIndex, refreshing: reload }) {
+function HiveView({handleOnSelected, index, currentIndex, refreshing: reload}) {
   return (
     <View style={globalStyles.swipeItemWrapper}>
       <AccountContainer>
-        {({ currentAccount }) => (
+        {({currentAccount}) => (
           <WalletContainer selectedUser={currentAccount}>
             {({
               isClaiming,
@@ -37,14 +37,14 @@ function HiveView({ handleOnSelected, index, currentIndex, refreshing: reload })
                 refreshing={refreshing}
                 unclaimedBalance={0}
                 userBalance={[
-                  { balance: hiveBalance, nameKey: 'hive', options: hiveDropdown },
+                  {balance: hiveBalance, nameKey: 'hive', options: hiveDropdown},
                   {
                     balance: hiveSavingBalance,
                     nameKey: 'savinghive',
                     options: savingHiveDropdown,
                   },
                 ]}
-                handleOnDropdownSelected={(option) => navigate(option, 'HIVE')}
+                handleOnDropdownSelected={option => navigate(option, 'HIVE')}
                 type="hive"
                 currentIndex={currentIndex}
                 showIconList={false}

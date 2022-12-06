@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
-import { useIntl } from 'react-intl';
-import { View, Text } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import React, {Fragment} from 'react';
+import {useIntl} from 'react-intl';
+import {View, Text} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import styles from './children.styles';
 
 interface CoinActionsProps {
@@ -9,7 +9,7 @@ interface CoinActionsProps {
   onActionPress: (action: string) => void;
 }
 
-export function CoinActions({ actions, onActionPress }: CoinActionsProps) {
+export function CoinActions({actions, onActionPress}: CoinActionsProps) {
   const intl = useIntl();
 
   const _renderItem = (item: string, index: number) => {
@@ -22,9 +22,8 @@ export function CoinActions({ actions, onActionPress }: CoinActionsProps) {
         key={`action-${item}-${index}`}
         style={styles.actionContainer}
         containerStyle={styles.actionBtnContainer}
-        onPress={_onPress}
-      >
-        <Text style={styles.actionText}>{intl.formatMessage({ id: `wallet.${item}` })}</Text>
+        onPress={_onPress}>
+        <Text style={styles.actionText}>{intl.formatMessage({id: `wallet.${item}`})}</Text>
       </TouchableOpacity>
     );
   };

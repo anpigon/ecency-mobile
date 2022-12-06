@@ -1,7 +1,7 @@
-import React, { Fragment, useEffect } from 'react';
+import React, {Fragment, useEffect} from 'react';
 
 // Components
-import { BasicHeader, PostDisplay, PostDropdown } from '../../../components';
+import {BasicHeader, PostDisplay, PostDropdown} from '../../../components';
 
 function PostScreen({
   currentAccount,

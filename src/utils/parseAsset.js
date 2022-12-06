@@ -1,4 +1,4 @@
-export default (strVal) => {
+export default strVal => {
   if (typeof strVal !== 'string') {
     // console.log(strVal);
     return {

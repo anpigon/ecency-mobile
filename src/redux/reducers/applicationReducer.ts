@@ -116,7 +116,7 @@ const initialState: State = {
 
 export default function applicationReducer(
   state = initialState,
-  action = { type: '', payload: {} },
+  action = {type: '', payload: {}},
 ): State {
   switch (action.type) {
     case LOGIN:
@@ -147,13 +147,13 @@ export default function applicationReducer(
       };
 
     case SET_API:
-      return { ...state, api: action.payload };
+      return {...state, api: action.payload};
     case SET_CURRENCY:
-      return { ...state, currency: action.payload };
+      return {...state, currency: action.payload};
     case SET_LANGUAGE:
-      return { ...state, language: action.payload };
+      return {...state, language: action.payload};
     case IS_NOTIFICATION_OPEN:
-      return { ...state, isNotificationOpen: action.payload };
+      return {...state, isNotificationOpen: action.payload};
     case CHANGE_COMMENT_NOTIFICATION:
       return {
         ...state,
@@ -234,30 +234,30 @@ export default function applicationReducer(
         },
       };
     case IS_DARK_THEME:
-      return { ...state, isDarkTheme: action.payload };
+      return {...state, isDarkTheme: action.payload};
     case SET_COLOR_THEME:
       return {
         ...state,
         colorTheme: action.payload,
       };
     case IS_PIN_CODE_OPEN:
-      return { ...state, isPinCodeOpen: action.payload };
+      return {...state, isPinCodeOpen: action.payload};
 
     case SET_POST_UPVOTE_PERCENT:
-      return { ...state, postUpvotePercent: action.payload };
+      return {...state, postUpvotePercent: action.payload};
     case SET_COMMENT_UPVOTE_PERCENT:
-      return { ...state, commentUpvotePercent: action.payload };
+      return {...state, commentUpvotePercent: action.payload};
     case SET_NSFW:
-      return { ...state, nsfw: action.payload };
+      return {...state, nsfw: action.payload};
     case IS_DEFAULT_FOOTER:
-      return { ...state, isDefaultFooter: action.payload };
+      return {...state, isDefaultFooter: action.payload};
     case SET_PIN_CODE:
       return {
         ...state,
         pin: action.payload,
       };
     case IS_RENDER_REQUIRED:
-      return { ...state, isRenderRequired: action.payload };
+      return {...state, isRenderRequired: action.payload};
 
     case SET_LAST_APP_VERSION:
       return {

@@ -1,7 +1,7 @@
-import { renderPostBody } from '@ecency/render-helper';
-import { Platform } from 'react-native';
-import { PointActivity } from '../../providers/ecency/ecency.types';
-import { makeJsonMetadataReply } from '../../utils/editor';
+import {renderPostBody} from '@ecency/render-helper';
+import {Platform} from 'react-native';
+import {PointActivity} from '../../providers/ecency/ecency.types';
+import {makeJsonMetadataReply} from '../../utils/editor';
 import {
   UPDATE_VOTE_CACHE,
   PURGE_EXPIRED_CACHE,
@@ -39,7 +39,7 @@ interface CommentCacheOptions {
 export const updateCommentCache = (
   commentPath: string,
   comment: Comment,
-  options: CommentCacheOptions = { isUpdate: false },
+  options: CommentCacheOptions = {isUpdate: false},
 ) => {
   console.log('body received:', comment.markdownBody);
   const updated = new Date();

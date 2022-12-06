@@ -1,8 +1,8 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 
 // Components
-import { LineBreak, Tag } from '../../basicUIElements';
+import {LineBreak, Tag} from '../../basicUIElements';
 
 // Styles
 import styles from './filterBarStyles';
@@ -42,7 +42,7 @@ function FilterBarView({
 }: FilterBarProps) {
   const _renderActionButtons = () =>
     rightIconName || enableCustomiseButton ? (
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
         {enableCustomiseButton && (
           <IconButton
             iconStyle={styles.rightIcon}

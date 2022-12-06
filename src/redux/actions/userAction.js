@@ -15,20 +15,20 @@ import {
   followUser as followUserReq,
   unfollowUser as unfollowUserReq,
 } from '../../providers/hive/dhive';
-import { getLeaderboard } from '../../providers/ecency/ecency';
+import {getLeaderboard} from '../../providers/ecency/ecency';
 
 // Follow User
 export const followUser = (currentAccount, pin, data, successToastText, failToastText) => {
-  return (dispatch) => {
-    dispatch({ type: FOLLOW_USER, payload: data });
+  return dispatch => {
+    dispatch({type: FOLLOW_USER, payload: data});
     followUserReq(currentAccount, pin, data)
-      .then((res) => dispatch(followUserSuccess(data, successToastText)))
-      .catch((err) => dispatch(followUserFail(err, data, failToastText)));
+      .then(res => dispatch(followUserSuccess(data, successToastText)))
+      .catch(err => dispatch(followUserFail(err, data, failToastText)));
   };
 };
 
 export const followUserSuccess = (data, successToastText) => {
-  return (dispatch) => [
+  return dispatch => [
     dispatch({
       payload: data,
       type: FOLLOW_USER_SUCCESS,
@@ -41,7 +41,7 @@ export const followUserSuccess = (data, successToastText) => {
 };
 
 export const followUserFail = (error, data, failToastText) => {
-  return (dispatch) => [
+  return dispatch => [
     dispatch({
       payload: data,
       type: FOLLOW_USER_FAIL,
@@ -55,16 +55,16 @@ export const followUserFail = (error, data, failToastText) => {
 
 // Unfollow User
 export const unfollowUser = (currentAccount, pin, data, successToastText, failToastText) => {
-  return (dispatch) => {
-    dispatch({ type: UNFOLLOW_USER, payload: data });
+  return dispatch => {
+    dispatch({type: UNFOLLOW_USER, payload: data});
     unfollowUserReq(currentAccount, pin, data)
-      .then((res) => dispatch(unfollowUserSuccess(data, successToastText)))
-      .catch((err) => dispatch(unfollowUserFail(err, data, failToastText)));
+      .then(res => dispatch(unfollowUserSuccess(data, successToastText)))
+      .catch(err => dispatch(unfollowUserFail(err, data, failToastText)));
   };
 };
 
 export const unfollowUserSuccess = (data, successToastText) => {
-  return (dispatch) => [
+  return dispatch => [
     dispatch({
       payload: data,
       type: UNFOLLOW_USER_SUCCESS,
@@ -77,7 +77,7 @@ export const unfollowUserSuccess = (data, successToastText) => {
 };
 
 export const unfollowUserFail = (error, data, failToastText) => {
-  return (dispatch) => [
+  return dispatch => [
     dispatch({
       payload: data,
       type: UNFOLLOW_USER_FAIL,
@@ -91,20 +91,20 @@ export const unfollowUserFail = (error, data, failToastText) => {
 
 // Fetch Leaderboard
 export const fetchLeaderboard = (duration = 'day') => {
-  return (dispatch) => {
-    dispatch({ type: FETCH_LEADERBOARD });
+  return dispatch => {
+    dispatch({type: FETCH_LEADERBOARD});
     getLeaderboard(duration)
-      .then((res) => dispatch(fetchLeaderboardSuccess(res)))
-      .catch((err) => dispatch(fetchLeaderboardFail(err)));
+      .then(res => dispatch(fetchLeaderboardSuccess(res)))
+      .catch(err => dispatch(fetchLeaderboardFail(err)));
   };
 };
 
-export const fetchLeaderboardSuccess = (payload) => ({
+export const fetchLeaderboardSuccess = payload => ({
   payload,
   type: FETCH_LEADERBOARD_SUCCESS,
 });
 
-export const fetchLeaderboardFail = (payload) => ({
+export const fetchLeaderboardFail = payload => ({
   payload,
   type: FETCH_LEADERBOARD_FAIL,
 });

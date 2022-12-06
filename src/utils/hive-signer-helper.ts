@@ -1,5 +1,5 @@
-import { cryptoUtils, PrivateKey } from '@hiveio/dhive';
-import { b64uEnc } from './b64';
+import {cryptoUtils, PrivateKey} from '@hiveio/dhive';
+import {b64uEnc} from './b64';
 
 export interface HiveSignerMessage {
   signed_message: {
@@ -14,7 +14,7 @@ export interface HiveSignerMessage {
 export const makeHsCode = async (account: string, privateKey: PrivateKey): Promise<string> => {
   const timestamp = new Date().getTime() / 1000;
   const messageObj: HiveSignerMessage = {
-    signed_message: { type: 'code', app: 'ecency.app' },
+    signed_message: {type: 'code', app: 'ecency.app'},
     authors: [account],
     timestamp,
   };

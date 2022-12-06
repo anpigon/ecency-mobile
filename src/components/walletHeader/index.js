@@ -1,3 +1,3 @@
 import WalletHeader from './view/walletHeaderView';
 
-export { WalletHeader };
+export {WalletHeader};

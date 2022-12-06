@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Constants
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ROUTES from '../constants/routeNames';
 
 // Screens
@@ -34,14 +34,14 @@ import {
   WelcomeScreen,
   PinCode,
 } from '../screens';
-import { DrawerNavigator } from './drawerNavigator';
+import {DrawerNavigator} from './drawerNavigator';
 
 const RootStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
 
 function MainStackNavigator() {
   return (
-    <MainStack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
+    <MainStack.Navigator screenOptions={{headerShown: false, animation: 'slide_from_right'}}>
       <MainStack.Screen name={ROUTES.DRAWER.MAIN} component={DrawerNavigator} />
       <MainStack.Screen name={ROUTES.SCREENS.PROFILE} component={Profile} />
       <MainStack.Screen name={ROUTES.SCREENS.PROFILE_EDIT} component={ProfileEdit} />
@@ -60,7 +60,7 @@ function MainStackNavigator() {
       <MainStack.Screen name={ROUTES.SCREENS.COIN_DETAILS} component={CoinDetails} />
       <MainStack.Screen name={ROUTES.SCREENS.EDIT_HISTORY} component={EditHistoryScreen} />
       <MainStack.Screen name={ROUTES.SCREENS.POST} component={Post} />
-      <MainStack.Group screenOptions={{ animation: 'slide_from_bottom' }}>
+      <MainStack.Group screenOptions={{animation: 'slide_from_bottom'}}>
         <MainStack.Screen name={ROUTES.SCREENS.REBLOGS} component={Reblogs} />
         <MainStack.Screen name={ROUTES.SCREENS.VOTERS} component={Voters} />
         <MainStack.Screen name={ROUTES.SCREENS.FOLLOWS} component={Follows} />
@@ -71,12 +71,11 @@ function MainStackNavigator() {
   );
 }
 
-export function StackNavigator({ initRoute }) {
+export function StackNavigator({initRoute}) {
   return (
     <RootStack.Navigator
       initialRouteName={initRoute}
-      screenOptions={{ headerShown: false, animation: 'slide_from_bottom' }}
-    >
+      screenOptions={{headerShown: false, animation: 'slide_from_bottom'}}>
       <RootStack.Screen name={ROUTES.STACK.MAIN} component={MainStackNavigator} />
 
       <RootStack.Screen name={ROUTES.SCREENS.REGISTER} component={Register} />
@@ -85,7 +84,7 @@ export function StackNavigator({ initRoute }) {
       <MainStack.Screen name={ROUTES.SCREENS.WEB_BROWSER} component={WebBrowser} />
       <RootStack.Screen
         name={ROUTES.SCREENS.PINCODE}
-        options={{ gestureEnabled: false }}
+        options={{gestureEnabled: false}}
         component={PinCode}
       />
     </RootStack.Navigator>

@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 
-import { useNavigation } from '@react-navigation/native';
-import { isBefore } from '../utils/time';
+import {useNavigation} from '@react-navigation/native';
+import {isBefore} from '../utils/time';
 
 import ROUTES from '../constants/routeNames';
 
-const AccountListContainer = ({ data, children }) => {
+const AccountListContainer = ({data, children}) => {
   const navigation = useNavigation();
 
   const [vdata, setVData] = useState(data);
@@ -17,7 +17,7 @@ const AccountListContainer = ({ data, children }) => {
   }, [data]);
 
   const _handleSearch = (searchText, key) => {
-    const newData = vdata.filter((item) => {
+    const newData = vdata.filter(item => {
       const itemName = item[key].toUpperCase();
       const _text = searchText.toUpperCase();
 
@@ -67,7 +67,7 @@ const AccountListContainer = ({ data, children }) => {
     setFilterIndex(index);
   };
 
-  const _handleOnUserPress = (username) => {
+  const _handleOnUserPress = username => {
     navigation.navigate({
       name: ROUTES.SCREENS.PROFILE,
       params: {

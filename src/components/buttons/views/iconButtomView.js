@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { TouchableOpacity, Platform } from 'react-native';
+import React, {Component} from 'react';
+import {TouchableOpacity, Platform} from 'react-native';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 
 // Styles
@@ -26,7 +26,7 @@ class IconButtonView extends Component {
 
   // Component Functions
   _handleOnPress = () => {
-    const { handleOnPress } = this.props;
+    const {handleOnPress} = this.props;
 
     if (handleOnPress) {
       handleOnPress();
@@ -34,7 +34,7 @@ class IconButtonView extends Component {
   };
 
   _getIconName = () => {
-    const { name, androidName } = this.props;
+    const {name, androidName} = this.props;
 
     if (name) {
       const isIos = Platform.OS === 'ios';
@@ -51,18 +51,17 @@ class IconButtonView extends Component {
   };
 
   render() {
-    const { buttonStyle, size, style, isCircle, color, buttonColor } = this.props;
+    const {buttonStyle, size, style, isCircle, color, buttonColor} = this.props;
 
     return (
       <TouchableOpacity
         style={[
           isCircle && styles.circleButton,
-          buttonColor && { backgroundColor: buttonColor },
+          buttonColor && {backgroundColor: buttonColor},
           styles.buttonStyle,
           buttonStyle,
         ]}
-        onPress={() => this._handleOnPress()}
-      >
+        onPress={() => this._handleOnPress()}>
         <Ionicons
           style={[styles.icon, style]}
           color={color}

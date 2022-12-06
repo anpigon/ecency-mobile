@@ -1,20 +1,20 @@
 import React from 'react';
-import { injectIntl } from 'react-intl';
-import { View, FlatList, Text, Platform, RefreshControl } from 'react-native';
+import {injectIntl} from 'react-intl';
+import {View, FlatList, Text, Platform, RefreshControl} from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 // Utils
-import { postBodySummary } from '@ecency/render-helper';
-import { catchImageFromMetadata, catchDraftImage } from '../../../utils/image';
-import { getFormatedCreatedDate } from '../../../utils/time';
+import {postBodySummary} from '@ecency/render-helper';
+import {catchImageFromMetadata, catchDraftImage} from '../../../utils/image';
+import {getFormatedCreatedDate} from '../../../utils/time';
 
 // Components
-import { BasicHeader, TabBar, DraftListItem, PostCardPlaceHolder } from '../../../components';
+import {BasicHeader, TabBar, DraftListItem, PostCardPlaceHolder} from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
 import styles from './draftStyles';
-import { useAppSelector } from '../../../hooks';
+import {useAppSelector} from '../../../hooks';
 
 function DraftsScreen({
   currentAccount,
@@ -30,7 +30,7 @@ function DraftsScreen({
   moveScheduleToDraft,
   initialTabIndex,
 }) {
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const isDarkTheme = useAppSelector(state => state.application.isDarkTheme);
 
   // Component Functions
   const _renderItem = (item, type) => {
@@ -44,7 +44,7 @@ function DraftsScreen({
       item.meta && item.meta.image
         ? catchImageFromMetadata(item.meta, 'match', true)
         : catchDraftImage(item.body, 'match', true);
-    const summary = postBodySummary({ ...item, last_update: item.modified }, 100, Platform.OS);
+    const summary = postBodySummary({...item, last_update: item.modified}, 100, Platform.OS);
     const isSchedules = type === 'schedules';
 
     const _onItemPress = () => {
@@ -60,8 +60,8 @@ function DraftsScreen({
         title={item.title}
         summary={summary}
         isFormatedDate={isSchedules}
-        image={image ? { uri: image } : null}
-        thumbnail={thumbnail ? { uri: thumbnail } : null}
+        image={image ? {uri: image} : null}
+        thumbnail={thumbnail ? {uri: thumbnail} : null}
         username={currentAccount.name}
         reputation={currentAccount.reputation}
         handleOnPressItem={_onItemPress}
@@ -99,9 +99,9 @@ function DraftsScreen({
     <View style={globalStyles.lightContainer}>
       <FlatList
         data={data}
-        keyExtractor={(item) => item._id}
+        keyExtractor={item => item._id}
         removeClippedSubviews={false}
-        renderItem={({ item }) => _renderItem(item, type)}
+        renderItem={({item}) => _renderItem(item, type)}
         ListEmptyComponent={_renderEmptyContent()}
         refreshControl={
           <RefreshControl
@@ -126,7 +126,7 @@ function DraftsScreen({
       />
 
       <ScrollableTabView
-        style={[globalStyles.tabView, { paddingBottom: 40 }]}
+        style={[globalStyles.tabView, {paddingBottom: 40}]}
         initialPage={initialTabIndex}
         renderTabBar={() => (
           <TabBar
@@ -135,22 +135,19 @@ function DraftsScreen({
             tabUnderlineScaleX={2}
             tabBarPosition="overlayTop"
           />
-        )}
-      >
+        )}>
         <View
           tabLabel={intl.formatMessage({
             id: 'drafts.title',
           })}
-          style={styles.tabbarItem}
-        >
+          style={styles.tabbarItem}>
           {_getTabItem(drafts, 'drafts')}
         </View>
         <View
           tabLabel={intl.formatMessage({
             id: 'schedules.title',
           })}
-          style={styles.tabbarItem}
-        >
+          style={styles.tabbarItem}>
           {_getTabItem(schedules, 'schedules')}
         </View>
       </ScrollableTabView>

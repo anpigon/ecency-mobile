@@ -1,12 +1,12 @@
-import React, { PureComponent } from 'react';
-import { View, Animated, Easing } from 'react-native';
+import React, {PureComponent} from 'react';
+import {View, Animated, Easing} from 'react-native';
 
-import { Indicator } from './indicator';
+import {Indicator} from './indicator';
 import styles from './spinIndicatorStyles';
 
 class SpinIndicator extends PureComponent {
-  _renderComponent = ({ index, progress }) => {
-    const { size, color, animationDuration, breadth, animating, initStart } = this.props;
+  _renderComponent = ({index, progress}) => {
+    const {size, color, animationDuration, breadth, animating, initStart} = this.props;
 
     const frames = (60 * animationDuration) / 1000;
     const easing = Easing.bezier(0.4, 0.0, 0.7, 1.0);
@@ -50,7 +50,7 @@ class SpinIndicator extends PureComponent {
           translateY: index ? -size / 2 : 0,
         },
         {
-          rotate: progress.interpolate({ inputRange, outputRange }),
+          rotate: progress.interpolate({inputRange, outputRange}),
         },
       ],
     };
@@ -62,7 +62,7 @@ class SpinIndicator extends PureComponent {
       overflow: 'hidden',
     };
 
-    const offsetStyle = index ? { top: size / 2 } : null;
+    const offsetStyle = index ? {top: size / 2} : null;
 
     const lineStyle = {
       width: size,
@@ -73,7 +73,7 @@ class SpinIndicator extends PureComponent {
     };
 
     return (
-      <Animated.View style={styles.layer} {...{ key: index }}>
+      <Animated.View style={styles.layer} {...{key: index}}>
         <Animated.View style={layerStyle}>
           <Animated.View style={[containerStyle, offsetStyle]} collapsable={false}>
             <Animated.View style={viewportStyle}>
@@ -101,7 +101,7 @@ class SpinIndicator extends PureComponent {
     return (
       <View style={[styles.container, style]}>
         <Indicator
-          style={{ width, height }}
+          style={{width, height}}
           renderComponent={this._renderComponent}
           interaction={interaction}
           animationEasing={animationEasing}
@@ -122,4 +122,4 @@ SpinIndicator.defaultProps = {
   initStart: 0,
 };
 
-export { SpinIndicator };
+export {SpinIndicator};

@@ -1,19 +1,19 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { useIntl } from 'react-intl';
-import { View, Alert } from 'react-native';
-import { ProfileStats, StatsData } from './profileStats';
-import { MainButton } from '../../..';
-import { addFavorite, checkFavorite, deleteFavorite } from '../../../../providers/ecency/ecency';
-import { followUser, getFollows, getRelationship, getUser } from '../../../../providers/hive/dhive';
-import { getRcPower, getVotingPower } from '../../../../utils/manaBar';
+import React, {useEffect, useState, useMemo} from 'react';
+import {useIntl} from 'react-intl';
+import {View, Alert} from 'react-native';
+import {ProfileStats, StatsData} from './profileStats';
+import {MainButton} from '../../..';
+import {addFavorite, checkFavorite, deleteFavorite} from '../../../../providers/ecency/ecency';
+import {followUser, getFollows, getRelationship, getUser} from '../../../../providers/hive/dhive';
+import {getRcPower, getVotingPower} from '../../../../utils/manaBar';
 import styles from './quickProfileStyles';
-import { ProfileBasic } from './profileBasic';
-import { parseReputation } from '../../../../utils/user';
-import { default as ROUTES } from '../../../../constants/routeNames';
-import { ActionPanel } from './actionPanel';
-import { getTimeFromNowNative } from '../../../../utils/time';
-import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import { toastNotification } from '../../../../redux/actions/uiAction';
+import {ProfileBasic} from './profileBasic';
+import {parseReputation} from '../../../../utils/user';
+import {default as ROUTES} from '../../../../constants/routeNames';
+import {ActionPanel} from './actionPanel';
+import {getTimeFromNowNative} from '../../../../utils/time';
+import {useAppDispatch, useAppSelector} from '../../../../hooks';
+import {toastNotification} from '../../../../redux/actions/uiAction';
 import bugsnapInstance from '../../../../config/bugsnag';
 import RootNavigation from '../../../../navigation/rootNavigation';
 
@@ -22,13 +22,13 @@ interface QuickProfileContentProps {
   onClose: () => void;
 }
 
-export function QuickProfileContent({ username, onClose }: QuickProfileContentProps) {
+export function QuickProfileContent({username, onClose}: QuickProfileContentProps) {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinCode = useAppSelector((state) => state.application.pin);
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const pinCode = useAppSelector(state => state.application.pin);
+  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
 
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
@@ -124,7 +124,7 @@ export function QuickProfileContent({ username, onClose }: QuickProfileContentPr
       setIsLoading(false);
       console.warn('Failed to follow user', err);
       bugsnapInstance.notify(err);
-      Alert.alert(intl.formatMessage({ id: 'alert.fail' }), err.message);
+      Alert.alert(intl.formatMessage({id: 'alert.fail'}), err.message);
     }
   };
 
@@ -209,18 +209,18 @@ export function QuickProfileContent({ username, onClose }: QuickProfileContentPr
   }
 
   const statsData1 = [
-    { label: intl.formatMessage({ id: 'profile.follower' }), value: _followerCount },
-    { label: intl.formatMessage({ id: 'profile.following' }), value: _followingCount },
-    { label: intl.formatMessage({ id: 'profile.post' }), value: _postCount },
+    {label: intl.formatMessage({id: 'profile.follower'}), value: _followerCount},
+    {label: intl.formatMessage({id: 'profile.following'}), value: _followingCount},
+    {label: intl.formatMessage({id: 'profile.post'}), value: _postCount},
   ] as StatsData[];
 
   const statsData2 = [
     {
-      label: intl.formatMessage({ id: 'profile.resource_credits' }),
+      label: intl.formatMessage({id: 'profile.resource_credits'}),
       value: _resourceCredits,
       suffix: '%',
     },
-    { label: intl.formatMessage({ id: 'profile.reputation' }), value: _reputation },
+    {label: intl.formatMessage({id: 'profile.reputation'}), value: _reputation},
   ] as StatsData[];
 
   return (
@@ -237,7 +237,7 @@ export function QuickProfileContent({ username, onClose }: QuickProfileContentPr
       <ProfileStats horizontalMargin={16} data={statsData2} intermediate={!isProfileLoaded} />
       <MainButton
         style={styles.button}
-        text={intl.formatMessage({ id: 'profile.view_full' })}
+        text={intl.formatMessage({id: 'profile.view_full'})}
         onPress={_openFullProfile}
       />
       {isLoggedIn && (

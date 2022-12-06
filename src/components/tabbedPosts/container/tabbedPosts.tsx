@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import { TabbedPostsProps } from '../services/tabbedPostsModels';
-import { StackedTabBar, TabItem } from '../view/stackedTabBar';
+import {TabbedPostsProps} from '../services/tabbedPostsModels';
+import {StackedTabBar, TabItem} from '../view/stackedTabBar';
 import TabContent from '../view/tabContent';
 
 export function TabbedPosts({
@@ -82,7 +82,7 @@ export function TabbedPosts({
   });
 
   // render tab bar
-  const _renderTabBar = (props) => {
+  const _renderTabBar = props => {
     return (
       <StackedTabBar
         {...props}
@@ -102,8 +102,7 @@ export function TabbedPosts({
       locked={true}
       initialPage={initialTabIndex}
       renderTabBar={_renderTabBar}
-      onTabChange={onTabChange}
-    >
+      onTabChange={onTabChange}>
       {pages}
     </ScrollableTabView>
   );

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { useIntl } from 'react-intl';
-import { Alert, Text, View } from 'react-native';
-import { useSnippetDeleteMutation } from '../../providers/queries';
+import {useIntl} from 'react-intl';
+import {Alert, Text, View} from 'react-native';
+import {useSnippetDeleteMutation} from '../../providers/queries';
 import IconButton from '../iconButton';
 import styles from './snippetsModalStyles';
 
@@ -13,7 +13,7 @@ interface SnippetItemProps {
   onEditPress: () => void;
 }
 
-function SnippetItem({ id, title, body, index, onEditPress }: SnippetItemProps) {
+function SnippetItem({id, title, body, index, onEditPress}: SnippetItemProps) {
   const intl = useIntl();
   const snippetsDeleteMutation = useSnippetDeleteMutation();
 
@@ -21,15 +21,15 @@ function SnippetItem({ id, title, body, index, onEditPress }: SnippetItemProps) 
     // asks for remvoe confirmation and run remove routing upon confirming
     if (id) {
       Alert.alert(
-        intl.formatMessage({ id: 'snippets.title_remove_confirmation' }),
-        intl.formatMessage({ id: 'snippets.message_remove_confirmation' }),
+        intl.formatMessage({id: 'snippets.title_remove_confirmation'}),
+        intl.formatMessage({id: 'snippets.message_remove_confirmation'}),
         [
           {
-            text: intl.formatMessage({ id: 'snippets.btn_cancel' }),
+            text: intl.formatMessage({id: 'snippets.btn_cancel'}),
             style: 'cancel',
           },
           {
-            text: intl.formatMessage({ id: 'snippets.btn_confirm' }),
+            text: intl.formatMessage({id: 'snippets.btn_confirm'}),
             onPress: () => snippetsDeleteMutation.mutate(id),
           },
         ],

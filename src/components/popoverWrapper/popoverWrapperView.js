@@ -1,13 +1,13 @@
-import React, { Fragment } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { Popover, PopoverController } from 'react-native-modal-popover';
+import React, {Fragment} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
+import {Popover, PopoverController} from 'react-native-modal-popover';
 
 import styles from './popoverWrapperStyles';
 
-function PopoverWrapper({ children, text }) {
+function PopoverWrapper({children, text}) {
   return (
     <PopoverController>
-      {({ openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect }) => (
+      {({openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect}) => (
         <>
           <TouchableOpacity ref={setPopoverAnchor} onPress={openPopover}>
             {children}
@@ -20,8 +20,7 @@ function PopoverWrapper({ children, text }) {
             onClose={closePopover}
             fromRect={popoverAnchorRect}
             placement="top"
-            supportedOrientations={['portrait', 'landscape']}
-          >
+            supportedOrientations={['portrait', 'landscape']}>
             <View style={styles.popoverWrapper}>
               <Text style={styles.popoverText}>{text}</Text>
             </View>
@@ -32,4 +31,4 @@ function PopoverWrapper({ children, text }) {
   );
 }
 
-export { PopoverWrapper };
+export {PopoverWrapper};

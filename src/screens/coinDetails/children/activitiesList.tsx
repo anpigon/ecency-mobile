@@ -1,10 +1,10 @@
-import React, { ComponentType, JSXElementConstructor, ReactElement } from 'react';
-import { useIntl } from 'react-intl';
-import { SectionList, Text, RefreshControl, ActivityIndicator } from 'react-native';
+import React, {ComponentType, JSXElementConstructor, ReactElement} from 'react';
+import {useIntl} from 'react-intl';
+import {SectionList, Text, RefreshControl, ActivityIndicator} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Transaction } from '../../../components';
-import { useAppSelector } from '../../../hooks';
-import { CoinActivity } from '../../../redux/reducers/walletReducer';
+import {Transaction} from '../../../components';
+import {useAppSelector} from '../../../hooks';
+import {CoinActivity} from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
 
 export interface ActivitiesListProps {
@@ -28,9 +28,9 @@ function ActivitiesList({
 }: ActivitiesListProps) {
   const intl = useIntl();
 
-  const isDarkTheme = useAppSelector((state) => state.ui.isDarkTheme);
+  const isDarkTheme = useAppSelector(state => state.ui.isDarkTheme);
 
-  const _renderActivityItem = ({ item, index }) => {
+  const _renderActivityItem = ({item, index}) => {
     return <Transaction item={item} index={index} />;
   };
 
@@ -38,13 +38,13 @@ function ActivitiesList({
 
   if (pendingActivities && pendingActivities.length) {
     sections.push({
-      title: intl.formatMessage({ id: 'wallet.pending_requests' }),
+      title: intl.formatMessage({id: 'wallet.pending_requests'}),
       data: pendingActivities,
     });
   }
 
   sections.push({
-    title: intl.formatMessage({ id: 'wallet.activities' }),
+    title: intl.formatMessage({id: 'wallet.activities'}),
     data: completedActivities || [],
   });
 
@@ -66,7 +66,7 @@ function ActivitiesList({
       sections={sections}
       renderItem={_renderActivityItem}
       keyExtractor={(item, index) => `activity_item_${index}_${item.created}`}
-      renderSectionHeader={({ section: { title } }) => (
+      renderSectionHeader={({section: {title}}) => (
         <Text style={styles.textActivities}>{title}</Text>
       )}
       ListFooterComponent={

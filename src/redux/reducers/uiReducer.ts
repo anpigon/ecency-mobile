@@ -14,7 +14,7 @@ import {
   SHOW_REPLY_MODAL,
   HIDE_REPLY_MODAL,
 } from '../constants/constants';
-import { orientations } from '../constants/orientationsConstants';
+import {orientations} from '../constants/orientationsConstants';
 
 interface UiState {
   activeBottomTab: string;
@@ -48,10 +48,7 @@ const initialState: UiState = {
   replyModalVisible: false,
 };
 
-export default function uiReducer(
-  state = initialState,
-  action = { type: '', payload: {} },
-): UiState {
+export default function uiReducer(state = initialState, action = {type: '', payload: {}}): UiState {
   switch (action.type) {
     case UPDATE_ACTIVE_BOTTOM_TAB:
       return {

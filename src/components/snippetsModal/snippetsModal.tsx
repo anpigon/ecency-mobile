@@ -1,31 +1,29 @@
-import React, { useRef } from 'react';
-import { View, FlatList, Text, TouchableOpacity, RefreshControl } from 'react-native';
-import { useIntl } from 'react-intl';
-import { MainButton } from '..';
+import React, {useRef} from 'react';
+import {View, FlatList, Text, TouchableOpacity, RefreshControl} from 'react-native';
+import {useIntl} from 'react-intl';
+import {MainButton} from '..';
 import styles from './snippetsModalStyles';
 
-import SnippetEditorModal, {
-  SnippetEditorModalRef,
-} from '../snippetEditorModal/snippetEditorModal';
+import SnippetEditorModal, {SnippetEditorModalRef} from '../snippetEditorModal/snippetEditorModal';
 import SnippetItem from './snippetItem';
-import { Snippet } from '../../models';
-import { useAppSelector } from '../../hooks';
-import { useSnippetsQuery } from '../../providers/queries';
+import {Snippet} from '../../models';
+import {useAppSelector} from '../../hooks';
+import {useSnippetsQuery} from '../../providers/queries';
 
 interface SnippetsModalProps {
   handleOnSelect: (snippetText: string) => void;
 }
 
-function SnippetsModal({ handleOnSelect }: SnippetsModalProps) {
+function SnippetsModal({handleOnSelect}: SnippetsModalProps) {
   const editorRef = useRef<SnippetEditorModalRef>(null);
   const intl = useIntl();
 
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
 
   const snippetsQuery = useSnippetsQuery();
 
   // render list item for snippet and handle actions;
-  const _renderItem = ({ item, index }: { item: Snippet; index: number }) => {
+  const _renderItem = ({item, index}: {item: Snippet; index: number}) => {
     const _onPress = () => handleOnSelect(item.body);
 
     const _onEditPress = () => {
@@ -50,7 +48,7 @@ function SnippetsModal({ handleOnSelect }: SnippetsModalProps) {
   // render empty list placeholder
   const _renderEmptyContent = () => {
     return (
-      <Text style={styles.title}>{intl.formatMessage({ id: 'snippets.label_no_snippets' })}</Text>
+      <Text style={styles.title}>{intl.formatMessage({id: 'snippets.label_no_snippets'})}</Text>
     );
   };
 
@@ -68,12 +66,12 @@ function SnippetsModal({ handleOnSelect }: SnippetsModalProps) {
     return (
       <View style={styles.floatingContainer}>
         <MainButton
-          style={{ width: 150 }}
+          style={{width: 150}}
           onPress={_onPress}
           iconName="plus"
           iconType="MaterialCommunityIcons"
           iconColor="white"
-          text={intl.formatMessage({ id: 'snippets.btn_add' })}
+          text={intl.formatMessage({id: 'snippets.btn_add'})}
         />
       </View>
     );

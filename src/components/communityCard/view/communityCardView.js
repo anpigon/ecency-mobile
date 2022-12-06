@@ -1,11 +1,11 @@
 import React from 'react';
-import { TouchableOpacity, Text, View } from 'react-native';
+import {TouchableOpacity, Text, View} from 'react-native';
 
-import { UserAvatar } from '../../userAvatar';
+import {UserAvatar} from '../../userAvatar';
 
 import styles from './communityCardStyles';
 
-function CommunityCardView({ community, onPress, style, separators }) {
+function CommunityCardView({community, onPress, style, separators}) {
   return (
     <TouchableOpacity onPress={() => onPress(community)} style={[styles.communityCard, style]}>
       <UserAvatar username={community.name} noAction />

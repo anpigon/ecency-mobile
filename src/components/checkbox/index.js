@@ -1,3 +1,3 @@
 import CheckBox from './view/checkboxView';
 
-export { CheckBox };
+export {CheckBox};

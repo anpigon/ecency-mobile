@@ -1,4 +1,4 @@
 import Notification from './view/notificationView';
 
-export { Notification };
+export {Notification};
 export default Notification;

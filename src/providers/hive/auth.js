@@ -3,8 +3,8 @@ import sha256 from 'crypto-js/sha256';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
-import { getDigitPinCode, getMutes, getUser } from './dhive';
-import { getPointsSummary } from '../ecency/ePoint';
+import {getDigitPinCode, getMutes, getUser} from './dhive';
+import {getPointsSummary} from '../ecency/ePoint';
 import {
   setUserData,
   setAuthStatus,
@@ -17,13 +17,13 @@ import {
   setPinCode,
   getPinCode,
 } from '../../realm/realm';
-import { encryptKey, decryptKey } from '../../utils/crypto';
+import {encryptKey, decryptKey} from '../../utils/crypto';
 import hsApi from './hivesignerAPI';
-import { getSCAccessToken, getUnreadNotificationCount } from '../ecency/ecency';
+import {getSCAccessToken, getUnreadNotificationCount} from '../ecency/ecency';
 
 // Constants
 import AUTH_TYPE from '../../constants/authType';
-import { makeHsCode } from '../../utils/hive-signer-helper';
+import {makeHsCode} from '../../utils/hive-signer-helper';
 
 export const login = async (username, password) => {
   let loginFlag = false;
@@ -43,10 +43,10 @@ export const login = async (username, password) => {
 
   // Public keys of user
   const publicKeys = {
-    activeKey: get(account, 'active.key_auths', []).map((x) => x[0])[0],
+    activeKey: get(account, 'active.key_auths', []).map(x => x[0])[0],
     memoKey: get(account, 'memo_key', ''),
-    ownerKey: get(account, 'owner.key_auths', []).map((x) => x[0])[0],
-    postingKey: get(account, 'posting.key_auths', []).map((x) => x[0])[0],
+    ownerKey: get(account, 'owner.key_auths', []).map(x => x[0])[0],
+    postingKey: get(account, 'posting.key_auths', []).map(x => x[0])[0],
   };
 
   // // Set private keys of user
@@ -127,7 +127,7 @@ export const login = async (username, password) => {
   return Promise.reject(new Error('auth.invalid_credentials'));
 };
 
-export const loginWithSC2 = async (code) => {
+export const loginWithSC2 = async code => {
   const scTokens = await getSCAccessToken(code);
   await hsApi.setAccessToken(get(scTokens, 'access_token', ''));
   const scAccount = await hsApi.me();
@@ -200,7 +200,7 @@ export const loginWithSC2 = async (code) => {
   });
 };
 
-export const setUserDataWithPinCode = async (data) => {
+export const setUserDataWithPinCode = async data => {
   try {
     const result = await getUserDataWithUsername(data.username);
     const userData = result[0];
@@ -229,18 +229,18 @@ export const setUserDataWithPinCode = async (data) => {
   }
 };
 
-export const updatePinCode = (data) =>
+export const updatePinCode = data =>
   new Promise((resolve, reject) => {
     let currentUser = null;
     try {
       setPinCode(get(data, 'pinCode'));
       getUserData()
-        .then(async (users) => {
+        .then(async users => {
           const _onDecryptError = () => {
             throw new Error('Decryption failed');
           };
           if (users && users.length > 0) {
-            users.forEach((userData) => {
+            users.forEach(userData => {
               if (
                 get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
                 get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY ||
@@ -283,7 +283,7 @@ export const updatePinCode = (data) =>
             resolve(currentUser);
           }
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     } catch (error) {
@@ -349,10 +349,10 @@ export const refreshSCToken = async (userData, pinCode) => {
   }
 };
 
-export const switchAccount = (username) =>
+export const switchAccount = username =>
   new Promise((resolve, reject) => {
     getUser(username)
-      .then((account) => {
+      .then(account => {
         updateCurrentUsername(username)
           .then(() => {
             resolve(account);
@@ -416,7 +416,7 @@ export const getUpdatedUserData = (userData, data) => {
   };
 };
 
-const isLoggedInUser = async (username) => {
+const isLoggedInUser = async username => {
   const result = await getUserDataWithUsername(username);
   if (result.length > 0) {
     return true;

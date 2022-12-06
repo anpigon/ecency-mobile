@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
-const ThemeContainer = ({ children, isDarkTheme }) => {
+const ThemeContainer = ({children, isDarkTheme}) => {
   return (
     children &&
     children({
@@ -11,7 +11,7 @@ const ThemeContainer = ({ children, isDarkTheme }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isDarkTheme: state.application.isDarkTheme,
 });
 

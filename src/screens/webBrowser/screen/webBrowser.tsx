@@ -1,13 +1,13 @@
-import React, { useMemo, useState } from 'react';
-import { Alert, ActivityIndicator, Share, View } from 'react-native';
-import { WebView } from 'react-native-webview';
+import React, {useMemo, useState} from 'react';
+import {Alert, ActivityIndicator, Share, View} from 'react-native';
+import {WebView} from 'react-native-webview';
 
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 import styles from './webBrowserStyles';
-import { BasicHeader } from '../../../components';
+import {BasicHeader} from '../../../components';
 
 export interface WebBrowserParams {
   url: string;
@@ -22,7 +22,7 @@ interface Props {
   };
 }
 
-function WebBrowser({ navigation, route }: Props) {
+function WebBrowser({navigation, route}: Props) {
   const url = useMemo(() => route.params?.url, []);
   const intl = useIntl();
 
@@ -44,7 +44,7 @@ function WebBrowser({ navigation, route }: Props) {
   };
 
   const _onError = () => {
-    Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
+    Alert.alert(intl.formatMessage({id: 'alert.fail'}));
   };
 
   return (

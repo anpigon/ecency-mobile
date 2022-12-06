@@ -1,26 +1,26 @@
-import React, { PureComponent } from 'react';
-import { Alert, Platform } from 'react-native';
-import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import React, {PureComponent} from 'react';
+import {Alert, Platform} from 'react-native';
+import {connect} from 'react-redux';
+import {injectIntl} from 'react-intl';
 import Config from 'react-native-config';
 import messaging from '@react-native-firebase/messaging';
 
 // Services and Actions
-import { useNavigation } from '@react-navigation/native';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { login, loginWithSC2 } from '../../../providers/hive/auth';
-import { lookupAccounts } from '../../../providers/hive/dhive';
+import {useNavigation} from '@react-navigation/native';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {login, loginWithSC2} from '../../../providers/hive/auth';
+import {lookupAccounts} from '../../../providers/hive/dhive';
 
 import {
   failedAccount,
   addOtherAccount,
   updateCurrentAccount,
 } from '../../../redux/actions/accountAction';
-import { login as loginAction, setPinCode } from '../../../redux/actions/applicationActions';
-import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
-import { setPushTokenSaved, setExistUser } from '../../../realm/realm';
-import { setPushToken } from '../../../providers/ecency/ecency';
-import { decodeBase64, encryptKey } from '../../../utils/crypto';
+import {login as loginAction, setPinCode} from '../../../redux/actions/applicationActions';
+import {setInitPosts, setFeedPosts} from '../../../redux/actions/postsAction';
+import {setPushTokenSaved, setExistUser} from '../../../realm/realm';
+import {setPushToken} from '../../../providers/ecency/ecency';
+import {decodeBase64, encryptKey} from '../../../utils/crypto';
 
 // Middleware
 
@@ -32,11 +32,11 @@ import ROUTES from '../../../constants/routeNames';
 // Component
 import LoginScreen from '../screen/loginScreen';
 import persistAccountGenerator from '../../../utils/persistAccountGenerator';
-import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
-import { showActionModal } from '../../../redux/actions/uiAction';
-import { UserAvatar } from '../../../components';
-import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
-import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+import {fetchSubscribedCommunities} from '../../../redux/actions/communitiesAction';
+import {showActionModal} from '../../../redux/actions/uiAction';
+import {UserAvatar} from '../../../components';
+import {useUserActivityMutation} from '../../../providers/queries/pointQueries';
+import {PointActivityIds} from '../../../providers/ecency/ecency.types';
 
 /*
  *            Props Name        Description                                     Value
@@ -57,7 +57,7 @@ class LoginContainer extends PureComponent {
   componentDidMount() {
     // TOOD: migrate getParam to routes.state.param after nt/navigaiton merge
 
-    const { route } = this.props;
+    const {route} = this.props;
     const username = route.params?.username ?? '';
     const code: string = route.params?.code ?? '';
 
@@ -68,7 +68,7 @@ class LoginContainer extends PureComponent {
 
   // Component Functions
   _confirmCodeLogin = (username, code) => {
-    const { dispatch, intl } = this.props;
+    const {dispatch, intl} = this.props;
 
     try {
       // check accessCode formatting and compare expiry
@@ -89,16 +89,16 @@ class LoginContainer extends PureComponent {
       // Everything is set, show login confirmation
       dispatch(
         showActionModal({
-          title: intl.formatMessage({ id: 'login.deep_login_alert_title' }, { username }),
-          body: intl.formatMessage({ id: 'login.deep_login_alert_body' }),
+          title: intl.formatMessage({id: 'login.deep_login_alert_title'}, {username}),
+          body: intl.formatMessage({id: 'login.deep_login_alert_body'}),
           buttons: [
             {
-              text: intl.formatMessage({ id: 'alert.cancel' }),
+              text: intl.formatMessage({id: 'alert.cancel'}),
               onPress: () => console.log('Cancel'),
               style: 'cancel',
             },
             {
-              text: intl.formatMessage({ id: 'alert.confirm' }),
+              text: intl.formatMessage({id: 'alert.confirm'}),
               onPress: () => this._loginWithCode(code),
             },
           ],
@@ -107,24 +107,21 @@ class LoginContainer extends PureComponent {
       );
     } catch (err) {
       console.warn('Failed to login using code', err);
-      Alert.alert(
-        intl.formatMessage({ id: 'alert.fail' }),
-        intl.formatMessage({ id: err.message }),
-      );
+      Alert.alert(intl.formatMessage({id: 'alert.fail'}), intl.formatMessage({id: err.message}));
     }
   };
 
-  _loginWithCode = (code) => {
-    const { dispatch, isPinCodeOpen, navigation, intl } = this.props;
-    this.setState({ isLoading: true });
+  _loginWithCode = code => {
+    const {dispatch, isPinCodeOpen, navigation, intl} = this.props;
+    this.setState({isLoading: true});
     loginWithSC2(code)
-      .then((result) => {
+      .then(result => {
         if (result) {
           const persistAccountData = persistAccountGenerator(result);
 
-          dispatch(updateCurrentAccount({ ...result }));
+          dispatch(updateCurrentAccount({...result}));
           dispatch(fetchSubscribedCommunities(result.username));
-          dispatch(addOtherAccount({ ...persistAccountData }));
+          dispatch(addOtherAccount({...persistAccountData}));
           dispatch(loginAction(true));
 
           if (isPinCodeOpen) {
@@ -137,40 +134,40 @@ class LoginContainer extends PureComponent {
           } else {
             navigation.navigate({
               name: ROUTES.DRAWER.MAIN,
-              params: { accessToken: result.accessToken },
+              params: {accessToken: result.accessToken},
             });
           }
         } else {
           // TODO: Error alert (Toast Message)
         }
-        this.setState({ isLoading: false });
+        this.setState({isLoading: false});
       })
-      .catch((error) => {
-        this.setState({ isLoading: false });
-        Alert.alert('Error', intl.formatMessage({ id: error.message }));
+      .catch(error => {
+        this.setState({isLoading: false});
+        Alert.alert('Error', intl.formatMessage({id: error.message}));
         // TODO: return
       });
   };
 
   _handleOnPressLogin = (username, password) => {
-    const { dispatch, intl, isPinCodeOpen, navigation, userActivityMutation } = this.props;
+    const {dispatch, intl, isPinCodeOpen, navigation, userActivityMutation} = this.props;
 
-    this.setState({ isLoading: true });
+    this.setState({isLoading: true});
 
     login(username, password)
-      .then((result) => {
+      .then(result => {
         if (result) {
           const persistAccountData = persistAccountGenerator(result);
 
-          dispatch(updateCurrentAccount({ ...result }));
+          dispatch(updateCurrentAccount({...result}));
           dispatch(fetchSubscribedCommunities(username));
-          dispatch(addOtherAccount({ ...persistAccountData }));
+          dispatch(addOtherAccount({...persistAccountData}));
           dispatch(loginAction(true));
           dispatch(setInitPosts([]));
           dispatch(setFeedPosts([]));
 
           // track user activity for login
-          userActivityMutation.mutate({ pointsTy: PointActivityIds.LOGIN });
+          userActivityMutation.mutate({pointsTy: PointActivityIds.LOGIN});
           setExistUser(true);
           this._setPushToken(result.name);
           const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
@@ -190,7 +187,7 @@ class LoginContainer extends PureComponent {
           }
         }
       })
-      .catch((err) => {
+      .catch(err => {
         // if error description exist, pass it to alert else pass error message key
         const errorDescription = err?.response?.data?.error_description
           ? err?.response?.data?.error_description
@@ -201,15 +198,15 @@ class LoginContainer extends PureComponent {
           intl.formatMessage({
             id: 'login.login_failed',
           }),
-          ` ${errorDescription}\n${intl.formatMessage({ id: 'login.login_failed_body' })}`, // append login body failure key
+          ` ${errorDescription}\n${intl.formatMessage({id: 'login.login_failed_body'})}`, // append login body failure key
         );
         dispatch(failedAccount(err.message));
-        this.setState({ isLoading: false });
+        this.setState({isLoading: false});
       });
   };
 
-  _setPushToken = async (username) => {
-    const { notificationSettings, notificationDetails } = this.props;
+  _setPushToken = async username => {
+    const {notificationSettings, notificationDetails} = this.props;
     const notifyTypesConst = {
       vote: 1,
       mention: 2,
@@ -221,18 +218,18 @@ class LoginContainer extends PureComponent {
       bookmark: 15,
     };
     const notifyTypes = Object.keys(notificationDetails)
-      .map((item) => {
+      .map(item => {
         const notificationType = item.replace('Notification', '');
         if (notificationDetails[item]) {
           return notifyTypesConst[notificationType];
         }
         return null;
       })
-      .filter((e) => e);
+      .filter(e => e);
 
     messaging()
       .getToken()
-      .then((token) => {
+      .then(token => {
         const data = {
           username,
           token,
@@ -246,8 +243,8 @@ class LoginContainer extends PureComponent {
       });
   };
 
-  _getAccountsWithUsername = async (username) => {
-    const { intl, isConnected } = this.props;
+  _getAccountsWithUsername = async username => {
+    const {intl, isConnected} = this.props;
 
     if (!isConnected) {
       return null;
@@ -259,21 +256,21 @@ class LoginContainer extends PureComponent {
       return validUsers;
     } catch (error) {
       Alert.alert(
-        intl.formatMessage({ id: 'alert.error' }),
-        intl.formatMessage({ id: 'alert.unknow_error' }),
+        intl.formatMessage({id: 'alert.error'}),
+        intl.formatMessage({id: 'alert.unknow_error'}),
       );
     }
   };
 
   _handleSignUp = () => {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
 
     navigation.replace(ROUTES.SCREENS.REGISTER);
   };
 
   render() {
-    const { navigation } = this.props;
-    const { isLoading } = this.state;
+    const {navigation} = this.props;
+    const {isLoading} = this.state;
     return (
       <LoginScreen
         navigation={navigation}
@@ -286,7 +283,7 @@ class LoginContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   account: state.accounts,
   notificationDetails: state.application.notificationDetails,
   notificationSettings: state.application.isNotificationOpen,
@@ -301,6 +298,6 @@ const mapHooksToProps = () => ({
 
 export default gestureHandlerRootHOC(
   connect(mapStateToProps)(
-    injectIntl((props) => <LoginContainer {...props} {...mapHooksToProps()} />),
+    injectIntl(props => <LoginContainer {...props} {...mapHooksToProps()} />),
   ),
 );

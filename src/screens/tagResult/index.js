@@ -1,4 +1,4 @@
 import SearchResult from './screen/tagResultScreen';
 
-export { SearchResult };
+export {SearchResult};
 export default SearchResult;

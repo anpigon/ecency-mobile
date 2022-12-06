@@ -1,12 +1,12 @@
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
-import { View, Text } from 'react-native';
+import React, {forwardRef, useImperativeHandle, useRef} from 'react';
+import {View, Text} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ActionSheet from 'react-native-actions-sheet';
-import { TextButton } from '../../buttons';
+import {TextButton} from '../../buttons';
 import styles from './actionModalStyles';
 
-import { ActionModalData } from '../container/actionModalContainer';
+import {ActionModalData} from '../container/actionModalContainer';
 
 export interface ActionModalRef {
   showModal: () => void;
@@ -18,7 +18,7 @@ interface ActionModalViewProps {
   data: ActionModalData;
 }
 
-function ActionModalView({ onClose, data }: ActionModalViewProps, ref) {
+function ActionModalView({onClose, data}: ActionModalViewProps, ref) {
   const sheetModalRef = useRef<ActionSheet>();
 
   useImperativeHandle(ref, () => ({
@@ -35,7 +35,7 @@ function ActionModalView({ onClose, data }: ActionModalViewProps, ref) {
     return null;
   }
 
-  const { title, body, buttons, headerImage, para, headerContent } = data;
+  const {title, body, buttons, headerImage, para, headerContent} = data;
 
   const _renderContent = (
     <View style={styles.container}>
@@ -56,11 +56,11 @@ function ActionModalView({ onClose, data }: ActionModalViewProps, ref) {
 
       <View style={styles.actionPanel}>
         {buttons ? (
-          buttons.map((props) => (
+          buttons.map(props => (
             <TextButton
               key={props.text}
               text={props.text}
-              onPress={(evn) => {
+              onPress={evn => {
                 sheetModalRef.current?.setModalVisible(false);
                 props.onPress(evn);
               }}
@@ -90,8 +90,7 @@ function ActionModalView({ onClose, data }: ActionModalViewProps, ref) {
       hideUnderlay
       containerStyle={styles.sheetContent}
       indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
-      onClose={onClose}
-    >
+      onClose={onClose}>
       {_renderContent}
     </ActionSheet>
   );

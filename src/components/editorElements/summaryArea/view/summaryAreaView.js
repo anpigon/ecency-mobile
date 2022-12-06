@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { View, Text } from 'react-native';
+import React, {PureComponent} from 'react';
+import {View, Text} from 'react-native';
 // Constants
 
 // Components
@@ -23,7 +23,7 @@ export default class SummaryAreaView extends PureComponent {
   // Component Functions
 
   render() {
-    const { summary } = this.props;
+    const {summary} = this.props;
 
     return (
       <View style={globalStyles.containerHorizontal16}>

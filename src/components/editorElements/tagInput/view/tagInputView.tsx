@@ -1,26 +1,26 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { View, Text, Platform } from 'react-native';
-import { debounce } from 'lodash';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
+import {View, Text, Platform} from 'react-native';
+import {debounce} from 'lodash';
 // Constants
 
 // Components
-import { ScrollView } from 'react-native-gesture-handler';
-import { TextInput } from '../../../textInput';
+import {ScrollView} from 'react-native-gesture-handler';
+import {TextInput} from '../../../textInput';
 
 // Styles
 import styles from './tagInputStyles';
 import globalStyles from '../../../../globalStyles';
 
-import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import { Tag } from '../../../basicUIElements';
-import { isCommunity } from '../../../../utils/communityValidation';
-import { toastNotification } from '../../../../redux/actions/uiAction';
+import {useAppDispatch, useAppSelector} from '../../../../hooks';
+import {Tag} from '../../../basicUIElements';
+import {isCommunity} from '../../../../utils/communityValidation';
+import {toastNotification} from '../../../../redux/actions/uiAction';
 
 const SEPARATOR_REGEX = /[,\s]/;
 
-function TagInput({ value, handleTagChanged, intl, isPreviewActive, autoFocus, setCommunity }) {
+function TagInput({value, handleTagChanged, intl, isPreviewActive, autoFocus, setCommunity}) {
   const dispatch = useAppDispatch();
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const isDarkTheme = useAppSelector(state => state.application.isDarkTheme);
 
   const scrollRef = useRef<ScrollView>();
 
@@ -40,19 +40,19 @@ function TagInput({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
   const _verifyTagsUpdate = (tags: string[]) => {
     if (tags.length > 0) {
       tags.length > 10
-        ? setWarning(intl.formatMessage({ id: 'editor.limited_tags' }))
-        : tags.find((c) => c.length > 24)
-        ? setWarning(intl.formatMessage({ id: 'editor.limited_length' }))
-        : tags.find((c) => c.split('-').length > 2)
-        ? setWarning(intl.formatMessage({ id: 'editor.limited_dash' }))
-        : tags.find((c) => c.indexOf(',') >= 0)
-        ? setWarning(intl.formatMessage({ id: 'editor.limited_space' }))
-        : tags.find((c) => /[A-Z]/.test(c))
-        ? setWarning(intl.formatMessage({ id: 'editor.limited_lowercase' }))
-        : tags.find((c) => !/^[a-z0-9-#]+$/.test(c))
-        ? setWarning(intl.formatMessage({ id: 'editor.limited_characters' }))
-        : tags.find((c) => !/[a-z0-9]$/.test(c))
-        ? setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' }))
+        ? setWarning(intl.formatMessage({id: 'editor.limited_tags'}))
+        : tags.find(c => c.length > 24)
+        ? setWarning(intl.formatMessage({id: 'editor.limited_length'}))
+        : tags.find(c => c.split('-').length > 2)
+        ? setWarning(intl.formatMessage({id: 'editor.limited_dash'}))
+        : tags.find(c => c.indexOf(',') >= 0)
+        ? setWarning(intl.formatMessage({id: 'editor.limited_space'}))
+        : tags.find(c => /[A-Z]/.test(c))
+        ? setWarning(intl.formatMessage({id: 'editor.limited_lowercase'}))
+        : tags.find(c => !/^[a-z0-9-#]+$/.test(c))
+        ? setWarning(intl.formatMessage({id: 'editor.limited_characters'}))
+        : tags.find(c => !/[a-z0-9]$/.test(c))
+        ? setWarning(intl.formatMessage({id: 'editor.limited_lastchar'}))
         : setWarning(null);
     }
   };
@@ -61,7 +61,7 @@ function TagInput({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
     debounce((newTags: string[], skipLast = true) => {
       const inputVal = newTags.length > 0 && skipLast && newTags.pop();
 
-      newTags.forEach((tag) => {
+      newTags.forEach(tag => {
         if (tag.startsWith('#')) {
           tag = tag.substring(1);
         }
@@ -76,13 +76,13 @@ function TagInput({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
             // add community tag
             tags.splice(0, 0, tag);
             setCommunity(tag);
-            dispatch(toastNotification(intl.formatMessage({ id: 'editor.community_selected' })));
+            dispatch(toastNotification(intl.formatMessage({id: 'editor.community_selected'})));
           } else {
             // add simple tag
             tags.push(tag);
           }
         } else {
-          dispatch(toastNotification(intl.formatMessage({ id: 'editor.tag_duplicate' })));
+          dispatch(toastNotification(intl.formatMessage({id: 'editor.tag_duplicate'})));
         }
       });
 
@@ -140,10 +140,9 @@ function TagInput({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
     <View style={[globalStyles.containerHorizontal16, styles.container]}>
       <ScrollView
         ref={scrollRef}
-        style={{ width: '100%' }}
-        contentContainerStyle={{ alignItems: 'center' }}
-        horizontal
-      >
+        style={{width: '100%'}}
+        contentContainerStyle={{alignItems: 'center'}}
+        horizontal>
         {tags.map(_renderTag)}
         <TextInput
           style={styles.textInput}
@@ -161,7 +160,7 @@ function TagInput({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
             ios: 'ascii-capable',
             android: 'visible-password',
           })}
-          onChangeText={(val) => _handleOnChange(val.toLowerCase())}
+          onChangeText={val => _handleOnChange(val.toLowerCase())}
           onEndEditing={_handleOnEnd}
           value={text}
         />

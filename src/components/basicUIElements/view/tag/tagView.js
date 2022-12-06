@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import {Text, View, TouchableOpacity} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './tagStyles';
-import { Icon } from '../../../icon';
+import {Icon} from '../../../icon';
 
 function Tag({
   onPress,
@@ -20,10 +20,9 @@ function Tag({
 }) {
   return (
     <TouchableOpacity
-      hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+      hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
       onPress={() => onPress && onPress(value)}
-      disabled={disabled}
-    >
+      disabled={disabled}>
       <View
         style={[
           styles.textWrapper,
@@ -31,16 +30,14 @@ function Tag({
           isPin && styles.isPin,
           isPostCardTag && styles.isPostCardTag,
           style,
-        ]}
-      >
+        ]}>
         <Text
           style={[
             styles.text,
             !isPin && isFilter && styles.isFilterTextUnPin,
             isPin && isFilter && styles.isFilterTextPin,
             textStyle,
-          ]}
-        >
+          ]}>
           {`${prefix || ''} ${label}${suffix || ''}`}
         </Text>
         {removeEnabled && (
@@ -49,7 +46,7 @@ function Tag({
             iconType="MaterialCommunityIcons"
             color={EStyleSheet.value('$primaryDarkText')}
             size={12}
-            style={{ paddingLeft: 6 }}
+            style={{paddingLeft: 6}}
           />
         )}
       </View>

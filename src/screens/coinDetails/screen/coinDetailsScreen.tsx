@@ -1,24 +1,24 @@
-import { View, Alert, AppState, AppStateStatus, NativeEventSubscription } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { BasicHeader } from '../../../components';
-import { CoinSummary } from '../children';
+import {View, Alert, AppState, AppStateStatus, NativeEventSubscription} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {BasicHeader} from '../../../components';
+import {CoinSummary} from '../children';
 import styles from './screen.styles';
 import ActivitiesList from '../children/activitiesList';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import {useAppDispatch, useAppSelector} from '../../../hooks';
 import {
   CoinActivitiesCollection,
   CoinActivity,
   CoinData,
   QuoteItem,
 } from '../../../redux/reducers/walletReducer';
-import { fetchCoinActivities } from '../../../utils/wallet';
-import { fetchAndSetCoinsData, setCoinActivities } from '../../../redux/actions/walletActions';
+import {fetchCoinActivities} from '../../../utils/wallet';
+import {fetchAndSetCoinsData, setCoinActivities} from '../../../redux/actions/walletActions';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
-import { COIN_IDS } from '../../../constants/defaultCoins';
-import { DelegationsModal, MODES } from '../children/delegationsModal';
+import {COIN_IDS} from '../../../constants/defaultCoins';
+import {DelegationsModal, MODES} from '../children/delegationsModal';
 import lastItem from '../../../utils/lastItem';
 
 export interface CoinDetailsScreenParams {
@@ -32,7 +32,7 @@ interface CoinDetailsScreenProps {
 
 const FETCH_ITEMS_LIMIT = 500;
 
-function CoinDetailsScreen({ navigation, route }: CoinDetailsScreenProps) {
+function CoinDetailsScreen({navigation, route}: CoinDetailsScreenProps) {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
@@ -46,20 +46,20 @@ function CoinDetailsScreen({ navigation, route }: CoinDetailsScreenProps) {
   const delegationsModalRef = useRef(null);
 
   // redux props
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const globalProps = useAppSelector((state) => state.account.globalProps);
-  const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
-  const coinData: CoinData = useAppSelector((state) => state.wallet.coinsData[coinId]);
-  const quote: QuoteItem = useAppSelector((state) =>
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const globalProps = useAppSelector(state => state.account.globalProps);
+  const selectedCoins = useAppSelector(state => state.wallet.selectedCoins);
+  const coinData: CoinData = useAppSelector(state => state.wallet.coinsData[coinId]);
+  const quote: QuoteItem = useAppSelector(state =>
     state.wallet.quotes ? state.wallet.quotes[coinId] : {},
   );
   const coinActivities: CoinActivitiesCollection = useAppSelector(
-    (state) => state.wallet.coinsActivities[coinId],
+    state => state.wallet.coinsActivities[coinId],
   );
-  const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
+  const isPinCodeOpen = useAppSelector(state => state.application.isPinCodeOpen);
 
   // state
-  const [symbol] = useState(selectedCoins.find((item) => item.id === coinId).symbol);
+  const [symbol] = useState(selectedCoins.find(item => item.id === coinId).symbol);
   const [refreshing, setRefreshing] = useState(true);
   const [loading, setLoading] = useState(false);
   const [completedActivities, setCompletedActivities] = useState(coinActivities?.completed || []);
@@ -196,7 +196,7 @@ function CoinDetailsScreen({ navigation, route }: CoinDetailsScreenProps) {
 
   return (
     <View style={styles.container}>
-      <BasicHeader title={intl.formatMessage({ id: 'wallet.coin_details' })} />
+      <BasicHeader title={intl.formatMessage({id: 'wallet.coin_details'})} />
       <ActivitiesList
         header={_renderHeaderComponent}
         completedActivities={completedActivities}

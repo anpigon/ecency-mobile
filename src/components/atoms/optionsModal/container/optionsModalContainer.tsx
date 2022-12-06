@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef, useEffect } from 'react';
+import React, {forwardRef, useImperativeHandle, useRef, useEffect} from 'react';
 import ActionSheet from 'react-native-actionsheet';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
   onPress: (index: number) => void;
 }
 
-export const OptionsModal = forwardRef(({ onPress, ...props }: Props, ref: any) => {
+export const OptionsModal = forwardRef(({onPress, ...props}: Props, ref: any) => {
   const actionSheetRef = useRef<any>();
   const callbackRef = useRef<any>();
 

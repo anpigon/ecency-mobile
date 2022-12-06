@@ -1,19 +1,19 @@
-import React, { PureComponent } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import React, {PureComponent} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
+import {connect} from 'react-redux';
+import {injectIntl} from 'react-intl';
 
 // Components
-import { useNavigation } from '@react-navigation/native';
-import { Tag } from '../../../basicUIElements';
-import { Icon } from '../../../icon';
-import { UserAvatar } from '../../../userAvatar';
+import {useNavigation} from '@react-navigation/native';
+import {Tag} from '../../../basicUIElements';
+import {Icon} from '../../../icon';
+import {UserAvatar} from '../../../userAvatar';
 // Styles
 import styles from './postHeaderDescriptionStyles';
 
-import { default as ROUTES } from '../../../../constants/routeNames';
-import { IconButton } from '../../..';
-import { showProfileModal } from '../../../../redux/actions/uiAction';
+import {default as ROUTES} from '../../../../constants/routeNames';
+import {IconButton} from '../../..';
+import {showProfileModal} from '../../../../redux/actions/uiAction';
 
 // Constants
 const DEFAULT_IMAGE = require('../../../../assets/ecency.png');
@@ -22,8 +22,8 @@ class PostHeaderDescription extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-  _handleOnUserPress = (username) => {
-    const { profileOnPress, dispatch } = this.props;
+  _handleOnUserPress = username => {
+    const {profileOnPress, dispatch} = this.props;
 
     if (profileOnPress) {
       profileOnPress(username);
@@ -32,8 +32,8 @@ class PostHeaderDescription extends PureComponent {
     }
   };
 
-  _handleOnTagPress = (content) => {
-    const { navigation } = this.props;
+  _handleOnTagPress = content => {
+    const {navigation} = this.props;
 
     if (content && content.category && /hive-[1-3]\d{4,6}$/.test(content.category)) {
       navigation.navigate({
@@ -90,15 +90,14 @@ class PostHeaderDescription extends PureComponent {
     } = this.props;
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <View style={[styles.container, customStyle]}>
           <TouchableOpacity
             style={styles.avatarNameWrapper}
-            onPress={() => this._handleOnUserPress(name)}
-          >
+            onPress={() => this._handleOnUserPress(name)}>
             {!isHideImage && (
               <UserAvatar
-                style={[styles.avatar, { width: size, height: size, borderRadius: size / 2 }]}
+                style={[styles.avatar, {width: size, height: size, borderRadius: size / 2}]}
                 disableSize
                 username={name}
                 defaultSource={DEFAULT_IMAGE}
@@ -111,14 +110,13 @@ class PostHeaderDescription extends PureComponent {
             <View style={styles.primaryDetails}>
               <TouchableOpacity
                 style={styles.avatarNameWrapper}
-                onPress={() => this._handleOnUserPress(name)}
-              >
+                onPress={() => this._handleOnUserPress(name)}>
                 <Text style={styles.name}>{name}</Text>
               </TouchableOpacity>
 
               {inlineTime && (
                 <Text style={styles.date}>
-                  {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
+                  {isPromoted ? intl.formatMessage({id: 'post.sponsored'}) : date}
                 </Text>
               )}
 
@@ -127,7 +125,7 @@ class PostHeaderDescription extends PureComponent {
               )}
 
               {showDotMenuButton && (
-                <View style={{ flexGrow: 1, alignItems: 'flex-end' }}>
+                <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
                   <IconButton
                     size={20}
                     iconStyle={styles.rightIcon}
@@ -148,7 +146,7 @@ class PostHeaderDescription extends PureComponent {
                   <Tag
                     style={styles.topic}
                     textStyle={styles.topicText}
-                    prefix={intl.formatMessage({ id: 'post.in' })}
+                    prefix={intl.formatMessage({id: 'post.in'})}
                     suffix={' '}
                     value={content.category}
                     communityTitle={content.community_title}
@@ -158,15 +156,14 @@ class PostHeaderDescription extends PureComponent {
 
               {!!tag && (
                 <TouchableOpacity
-                  onPress={() => (tagOnPress && tagOnPress()) || this._handleOnTagPress(tag)}
-                >
+                  onPress={() => (tagOnPress && tagOnPress()) || this._handleOnTagPress(tag)}>
                   <Tag isPostCardTag={!isPromoted} isPin value={tag} suffix={' '} />
                 </TouchableOpacity>
               )}
 
               {!inlineTime && (
                 <Text style={styles.date}>
-                  {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
+                  {isPromoted ? intl.formatMessage({id: 'post.sponsored'}) : date}
                 </Text>
               )}
             </View>
@@ -184,5 +181,5 @@ const mapHookToProps = () => ({
 });
 
 export default connect(mapStateToProps)(
-  injectIntl((props) => <PostHeaderDescription {...props} {...mapHookToProps()} />),
+  injectIntl(props => <PostHeaderDescription {...props} {...mapHookToProps()} />),
 );

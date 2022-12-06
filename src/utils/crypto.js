@@ -49,21 +49,21 @@ const decryptKeyLegacy = (data, key, onError) => {
 
 // stamping mechanism will help distinguish old legacy data and new encrypted data
 // second purpose is to avoid necrypting empty strings
-const getStampedData = (data) => {
+const getStampedData = data => {
   return {
     data,
     stamp: STAMP,
   };
 };
 
-const processStampedData = (stampedData) => {
+const processStampedData = stampedData => {
   if ('stamp' in stampedData && stampedData.stamp === STAMP) {
     return stampedData.data;
   }
   throw new Error('Possibly un-stamped legacy data');
 };
 
-export const decodeBase64 = (code) => {
+export const decodeBase64 = code => {
   try {
     return CryptoJS.enc.Base64.parse(code).toString(CryptoJS.enc.Utf8);
   } catch (err) {

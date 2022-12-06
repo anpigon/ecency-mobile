@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { connect, useSelector } from 'react-redux';
+import React, {useState, useEffect} from 'react';
+import {connect, useSelector} from 'react-redux';
 import get from 'lodash/get';
 
 // Services and Action
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { getPost } from '../../../providers/hive/dhive';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {getPost} from '../../../providers/hive/dhive';
 
 // Component
 import PostScreen from '../screen/postScreen';
@@ -14,14 +14,14 @@ import PostScreen from '../screen/postScreen';
  *@props -->  content           which is include all post data                  Object
  *
  */
-function PostContainer({ currentAccount, isLoggedIn, route }) {
+function PostContainer({currentAccount, isLoggedIn, route}) {
   const [post, setPost] = useState(null);
   const [error, setError] = useState(null);
   const [isNewPost, setIsNewPost] = useState(false);
   const [isPostUnavailable, setIsPostUnavailable] = useState(false);
   const [parentPost, setParentPost] = useState(null);
 
-  const deviceOrientation = useSelector((state) => state.ui.deviceOrientation);
+  const deviceOrientation = useSelector(state => state.ui.deviceOrientation);
 
   let author;
 
@@ -41,7 +41,7 @@ function PostContainer({ currentAccount, isLoggedIn, route }) {
   */
 
   useEffect(() => {
-    const { content, permlink, author: _author, isNewPost: _isNewPost } = route.params ?? {};
+    const {content, permlink, author: _author, isNewPost: _isNewPost} = route.params ?? {};
     if (_isNewPost) {
       setIsNewPost(_isNewPost);
     }
@@ -65,7 +65,7 @@ function PostContainer({ currentAccount, isLoggedIn, route }) {
     const _permlink = permlink || get(post, 'permlink');
 
     await getPost(_author, _permlink, isLoggedIn && get(currentAccount, 'username'))
-      .then((result) => {
+      .then(result => {
         if (get(result, 'post_id', 0) > 0) {
           if (isParentPost) {
             setParentPost(result);
@@ -76,15 +76,15 @@ function PostContainer({ currentAccount, isLoggedIn, route }) {
           setIsPostUnavailable(true);
         }
       })
-      .catch((err) => {
+      .catch(err => {
         setError(err);
       });
   };
 
   useEffect(() => {
-    const { isFetch: nextIsFetch } = route.params ?? {};
+    const {isFetch: nextIsFetch} = route.params ?? {};
     if (nextIsFetch) {
-      const { author: _author, permlink } = route.params;
+      const {author: _author, permlink} = route.params;
 
       _loadPost(_author, permlink);
     }
@@ -117,7 +117,7 @@ function PostContainer({ currentAccount, isLoggedIn, route }) {
   );
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   isLoggedIn: state.application.isLoggedIn,
 });

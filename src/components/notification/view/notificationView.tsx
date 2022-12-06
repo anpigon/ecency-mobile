@@ -1,21 +1,20 @@
-/* eslint-disable react/jsx-wrap-multilines */
-import React, { PureComponent } from 'react';
-import { View, ActivityIndicator, RefreshControl, Text } from 'react-native';
-import { injectIntl } from 'react-intl';
+import React, {PureComponent} from 'react';
+import {View, ActivityIndicator, RefreshControl, Text} from 'react-native';
+import {injectIntl} from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Constants
 
 // Components
-import { FlatList } from 'react-native-gesture-handler';
-import { ContainerHeader } from '../../containerHeader';
-import { FilterBar } from '../../filterBar';
-import { NotificationLine } from '../..';
-import { ListPlaceHolder } from '../../basicUIElements';
-import { ThemeContainer } from '../../../containers';
+import {FlatList} from 'react-native-gesture-handler';
+import {ContainerHeader} from '../../containerHeader';
+import {FilterBar} from '../../filterBar';
+import {NotificationLine} from '../..';
+import {ListPlaceHolder} from '../../basicUIElements';
+import {ThemeContainer} from '../../../containers';
 
 // Utils
-import { isToday, isYesterday, isThisWeek, isLastWeek, isThisMonth } from '../../../utils/time';
+import {isToday, isYesterday, isThisWeek, isLastWeek, isThisMonth} from '../../../utils/time';
 
 // Styles
 import styles from './notificationStyles';
@@ -33,9 +32,9 @@ class NotificationView extends PureComponent {
     this.state = {
       // TODO: Remove filters from local state.
       filters: [
-        { key: 'activities', value: 'ALL' },
-        { key: 'replies', value: 'REPLIES' },
-        { key: 'mentions', value: 'MENTIONS' },
+        {key: 'activities', value: 'ALL'},
+        {key: 'replies', value: 'REPLIES'},
+        {key: 'mentions', value: 'MENTIONS'},
         // { key: 'reblogs', value: 'REBLOGS' },
       ],
       selectedFilter: 'activities',
@@ -48,28 +47,28 @@ class NotificationView extends PureComponent {
 
   // Component Functions
 
-  _handleOnDropdownSelect = async (index) => {
-    const { changeSelectedFilter } = this.props;
-    const { filters, contentOffset } = this.state;
+  _handleOnDropdownSelect = async index => {
+    const {changeSelectedFilter} = this.props;
+    const {filters, contentOffset} = this.state;
 
     const _selectedFilter = filters[index].key;
 
-    this.setState({ selectedFilter: _selectedFilter, selectedIndex: index, contentOffset });
+    this.setState({selectedFilter: _selectedFilter, selectedIndex: index, contentOffset});
     await changeSelectedFilter(_selectedFilter, index);
-    this.listRef.current?.scrollToOffset({ x: 0, y: 0, animated: false });
+    this.listRef.current?.scrollToOffset({x: 0, y: 0, animated: false});
   };
 
   // eslint-disable-next-line react/no-unused-class-component-methods
-  _renderList = (data) => {
-    const { navigateToNotificationRoute, globalProps } = this.props;
+  _renderList = data => {
+    const {navigateToNotificationRoute, globalProps} = this.props;
 
     return (
       <FlatList
         data={data}
         initialNumToRender={data && data.length}
         maxToRenderPerBatch={data && data.length}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
+        keyExtractor={item => item.id}
+        renderItem={({item}) => (
           <NotificationLine
             notification={item}
             handleOnPressNotification={navigateToNotificationRoute}
@@ -81,7 +80,7 @@ class NotificationView extends PureComponent {
   };
 
   _renderFooterLoading = () => {
-    const { isLoading } = this.props;
+    const {isLoading} = this.props;
     if (isLoading) {
       return (
         <View style={styles.flatlistFooter}>
@@ -93,7 +92,7 @@ class NotificationView extends PureComponent {
   };
 
   _getNotificationsArrays = () => {
-    const { notifications, intl } = this.props;
+    const {notifications, intl} = this.props;
 
     if (!notifications && notifications.length < 1) {
       return null;
@@ -139,7 +138,7 @@ class NotificationView extends PureComponent {
     ];
 
     let sectionIndex = -1;
-    return notifications.map((item) => {
+    return notifications.map(item => {
       const timeIndex = this._getTimeListIndex(item.timestamp);
       if (timeIndex !== sectionIndex && timeIndex > sectionIndex) {
         if (sectionIndex === -1) {
@@ -155,7 +154,7 @@ class NotificationView extends PureComponent {
   };
 
   // eslint-disable-next-line class-methods-use-this
-  _getTimeListIndex = (timestamp) => {
+  _getTimeListIndex = timestamp => {
     if (isToday(timestamp)) {
       return 0;
     }
@@ -189,7 +188,7 @@ class NotificationView extends PureComponent {
     <ContainerHeader hasSeperator={index !== 0} isBoldTitle title={title} key={title} />
   ); */
 
-  _renderItem = ({ item }) => (
+  _renderItem = ({item}) => (
     <>
       {item.sectionTitle && (
         <ContainerHeader hasSeperator={!item.firstSection} isBoldTitle title={item.sectionTitle} />
@@ -206,17 +205,17 @@ class NotificationView extends PureComponent {
   );
 
   render() {
-    const { readAllNotification, getActivities, isNotificationRefreshing, intl, isLoading } =
+    const {readAllNotification, getActivities, isNotificationRefreshing, intl, isLoading} =
       this.props;
-    const { filters, selectedFilter, selectedIndex } = this.state;
+    const {filters, selectedFilter, selectedIndex} = this.state;
     const _notifications = this._getNotificationsArrays();
 
     return (
       <View style={styles.container}>
         <FilterBar
           dropdownIconName="arrow-drop-down"
-          options={filters.map((item) =>
-            intl.formatMessage({ id: `notification.${item.key}` }).toUpperCase(),
+          options={filters.map(item =>
+            intl.formatMessage({id: `notification.${item.key}`}).toUpperCase(),
           )}
           defaultText="ALL"
           onDropdownSelect={this._handleOnDropdownSelect}
@@ -226,7 +225,7 @@ class NotificationView extends PureComponent {
           onRightIconPress={readAllNotification}
         />
         <ThemeContainer>
-          {({ isDarkTheme }) => (
+          {({isDarkTheme}) => (
             <FlatList
               ref={this.listRef}
               data={_notifications}
@@ -239,7 +238,7 @@ class NotificationView extends PureComponent {
                   <ListPlaceHolder />
                 ) : (
                   <Text style={globalStyles.hintText}>
-                    {intl.formatMessage({ id: 'notification.noactivity' })}
+                    {intl.formatMessage({id: 'notification.noactivity'})}
                   </Text>
                 )
               }

@@ -1,8 +1,8 @@
 import React from 'react';
-import { SafeAreaView, FlatList } from 'react-native';
+import {SafeAreaView, FlatList} from 'react-native';
 
 // Components
-import { CommunitiesPlaceHolder } from '../../basicUIElements';
+import {CommunitiesPlaceHolder} from '../../basicUIElements';
 import CommunitiesListItem from './communitiesListItem';
 
 // Styles
@@ -17,7 +17,7 @@ function CommunitiesList({
   screen,
   isDiscoversLoading,
 }) {
-  const _renderItem = ({ item, index }) => {
+  const _renderItem = ({item, index}) => {
     return (
       <CommunitiesListItem
         index={index}

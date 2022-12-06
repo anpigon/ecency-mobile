@@ -1,18 +1,18 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { Platform, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {Platform, Text, TouchableOpacity, View, ActivityIndicator} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { renderPostBody } from '@ecency/render-helper';
-import { ScrollView } from 'react-native-gesture-handler';
+import {renderPostBody} from '@ecency/render-helper';
+import {ScrollView} from 'react-native-gesture-handler';
 import Clipboard from '@react-native-clipboard/clipboard';
-import { MainButton, PostBody, TextButton } from '..';
+import {MainButton, PostBody, TextButton} from '..';
 import styles from './insertLinkModalStyles';
-import { TextInput } from '../textInput';
-import { delay } from '../../utils/editor';
-import { isStringWebLink } from '../markdownEditor/children/formats/utils';
+import {TextInput} from '../textInput';
+import {delay} from '../../utils/editor';
+import {isStringWebLink} from '../markdownEditor/children/formats/utils';
 import applyWebLinkFormat from '../markdownEditor/children/formats/applyWebLinkFormat';
 import getWindowDimensions from '../../utils/getWindowDimensions';
-import { Modal } from '../modal';
+import {Modal} from '../modal';
 
 interface InsertLinkModalProps {
   handleOnInsertLink: ({
@@ -20,14 +20,14 @@ interface InsertLinkModalProps {
     selection,
   }: {
     snippetText: string;
-    selection: { start: number; end: number };
+    selection: {start: number; end: number};
   }) => void;
   handleOnSheetClose: () => void;
 }
 const screenWidth = getWindowDimensions().width - 58;
 
 export const InsertLinkModal = forwardRef(
-  ({ handleOnInsertLink, handleOnSheetClose }: InsertLinkModalProps, ref) => {
+  ({handleOnInsertLink, handleOnSheetClose}: InsertLinkModalProps, ref) => {
     const intl = useIntl();
 
     const [visible, setVisible] = useState(false);
@@ -37,7 +37,7 @@ export const InsertLinkModal = forwardRef(
     const [isUrlValid, setIsUrlValid] = useState(true);
     const [selectedText, setSelectedText] = useState('');
     const [formattedText, setFormattedText] = useState('');
-    const [selection, setSelection] = useState({ start: 0, end: 0 });
+    const [selection, setSelection] = useState({start: 0, end: 0});
     const [selectedUrlType, setSelectedUrlType] = useState(0);
     const [previewBody, setPreviewBody] = useState('');
 
@@ -45,7 +45,7 @@ export const InsertLinkModal = forwardRef(
     const urlInputRef = useRef(null);
 
     useImperativeHandle(ref, () => ({
-      showModal: async ({ selectedText: _selectedText, selection: _selection }) => {
+      showModal: async ({selectedText: _selectedText, selection: _selection}) => {
         if (_selectedText) {
           setSelectedText(_selectedText);
           setSelection(_selection);
@@ -78,9 +78,9 @@ export const InsertLinkModal = forwardRef(
         const labelText =
           selectedUrlType === 2 ? url.split('/').pop() : selectedUrlType === 1 ? '' : label;
         applyWebLinkFormat({
-          item: { text: labelText, url },
+          item: {text: labelText, url},
           text: '',
-          selection: { start: 0, end: 0 },
+          selection: {start: 0, end: 0},
           setTextAndSelection: _setFormattedTextAndSelection,
           isImage: selectedUrlType === 2,
           isVideo: selectedUrlType === 1,
@@ -97,15 +97,15 @@ export const InsertLinkModal = forwardRef(
       }
     };
 
-    const _setFormattedTextAndSelection = ({ selection, text }) => {
+    const _setFormattedTextAndSelection = ({selection, text}) => {
       setPreviewBody(renderPostBody(text, true, Platform.OS !== 'ios'));
       setFormattedText(text);
     };
 
-    const _handleLabelChange = (text) => {
+    const _handleLabelChange = text => {
       setLabel(text);
     };
-    const _handleUrlChange = (text) => {
+    const _handleUrlChange = text => {
       setUrl(text.trim());
     };
 
@@ -127,7 +127,7 @@ export const InsertLinkModal = forwardRef(
         setIsUrlValid(false);
         return;
       }
-      handleOnInsertLink({ snippetText: formattedText, selection });
+      handleOnInsertLink({snippetText: formattedText, selection});
       setIsUrlValid(true);
     };
     const _renderFloatingPanel = () => {
@@ -144,7 +144,7 @@ export const InsertLinkModal = forwardRef(
             iconName="plus"
             iconType="MaterialCommunityIcons"
             iconColor="white"
-            text={intl.formatMessage({ id: 'editor.insert_link' })}
+            text={intl.formatMessage({id: 'editor.insert_link'})}
           />
         </View>
       );
@@ -170,7 +170,7 @@ export const InsertLinkModal = forwardRef(
         }),
       },
     ];
-    const LinkTypeOptions = URL_TYPES.map((item) => {
+    const LinkTypeOptions = URL_TYPES.map(item => {
       const selected = item.id === selectedUrlType;
       return (
         <TouchableOpacity
@@ -183,8 +183,7 @@ export const InsertLinkModal = forwardRef(
               urlInputRef.current?.focus();
             }
           }}
-          style={selected ? styles.optionBtnSelected : styles.optionBtn}
-        >
+          style={selected ? styles.optionBtnSelected : styles.optionBtn}>
           <Text style={selected ? styles.optionBtnTextSelected : styles.optionBtnText}>
             {item.title}
           </Text>
@@ -258,8 +257,7 @@ export const InsertLinkModal = forwardRef(
           </Text>
           <ScrollView
             style={styles.previewWrapper}
-            contentContainerStyle={styles.previewContentContainer}
-          >
+            contentContainerStyle={styles.previewContentContainer}>
             <View style={styles.preview} pointerEvents="none">
               {previewBody ? (
                 <PostBody
@@ -288,9 +286,8 @@ export const InsertLinkModal = forwardRef(
         handleOnModalClose={_handleOnCloseSheet}
         presentationStyle="formSheet"
         animationType="slide"
-        title={intl.formatMessage({ id: 'editor.insert_link' })}
-        style={styles.modalStyle}
-      >
+        title={intl.formatMessage({id: 'editor.insert_link'})}
+        style={styles.modalStyle}>
         {_renderContent}
       </Modal>
     );

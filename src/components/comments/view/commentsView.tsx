@@ -1,15 +1,15 @@
-import React, { useState, Fragment, useRef } from 'react';
-import { FlatList, Text } from 'react-native';
+import React, {useState, Fragment, useRef} from 'react';
+import {FlatList, Text} from 'react-native';
 import get from 'lodash/get';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Comment, TextButton } from '../..';
+import {Comment, TextButton} from '../..';
 
 // Styles
 import styles from './commentStyles';
-import { OptionsModal } from '../../atoms';
+import {OptionsModal} from '../../atoms';
 
 function CommentsView({
   avatarSize,
@@ -41,14 +41,14 @@ function CommentsView({
   const intl = useIntl();
   const commentMenu = useRef<any>();
 
-  const _openCommentMenu = (item) => {
+  const _openCommentMenu = item => {
     if (commentMenu.current) {
       setSelectedComment(item);
       commentMenu.current.show();
     }
   };
 
-  const _openReplyThread = (item) => {
+  const _openReplyThread = item => {
     if (item && openReplyThread) {
       openReplyThread(item);
     }
@@ -60,16 +60,16 @@ function CommentsView({
     }
   };
 
-  const _onMenuItemPress = (index) => {
+  const _onMenuItemPress = index => {
     handleOnPressCommentMenu(index, selectedComment);
     setSelectedComment(null);
   };
 
   const menuItems = [
-    intl.formatMessage({ id: 'post.copy_link' }),
-    intl.formatMessage({ id: 'post.copy_text' }),
-    intl.formatMessage({ id: 'post.open_thread' }),
-    intl.formatMessage({ id: 'alert.cancel' }),
+    intl.formatMessage({id: 'post.copy_link'}),
+    intl.formatMessage({id: 'post.copy_text'}),
+    intl.formatMessage({id: 'post.open_thread'}),
+    intl.formatMessage({id: 'alert.cancel'}),
   ];
 
   if (!hideManyCommentsButton && hasManyComments) {
@@ -78,12 +78,12 @@ function CommentsView({
         style={styles.moreRepliesButtonWrapper}
         textStyle={styles.moreRepliesText}
         onPress={() => _readMoreComments()}
-        text={intl.formatMessage({ id: 'comments.read_more' })}
+        text={intl.formatMessage({id: 'comments.read_more'})}
       />
     );
   }
 
-  const _renderItem = ({ item }) => {
+  const _renderItem = ({item}) => {
     return (
       <Comment
         mainAuthor={mainAuthor}
@@ -130,7 +130,7 @@ function CommentsView({
     };
     return (
       <Text onPress={_onPress} style={styles.emptyText}>
-        {intl.formatMessage({ id: 'comments.no_comments' })}
+        {intl.formatMessage({id: 'comments.no_comments'})}
       </Text>
     );
   };
@@ -138,11 +138,11 @@ function CommentsView({
   return (
     <>
       <FlatList
-        style={{ ...styles.list, ...styleOerride }}
-        contentContainerStyle={{ padding: 0 }}
+        style={{...styles.list, ...styleOerride}}
+        contentContainerStyle={{padding: 0}}
         data={comments}
         renderItem={_renderItem}
-        keyExtractor={(item) => get(item, 'permlink')}
+        keyExtractor={item => get(item, 'permlink')}
         ListEmptyComponent={_renderEmptyContent()}
         {...flatListProps}
       />

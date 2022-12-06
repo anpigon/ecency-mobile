@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef, useReducer } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { get, isEmpty } from 'lodash';
+import React, {useState, useEffect, useRef, useReducer} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {get, isEmpty} from 'lodash';
 import unionBy from 'lodash/unionBy';
-import { useIntl } from 'react-intl';
-import { Alert, AppState } from 'react-native';
+import {useIntl} from 'react-intl';
+import {Alert, AppState} from 'react-native';
 
 // HIVE
 import {
@@ -12,7 +12,7 @@ import {
   getRankedPosts,
   getCommunity,
 } from '../../../providers/hive/dhive';
-import { getPromotePosts } from '../../../providers/ecency/ecency';
+import {getPromotePosts} from '../../../providers/ecency/ecency';
 
 // Component
 import PostsView from '../view/postsView';
@@ -24,7 +24,7 @@ import {
   setOtherPosts,
   setInitPosts,
 } from '../../../redux/actions/postsAction';
-import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
+import {fetchLeaderboard, followUser, unfollowUser} from '../../../redux/actions/userAction';
 import {
   subscribeCommunity,
   leaveCommunity,
@@ -32,7 +32,7 @@ import {
 } from '../../../redux/actions/communitiesAction';
 
 import useIsMountedRef from '../../../customHooks/useIsMountedRef';
-import { setHidePostsThumbnails } from '../../../redux/actions/applicationActions';
+import {setHidePostsThumbnails} from '../../../redux/actions/applicationActions';
 
 function PostsContainer({
   changeForceLoadPostState,
@@ -56,19 +56,19 @@ function PostsContainer({
   const appState = useRef(AppState.currentState);
   const appStateSubRef = useRef(null);
 
-  const nsfw = useSelector((state) => state.application.nsfw);
-  const initPosts = useSelector((state) => state.posts.initPosts);
-  const isConnected = useSelector((state) => state.application.isConnected);
-  const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
-  const username = useSelector((state) => state.account.currentAccount.name);
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
-  const currentAccount = useSelector((state) => state.account.currentAccount);
-  const pinCode = useSelector((state) => state.application.pin);
-  const leaderboard = useSelector((state) => state.user.leaderboard);
-  const communities = useSelector((state) => state.communities.communities);
-  const followingUsers = useSelector((state) => state.user.followingUsersInFeedScreen);
+  const nsfw = useSelector(state => state.application.nsfw);
+  const initPosts = useSelector(state => state.posts.initPosts);
+  const isConnected = useSelector(state => state.application.isConnected);
+  const isHideImages = useSelector(state => state.application.hidePostsThumbnails);
+  const username = useSelector(state => state.account.currentAccount.name);
+  const isLoggedIn = useSelector(state => state.application.isLoggedIn);
+  const currentAccount = useSelector(state => state.account.currentAccount);
+  const pinCode = useSelector(state => state.application.pin);
+  const leaderboard = useSelector(state => state.user.leaderboard);
+  const communities = useSelector(state => state.communities.communities);
+  const followingUsers = useSelector(state => state.user.followingUsersInFeedScreen);
   const subscribingCommunities = useSelector(
-    (state) => state.communities.subscribingCommunitiesInFeedScreen,
+    state => state.communities.subscribingCommunitiesInFeedScreen,
   );
 
   const [isNoPost, setIsNoPost] = useState(false);
@@ -96,13 +96,13 @@ function PostsContainer({
     }
   };
 
-  const _setInitPosts = (_posts) => {
+  const _setInitPosts = _posts => {
     if (isFeedScreen) {
       dispatch(setInitPosts(_posts));
     }
   };
 
-  const _scheduleLatestPostsCheck = (firstPost) => {
+  const _scheduleLatestPostsCheck = firstPost => {
     const refetchTime = __DEV__ ? 50000 : 600000;
     if (_postFetchTimer) {
       clearTimeout(_postFetchTimer);
@@ -130,7 +130,7 @@ function PostsContainer({
   const initCacheState = () => {
     const cachedData = {};
 
-    filterOptionsValue.forEach((option) => {
+    filterOptionsValue.forEach(option => {
       if (option !== 'feed') {
         cachedData[option] = {
           posts: [],
@@ -143,7 +143,7 @@ function PostsContainer({
     });
 
     if (feedSubfilterOptions) {
-      feedSubfilterOptions.forEach((option) => {
+      feedSubfilterOptions.forEach(option => {
         cachedData[option] = {
           posts: [],
           startAuthor: '',
@@ -166,7 +166,7 @@ function PostsContainer({
 
     switch (action.type) {
       case 'is-filter-loading': {
-        const { filter } = action.payload;
+        const {filter} = action.payload;
         const loading = action.payload.isLoading;
         state.cachedData[filter].isLoading = loading;
 
@@ -174,9 +174,9 @@ function PostsContainer({
       }
 
       case 'update-filter-cache': {
-        const { filter } = action.payload;
+        const {filter} = action.payload;
         const nextPosts = action.payload.posts;
-        const { shouldReset } = action.payload;
+        const {shouldReset} = action.payload;
         let _posts = nextPosts;
 
         const cachedEntry = state.cachedData[filter];
@@ -407,17 +407,17 @@ function PostsContainer({
   useEffect(() => {
     const recommendeds = [...recommendedUsers];
 
-    Object.keys(followingUsers).forEach((following) => {
+    Object.keys(followingUsers).forEach(following => {
       if (!followingUsers[following].loading) {
         if (!followingUsers[following].error) {
           if (followingUsers[following].isFollowing) {
-            recommendeds.forEach((item) => {
+            recommendeds.forEach(item => {
               if (item._id === following) {
                 item.isFollowing = true;
               }
             });
           } else {
-            recommendeds.forEach((item) => {
+            recommendeds.forEach(item => {
               if (item._id === following) {
                 item.isFollowing = false;
               }
@@ -433,17 +433,17 @@ function PostsContainer({
   useEffect(() => {
     const recommendeds = [...recommendedCommunities];
 
-    Object.keys(subscribingCommunities).forEach((communityId) => {
+    Object.keys(subscribingCommunities).forEach(communityId => {
       if (!subscribingCommunities[communityId].loading) {
         if (!subscribingCommunities[communityId].error) {
           if (subscribingCommunities[communityId].isSubscribed) {
-            recommendeds.forEach((item) => {
+            recommendeds.forEach(item => {
               if (item.name === communityId) {
                 item.isSubscribed = true;
               }
             });
           } else {
-            recommendeds.forEach((item) => {
+            recommendeds.forEach(item => {
               if (item.name === communityId) {
                 item.isSubscribed = false;
               }
@@ -456,7 +456,7 @@ function PostsContainer({
     setRecommendedCommunities(recommendeds);
   }, [subscribingCommunities]);
 
-  const _handleAppStateChange = (nextAppState) => {
+  const _handleAppStateChange = nextAppState => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
       const isLatestPostsCheck = true;
       _loadPosts(null, isLatestPostsCheck);
@@ -475,12 +475,12 @@ function PostsContainer({
       return;
     }
     await getPromotePosts()
-      .then(async (res) => {
+      .then(async res => {
         if (res && res.length) {
           const _promotedPosts = await Promise.all(
-            res.map((item) =>
+            res.map(item =>
               getPost(get(item, 'author'), get(item, 'permlink'), username, true).then(
-                (post) => post,
+                post => post,
               ),
             ),
           );
@@ -499,7 +499,7 @@ function PostsContainer({
     let newPosts = [];
     posts.forEach((post, index) => {
       const newPostId = get(post, 'post_id');
-      const postExist = cachedPosts.find((cPost) => get(cPost, 'post_id', 0) === newPostId);
+      const postExist = cachedPosts.find(cPost => get(cPost, 'post_id', 0) === newPostId);
 
       if (!postExist) {
         newPosts.push(post);
@@ -514,7 +514,7 @@ function PostsContainer({
     if (newPosts.length > 0 && isRightFilter) {
       newPosts = newPosts.slice(0, 5);
 
-      setNewPostsPopupPictures(newPosts.map((post) => get(post, 'avatar', '')));
+      setNewPostsPopupPictures(newPosts.map(post => get(post, 'avatar', '')));
     } else {
       _scheduleLatestPostsCheck(posts[0]);
     }
@@ -663,17 +663,17 @@ function PostsContainer({
     _getPromotePosts();
   };
 
-  const _handleFilterOnDropdownSelect = (index) => {
+  const _handleFilterOnDropdownSelect = index => {
     setSelectedFilterIndex(index);
     setIsNoPost(false);
   };
 
-  const _handleFeedSubfilterOnDropdownSelect = (index) => {
+  const _handleFeedSubfilterOnDropdownSelect = index => {
     setSelectedFeedSubfilterIndex(index);
     setIsNoPost(false);
   };
 
-  const _setSelectedFilterValue = (val) => {
+  const _setSelectedFilterValue = val => {
     cacheDispatch({
       type: 'change-filter',
       payload: {
@@ -683,7 +683,7 @@ function PostsContainer({
     setSelectedFilterValue(val);
   };
 
-  const _setSelectedFeedSubfilterValue = (val) => {
+  const _setSelectedFeedSubfilterValue = val => {
     cacheDispatch({
       type: 'change-sub-filter',
       payload: {
@@ -695,25 +695,25 @@ function PostsContainer({
 
   const _getRecommendedUsers = () => dispatch(fetchLeaderboard());
 
-  const _formatRecommendedUsers = (usersArray) => {
+  const _formatRecommendedUsers = usersArray => {
     const recommendeds = usersArray.slice(0, 10);
 
-    recommendeds.unshift({ _id: 'good-karma' });
-    recommendeds.unshift({ _id: 'ecency' });
+    recommendeds.unshift({_id: 'good-karma'});
+    recommendeds.unshift({_id: 'ecency'});
 
-    recommendeds.forEach((item) => Object.assign(item, { isFollowing: false }));
+    recommendeds.forEach(item => Object.assign(item, {isFollowing: false}));
 
     setRecommendedUsers(recommendeds);
   };
 
   const _getRecommendedCommunities = () => dispatch(fetchCommunities('', 10));
 
-  const _formatRecommendedCommunities = async (communitiesArray) => {
+  const _formatRecommendedCommunities = async communitiesArray => {
     try {
       const ecency = await getCommunity('hive-125125');
 
       const recommendeds = [ecency, ...communitiesArray];
-      recommendeds.forEach((item) => Object.assign(item, { isSubscribed: false }));
+      recommendeds.forEach(item => Object.assign(item, {isSubscribed: false}));
 
       setRecommendedCommunities(recommendeds);
     } catch (err) {
@@ -751,7 +751,7 @@ function PostsContainer({
     dispatch(followAction(currentAccount, pinCode, data, successToastText, failToastText));
   };
 
-  const _handleSubscribeCommunityButtonPress = (data) => {
+  const _handleSubscribeCommunityButtonPress = data => {
     let subscribeAction;
     let successToastText = '';
     let failToastText = '';
@@ -781,7 +781,7 @@ function PostsContainer({
     );
   };
 
-  const _handleOnScroll = (event) => {
+  const _handleOnScroll = event => {
     if (handleOnScroll) {
       handleOnScroll();
     }
@@ -796,11 +796,11 @@ function PostsContainer({
     });
   };
 
-  const _handleSetNewPostsPopupPictures = (data) => {
+  const _handleSetNewPostsPopupPictures = data => {
     setNewPostsPopupPictures(data);
     const cacheFilter =
       cache.currentFilter !== 'feed' ? cache.currentFilter : cache.currentSubFilter;
-    const { posts } = cache.cachedData[cacheFilter];
+    const {posts} = cache.cachedData[cacheFilter];
     if (posts.length > 0) {
       _scheduleLatestPostsCheck(posts[0]);
     }

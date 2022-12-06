@@ -1,4 +1,4 @@
 import PostForm from './view/postFormView';
 
-export { PostForm };
+export {PostForm};
 export default PostForm;

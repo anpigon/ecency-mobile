@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { useIntl } from 'react-intl';
+import React, {useState} from 'react';
+import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {useIntl} from 'react-intl';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './communityListItemStyles';
 
-import { Tag } from '../../index';
+import {Tag} from '../../index';
 
 function CommunityListItem({
   index,
@@ -28,14 +28,13 @@ function CommunityListItem({
   const intl = useIntl();
 
   const _handleSubscribeButtonPress = () => {
-    handleSubscribeButtonPress({ isSubscribed, communityId: name });
+    handleSubscribeButtonPress({isSubscribed, communityId: name});
   };
 
   return (
     <TouchableOpacity
       onLongPress={() => handleOnLongPress && handleOnLongPress()}
-      onPress={() => handleOnPress && handleOnPress(name)}
-    >
+      onPress={() => handleOnPress && handleOnPress(name)}>
       <View style={[styles.itemWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
         <View style={styles.content}>
           <View style={styles.header}>

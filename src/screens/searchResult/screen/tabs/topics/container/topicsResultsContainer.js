@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import get from 'lodash/get';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import ROUTES from '../../../../../../constants/routeNames';
 
-import { searchTag } from '../../../../../../providers/ecency/ecency';
+import {searchTag} from '../../../../../../providers/ecency/ecency';
 
-const OtherResultContainer = ({ children, searchValue }) => {
+const OtherResultContainer = ({children, searchValue}) => {
   const navigation = useNavigation();
 
   const [tags, setTags] = useState([]);
@@ -19,25 +19,25 @@ const OtherResultContainer = ({ children, searchValue }) => {
       setTags([]);
 
       searchTag(searchValue.trim(), 20)
-        .then((res) => {
+        .then(res => {
           if (res && res.length === 0) {
             setNoResult(true);
           }
           setTags(res);
         })
-        .catch((err) => {
+        .catch(err => {
           setNoResult(true);
           setTags([]);
         });
     } else {
       searchTag(searchValue.trim(), 20, 1)
-        .then((res) => {
+        .then(res => {
           if (res && res.length === 0) {
             setNoResult(true);
           }
           setTags(res);
         })
-        .catch((err) => {
+        .catch(err => {
           setNoResult(true);
           setTags([]);
         });
@@ -46,7 +46,7 @@ const OtherResultContainer = ({ children, searchValue }) => {
 
   // Component Functions
 
-  const _handleOnPress = (item) => {
+  const _handleOnPress = item => {
     navigation.navigate({
       name: ROUTES.SCREENS.TAG_RESULT,
       params: {
@@ -65,7 +65,7 @@ const OtherResultContainer = ({ children, searchValue }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   username: state.account.currentAccount.name,
 });
 

@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { default as ModalBox } from 'react-native-modal';
-import { IconButton } from '../../iconButton';
+import React, {PureComponent} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
+import {default as ModalBox} from 'react-native-modal';
+import {IconButton} from '../../iconButton';
 import styles from './modalStyles';
 
 /*
@@ -18,21 +18,21 @@ export default class Modal extends PureComponent {
   }
 
   _handleOnOpen = () => {
-    const { handleOnModalOpen } = this.props;
+    const {handleOnModalOpen} = this.props;
     if (handleOnModalOpen) {
       handleOnModalOpen();
     }
   };
 
   _handleOnClose = () => {
-    const { handleOnModalClose } = this.props;
+    const {handleOnModalClose} = this.props;
     if (handleOnModalClose) {
       handleOnModalClose();
     }
   };
 
   _handleOnDismiss = () => {
-    const { handleOnModalDismiss } = this.props;
+    const {handleOnModalDismiss} = this.props;
 
     if (handleOnModalDismiss) {
       handleOnModalDismiss();
@@ -67,13 +67,10 @@ export default class Modal extends PureComponent {
         onShow={() => this._handleOnOpen(this)}
         onModalHide={() => console.log('hide')}
         onModalDismiss={() => console.log('dismiss')}
-        {...this.props}
-      >
+        {...this.props}>
         {title && (
           <View style={styles.modalHeader}>
-            <Text
-              style={[styles.headerTitle, (isCloseButton || hasRightText) && { marginLeft: 50 }]}
-            >
+            <Text style={[styles.headerTitle, (isCloseButton || hasRightText) && {marginLeft: 50}]}>
               {title}
             </Text>
             {isCloseButton && (

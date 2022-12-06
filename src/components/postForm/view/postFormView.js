@@ -1,5 +1,5 @@
-import React, { PureComponent, Fragment } from 'react';
-import { debounce } from 'lodash';
+import React, {PureComponent, Fragment} from 'react';
+import {debounce} from 'lodash';
 
 class PostFormView extends PureComponent {
   constructor(props) {
@@ -8,7 +8,7 @@ class PostFormView extends PureComponent {
   }
 
   _handleOnSubmitEditing = (returnKeyType = null, inputElement = null) => {
-    const { handleOnSubmit, isFormValid } = this.props;
+    const {handleOnSubmit, isFormValid} = this.props;
 
     if (isFormValid && handleOnSubmit && returnKeyType === 'done') {
       handleOnSubmit();
@@ -19,7 +19,7 @@ class PostFormView extends PureComponent {
   };
 
   _handleOnChange = (componentID, value, isValid = null) => {
-    const { handleFormUpdate, handleBodyChange } = this.props;
+    const {handleFormUpdate, handleBodyChange} = this.props;
     console.log('update fields state :', componentID, value);
     handleFormUpdate(componentID, value, !!isValid || !!value);
     if (componentID === 'body') {
@@ -28,17 +28,16 @@ class PostFormView extends PureComponent {
   };
 
   render() {
-    const { children, isFormValid, isPreviewActive } = this.props;
+    const {children, isFormValid, isPreviewActive} = this.props;
 
     return (
       <>
-        {React.Children.map(children, (child) => {
+        {React.Children.map(children, child => {
           if (child) {
             return React.cloneElement(child, {
-              onSubmitEditing: (item) =>
-                this._handleOnSubmitEditing(child.props.returnKeyType, item),
+              onSubmitEditing: item => this._handleOnSubmitEditing(child.props.returnKeyType, item),
               onChange: debounce(
-                (value) => this._handleOnChange(child.props.componentID, value),
+                value => this._handleOnChange(child.props.componentID, value),
                 500,
               ),
               returnKeyType: isFormValid ? 'done' : 'next',

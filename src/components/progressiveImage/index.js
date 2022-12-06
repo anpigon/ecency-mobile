@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, {useState} from 'react';
+import {View, StyleSheet} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import Animated, { EasingNode } from 'react-native-reanimated';
+import Animated, {EasingNode} from 'react-native-reanimated';
 
 const styles = StyleSheet.create({
   imageOverlay: {
@@ -20,12 +20,12 @@ const styles = StyleSheet.create({
 
 const AnimatedFastImage = Animated.createAnimatedComponent(FastImage);
 
-function ProgressiveImage({ thumbnailSource, source, style, ...props }) {
+function ProgressiveImage({thumbnailSource, source, style, ...props}) {
   // const [calcImgHeight, setCalcImgHeight] = useState(300);
   const thumbnailAnimated = new Animated.Value(0);
   const imageAnimated = new Animated.Value(0);
 
-  const handleThumbnailLoad = (e) => {
+  const handleThumbnailLoad = e => {
     /* if (e) {
       setCalcImgHeight(Math.floor((e.nativeEvent.height / e.nativeEvent.width) * dim.width));
       console.log(e.nativeEvent.width, e.nativeEvent.height);
@@ -48,7 +48,7 @@ function ProgressiveImage({ thumbnailSource, source, style, ...props }) {
       <AnimatedFastImage
         {...props}
         source={thumbnailSource}
-        style={[style, { opacity: thumbnailAnimated }]}
+        style={[style, {opacity: thumbnailAnimated}]}
         onLoad={handleThumbnailLoad}
         blurRadius={1}
         resizeMode={FastImage.resizeMode.cover}
@@ -56,7 +56,7 @@ function ProgressiveImage({ thumbnailSource, source, style, ...props }) {
       <AnimatedFastImage
         {...props}
         source={source}
-        style={[styles.imageOverlay, { opacity: imageAnimated }, style]}
+        style={[styles.imageOverlay, {opacity: imageAnimated}, style]}
         onLoad={onImageLoad}
         resizeMode={FastImage.resizeMode.cover}
       />

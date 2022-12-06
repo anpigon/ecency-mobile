@@ -1,6 +1,6 @@
-import { proxifyImageSrc } from '@ecency/render-helper';
-import React, { useEffect, useRef, useState } from 'react';
-import { useIntl } from 'react-intl';
+import {proxifyImageSrc} from '@ecency/render-helper';
+import React, {useEffect, useRef, useState} from 'react';
+import {useIntl} from 'react-intl';
 import {
   ActivityIndicator,
   Alert,
@@ -10,19 +10,19 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { View as AnimatedView } from 'react-native-animatable';
-import Animated, { EasingNode } from 'react-native-reanimated';
+import {View as AnimatedView} from 'react-native-animatable';
+import Animated, {EasingNode} from 'react-native-reanimated';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
-import { FlatList } from 'react-native-gesture-handler';
-import { Icon, IconButton } from '../..';
-import { UploadedMedia } from '../../../models';
+import {FlatList} from 'react-native-gesture-handler';
+import {Icon, IconButton} from '../..';
+import {UploadedMedia} from '../../../models';
 import styles, {
   COMPACT_HEIGHT,
   EXPANDED_HEIGHT,
   MAX_HORIZONTAL_THUMBS,
 } from './uploadsGalleryModalStyles';
-import { useMediaDeleteMutation } from '../../../providers/queries';
+import {useMediaDeleteMutation} from '../../../providers/queries';
 
 type Props = {
   insertedMediaUrls: string[];
@@ -76,16 +76,16 @@ function UploadsGalleryContent({
       };
 
       Alert.alert(
-        intl.formatMessage({ id: 'alert.delete' }),
-        intl.formatMessage({ id: 'uploads_modal.confirm_delete' }),
+        intl.formatMessage({id: 'alert.delete'}),
+        intl.formatMessage({id: 'uploads_modal.confirm_delete'}),
         [
           {
-            text: intl.formatMessage({ id: 'alert.cancel' }),
+            text: intl.formatMessage({id: 'alert.cancel'}),
             style: 'cancel',
             onPress: _onCancelPress,
           },
           {
-            text: intl.formatMessage({ id: 'alert.confirm' }),
+            text: intl.formatMessage({id: 'alert.confirm'}),
             onPress: () => _deleteMedia(),
           },
         ],
@@ -96,7 +96,7 @@ function UploadsGalleryContent({
   };
 
   // render list item for snippet and handle actions;
-  const _renderItem = ({ item, index }: { item: UploadedMedia; index: number }) => {
+  const _renderItem = ({item, index}: {item: UploadedMedia; index: number}) => {
     const _onPress = () => {
       if (isDeleteMode) {
         const idIndex = deleteIds.indexOf(item._id);
@@ -113,10 +113,10 @@ function UploadsGalleryContent({
 
     const thumbUrl = proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
     let isInsertedTimes = 0;
-    insertedMediaUrls.forEach((url) => (isInsertedTimes += url === item.url ? 1 : 0));
+    insertedMediaUrls.forEach(url => (isInsertedTimes += url === item.url ? 1 : 0));
     const isToBeDeleted = deleteIds.indexOf(item._id) >= 0;
     const transformStyle = {
-      transform: isToBeDeleted ? [{ scaleX: 0.7 }, { scaleY: 0.7 }] : [],
+      transform: isToBeDeleted ? [{scaleX: 0.7}, {scaleY: 0.7}] : [],
     };
 
     const _renderMinus = () =>
@@ -143,7 +143,7 @@ function UploadsGalleryContent({
       <TouchableOpacity onPress={_onPress} disabled={isDeleting}>
         <View style={transformStyle}>
           <FastImage
-            source={{ uri: thumbUrl }}
+            source={{uri: thumbUrl}}
             style={isExpandedMode ? styles.gridMediaItem : styles.mediaItem}
           />
           {_renderCounter()}
@@ -158,8 +158,7 @@ function UploadsGalleryContent({
       <TouchableOpacity
         onPress={() => {
           onPress && onPress();
-        }}
-      >
+        }}>
         <View style={styles.selectButton}>
           <View style={styles.selectBtnPlus}>
             <Icon
@@ -184,7 +183,7 @@ function UploadsGalleryContent({
   };
 
   const _renderHeaderContent = () => (
-    <View style={{ ...styles.buttonsContainer, paddingVertical: isExpandedMode ? 8 : 0 }}>
+    <View style={{...styles.buttonsContainer, paddingVertical: isExpandedMode ? 8 : 0}}>
       <View style={styles.selectButtonsContainer}>
         {_renderSelectButton('image', 'Gallery', handleOpenGallery)}
         {_renderSelectButton('camera', 'Camera', handleOpenCamera)}
@@ -231,7 +230,7 @@ function UploadsGalleryContent({
   const _renderEmptyContent = () => {
     return (
       <Text style={styles.emptyText}>
-        {intl.formatMessage({ id: 'uploads_modal.label_no_images' })}
+        {intl.formatMessage({id: 'uploads_modal.label_no_images'})}
       </Text>
     );
   };
@@ -274,8 +273,7 @@ function UploadsGalleryContent({
         <AnimatedView
           animation={deleteIds.length > 0 ? 'slideInRight' : 'slideOutRight'}
           duration={300}
-          style={styles.deleteButtonContainer}
-        >
+          style={styles.deleteButtonContainer}>
           <IconButton
             style={styles.deleteButton}
             color={EStyleSheet.value('$primaryBlack')}
@@ -293,13 +291,13 @@ function UploadsGalleryContent({
   };
 
   return (
-    <Animated.View style={{ ...styles.container, height: animatedHeightRef.current }}>
+    <Animated.View style={{...styles.container, height: animatedHeightRef.current}}>
       <FlatList
         key={isExpandedMode ? 'vertical_grid' : 'horizontal_list'}
         data={mediaUploads.slice(0, !isExpandedMode ? MAX_HORIZONTAL_THUMBS : undefined)}
-        keyExtractor={(item) => `item_${item.url}`}
+        keyExtractor={item => `item_${item.url}`}
         renderItem={_renderItem}
-        style={{ flex: 1 }}
+        style={{flex: 1}}
         contentContainerStyle={
           isExpandedMode ? styles.gridContentContainer : styles.listContentContainer
         }

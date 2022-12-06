@@ -1,4 +1,4 @@
-import { Client } from 'hivesigner';
+import {Client} from 'hivesigner';
 
 const api = new Client({
   app: 'ecency.app',

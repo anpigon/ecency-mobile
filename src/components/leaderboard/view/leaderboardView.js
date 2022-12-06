@@ -1,12 +1,12 @@
-import React, { PureComponent, Fragment } from 'react';
-import { View, FlatList, Text } from 'react-native';
-import { injectIntl } from 'react-intl';
+import React, {PureComponent, Fragment} from 'react';
+import {View, FlatList, Text} from 'react-native';
+import {injectIntl} from 'react-intl';
 import get from 'lodash/get';
 
 // Components
-import { UserListItem, ListPlaceHolder } from '../../basicUIElements';
-import { FilterBar } from '../../filterBar';
-import FILTER_OPTIONS, { VALUE } from '../../../constants/options/leaderboard';
+import {UserListItem, ListPlaceHolder} from '../../basicUIElements';
+import {FilterBar} from '../../filterBar';
+import FILTER_OPTIONS, {VALUE} from '../../../constants/options/leaderboard';
 // Styles
 import styles from './leaderboardStyles';
 import EmptyScreenView from '../../basicUIElements/view/emptyScreen/emptyScreenView';
@@ -18,8 +18,8 @@ class LeaderboardView extends PureComponent {
    */
 
   // Component Functions
-  _renderItem = ({ item, index }) => {
-    const { handleOnUserPress, intl } = this.props;
+  _renderItem = ({item, index}) => {
+    const {handleOnUserPress, intl} = this.props;
 
     return (
       <UserListItem
@@ -36,26 +36,26 @@ class LeaderboardView extends PureComponent {
         itemIndex={index + 1}
         handleOnPress={() => handleOnUserPress(get(item, '_id'))}
         rightTextStyle={styles.rewardText}
-        rightTooltipText={intl.formatMessage({ id: 'leaderboard.tooltip_earn' })}
+        rightTooltipText={intl.formatMessage({id: 'leaderboard.tooltip_earn'})}
       />
     );
   };
 
   _renderEmptyView = () => {
-    const { refreshing } = this.props;
+    const {refreshing} = this.props;
     return refreshing ? <ListPlaceHolder /> : <EmptyScreenView />;
   };
 
   render() {
-    const { users, intl, fetchLeaderBoard, refreshing, selectedIndex } = this.props;
+    const {users, intl, fetchLeaderBoard, refreshing, selectedIndex} = this.props;
     return (
       <>
         <FilterBar
           dropdownIconName="arrow-drop-down"
-          options={VALUE.map((val) => intl.formatMessage({ id: `leaderboard.${val}` }))}
+          options={VALUE.map(val => intl.formatMessage({id: `leaderboard.${val}`}))}
           selectedOptionIndex={selectedIndex}
-          defaultText={intl.formatMessage({ id: `leaderboard.${VALUE[0]}` })}
-          onDropdownSelect={(selectedIndexM) =>
+          defaultText={intl.formatMessage({id: `leaderboard.${VALUE[0]}`})}
+          onDropdownSelect={selectedIndexM =>
             fetchLeaderBoard(FILTER_OPTIONS[selectedIndexM], selectedIndexM)
           }
         />
@@ -74,7 +74,7 @@ class LeaderboardView extends PureComponent {
           <FlatList
             data={users}
             refreshing={refreshing}
-            keyExtractor={(item) => get(item, '_id', Math.random()).toString()}
+            keyExtractor={item => get(item, '_id', Math.random()).toString()}
             removeClippedSubviews={false}
             ListEmptyComponent={this._renderEmptyView}
             onRefresh={() => fetchLeaderBoard()}

@@ -1,16 +1,16 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 
-import { WalletHeader, FormattedCurrency } from '../../../components';
-import { WalletContainer, AccountContainer } from '../../../containers';
+import {WalletHeader, FormattedCurrency} from '../../../components';
+import {WalletContainer, AccountContainer} from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
-function BtcView({ handleOnSelected, index, currentIndex, refreshing: reload }) {
+function BtcView({handleOnSelected, index, currentIndex, refreshing: reload}) {
   return (
     <View style={globalStyles.swipeItemWrapper}>
       <AccountContainer>
-        {({ currentAccount }) => (
+        {({currentAccount}) => (
           <WalletContainer selectedUser={currentAccount}>
             {({
               isClaiming,
@@ -36,8 +36,8 @@ function BtcView({ handleOnSelected, index, currentIndex, refreshing: reload }) 
                 isLoading={isLoading}
                 refreshing={refreshing}
                 unclaimedBalance={0}
-                userBalance={[{ balance: tokenBalance, nameKey: 'btc', options: btcDropdown }]}
-                handleOnDropdownSelected={(option) => navigate(option, 'BTC')}
+                userBalance={[{balance: tokenBalance, nameKey: 'btc', options: btcDropdown}]}
+                handleOnDropdownSelected={option => navigate(option, 'BTC')}
                 type="btc"
                 currentIndex={currentIndex}
                 showAddressButton

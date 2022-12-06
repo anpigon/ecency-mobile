@@ -1,11 +1,11 @@
-import { Clipboard } from 'react-native';
+import {Clipboard} from 'react-native';
 
 const readFromClipboard = async () => {
   const clipboardContent = await Clipboard.getString();
   return clipboardContent;
 };
 
-const writeToClipboard = async (text) => {
+const writeToClipboard = async text => {
   if (!text) {
     return false;
   }
@@ -15,4 +15,4 @@ const writeToClipboard = async (text) => {
   return true;
 };
 
-export { writeToClipboard, readFromClipboard };
+export {writeToClipboard, readFromClipboard};

@@ -1,16 +1,16 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import {View, Text} from 'react-native';
 
-import { WalletHeader, FormattedCurrency } from '../../../components';
-import { WalletContainer, AccountContainer } from '../../../containers';
+import {WalletHeader, FormattedCurrency} from '../../../components';
+import {WalletContainer, AccountContainer} from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
-function HpView({ handleOnSelected, index, currentIndex, refreshing: reload }) {
+function HpView({handleOnSelected, index, currentIndex, refreshing: reload}) {
   return (
     <View style={globalStyles.swipeItemWrapper}>
       <AccountContainer>
-        {({ currentAccount }) => (
+        {({currentAccount}) => (
           <WalletContainer selectedUser={currentAccount}>
             {({
               isClaiming,
@@ -40,9 +40,9 @@ function HpView({ handleOnSelected, index, currentIndex, refreshing: reload }) {
                 unclaimedBalance={unclaimedBalance}
                 showBuyButton={unclaimedBalance.length > 0}
                 userBalance={[
-                  { balance: hpBalance, nameKey: 'hive_power', options: hivePowerDropdown },
+                  {balance: hpBalance, nameKey: 'hive_power', options: hivePowerDropdown},
                 ]}
-                handleOnDropdownSelected={(option) => navigate(option, 'HIVE_POWER')}
+                handleOnDropdownSelected={option => navigate(option, 'HIVE_POWER')}
                 type="hive_power"
                 currentIndex={currentIndex}
                 showIconList={false}

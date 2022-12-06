@@ -1,10 +1,10 @@
 import axios from 'axios';
 import Config from 'react-native-config';
 import VersionNumber from 'react-native-version-number';
-import { get } from 'lodash';
-import { store } from '../redux/store/store';
-import { getDigitPinCode } from '../providers/hive/dhive';
-import { decryptKey } from '../utils/crypto';
+import {get} from 'lodash';
+import {store} from '../redux/store/store';
+import {getDigitPinCode} from '../providers/hive/dhive';
+import {decryptKey} from '../utils/crypto';
 import bugsnagInstance from './bugsnag';
 
 export const ECENCY_TERMS_URL = `${Config.ECENCY_BACKEND_API}/terms-of-service`;
@@ -17,7 +17,7 @@ const api = axios.create({
   },
 });
 
-api.interceptors.request.use((request) => {
+api.interceptors.request.use(request => {
   console.log('Starting ecency Request', request);
 
   // skip code addition is register and token refresh endpoint is triggered
@@ -49,7 +49,7 @@ api.interceptors.request.use((request) => {
       request.data.code = accessToken;
       console.log('Added access token:', accessToken);
     } else {
-      const { isLoggedIn } = state.application;
+      const {isLoggedIn} = state.application;
       console.warn('Failed to inject accessToken', `isLoggedIn:${isLoggedIn}`);
       bugsnagInstance.notify(
         new Error(
@@ -62,7 +62,7 @@ api.interceptors.request.use((request) => {
   return request;
 });
 
-api.interceptors.response.use((response) => {
+api.interceptors.response.use(response => {
   console.log('Response:', response);
   return response;
 });

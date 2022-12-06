@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { useIntl } from 'react-intl';
+import {useState, useEffect} from 'react';
+import {connect, useDispatch, useSelector} from 'react-redux';
+import {useIntl} from 'react-intl';
 
-import { useNavigation } from '@react-navigation/native';
-import { getCommunity } from '../../../providers/hive/dhive';
+import {useNavigation} from '@react-navigation/native';
+import {getCommunity} from '../../../providers/hive/dhive';
 
-import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/communitiesAction';
+import {subscribeCommunity, leaveCommunity} from '../../../redux/actions/communitiesAction';
 
 import ROUTES from '../../../constants/routeNames';
-import { updateSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
-import { statusMessage } from '../../../redux/constants/communitiesConstants';
+import {updateSubscribedCommunitiesCache} from '../../../redux/actions/cacheActions';
+import {statusMessage} from '../../../redux/constants/communitiesConstants';
 
-const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn }) => {
+const CommunityContainer = ({tag, children, currentAccount, pinCode, isLoggedIn}) => {
   const navigation = useNavigation();
   const [data, setData] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -21,14 +21,14 @@ const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn
   const intl = useIntl();
 
   const subscribingCommunitiesInDiscoverTab = useSelector(
-    (state) => state.communities.subscribingCommunitiesInCommunitiesScreenDiscoverTab,
+    state => state.communities.subscribingCommunitiesInCommunitiesScreenDiscoverTab,
   );
-  const subscribedCommunitiesCache = useSelector((state) => state.cache.subscribedCommunities);
-  const subscribedCommunities = useSelector((state) => state.communities.subscribedCommunities);
+  const subscribedCommunitiesCache = useSelector(state => state.cache.subscribedCommunities);
+  const subscribedCommunities = useSelector(state => state.communities.subscribedCommunities);
 
   useEffect(() => {
     if (subscribingCommunitiesInDiscoverTab && selectedCommunityItem) {
-      const { status } = subscribingCommunitiesInDiscoverTab[selectedCommunityItem.communityId];
+      const {status} = subscribingCommunitiesInDiscoverTab[selectedCommunityItem.communityId];
       if (status === statusMessage.SUCCESS) {
         dispatch(updateSubscribedCommunitiesCache(selectedCommunityItem));
       }
@@ -37,10 +37,10 @@ const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn
 
   useEffect(() => {
     getCommunity(tag)
-      .then((res) => {
+      .then(res => {
         setData(res);
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e);
       });
   }, [tag]);
@@ -56,7 +56,7 @@ const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn
         setIsSubscribed(itemExistInCache.data[4]); // if item exist in cache, get isSubscribed value from cache
       } else {
         // check in subscribed communities list if selected community exists
-        const itemExist = subscribedCommunities.data.find((item) => item[0] === data.name);
+        const itemExist = subscribedCommunities.data.find(item => item[0] === data.name);
         setIsSubscribed(!!itemExist);
       }
     }
@@ -121,7 +121,7 @@ const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
   isLoggedIn: state.application.isLoggedIn,

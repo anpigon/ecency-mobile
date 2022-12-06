@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { View, Text } from 'react-native';
+import React, {PureComponent} from 'react';
+import {View, Text} from 'react-native';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 // Constants
@@ -39,7 +39,7 @@ class PercentBarView extends PureComponent {
   };
 
   _getText = (textColor, text, isTop, isRender) => {
-    const { isShowText } = this.props;
+    const {isShowText} = this.props;
 
     if (!isShowText) {
       return null;
@@ -48,7 +48,7 @@ class PercentBarView extends PureComponent {
     if (isTop === isRender && text) {
       return (
         <View style={styles.percentTitleWrapper}>
-          <Text style={[styles.percentTitle, textColor && { color: textColor }]}>
+          <Text style={[styles.percentTitle, textColor && {color: textColor}]}>
             {isShowText && text}
           </Text>
         </View>
@@ -57,17 +57,17 @@ class PercentBarView extends PureComponent {
   };
 
   render() {
-    const { percent, margin, text, barColor, barPercentColor, textColor, isTop } = this.props;
+    const {percent, margin, text, barColor, barPercentColor, textColor, isTop} = this.props;
 
     return (
       <View>
         {this._getText(textColor, text, isTop, true)}
-        <View style={[styles.container, barColor && { backgroundColor: barColor }]}>
+        <View style={[styles.container, barColor && {backgroundColor: barColor}]}>
           <View
             style={[
               styles.powerBar,
-              barPercentColor && { backgroundColor: barPercentColor },
-              { width: this._calculateWidth(percent, margin) },
+              barPercentColor && {backgroundColor: barPercentColor},
+              {width: this._calculateWidth(percent, margin)},
             ]}
           />
         </View>

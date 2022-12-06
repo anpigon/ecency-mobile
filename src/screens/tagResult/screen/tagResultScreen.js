@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
-import { debounce } from 'lodash';
+import React, {useEffect, useState} from 'react';
+import {View} from 'react-native';
+import {debounce} from 'lodash';
 
 // Components
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { SearchInput, TabbedPosts } from '../../../components';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {SearchInput, TabbedPosts} from '../../../components';
 
 // Styles
 import styles from './tagResultStyles';
 
-import { GLOBAL_POST_FILTERS, GLOBAL_POST_FILTERS_VALUE } from '../../../constants/options/filters';
+import {GLOBAL_POST_FILTERS, GLOBAL_POST_FILTERS_VALUE} from '../../../constants/options/filters';
 
-function TagResultScreen({ navigation, route }) {
+function TagResultScreen({navigation, route}) {
   const initTag = route.params?.tag ?? '';
   const filter = route.params?.filter ?? '';
 
@@ -26,7 +26,7 @@ function TagResultScreen({ navigation, route }) {
     setTag(initTag);
   }, [initTag]);
 
-  const _setTag = debounce((tag) => {
+  const _setTag = debounce(tag => {
     setTag(tag);
   }, 1000);
 

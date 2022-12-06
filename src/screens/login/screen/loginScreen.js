@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
-import { View, Platform, Keyboard } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import React, {PureComponent} from 'react';
+import {View, Platform, Keyboard} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import { injectIntl } from 'react-intl';
-import { debounce } from 'lodash';
+import {injectIntl} from 'react-intl';
+import {debounce} from 'lodash';
 
 // Actions
 import HiveSigner from '../../steem-connect/hiveSigner';
@@ -20,14 +20,14 @@ import {
 } from '../../../components';
 
 // Constants
-import { default as ROUTES } from '../../../constants/routeNames';
+import {default as ROUTES} from '../../../constants/routeNames';
 
 // Styles
 import styles from './loginStyles';
 import globalStyles from '../../../globalStyles';
 
 import STEEM_CONNECT_LOGO from '../../../assets/steem_connect.png';
-import { ECENCY_TERMS_URL } from '../../../config/ecencyApi';
+import {ECENCY_TERMS_URL} from '../../../config/ecencyApi';
 
 class LoginScreen extends PureComponent {
   constructor(props) {
@@ -44,10 +44,10 @@ class LoginScreen extends PureComponent {
 
   UNSAFE_componentWillMount() {
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () =>
-      this.setState({ keyboardIsOpen: true }),
+      this.setState({keyboardIsOpen: true}),
     );
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () =>
-      this.setState({ keyboardIsOpen: false }),
+      this.setState({keyboardIsOpen: false}),
     );
   }
 
@@ -56,30 +56,30 @@ class LoginScreen extends PureComponent {
     this.keyboardDidHideListener.remove();
   }
 
-  _handleOnPasswordChange = (value) => {
-    this.setState({ password: value });
+  _handleOnPasswordChange = value => {
+    this.setState({password: value});
   };
 
-  _handleUsernameChange = (username) => {
-    const { getAccountsWithUsername } = this.props;
+  _handleUsernameChange = username => {
+    const {getAccountsWithUsername} = this.props;
 
-    this.setState({ username });
+    this.setState({username});
 
-    getAccountsWithUsername(username).then((res) => {
+    getAccountsWithUsername(username).then(res => {
       const isValid = res.includes(username);
 
-      this.setState({ isUsernameValid: isValid });
+      this.setState({isUsernameValid: isValid});
     });
   };
 
   _handleOnModalToggle = () => {
-    const { isModalOpen } = this.state;
-    this.setState({ isModalOpen: !isModalOpen });
+    const {isModalOpen} = this.state;
+    this.setState({isModalOpen: !isModalOpen});
   };
 
   render() {
-    const { navigation, intl, handleOnPressLogin, handleSignUp, isLoading } = this.props;
-    const { username, isUsernameValid, keyboardIsOpen, password, isModalOpen } = this.state;
+    const {navigation, intl, handleOnPressLogin, handleSignUp, isLoading} = this.props;
+    const {username, isUsernameValid, keyboardIsOpen, password, isModalOpen} = this.state;
 
     console.log('keyboardIsOpen : ', keyboardIsOpen);
     return (
@@ -108,19 +108,16 @@ class LoginScreen extends PureComponent {
               activeColor="#357ce6"
               inactiveColor="#222"
             />
-          )}
-        >
+          )}>
           <View
             tabLabel={intl.formatMessage({
               id: 'login.signin',
             })}
-            style={styles.tabbarItem}
-          >
+            style={styles.tabbarItem}>
             <KeyboardAwareScrollView
               enableAutoAutomaticScroll={Platform.OS === 'ios'}
               contentContainerStyle={styles.formWrapper}
-              enableOnAndroid={true}
-            >
+              enableOnAndroid={true}>
               <FormInput
                 rightIconName="at"
                 leftIconName="close"
@@ -140,7 +137,7 @@ class LoginScreen extends PureComponent {
                 rightIconName="lock"
                 leftIconName="close"
                 isValid={isUsernameValid}
-                onChange={(value) => this._handleOnPasswordChange(value)}
+                onChange={value => this._handleOnPasswordChange(value)}
                 placeholder={intl.formatMessage({
                   id: 'login.password',
                 })}
@@ -209,8 +206,7 @@ class LoginScreen extends PureComponent {
           handleOnModalClose={this._handleOnModalToggle}
           title={intl.formatMessage({
             id: 'login.signin',
-          })}
-        >
+          })}>
           <HiveSigner handleOnModalClose={this._handleOnModalToggle} />
         </Modal>
       </View>

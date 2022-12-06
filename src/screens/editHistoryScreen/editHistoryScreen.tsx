@@ -1,16 +1,16 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 
-import { useIntl } from 'react-intl';
-import { Alert, FlatList, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import {useIntl} from 'react-intl';
+import {Alert, FlatList, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import AutoHeightWebView from 'react-native-autoheight-webview';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { BasicHeader, Icon, PostPlaceHolder, TextInput } from '../../components';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {BasicHeader, Icon, PostPlaceHolder, TextInput} from '../../components';
 
 // styles
 import styles from './editHistoryScreenStyles';
-import { getCommentHistory } from '../../providers/ecency/ecency';
-import { dateToFormatted } from '../../utils/time';
+import {getCommentHistory} from '../../providers/ecency/ecency';
+import {dateToFormatted} from '../../utils/time';
 import historyBuilder from './historyBuilder';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 
@@ -27,8 +27,8 @@ export interface CommentHistoryListItemDiff {
 
 const screenWidth = getWindowDimensions().width - 32;
 
-function EditHistoryScreen({ route }) {
-  const { author, permlink } = route.params ?? {};
+function EditHistoryScreen({route}) {
+  const {author, permlink} = route.params ?? {};
   const intl = useIntl();
   const [editHistory, setEditHistory] = useState<CommentHistoryListItemDiff[]>([]);
   const [versionSelected, setVersionSelected] = useState(1);
@@ -96,12 +96,7 @@ function EditHistoryScreen({ route }) {
     setIsLoading(false);
   };
 
-  const _renderVersionsListItem = ({
-    item,
-  }: {
-    item: CommentHistoryListItemDiff;
-    index: number;
-  }) => {
+  const _renderVersionsListItem = ({item}: {item: CommentHistoryListItemDiff; index: number}) => {
     const selected = versionSelected === item.v;
     const btnStyle = [
       styles.versionItemBtn,
@@ -113,13 +108,13 @@ function EditHistoryScreen({ route }) {
     ];
     return (
       <TouchableOpacity onPress={() => setVersionSelected(item.v)} style={btnStyle}>
-        <Text style={[styles.versionItemBtnText, { color: EStyleSheet.value('$pureWhite') }]}>
+        <Text style={[styles.versionItemBtnText, {color: EStyleSheet.value('$pureWhite')}]}>
           {intl.formatMessage({
             id: 'history.version',
           })}
           {` ${item.v}`}
         </Text>
-        <Text style={[styles.versionItemBtnDate, { color: EStyleSheet.value('$pureWhite') }]}>
+        <Text style={[styles.versionItemBtnDate, {color: EStyleSheet.value('$pureWhite')}]}>
           {dateToFormatted(item.timestamp, 'LL')}
         </Text>
       </TouchableOpacity>
@@ -143,12 +138,12 @@ function EditHistoryScreen({ route }) {
   const _renderDiff = (item: CommentHistoryListItemDiff) => {
     return (
       <View style={styles.diffContainer}>
-        <AutoHeightWebView source={{ html: item.titleDiff }} customStyle={customTitleStyle} />
+        <AutoHeightWebView source={{html: item.titleDiff}} customStyle={customTitleStyle} />
         <View style={styles.tagsContainer}>
           <Icon style={styles.tagIcon} iconType="AntDesign" name="tag" />
-          <AutoHeightWebView source={{ html: item.tagsDiff }} customStyle={customTagsStyle} />
+          <AutoHeightWebView source={{html: item.tagsDiff}} customStyle={customTagsStyle} />
         </View>
-        <AutoHeightWebView source={{ html: item.bodyDiff }} customStyle={customBodyStyle} />
+        <AutoHeightWebView source={{html: item.bodyDiff}} customStyle={customBodyStyle} />
       </View>
     );
   };
@@ -181,7 +176,7 @@ function EditHistoryScreen({ route }) {
   };
 
   const _renderBody = () => {
-    const selectedItem = editHistory.find((x) => x.v === versionSelected);
+    const selectedItem = editHistory.find(x => x.v === versionSelected);
     if (!selectedItem) {
       return null;
     }
@@ -189,8 +184,7 @@ function EditHistoryScreen({ route }) {
     return (
       <ScrollView
         style={[styles.previewScroll]}
-        contentContainerStyle={styles.previewScrollContentContainer}
-      >
+        contentContainerStyle={styles.previewScrollContentContainer}>
         {showDiff ? _renderDiff(selectedItem) : _renderPlainBody(selectedItem)}
       </ScrollView>
     );

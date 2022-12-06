@@ -1,29 +1,29 @@
-import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
+import React, {Fragment, useState, useEffect, useRef} from 'react';
+import {Linking, Modal, PermissionsAndroid, Platform, View} from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
-import { useIntl, injectIntl } from 'react-intl';
+import {useIntl, injectIntl} from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import RNFetchBlob from 'rn-fetch-blob';
 import ActionSheetView from 'react-native-actions-sheet';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 // Services and Actions
-import { useNavigation } from '@react-navigation/native';
-import { writeToClipboard } from '../../../../utils/clipboard';
-import { showProfileModal, toastNotification } from '../../../../redux/actions/uiAction';
+import {useNavigation} from '@react-navigation/native';
+import {writeToClipboard} from '../../../../utils/clipboard';
+import {showProfileModal, toastNotification} from '../../../../redux/actions/uiAction';
 
 // Constants
-import { default as ROUTES } from '../../../../constants/routeNames';
-import { OptionsModal } from '../../../atoms';
-import { isCommunity } from '../../../../utils/communityValidation';
-import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
-import { PostHtmlRenderer, VideoPlayer } from '../../..';
+import {default as ROUTES} from '../../../../constants/routeNames';
+import {OptionsModal} from '../../../atoms';
+import {isCommunity} from '../../../../utils/communityValidation';
+import {GLOBAL_POST_FILTERS_VALUE} from '../../../../constants/options/filters';
+import {PostHtmlRenderer, VideoPlayer} from '../../..';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
 const WIDTH = getWindowDimensions().width;
 
-function PostBody({ body, dispatch, onLoadEnd, width }) {
+function PostBody({body, dispatch, onLoadEnd, width}) {
   console.log('body : ', body);
   const navigation = useNavigation();
 
@@ -56,7 +56,7 @@ function PostBody({ body, dispatch, onLoadEnd, width }) {
     }
   };
 
-  const _handleVideoPress = (embedUrl) => {
+  const _handleVideoPress = embedUrl => {
     if (embedUrl && youtubePlayerRef.current) {
       setVideoUrl(embedUrl);
       setVideoStartTime(0);
@@ -64,7 +64,7 @@ function PostBody({ body, dispatch, onLoadEnd, width }) {
     }
   };
 
-  const handleImagePress = (ind) => {
+  const handleImagePress = ind => {
     if (ind === 1) {
       // open gallery mode
       setIsImageModalOpen(true);
@@ -89,7 +89,7 @@ function PostBody({ body, dispatch, onLoadEnd, width }) {
     setSelectedImage(null);
   };
 
-  const handleLinkPress = (ind) => {
+  const handleLinkPress = ind => {
     if (ind === 1) {
       // open link
       if (selectedLink) {
@@ -160,7 +160,7 @@ function PostBody({ body, dispatch, onLoadEnd, width }) {
     }
   };
 
-  const _handleOnUserPress = (username) => {
+  const _handleOnUserPress = username => {
     if (username) {
       dispatch(showProfileModal(username));
     } else {
@@ -184,14 +184,14 @@ function PostBody({ body, dispatch, onLoadEnd, width }) {
     }
   };
 
-  const _downloadImage = async (uri) => {
+  const _downloadImage = async uri => {
     return RNFetchBlob.config({
       fileCache: true,
       appendExt: 'jpg',
     })
       .fetch('GET', uri)
-      .then((res) => {
-        const { status } = res.info();
+      .then(res => {
+        const {status} = res.info();
 
         if (status == 200) {
           return res.path();
@@ -199,19 +199,19 @@ function PostBody({ body, dispatch, onLoadEnd, width }) {
           Promise.reject();
         }
       })
-      .catch((errorMessage) => {
+      .catch(errorMessage => {
         Promise.reject(errorMessage);
       });
   };
 
-  const _saveImage = async (uri) => {
+  const _saveImage = async uri => {
     try {
       if (Platform.OS === 'android') {
         await checkAndroidPermission();
         uri = `file://${await _downloadImage(uri)}`;
       }
       CameraRoll.saveToCameraRoll(uri)
-        .then((res) => {
+        .then(res => {
           dispatch(
             toastNotification(
               intl.formatMessage({
@@ -220,7 +220,7 @@ function PostBody({ body, dispatch, onLoadEnd, width }) {
             ),
           );
         })
-        .catch((error) => {
+        .catch(error => {
           dispatch(
             toastNotification(
               intl.formatMessage({
@@ -246,7 +246,7 @@ function PostBody({ body, dispatch, onLoadEnd, width }) {
     }
   };
 
-  const _handleSetSelectedLink = (link) => {
+  const _handleSetSelectedLink = link => {
     setSelectedLink(link);
     actionLink.current.show();
   };
@@ -263,7 +263,7 @@ function PostBody({ body, dispatch, onLoadEnd, width }) {
     <>
       <Modal visible={isImageModalOpen} transparent={true}>
         <ImageViewer
-          imageUrls={postImages.map((url) => ({ url }))}
+          imageUrls={postImages.map(url => ({url}))}
           enableSwipeDown
           onCancel={() => setIsImageModalOpen(false)}
           onClick={() => setIsImageModalOpen(false)}
@@ -274,13 +274,12 @@ function PostBody({ body, dispatch, onLoadEnd, width }) {
         ref={youtubePlayerRef}
         gestureEnabled={true}
         hideUnderlay
-        containerStyle={{ backgroundColor: 'black' }}
+        containerStyle={{backgroundColor: 'black'}}
         indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
         onClose={() => {
           setYoutubeVideoId(null);
           setVideoUrl(null);
-        }}
-      >
+        }}>
         <VideoPlayer
           mode={youtubeVideoId ? 'youtube' : 'uri'}
           youtubeVideoId={youtubeVideoId}
@@ -292,27 +291,27 @@ function PostBody({ body, dispatch, onLoadEnd, width }) {
       <OptionsModal
         ref={actionImage}
         options={[
-          intl.formatMessage({ id: 'post.copy_link' }),
-          intl.formatMessage({ id: 'post.gallery_mode' }),
-          intl.formatMessage({ id: 'post.save_to_local' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
+          intl.formatMessage({id: 'post.copy_link'}),
+          intl.formatMessage({id: 'post.gallery_mode'}),
+          intl.formatMessage({id: 'post.save_to_local'}),
+          intl.formatMessage({id: 'alert.cancel'}),
         ]}
-        title={intl.formatMessage({ id: 'post.image' })}
+        title={intl.formatMessage({id: 'post.image'})}
         cancelButtonIndex={3}
-        onPress={(index) => {
+        onPress={index => {
           handleImagePress(index);
         }}
       />
       <OptionsModal
         ref={actionLink}
         options={[
-          intl.formatMessage({ id: 'post.copy_link' }),
-          intl.formatMessage({ id: 'alert.external_link' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
+          intl.formatMessage({id: 'post.copy_link'}),
+          intl.formatMessage({id: 'alert.external_link'}),
+          intl.formatMessage({id: 'alert.cancel'}),
         ]}
-        title={intl.formatMessage({ id: 'post.link' })}
+        title={intl.formatMessage({id: 'post.link'})}
         cancelButtonIndex={2}
-        onPress={(index) => {
+        onPress={index => {
           handleLinkPress(index);
         }}
       />
@@ -341,6 +340,6 @@ const areEqual = (prevProps, nextProps) => {
   return false;
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = state => ({});
 
 export default React.memo(injectIntl(connect(mapStateToProps)(PostBody)), areEqual);

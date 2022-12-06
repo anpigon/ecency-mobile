@@ -1,15 +1,15 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 import Placeholder from 'rn-placeholder';
 
-import { ThemeContainer } from '../../../../containers';
+import {ThemeContainer} from '../../../../containers';
 
 import styles from './profileSummaryPlaceHolderStyles';
 // TODO: make container for place holder wrapper after alpha
 function ProfileSummaryPlaceHolder() {
   return (
     <ThemeContainer>
-      {({ isDarkTheme }) => {
+      {({isDarkTheme}) => {
         const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
 
         return (

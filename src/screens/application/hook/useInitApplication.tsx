@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
-import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
-import { isLandscape } from 'react-native-device-info';
+import {useEffect, useRef} from 'react';
+import Orientation, {useDeviceOrientationChange} from 'react-native-orientation-locker';
+import {isLandscape} from 'react-native-device-info';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {
   Alert,
@@ -10,26 +10,26 @@ import {
   Platform,
   useColorScheme,
 } from 'react-native';
-import notifee, { EventType } from '@notifee/react-native';
-import { isEmpty, some, get } from 'lodash';
+import notifee, {EventType} from '@notifee/react-native';
+import {isEmpty, some, get} from 'lodash';
 import messaging from '@react-native-firebase/messaging';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
-import { orientations } from '../../../redux/constants/orientationsConstants';
+import {useAppDispatch, useAppSelector} from '../../../hooks';
+import {setDeviceOrientation, setLockedOrientation} from '../../../redux/actions/uiAction';
+import {orientations} from '../../../redux/constants/orientationsConstants';
 import isAndroidTablet from '../../../utils/isAndroidTablet';
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
-import { useUserActivityMutation } from '../../../providers/queries';
+import {useUserActivityMutation} from '../../../providers/queries';
 import THEME_OPTIONS from '../../../constants/options/theme';
-import { setIsDarkTheme } from '../../../redux/actions/applicationActions';
-import { markNotifications } from '../../../providers/ecency/ecency';
-import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
+import {setIsDarkTheme} from '../../../redux/actions/applicationActions';
+import {markNotifications} from '../../../providers/ecency/ecency';
+import {updateUnreadActivityCount} from '../../../redux/actions/accountAction';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 
 export const useInitApplication = () => {
   const dispatch = useAppDispatch();
-  const { isDarkTheme, colorTheme } = useAppSelector((state) => state.application);
+  const {isDarkTheme, colorTheme} = useAppSelector(state => state.application);
 
   const systemColorScheme = useColorScheme();
 
@@ -41,7 +41,7 @@ export const useInitApplication = () => {
 
   const userActivityMutation = useUserActivityMutation();
 
-  useDeviceOrientationChange((o) => {
+  useDeviceOrientationChange(o => {
     // Handle device orientation change
     console.log('device orientation changed : ', o);
     dispatch(setDeviceOrientation(o));
@@ -51,7 +51,7 @@ export const useInitApplication = () => {
     appStateSubRef.current = AppState.addEventListener('change', _handleAppStateChange);
 
     // check for device landscape status and lcok orientation accordingly. Fix for orientation bug on android tablet devices
-    isLandscape().then((isLandscape) => {
+    isLandscape().then(isLandscape => {
       if (isLandscape && isAndroidTablet()) {
         Orientation.lockToLandscape();
         dispatch(setLockedOrientation(orientations.LANDSCAPE));
@@ -104,7 +104,7 @@ export const useInitApplication = () => {
     // on android messaging event work fine for both background and quite state
     // while notifee events do not fuction as expected
     if (Platform.OS === 'android') {
-      messagingEventRef.current = messaging().onNotificationOpenedApp((remoteMessage) => {
+      messagingEventRef.current = messaging().onNotificationOpenedApp(remoteMessage => {
         console.log('Notificaiton opened app', remoteMessage);
         _pushNavigate(remoteMessage);
       });
@@ -117,7 +117,7 @@ export const useInitApplication = () => {
     } else if (Platform.OS === 'ios') {
       // for ios, notifee events work while messaging event are malfunctioning, the foreground event
       // on ios is called if user opens/starts app from notification
-      notifeeEventRef.current = notifee.onForegroundEvent(({ type, detail }) => {
+      notifeeEventRef.current = notifee.onForegroundEvent(({type, detail}) => {
         if (type === EventType.PRESS) {
           _pushNavigate(detail.notification);
         }
@@ -125,7 +125,7 @@ export const useInitApplication = () => {
     }
   };
 
-  const _handleAppStateChange = (nextAppState) => {
+  const _handleAppStateChange = nextAppState => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
       userActivityMutation.lazyMutatePendingActivities();
     }
@@ -133,7 +133,7 @@ export const useInitApplication = () => {
     appState.current = nextAppState;
   };
 
-  const _pushNavigate = (notification) => {
+  const _pushNavigate = notification => {
     let params = null;
     let key = null;
     let routeName = null;
@@ -211,7 +211,7 @@ export const useInitApplication = () => {
           break;
       }
 
-      markNotifications(activity_id).then((result) => {
+      markNotifications(activity_id).then(result => {
         dispatch(updateUnreadActivityCount(result.unread));
       });
 

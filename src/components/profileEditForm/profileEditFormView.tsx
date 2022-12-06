@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, Platform, ActivityIndicator } from 'react-native';
-import { View as AnimatedView } from 'react-native-animatable';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { injectIntl, useIntl } from 'react-intl';
+import {View, TouchableOpacity, Text, Platform, ActivityIndicator} from 'react-native';
+import {View as AnimatedView} from 'react-native-animatable';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {injectIntl, useIntl} from 'react-intl';
 
 // Images
 import FastImage from 'react-native-fast-image';
@@ -11,15 +11,15 @@ import LIGHT_COVER_IMAGE from '../../assets/default_cover_image.png';
 import DARK_COVER_IMAGE from '../../assets/dark_cover_image.png';
 
 // Components
-import { FormInput } from '../formInput';
-import { IconButton } from '../iconButton';
+import {FormInput} from '../formInput';
+import {IconButton} from '../iconButton';
 
 // Utils
-import { getResizedImage } from '../../utils/image';
+import {getResizedImage} from '../../utils/image';
 
 // Styles
 import styles from './profileEditFormStyles';
-import { MainButton } from '../mainButton';
+import {MainButton} from '../mainButton';
 
 interface ProfileEditFormProps {
   coverUrl: string;
@@ -53,14 +53,13 @@ function ProfileEditFormView({
       <KeyboardAwareScrollView
         enableAutoAutomaticScroll={Platform.OS === 'ios'}
         contentContainerStyle={styles.contentContainer}
-        enableOnAndroid={true}
-      >
+        enableOnAndroid={true}>
         <TouchableOpacity style={styles.coverImgWrapper} onPress={showImageUploadActions}>
           <FastImage
             style={styles.coverImg}
             source={
               coverUrl
-                ? { uri: getResizedImage(coverUrl, 600) }
+                ? {uri: getResizedImage(coverUrl, 600)}
                 : isDarkTheme
                 ? DARK_COVER_IMAGE
                 : LIGHT_COVER_IMAGE
@@ -84,7 +83,7 @@ function ProfileEditFormView({
           />
         </TouchableOpacity>
 
-        {formData.map((item) => (
+        {formData.map(item => (
           <View style={styles.formItem} key={item.valueKey}>
             <Text style={styles.label}>
               {intl.formatMessage({
@@ -95,7 +94,7 @@ function ProfileEditFormView({
               wrapperStyle={styles.formStyle}
               isValid
               height={40}
-              onChange={(value) => handleOnItemChange(value, item.valueKey)}
+              onChange={value => handleOnItemChange(value, item.valueKey)}
               placeholder={item.placeholder}
               isEditable
               type="none"
@@ -109,7 +108,7 @@ function ProfileEditFormView({
       {saveEnabled && (
         <AnimatedView style={styles.floatingContainer} animation="bounceInRight">
           <MainButton
-            style={{ width: isLoading ? null : 120, marginBottom: 24, alignSelf: 'flex-end' }}
+            style={{width: isLoading ? null : 120, marginBottom: 24, alignSelf: 'flex-end'}}
             onPress={handleOnSubmit}
             iconName="save"
             iconType="MaterialIcons"

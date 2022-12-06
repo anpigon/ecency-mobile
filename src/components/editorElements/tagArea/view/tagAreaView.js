@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
+import React, {Component} from 'react';
+import {View, ScrollView} from 'react-native';
 // Constants
 
 // Components
-import { Chip } from '../../../basicUIElements';
+import {Chip} from '../../../basicUIElements';
 // Styles
 import styles from './tagAreaStyles';
 import globalStyles from '../../../../globalStyles';
@@ -26,7 +26,7 @@ export default class TagAreaView extends Component {
 
   // Component Life Cycles
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { draftChips, isRemoveTag } = this.props;
+    const {draftChips, isRemoveTag} = this.props;
 
     if (nextProps.draftChips && nextProps.draftChips !== draftChips) {
       const _chips = [...nextProps.draftChips, ' '];
@@ -36,7 +36,7 @@ export default class TagAreaView extends Component {
     }
 
     if (isRemoveTag !== nextProps.isRemoveTag && nextProps.isRemoveTag) {
-      this.setState({ chips: [' '], currentText: '' });
+      this.setState({chips: [' '], currentText: ''});
     }
   }
 
@@ -44,7 +44,7 @@ export default class TagAreaView extends Component {
   _handleOnChange = (text, i) => {
     if (text.indexOf(' ') > 0) {
       let ssp = [];
-      ssp = text.split(' ').filter((iii) => iii);
+      ssp = text.split(' ').filter(iii => iii);
       if (ssp.length > 1) {
         for (let ii = i; ii < i + ssp.length; ii++) {
           const element = ssp[ii - i];
@@ -52,7 +52,7 @@ export default class TagAreaView extends Component {
         }
       }
     }
-    this.setState({ currentText: text.replace(/\s/g, '').replace(/,/g, '') });
+    this.setState({currentText: text.replace(/\s/g, '').replace(/,/g, '')});
 
     if (text.indexOf(' ') > 0 && text) {
       this._handleTagAdded();
@@ -66,13 +66,13 @@ export default class TagAreaView extends Component {
     }
   };
 
-  _handleOnBlur = (i) => {
+  _handleOnBlur = i => {
     this._handleTagAdded(i);
   };
 
   _handleTagAdded = (i = null, text = null) => {
-    const { currentText, chips, chipsCount } = this.state;
-    const { handleTagChanged } = this.props;
+    const {currentText, chips, chipsCount} = this.state;
+    const {handleTagChanged} = this.props;
     const _currentText = (currentText && currentText.trim()) || text;
 
     if (_currentText && chips && chips.length < chipsCount) {
@@ -92,12 +92,12 @@ export default class TagAreaView extends Component {
       handleTagChanged([...chips, _currentText]);
     }
 
-    this.setState({ currentText: '' });
+    this.setState({currentText: ''});
   };
 
-  _handleTagRemove = (i) => {
-    const { chips } = this.state;
-    const { handleTagChanged } = this.props;
+  _handleTagRemove = i => {
+    const {chips} = this.state;
+    const {handleTagChanged} = this.props;
 
     this.setState({
       chips: chips.filter((_, _i) => _i !== i),
@@ -109,13 +109,13 @@ export default class TagAreaView extends Component {
 
     // Restart chips
     if (chips && chips.length === 1 && i === 0) {
-      this.setState({ chips: [' '], currentText: '' });
+      this.setState({chips: [' '], currentText: ''});
     }
   };
 
   render() {
-    const { isPreviewActive } = this.props;
-    const { chips, activeChip, currentText } = this.state;
+    const {isPreviewActive} = this.props;
+    const {chips, activeChip, currentText} = this.state;
 
     return (
       <View style={globalStyles.containerHorizontal16}>
@@ -126,7 +126,7 @@ export default class TagAreaView extends Component {
                 <Chip
                   // eslint-disable-next-line react/no-array-index-key
                   key={i}
-                  refs={(input) => {
+                  refs={input => {
                     this.inputs[i] = input;
                   }}
                   isPin={i === 0 && chips[1]}
@@ -138,7 +138,7 @@ export default class TagAreaView extends Component {
                   placeholder="tags"
                   autoFocus={i !== 0 && chips.length - 1 === i}
                   multiline={false}
-                  handleOnChange={(text) => this._handleOnChange(text, i)}
+                  handleOnChange={text => this._handleOnChange(text, i)}
                   handleOnBlur={() => this._handleOnBlur(i)}
                   blurOnSubmit
                   value={
@@ -147,7 +147,7 @@ export default class TagAreaView extends Component {
                       : chip.replace(/\s/g, '')
                   }
                   autoCapitalize="none"
-                  onFocus={() => this.setState({ activeChip: i })}
+                  onFocus={() => this.setState({activeChip: i})}
                   autoCorrect={false}
                 />
               ),

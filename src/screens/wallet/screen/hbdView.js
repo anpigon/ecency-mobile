@@ -1,16 +1,16 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 
-import { WalletHeader, FormattedCurrency } from '../../../components';
-import { WalletContainer, AccountContainer } from '../../../containers';
+import {WalletHeader, FormattedCurrency} from '../../../components';
+import {WalletContainer, AccountContainer} from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
-function HbdView({ handleOnSelected, index, currentIndex, refreshing: reload }) {
+function HbdView({handleOnSelected, index, currentIndex, refreshing: reload}) {
   return (
     <View style={globalStyles.swipeItemWrapper}>
       <AccountContainer>
-        {({ currentAccount }) => (
+        {({currentAccount}) => (
           <WalletContainer selectedUser={currentAccount}>
             {({
               isClaiming,
@@ -37,10 +37,10 @@ function HbdView({ handleOnSelected, index, currentIndex, refreshing: reload }) 
                 refreshing={refreshing}
                 unclaimedBalance={0}
                 userBalance={[
-                  { balance: hbdBalance, nameKey: 'hbd', options: hbdDropdown },
-                  { balance: hbdSavingBalance, nameKey: 'savinghbd', options: savingHbdDropdown },
+                  {balance: hbdBalance, nameKey: 'hbd', options: hbdDropdown},
+                  {balance: hbdSavingBalance, nameKey: 'savinghbd', options: savingHbdDropdown},
                 ]}
-                handleOnDropdownSelected={(option) => navigate(option, 'HBD')}
+                handleOnDropdownSelected={option => navigate(option, 'HBD')}
                 type="hbd"
                 currentIndex={currentIndex}
                 showIconList={false}

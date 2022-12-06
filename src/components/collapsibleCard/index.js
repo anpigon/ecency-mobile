@@ -1,4 +1,4 @@
 import CollapsibleCard from './view/collapsibleCardView';
 
-export { CollapsibleCard };
+export {CollapsibleCard};
 export default CollapsibleCard;

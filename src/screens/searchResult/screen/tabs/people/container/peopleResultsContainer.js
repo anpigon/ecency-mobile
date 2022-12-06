@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
 
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import ROUTES from '../../../../../../constants/routeNames';
 
-import { searchAccount } from '../../../../../../providers/ecency/ecency';
+import {searchAccount} from '../../../../../../providers/ecency/ecency';
 
-const PeopleResultsContainer = ({ children, searchValue, username }) => {
+const PeopleResultsContainer = ({children, searchValue, username}) => {
   const navigation = useNavigation();
 
   const [users, setUsers] = useState([]);
@@ -17,13 +17,13 @@ const PeopleResultsContainer = ({ children, searchValue, username }) => {
     setUsers([]);
 
     searchAccount(searchValue, 20, searchValue ? 0 : 1)
-      .then((res) => {
+      .then(res => {
         if (res && res.length === 0) {
           setNoResult(true);
         }
         setUsers(res);
       })
-      .catch((err) => {
+      .catch(err => {
         setNoResult(true);
         setUsers([]);
       });
@@ -31,7 +31,7 @@ const PeopleResultsContainer = ({ children, searchValue, username }) => {
 
   // Component Functions
 
-  const _handleOnPress = (item) => {
+  const _handleOnPress = item => {
     navigation.navigate({
       name: item.name === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE,
       params: {
@@ -51,7 +51,7 @@ const PeopleResultsContainer = ({ children, searchValue, username }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   username: state.account.currentAccount.name,
 });
 

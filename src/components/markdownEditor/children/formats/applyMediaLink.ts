@@ -2,7 +2,7 @@ import {
   MediaInsertData,
   MediaInsertStatus,
 } from '../../../uploadsGalleryModal/container/uploadsGalleryModal';
-import { replaceBetween } from './utils';
+import {replaceBetween} from './utils';
 
 interface Selection {
   start: number;
@@ -12,11 +12,11 @@ interface Selection {
 interface Args {
   text: string;
   selection: Selection;
-  setTextAndSelection: ({ selection: Selection, text: string }) => void;
+  setTextAndSelection: ({selection: Selection, text: string}) => void;
   items: MediaInsertData[];
 }
 
-export default async ({ text, selection, setTextAndSelection, items }: Args) => {
+export default async ({text, selection, setTextAndSelection, items}: Args) => {
   // TODO: check if placeholder already present in text body
   // check if cursor position is after or before media position
   // replace placeholder with url or failure message
@@ -53,7 +53,7 @@ export default async ({ text, selection, setTextAndSelection, items }: Args) => 
     }
   };
 
-  const _removeFormatedString = (placeholder) => {
+  const _removeFormatedString = placeholder => {
     const formatedText = `${imagePrefix}[](${placeholder})`;
     const formatedTextIndex = newText.indexOf(formatedText);
     newText = newText.replace(formatedText, '');
@@ -66,7 +66,7 @@ export default async ({ text, selection, setTextAndSelection, items }: Args) => 
     }
   };
 
-  items.forEach((item) => {
+  items.forEach(item => {
     const _placeholder = item.filename && `${placeholderPrefix}${item.filename}`;
 
     switch (item.status) {
@@ -98,5 +98,5 @@ export default async ({ text, selection, setTextAndSelection, items }: Args) => 
     }
   });
 
-  setTextAndSelection({ text: newText, selection: newSelection });
+  setTextAndSelection({text: newText, selection: newSelection});
 };

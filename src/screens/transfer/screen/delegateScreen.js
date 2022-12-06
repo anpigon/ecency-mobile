@@ -1,16 +1,16 @@
-import React, { Component, Fragment } from 'react';
-import { View, Text, Platform, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
-import { WebView } from 'react-native-webview';
-import { injectIntl } from 'react-intl';
+import React, {Component, Fragment} from 'react';
+import {View, Text, Platform, ScrollView, KeyboardAvoidingView, Alert} from 'react-native';
+import {WebView} from 'react-native-webview';
+import {injectIntl} from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
-import { View as AnimatedView } from 'react-native-animatable';
-import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import {View as AnimatedView} from 'react-native-animatable';
+import {TouchableOpacity, FlatList} from 'react-native-gesture-handler';
 
 // Constants
-import { debounce } from 'lodash';
+import {debounce} from 'lodash';
 import AUTH_TYPE from '../../../constants/authType';
-import { hsOptions } from '../../../constants/hsOptions';
+import {hsOptions} from '../../../constants/hsOptions';
 
 // Components
 import {
@@ -27,14 +27,14 @@ import {
 import styles from './transferStyles';
 
 //  Redux
-import { showActionModal } from '../../../redux/actions/uiAction';
+import {showActionModal} from '../../../redux/actions/uiAction';
 // Utils
-import { getReceivedVestingShares } from '../../../providers/ecency/ecency';
+import {getReceivedVestingShares} from '../../../providers/ecency/ecency';
 import parseToken from '../../../utils/parseToken';
-import { isEmptyDate } from '../../../utils/time';
-import { hpToVests, vestsToHp } from '../../../utils/conversions';
+import {isEmptyDate} from '../../../utils/time';
+import {hpToVests, vestsToHp} from '../../../utils/conversions';
 import parseAsset from '../../../utils/parseAsset';
-import { delay } from '../../../utils/editor';
+import {delay} from '../../../utils/editor';
 
 class DelegateScreen extends Component {
   _handleOnAmountChange = debounce(
@@ -47,7 +47,7 @@ class DelegateScreen extends Component {
       this._setState(state, _amount);
     },
     1000,
-    { leading: true },
+    {leading: true},
   );
 
   constructor(props) {
@@ -72,9 +72,9 @@ class DelegateScreen extends Component {
 
   // Component Lifecycles
   componentDidMount() {
-    const { referredUsername } = this.props;
+    const {referredUsername} = this.props;
     if (referredUsername) {
-      this.setState({ destination: referredUsername, usersResult: [], step: 2 }, () => {
+      this.setState({destination: referredUsername, usersResult: [], step: 2}, () => {
         this._fetchReceivedVestingShare();
         this.destinationTextInput.current?.blur();
       });
@@ -91,28 +91,28 @@ class DelegateScreen extends Component {
 
   // Component Functions
   _setState = (key, value) => {
-    const { getAccountsWithUsername, balance } = this.props;
+    const {getAccountsWithUsername, balance} = this.props;
     if (key) {
       switch (key) {
         case 'destination':
-          getAccountsWithUsername(value).then((res) => {
+          getAccountsWithUsername(value).then(res => {
             const isValid = res.includes(value);
-            this.setState({ usersResult: [...res] });
-            this.setState({ isUsernameValid: isValid });
+            this.setState({usersResult: [...res]});
+            this.setState({isUsernameValid: isValid});
           });
           if (!value) {
-            this.setState({ destination: '', step: 1 });
+            this.setState({destination: '', step: 1});
           }
 
           break;
         case 'amount':
           if (parseFloat(value) <= parseFloat(balance)) {
-            this.setState({ [key]: value });
+            this.setState({[key]: value});
           }
           break;
 
         default:
-          this.setState({ [key]: value });
+          this.setState({[key]: value});
           break;
       }
     }
@@ -120,15 +120,15 @@ class DelegateScreen extends Component {
 
   _handleAmountChange = (hp, availableVests) => {
     if (!hp) {
-      this.setState({ step: 2, hp: 0.0, amount: 0, isAmountValid: false });
+      this.setState({step: 2, hp: 0.0, amount: 0, isAmountValid: false});
       return;
     }
     const parsedValue = parseFloat(hp);
-    const { hivePerMVests } = this.props;
+    const {hivePerMVests} = this.props;
     const vestsForHp = hpToVests(hp, hivePerMVests);
     const totalHP = vestsToHp(availableVests, hivePerMVests).toFixed(3);
     if (Number.isNaN(parsedValue)) {
-      this.setState({ amount: 0, hp: 0.0, step: 2, isAmountValid: false });
+      this.setState({amount: 0, hp: 0.0, step: 2, isAmountValid: false});
     } else if (parsedValue >= totalHP) {
       this.setState({
         amount: hpToVests(totalHP, hivePerMVests),
@@ -137,29 +137,29 @@ class DelegateScreen extends Component {
         isAmountValid: false,
       });
     } else {
-      this.setState({ amount: vestsForHp, hp: parsedValue, step: 2, isAmountValid: true });
+      this.setState({amount: vestsForHp, hp: parsedValue, step: 2, isAmountValid: true});
     }
   };
 
   _handleTransferAction = () => {
-    const { transferToAccount, accountType } = this.props;
-    const { from, destination, amount } = this.state;
+    const {transferToAccount, accountType} = this.props;
+    const {from, destination, amount} = this.state;
 
     if (accountType === AUTH_TYPE.STEEM_CONNECT) {
-      this.setState({ steemConnectTransfer: true });
+      this.setState({steemConnectTransfer: true});
     } else {
-      this.setState({ isTransfering: true });
+      this.setState({isTransfering: true});
       transferToAccount(from, destination, amount, '');
     }
   };
 
   _fetchReceivedVestingShare = async () => {
     try {
-      const { hivePerMVests } = this.props;
+      const {hivePerMVests} = this.props;
       const delegateeUser = this.state.destination;
       const vestingShares = await getReceivedVestingShares(delegateeUser);
       if (vestingShares && vestingShares.length) {
-        const curShare = vestingShares.find((item) => item.delegator === this.state.from);
+        const curShare = vestingShares.find(item => item.delegator === this.state.from);
         if (curShare) {
           const vest_shares = parseAsset(curShare.vesting_shares);
           this.setState({
@@ -186,25 +186,25 @@ class DelegateScreen extends Component {
     }
   };
 
-  _handleOnDropdownChange = (value) => {
-    const { fetchBalance, intl } = this.props;
-    const { destination } = this.state;
+  _handleOnDropdownChange = value => {
+    const {fetchBalance, intl} = this.props;
+    const {destination} = this.state;
     if (value === destination) {
       Alert.alert(
-        intl.formatMessage({ id: 'transfer.username_alert' }),
-        intl.formatMessage({ id: 'transfer.username_alert_detail' }),
+        intl.formatMessage({id: 'transfer.username_alert'}),
+        intl.formatMessage({id: 'transfer.username_alert_detail'}),
       );
-      this.setState({ step: 1, destination: '' });
+      this.setState({step: 1, destination: ''});
       return;
     }
     fetchBalance(value);
-    this.setState({ from: value, amount: 0 });
+    this.setState({from: value, amount: 0});
   };
 
   _handleSliderValueChange = (value, availableVestingShares) => {
-    const { hivePerMVests } = this.props;
+    const {hivePerMVests} = this.props;
     if (value === availableVestingShares) {
-      this.setState({ isAmountValid: false });
+      this.setState({isAmountValid: false});
     }
     if (value !== availableVestingShares) {
       this.setState({
@@ -214,13 +214,13 @@ class DelegateScreen extends Component {
         hp: vestsToHp(value, hivePerMVests).toFixed(3),
       });
     } else {
-      this.setState({ amount: value, hp: vestsToHp(value, hivePerMVests).toFixed(3), step: 2 });
+      this.setState({amount: value, hp: vestsToHp(value, hivePerMVests).toFixed(3), step: 2});
     }
   };
 
   // validate hp value if it is out of range or not a valid number
-  _validateHP = ({ value, availableVestingShares }) => {
-    const { hivePerMVests } = this.props;
+  _validateHP = ({value, availableVestingShares}) => {
+    const {hivePerMVests} = this.props;
     const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
     const parsedHpValue = parseFloat(value);
     const amountValid = !(
@@ -231,13 +231,13 @@ class DelegateScreen extends Component {
     return amountValid;
   };
 
-  _handleNext = async ({ availableVestingShares }) => {
-    const { step, hp, amount, destination, from, delegatedHP } = this.state;
-    const { dispatch, intl, hivePerMVests } = this.props;
+  _handleNext = async ({availableVestingShares}) => {
+    const {step, hp, amount, destination, from, delegatedHP} = this.state;
+    const {dispatch, intl, hivePerMVests} = this.props;
     const vestsForHp = hpToVests(hp, hivePerMVests);
     const parsedHpValue = parseFloat(hp);
-    const amountValid = this._validateHP({ value: hp, availableVestingShares });
-    this.setState({ hp: parsedHpValue, isAmountValid: amountValid, amount: vestsForHp });
+    const amountValid = this._validateHP({value: hp, availableVestingShares});
+    this.setState({hp: parsedHpValue, isAmountValid: amountValid, amount: vestsForHp});
     if (step === 1) {
       // this.setState({ step: 2 });
     } else {
@@ -245,7 +245,7 @@ class DelegateScreen extends Component {
       await delay(500);
       const body =
         intl.formatMessage(
-          { id: 'transfer.confirm_summary' },
+          {id: 'transfer.confirm_summary'},
           {
             hp: parsedHpValue,
             vests: vestsForHp.toFixed(3),
@@ -255,7 +255,7 @@ class DelegateScreen extends Component {
         ) +
         (delegatedHP
           ? `\n${intl.formatMessage(
-              { id: 'transfer.confirm_summary_para' },
+              {id: 'transfer.confirm_summary_para'},
               {
                 prev: delegatedHP,
               },
@@ -263,29 +263,29 @@ class DelegateScreen extends Component {
           : '');
 
       if (amountValid) {
-        this.setState({ confirmModalOpen: true });
+        this.setState({confirmModalOpen: true});
         dispatch(
           showActionModal({
-            title: intl.formatMessage({ id: 'transfer.confirm' }),
+            title: intl.formatMessage({id: 'transfer.confirm'}),
             body,
             buttons: [
               {
-                text: intl.formatMessage({ id: 'alert.cancel' }),
+                text: intl.formatMessage({id: 'alert.cancel'}),
                 onPress: () => console.log('Cancel'),
               },
               {
-                text: intl.formatMessage({ id: 'alert.confirm' }),
+                text: intl.formatMessage({id: 'alert.confirm'}),
                 onPress: () => this._handleTransferAction(),
               },
             ],
             headerContent: this._renderToFromAvatars(),
-            onClosed: () => this.setState({ confirmModalOpen: false }),
+            onClosed: () => this.setState({confirmModalOpen: false}),
           }),
         );
       } else {
         Alert.alert(
-          intl.formatMessage({ id: 'transfer.invalid_amount' }),
-          intl.formatMessage({ id: 'transfer.invalid_amount_desc' }),
+          intl.formatMessage({id: 'transfer.invalid_amount'}),
+          intl.formatMessage({id: 'transfer.invalid_amount_desc'}),
         );
       }
     }
@@ -306,21 +306,21 @@ class DelegateScreen extends Component {
     />
   ); */
 
-  _renderUsersDropdownItem = ({ item }) => {
+  _renderUsersDropdownItem = ({item}) => {
     const username = item;
-    const { from } = this.state;
-    const { intl } = this.props;
+    const {from} = this.state;
+    const {intl} = this.props;
 
     const _onItemPress = () => {
       if (username === from) {
         Alert.alert(
-          intl.formatMessage({ id: 'transfer.username_alert' }),
-          intl.formatMessage({ id: 'transfer.username_alert_detail' }),
+          intl.formatMessage({id: 'transfer.username_alert'}),
+          intl.formatMessage({id: 'transfer.username_alert_detail'}),
         );
         return;
       }
 
-      this.setState({ destination: username, usersResult: [], step: 2 }, () => {
+      this.setState({destination: username, usersResult: [], step: 2}, () => {
         // since method uses destination from state it sould be called
         // after state has been updated successfully
         this._fetchReceivedVestingShare();
@@ -342,16 +342,16 @@ class DelegateScreen extends Component {
       data={this.state.usersResult}
       keyboardShouldPersistTaps="always"
       renderItem={this._renderUsersDropdownItem}
-      keyExtractor={(item) => `searched-user-${item}`}
+      keyExtractor={item => `searched-user-${item}`}
       style={styles.usersDropdown}
       ListFooterComponent={<View />}
-      ListFooterComponentStyle={{ height: 20 }} // this fixes the last item visibility bug
+      ListFooterComponentStyle={{height: 20}} // this fixes the last item visibility bug
     />
   );
 
   _renderInput = (placeholder, state, keyboardType, availableVestingShares, isTextArea) => {
-    const { isAmountValid } = this.state;
-    const { hivePerMVests } = this.props;
+    const {isAmountValid} = this.state;
+    const {hivePerMVests} = this.props;
 
     switch (state) {
       case 'from':
@@ -372,9 +372,9 @@ class DelegateScreen extends Component {
         return (
           <View style={styles.transferToContainer}>
             <TextInput
-              style={[styles.input, { width: '100%' }]}
-              onChangeText={(value) => {
-                this.setState({ destination: value, step: 1 });
+              style={[styles.input, {width: '100%'}]}
+              onChangeText={value => {
+                this.setState({destination: value, step: 1});
                 this._handleOnAmountChange(state, value);
               }}
               value={this.state[state]}
@@ -399,10 +399,10 @@ class DelegateScreen extends Component {
         return (
           <TextInput
             style={[styles.amountInput, !isAmountValid && styles.error]}
-            onChangeText={(amount) => {
+            onChangeText={amount => {
               this.setState({
                 hp: amount.replace(',', '.'),
-                isAmountValid: this._validateHP({ value: amount, availableVestingShares }),
+                isAmountValid: this._validateHP({value: amount, availableVestingShares}),
               });
             }}
             value={this.state.hp.toString()}
@@ -416,9 +416,7 @@ class DelegateScreen extends Component {
             blurOnSubmit={true}
             returnKeyType="done"
             selectTextOnFocus={true}
-            onEndEditing={(e) =>
-              this._handleAmountChange(e.nativeEvent.text, availableVestingShares)
-            }
+            onEndEditing={e => this._handleAmountChange(e.nativeEvent.text, availableVestingShares)}
           />
         );
       default:
@@ -430,7 +428,7 @@ class DelegateScreen extends Component {
   // _renderInformationText = (text) => <Text style={styles.amountText}>{text}</Text>;
 
   _renderToFromAvatars = () => {
-    const { destination, from } = this.state;
+    const {destination, from} = this.state;
     return (
       <View style={styles.toFromAvatarsContainer}>
         <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />
@@ -495,7 +493,7 @@ class DelegateScreen extends Component {
             thumbTintColor="#007ee5"
             maximumValue={availableVestingShares}
             value={amount}
-            onValueChange={(value) => this._handleSliderValueChange(value, availableVestingShares)}
+            onValueChange={value => this._handleSliderValueChange(value, availableVestingShares)}
           />
           <View style={styles.sliderAmountContainer}>
             <Text style={styles.amountText}>{`MAX  ${totalHP.toFixed(3)} HP`}</Text>
@@ -507,23 +505,23 @@ class DelegateScreen extends Component {
     const _renderStepOne = () => (
       <View style={styles.stepOneContainer}>
         <Text style={styles.sectionHeading}>
-          {intl.formatMessage({ id: 'transfer.account_detail_head' })}
+          {intl.formatMessage({id: 'transfer.account_detail_head'})}
         </Text>
         <Text style={styles.sectionSubheading}>
-          {intl.formatMessage({ id: 'transfer.account_detail_subhead' })}
+          {intl.formatMessage({id: 'transfer.account_detail_subhead'})}
         </Text>
         <TransferFormItem
-          containerStyle={{ marginTop: 32 }}
-          label={intl.formatMessage({ id: 'transfer.from' })}
+          containerStyle={{marginTop: 32}}
+          label={intl.formatMessage({id: 'transfer.from'})}
           rightComponent={() =>
-            this._renderInput(intl.formatMessage({ id: 'transfer.from' }), 'from', 'default')
+            this._renderInput(intl.formatMessage({id: 'transfer.from'}), 'from', 'default')
           }
         />
         <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.to' })}
+          label={intl.formatMessage({id: 'transfer.to'})}
           rightComponent={() =>
             this._renderInput(
-              intl.formatMessage({ id: 'transfer.to_placeholder' }),
+              intl.formatMessage({id: 'transfer.to_placeholder'}),
               'destination',
               'default',
             )
@@ -538,22 +536,22 @@ class DelegateScreen extends Component {
       <AnimatedView animation="bounceInRight" delay={500} useNativeDriver>
         <View style={styles.stepTwoContainer}>
           <Text style={styles.sectionHeading}>
-            {intl.formatMessage({ id: 'transfer.delegat_detail_head' })}
+            {intl.formatMessage({id: 'transfer.delegat_detail_head'})}
           </Text>
           <Text style={styles.sectionSubheading}>
-            {intl.formatMessage({ id: 'transfer.delegat_detail_subhead' })}
+            {intl.formatMessage({id: 'transfer.delegat_detail_subhead'})}
           </Text>
           <View style={styles.alreadyDelegateRow}>
             <Text style={styles.sectionSubheading}>
-              {`${intl.formatMessage({ id: 'transfer.already_delegated' })} @${destination}`}
+              {`${intl.formatMessage({id: 'transfer.already_delegated'})} @${destination}`}
             </Text>
             <Text style={styles.sectionSubheading}>{`${delegatedHP} HP`}</Text>
           </View>
           <TransferFormItem
-            label={intl.formatMessage({ id: 'transfer.new_amount' })}
+            label={intl.formatMessage({id: 'transfer.new_amount'})}
             rightComponent={() =>
               this._renderInput(
-                intl.formatMessage({ id: 'transfer.amount' }),
+                intl.formatMessage({id: 'transfer.amount'}),
                 'amount',
                 'numeric',
                 availableVestingShares,
@@ -572,14 +570,13 @@ class DelegateScreen extends Component {
       <View style={styles.stepThreeContainer}>
         <MainButton
           style={styles.button}
-          onPress={() => this._handleNext({ availableVestingShares })}
+          onPress={() => this._handleNext({availableVestingShares})}
           isLoading={isTransfering}
-          isDisable={!isAmountValid || step === 1}
-        >
+          isDisable={!isAmountValid || step === 1}>
           <Text style={styles.buttonText}>
             {step === 2
-              ? intl.formatMessage({ id: 'transfer.review' })
-              : intl.formatMessage({ id: 'transfer.next' })}
+              ? intl.formatMessage({id: 'transfer.review'})
+              : intl.formatMessage({id: 'transfer.next'})}
           </Text>
         </MainButton>
       </View>
@@ -587,12 +584,11 @@ class DelegateScreen extends Component {
 
     return (
       <>
-        <BasicHeader title={intl.formatMessage({ id: 'transfer.delegate' })} backIconName="close" />
+        <BasicHeader title={intl.formatMessage({id: 'transfer.delegate'})} backIconName="close" />
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.fillSpace}
-          keyboardShouldPersistTaps="always"
-        >
+          keyboardShouldPersistTaps="always">
           <ScrollView keyboardShouldPersistTaps="always" contentContainerStyle={styles.grow}>
             <View style={styles.container}>
               {step >= 1 && _renderStepOne()}
@@ -609,9 +605,8 @@ class DelegateScreen extends Component {
             isFullScreen
             isCloseButton
             handleOnModalClose={handleOnModalClose}
-            title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
-          >
-            <WebView source={{ uri: `${hsOptions.base_url}${path}` }} />
+            title={intl.formatMessage({id: 'transfer.steemconnect_title'})}>
+            <WebView source={{uri: `${hsOptions.base_url}${path}`}} />
           </Modal>
         )}
       </>

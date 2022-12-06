@@ -1,3 +1,3 @@
 import SearchInput from './view/searchInputView';
 
-export { SearchInput };
+export {SearchInput};

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 const AccountContainer = ({
   accounts,
@@ -22,7 +22,7 @@ const AccountContainer = ({
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   accounts: state.account.otherAccounts,
   currentAccount: state.account.currentAccount,
   isLoggedIn: state.application.isLoggedIn,

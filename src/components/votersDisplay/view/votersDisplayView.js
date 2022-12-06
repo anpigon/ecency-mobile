@@ -1,13 +1,13 @@
 import React from 'react';
-import { SafeAreaView, FlatList, Text } from 'react-native';
-import { useIntl } from 'react-intl';
+import {SafeAreaView, FlatList, Text} from 'react-native';
+import {useIntl} from 'react-intl';
 
 // Utils
-import { useNavigation } from '@react-navigation/native';
-import { getTimeFromNow } from '../../../utils/time';
+import {useNavigation} from '@react-navigation/native';
+import {getTimeFromNow} from '../../../utils/time';
 
 // Components
-import { EmptyScreen, UserListItem } from '../../basicUIElements';
+import {EmptyScreen, UserListItem} from '../../basicUIElements';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -15,7 +15,7 @@ import ROUTES from '../../../constants/routeNames';
 // Styles
 import styles from './votersDisplayStyles';
 
-function VotersDisplayView({ votes, createdAt = '2010-01-01T00:00:00' }) {
+function VotersDisplayView({votes, createdAt = '2010-01-01T00:00:00'}) {
   const navigation = useNavigation();
   const intl = useIntl();
 
@@ -28,7 +28,7 @@ function VotersDisplayView({ votes, createdAt = '2010-01-01T00:00:00' }) {
     })
     .catch(() => {}); */
 
-  const _handleOnUserPress = (username) => {
+  const _handleOnUserPress = username => {
     navigation.navigate({
       name: ROUTES.SCREENS.PROFILE,
       params: {
@@ -38,7 +38,7 @@ function VotersDisplayView({ votes, createdAt = '2010-01-01T00:00:00' }) {
     });
   };
 
-  const _renderItem = ({ item, index }) => {
+  const _renderItem = ({item, index}) => {
     const value = `$ ${item.reward}`;
     const percent = `${item.percent}%`;
 
@@ -68,7 +68,7 @@ function VotersDisplayView({ votes, createdAt = '2010-01-01T00:00:00' }) {
       {votes && votes.length > 0 ? (
         <FlatList
           data={votes}
-          keyExtractor={(item) => item.voter}
+          keyExtractor={item => item.voter}
           removeClippedSubviews={false}
           renderItem={_renderItem}
         />

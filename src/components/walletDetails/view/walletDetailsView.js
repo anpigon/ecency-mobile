@@ -1,16 +1,16 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 
 // Components
-import { GrayWrapper, WalletLineItem } from '../../basicUIElements';
+import {GrayWrapper, WalletLineItem} from '../../basicUIElements';
 
 // Utilities
-import { vestsToHp } from '../../../utils/conversions';
+import {vestsToHp} from '../../../utils/conversions';
 
 // Styles
 import styles from './walletDetailsStyles';
 
-function WalletDetailsView({ walletData, intl, navigate, isShowDropdowns }) {
+function WalletDetailsView({walletData, intl, navigate, isShowDropdowns}) {
   const hiveDropdown = [
     'purchase_estm',
     'transfer_token',
@@ -31,8 +31,8 @@ function WalletDetailsView({ walletData, intl, navigate, isShowDropdowns }) {
         rightText={`${Math.round(walletData.balance * 1000) / 1000} HIVE`}
         isBoldText
         isHasdropdown={isShowDropdowns}
-        dropdownOptions={hiveDropdown.map((item) => intl.formatMessage({ id: `transfer.${item}` }))}
-        onDropdownSelect={(index) => navigate(hiveDropdown[index], 'HIVE')}
+        dropdownOptions={hiveDropdown.map(item => intl.formatMessage({id: `transfer.${item}`}))}
+        onDropdownSelect={index => navigate(hiveDropdown[index], 'HIVE')}
       />
       <GrayWrapper isGray>
         <WalletLineItem
@@ -46,10 +46,10 @@ function WalletDetailsView({ walletData, intl, navigate, isShowDropdowns }) {
           } HP`}
           isBoldText
           isHasdropdown={isShowDropdowns}
-          dropdownOptions={hivePowerDropdown.map((item) =>
-            intl.formatMessage({ id: `transfer.${item}` }),
+          dropdownOptions={hivePowerDropdown.map(item =>
+            intl.formatMessage({id: `transfer.${item}`}),
           )}
-          onDropdownSelect={(a) => navigate(hivePowerDropdown[a], 'HIVE_POWER')}
+          onDropdownSelect={a => navigate(hivePowerDropdown[a], 'HIVE_POWER')}
         />
 
         {walletData.vestingSharesDelegated > 0 && (
@@ -94,8 +94,8 @@ function WalletDetailsView({ walletData, intl, navigate, isShowDropdowns }) {
         rightText={`$${Math.round(walletData.hbdBalance * 1000) / 1000}`}
         isBoldText
         isHasdropdown={isShowDropdowns}
-        dropdownOptions={hbdDropdown.map((item) => intl.formatMessage({ id: `transfer.${item}` }))}
-        onDropdownSelect={(a) => navigate(hbdDropdown[a], 'HBD')}
+        dropdownOptions={hbdDropdown.map(item => intl.formatMessage({id: `transfer.${item}`}))}
+        onDropdownSelect={a => navigate(hbdDropdown[a], 'HBD')}
       />
       <GrayWrapper isGray>
         <WalletLineItem
@@ -107,19 +107,19 @@ function WalletDetailsView({ walletData, intl, navigate, isShowDropdowns }) {
           rightText={`${Math.round(walletData.savingBalance * 1000) / 1000} HIVE`}
           isBoldText
           isHasdropdown={isShowDropdowns}
-          dropdownOptions={savingHiveDropdown.map((item) =>
-            intl.formatMessage({ id: `transfer.${item}` }),
+          dropdownOptions={savingHiveDropdown.map(item =>
+            intl.formatMessage({id: `transfer.${item}`}),
           )}
-          onDropdownSelect={(a) => navigate(savingHiveDropdown[a], 'SAVING_HIVE')}
+          onDropdownSelect={a => navigate(savingHiveDropdown[a], 'SAVING_HIVE')}
         />
         <WalletLineItem
           rightText={`$${Math.round(walletData.savingBalanceHbd * 1000) / 1000}`}
           style={styles.walletLineDetail}
           isHasdropdown={isShowDropdowns}
-          dropdownOptions={savingHbdDropdown.map((item) =>
-            intl.formatMessage({ id: `transfer.${item}` }),
+          dropdownOptions={savingHbdDropdown.map(item =>
+            intl.formatMessage({id: `transfer.${item}`}),
           )}
-          onDropdownSelect={(a) => navigate(savingHbdDropdown[a], 'SAVING_HBD')}
+          onDropdownSelect={a => navigate(savingHbdDropdown[a], 'SAVING_HBD')}
         />
       </GrayWrapper>
       {walletData.showPowerDown && (

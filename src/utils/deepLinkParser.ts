@@ -1,7 +1,7 @@
 import get from 'lodash/get';
-import { getPost, getUser } from '../providers/hive/dhive';
+import {getPost, getUser} from '../providers/hive/dhive';
 import postUrlParser from './postUrlParser';
-import parseAuthUrl, { AUTH_MODES } from './parseAuthUrl';
+import parseAuthUrl, {AUTH_MODES} from './parseAuthUrl';
 import ROUTES from '../constants/routeNames';
 import parsePurchaseUrl from './parsePurchaseUrl';
 
@@ -18,7 +18,7 @@ export const deepLinkParser = async (url, currentAccount) => {
   const postUrl = postUrlParser(url);
   console.log('postUrl : ', postUrl);
 
-  const { author, permlink, feedType, tag } = postUrl || {};
+  const {author, permlink, feedType, tag} = postUrl || {};
 
   if (author) {
     if (
@@ -77,7 +77,7 @@ export const deepLinkParser = async (url, currentAccount) => {
   if (!routeName) {
     const data = parseAuthUrl(url);
     if (data) {
-      const { mode, referredUser, username, code } = data;
+      const {mode, referredUser, username, code} = data;
 
       if (mode === AUTH_MODES.SIGNUP) {
         routeName = ROUTES.SCREENS.REGISTER;
@@ -100,7 +100,7 @@ export const deepLinkParser = async (url, currentAccount) => {
 
   // process url for purchasing
   if (!routeName) {
-    const { type, username, productId } = parsePurchaseUrl(url) || {};
+    const {type, username, productId} = parsePurchaseUrl(url) || {};
 
     if (type && type === 'boost') {
       routeName = ROUTES.SCREENS.ACCOUNT_BOOST;

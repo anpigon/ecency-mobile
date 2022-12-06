@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { View, TouchableHighlight, Animated } from 'react-native';
-import Svg, { Circle, Path } from 'react-native-svg';
+import React, {Component} from 'react';
+import {View, TouchableHighlight, Animated} from 'react-native';
+import Svg, {Circle, Path} from 'react-native-svg';
 
 import scalePx from '../../../utils/scalePx';
 import styles from './bottomTabBarStyles';
@@ -12,7 +12,7 @@ export default class TabBar extends Component {
   constructor(props) {
     super(props);
 
-    const { selectedIndex, children } = props;
+    const {selectedIndex, children} = props;
 
     let value;
     switch (children.length) {
@@ -41,11 +41,11 @@ export default class TabBar extends Component {
       animating: false,
     };
 
-    this.state.circleRadius.addListener((circleRadius) => {
-      this._myCircle.setNativeProps({ cx: parseInt(circleRadius.value, 10) });
+    this.state.circleRadius.addListener(circleRadius => {
+      this._myCircle.setNativeProps({cx: parseInt(circleRadius.value, 10)});
     });
 
-    this.state.pathD.addListener((a) => {
+    this.state.pathD.addListener(a => {
       this.setState({
         pathX: parseInt(a.value, 10),
       });
@@ -53,7 +53,7 @@ export default class TabBar extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { selectedIndex } = this.props;
+    const {selectedIndex} = this.props;
 
     if (prevProps.selectedIndex !== selectedIndex) {
       this._onPress(selectedIndex);
@@ -61,7 +61,7 @@ export default class TabBar extends Component {
   }
 
   _onPress = (i, disabled) => {
-    const { onChange } = this.props;
+    const {onChange} = this.props;
     if (!disabled) {
       this._move(i);
       if (onChange) {
@@ -70,10 +70,10 @@ export default class TabBar extends Component {
     }
   };
 
-  _move = (index) => {
-    const { animateConstant, pathD, circleRadius } = this.state;
+  _move = index => {
+    const {animateConstant, pathD, circleRadius} = this.state;
 
-    this.setState({ selectedIndex: index, animating: true });
+    this.setState({selectedIndex: index, animating: true});
     Animated.timing(pathD, {
       toValue: 0 + index * animateConstant,
       duration: 350,
@@ -85,7 +85,7 @@ export default class TabBar extends Component {
       if (this.state.animating) {
         setTimeout(() => {
           if (this.state.animating) {
-            this.setState({ animating: false });
+            this.setState({animating: false});
           }
         }, 350);
       }
@@ -93,8 +93,8 @@ export default class TabBar extends Component {
   };
 
   render() {
-    const { children, backgroundColor, circleBackgroundColor, style } = this.props;
-    const { selectedIndex, pathX, circleRadius, animating } = this.state;
+    const {children, backgroundColor, circleBackgroundColor, style} = this.props;
+    const {selectedIndex, pathX, circleRadius, animating} = this.state;
 
     return (
       <View style={style}>
@@ -120,8 +120,7 @@ export default class TabBar extends Component {
           width="100%"
           height={scalePx(100)}
           viewBox="0 0 661 100"
-          space="preserve"
-        >
+          space="preserve">
           <AnimatedPath
             fill={backgroundColor}
             d={`M${31 + pathX}.454074,80.6628108 C${42 + pathX}.339255,102.895752 ${
@@ -140,7 +139,7 @@ export default class TabBar extends Component {
           />
           <AnimatedCircle
             // eslint-disable-next-line no-return-assign
-            ref={(ref) => (this._myCircle = ref)}
+            ref={ref => (this._myCircle = ref)}
             fill={circleBackgroundColor}
             cx={circleRadius}
             cy="50.5"
@@ -152,16 +151,7 @@ export default class TabBar extends Component {
   }
 }
 
-function TabBarItem({
-  icon,
-  selectedIcon,
-  index,
-  selected,
-  onPress,
-  showIcon,
-  disabled,
-  animating,
-}) {
+function TabBarItem({icon, selectedIcon, index, selected, onPress, showIcon, disabled, animating}) {
   if (selected) {
     if (animating) {
       return <View style={styles.navItem} />;
@@ -181,8 +171,7 @@ function TabBarItem({
     <TouchableHighlight
       underlayColor="transparent"
       style={styles.navItem}
-      onPress={() => onPress(index, disabled)}
-    >
+      onPress={() => onPress(index, disabled)}>
       {icon}
     </TouchableHighlight>
   );

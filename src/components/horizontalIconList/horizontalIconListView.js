@@ -1,26 +1,26 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
-import { View, FlatList, Text } from 'react-native';
+import {useIntl} from 'react-intl';
+import {View, FlatList, Text} from 'react-native';
 import get from 'lodash/get';
 
 import styles from './horizontalIconListStyles';
 
-import { IconButton, PopoverWrapper } from '..';
+import {IconButton, PopoverWrapper} from '..';
 
-function HorizontalIconList({ options, optionsKeys }) {
+function HorizontalIconList({options, optionsKeys}) {
   const intl = useIntl();
-  const _getTranslation = (id) => {
+  const _getTranslation = id => {
     let translation;
 
     try {
-      translation = intl.formatMessage({ id });
+      translation = intl.formatMessage({id});
     } catch (error) {
       translation = '';
     }
 
     return translation;
   };
-  const _renderItem = ({ item }) => (
+  const _renderItem = ({item}) => (
     <PopoverWrapper text={_getTranslation(get(options[get(item, 'type')], 'descriptionKey'))}>
       <View styles={styles.iconWrapper} key={get(item, 'type')}>
         <View style={styles.iconWrapper}>
@@ -47,7 +47,7 @@ function HorizontalIconList({ options, optionsKeys }) {
       <FlatList
         style={styles.iconsList}
         data={optionsKeys}
-        keyExtractor={(item) => get(item, 'type', Math.random()).toString()}
+        keyExtractor={item => get(item, 'type', Math.random()).toString()}
         horizontal
         renderItem={_renderItem}
         showsHorizontalScrollIndicator={false}
@@ -56,4 +56,4 @@ function HorizontalIconList({ options, optionsKeys }) {
   );
 }
 
-export { HorizontalIconList };
+export {HorizontalIconList};

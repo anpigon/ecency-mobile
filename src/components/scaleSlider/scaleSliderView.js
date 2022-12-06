@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unused-state */
-import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import React, {Component} from 'react';
+import {View, Text} from 'react-native';
 import MultiSlider from '@esteemapp/react-native-multi-slider';
 import get from 'lodash/get';
 
@@ -19,8 +19,8 @@ export default class ScaleSliderView extends Component {
   // eslint-disable-next-line class-methods-use-this
   _renderMarker = () => <View style={styles.marker} />;
 
-  _valueChange = (_values) => {
-    const { handleOnValueChange, values } = this.props;
+  _valueChange = _values => {
+    const {handleOnValueChange, values} = this.props;
     const index = _values[0] - 1;
 
     this.setState({
@@ -46,8 +46,8 @@ export default class ScaleSliderView extends Component {
   };
 
   _renderScale = () => {
-    const { values } = this.props;
-    const { activeIndex } = this.state;
+    const {values} = this.props;
+    const {activeIndex} = this.state;
 
     const items = [];
 
@@ -59,12 +59,12 @@ export default class ScaleSliderView extends Component {
   };
 
   render() {
-    const { LRpadding, values } = this.props;
-    const { activeIndex } = this.state;
+    const {LRpadding, values} = this.props;
+    const {activeIndex} = this.state;
 
     return (
       <View>
-        <View style={[styles.column, { marginLeft: LRpadding - 10, marginRight: LRpadding - 10 }]}>
+        <View style={[styles.column, {marginLeft: LRpadding - 10, marginRight: LRpadding - 10}]}>
           {this._renderScale()}
         </View>
         <View style={styles.container}>

@@ -1,4 +1,4 @@
-import { DEFAULT_FEED_FILTERS } from '../../constants/options/filters';
+import {DEFAULT_FEED_FILTERS} from '../../constants/options/filters';
 import {
   SET_FEED_POSTS,
   SET_OTHER_POSTS,
@@ -20,7 +20,7 @@ const initialState = {
   feedScreenFilters: DEFAULT_FEED_FILTERS,
 };
 
-export default function postsReducer(state = initialState, action = { type: '', payload: {} }) {
+export default function postsReducer(state = initialState, action = {type: '', payload: {}}) {
   switch (action.type) {
     case SET_FEED_POSTS:
       return {

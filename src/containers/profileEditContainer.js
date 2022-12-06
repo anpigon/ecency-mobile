@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { Alert } from 'react-native';
-import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import React, {Component} from 'react';
+import {Alert} from 'react-native';
+import {connect} from 'react-redux';
+import {injectIntl} from 'react-intl';
 import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
 
-import { useNavigation } from '@react-navigation/native';
-import { uploadImage } from '../providers/ecency/ecency';
+import {useNavigation} from '@react-navigation/native';
+import {uploadImage} from '../providers/ecency/ecency';
 
-import { profileUpdate, signImage } from '../providers/hive/dhive';
-import { updateCurrentAccount } from '../redux/actions/accountAction';
-import { setAvatarCacheStamp } from '../redux/actions/uiAction';
+import {profileUpdate, signImage} from '../providers/hive/dhive';
+import {updateCurrentAccount} from '../redux/actions/accountAction';
+import {setAvatarCacheStamp} from '../redux/actions/uiAction';
 
 // import ROUTES from '../constants/routeNames';
 
@@ -68,23 +68,23 @@ class ProfileEditContainer extends Component {
   // Component Functions
 
   _handleOnItemChange = (val, item) => {
-    this.setState({ [item]: val, saveEnabled: true });
+    this.setState({[item]: val, saveEnabled: true});
   };
 
   _uploadImage = async (media, action) => {
-    const { intl, currentAccount, pinCode } = this.props;
+    const {intl, currentAccount, pinCode} = this.props;
 
-    this.setState({ isUploading: true });
+    this.setState({isUploading: true});
 
     const sign = await signImage(media, currentAccount, pinCode);
 
     uploadImage(media, currentAccount.name, sign)
-      .then((res) => {
+      .then(res => {
         if (res.data && res.data.url) {
-          this.setState({ [action]: res.data.url, isUploading: false, saveEnabled: true });
+          this.setState({[action]: res.data.url, isUploading: false, saveEnabled: true});
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (error) {
           Alert.alert(
             intl.formatMessage({
@@ -93,7 +93,7 @@ class ProfileEditContainer extends Component {
             error.message || error.toString(),
           );
         }
-        this.setState({ isUploading: false });
+        this.setState({isUploading: false});
       });
   };
 
@@ -105,32 +105,32 @@ class ProfileEditContainer extends Component {
     }
   };
 
-  _handleOpenImagePicker = (action) => {
+  _handleOpenImagePicker = action => {
     ImagePicker.openPicker(
       action == 'avatarUrl' ? IMAGE_PICKER_AVATAR_OPTIONS : IMAGE_PICKER_COVER_OPTIONS,
     )
-      .then((media) => {
+      .then(media => {
         this._uploadImage(media, action);
       })
-      .catch((e) => {
+      .catch(e => {
         this._handleMediaOnSelectFailure(e);
       });
   };
 
-  _handleOpenCamera = (action) => {
+  _handleOpenCamera = action => {
     ImagePicker.openCamera(
       action == 'avatarUrl' ? IMAGE_PICKER_AVATAR_OPTIONS : IMAGE_PICKER_COVER_OPTIONS,
     )
-      .then((media) => {
+      .then(media => {
         this._uploadImage(media, action);
       })
-      .catch((e) => {
+      .catch(e => {
         this._handleMediaOnSelectFailure(e);
       });
   };
 
-  _handleMediaOnSelectFailure = (error) => {
-    const { intl } = this.props;
+  _handleMediaOnSelectFailure = error => {
+    const {intl} = this.props;
 
     if (get(error, 'code') === 'E_PERMISSION_MISSING') {
       Alert.alert(
@@ -145,10 +145,10 @@ class ProfileEditContainer extends Component {
   };
 
   _handleOnSubmit = async () => {
-    const { currentAccount, pinCode, dispatch, navigation, intl, route } = this.props;
-    const { name, location, website, about, coverUrl, avatarUrl, pinned } = this.state;
+    const {currentAccount, pinCode, dispatch, navigation, intl, route} = this.props;
+    const {name, location, website, about, coverUrl, avatarUrl, pinned} = this.state;
 
-    this.setState({ isLoading: true });
+    this.setState({isLoading: true});
 
     // TOOD: preserve pinned post permlink
     const params = {
@@ -165,12 +165,12 @@ class ProfileEditContainer extends Component {
     try {
       await profileUpdate(params, pinCode, currentAccount);
 
-      const _currentAccount = { ...currentAccount, display_name: name, avatar: avatarUrl };
-      _currentAccount.about.profile = { ...params };
+      const _currentAccount = {...currentAccount, display_name: name, avatar: avatarUrl};
+      _currentAccount.about.profile = {...params};
 
       dispatch(updateCurrentAccount(_currentAccount));
       dispatch(setAvatarCacheStamp(new Date().getTime()));
-      this.setState({ isLoading: false });
+      this.setState({isLoading: false});
       route.params.fetchUser();
       navigation.goBack();
     } catch (err) {
@@ -180,12 +180,12 @@ class ProfileEditContainer extends Component {
         }),
         get(err, 'message', err.toString()),
       );
-      this.setState({ isLoading: false });
+      this.setState({isLoading: false});
     }
   };
 
   render() {
-    const { children, currentAccount, isDarkTheme } = this.props;
+    const {children, currentAccount, isDarkTheme} = this.props;
     const {
       isLoading,
       isUploading,
@@ -221,13 +221,13 @@ class ProfileEditContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   isDarkTheme: state.application.isDarkTheme,
   pinCode: state.application.pin,
 });
 
-const mapHooksToProps = (props) => {
+const mapHooksToProps = props => {
   const navigation = useNavigation();
   return <ProfileEditContainer {...props} navigation={navigation} />;
 };

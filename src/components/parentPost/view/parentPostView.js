@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import get from 'lodash/get';
-import { useNavigation } from '@react-navigation/native';
-import { default as ROUTES } from '../../../constants/routeNames';
+import {useNavigation} from '@react-navigation/native';
+import {default as ROUTES} from '../../../constants/routeNames';
 
 import styles from './parentPostStyles';
 
-function ParentPost({ post }) {
+function ParentPost({post}) {
   const navigation = useNavigation();
 
   return (
@@ -22,8 +22,7 @@ function ParentPost({ post }) {
                 key: post.permlink,
               })
             : null
-        }
-      >
+        }>
         <Text style={styles.title}>{get(post, 'title')}</Text>
         <Text style={styles.description}>{get(post, 'summary')}</Text>
       </TouchableOpacity>

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
 import get from 'lodash/get';
 
 // Services and Actions
@@ -9,14 +9,14 @@ import {
 } from '../../../redux/actions/applicationActions';
 
 // Utils
-import { getTimeFromNow } from '../../../utils/time';
-import { isVoted as isVotedFunc, isDownVoted as isDownVotedFunc } from '../../../utils/postParser';
+import {getTimeFromNow} from '../../../utils/time';
+import {isVoted as isVotedFunc, isDownVoted as isDownVotedFunc} from '../../../utils/postParser';
 import parseAsset from '../../../utils/parseAsset';
 
 // Component
 import UpvoteView from '../view/upvoteView';
-import { updateVoteCache } from '../../../redux/actions/cacheActions';
-import { useAppSelector } from '../../../hooks';
+import {updateVoteCache} from '../../../redux/actions/cacheActions';
+import {useAppSelector} from '../../../hooks';
 import postTypes from '../../../constants/postTypes';
 
 /*
@@ -46,8 +46,8 @@ function UpvoteContainer(props) {
   const [isVoted, setIsVoted] = useState(null);
   const [isDownVoted, setIsDownVoted] = useState(null);
   const [totalPayout, setTotalPayout] = useState(get(content, 'total_payout'));
-  const cachedVotes = useAppSelector((state) => state.cache.votes);
-  const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
+  const cachedVotes = useAppSelector(state => state.cache.votes);
+  const lastCacheUpdate = useAppSelector(state => state.cache.lastUpdate);
 
   useEffect(() => {
     let _isMounted = true;
@@ -84,7 +84,7 @@ function UpvoteContainer(props) {
     }
   }, [lastCacheUpdate]);
 
-  const _setUpvotePercent = (value) => {
+  const _setUpvotePercent = value => {
     if (value) {
       if (parentType === postTypes.POST) {
         dispatch(setPostUpvotePercent(value));
@@ -101,7 +101,7 @@ function UpvoteContainer(props) {
 
     if (cachedVotes.has(postPath)) {
       const cachedVote = cachedVotes.get(postPath);
-      const { expiresAt, amount, isDownvote, incrementStep } = cachedVote;
+      const {expiresAt, amount, isDownvote, incrementStep} = cachedVote;
 
       if (postFetchedAt > expiresAt) {
         return;
@@ -223,7 +223,7 @@ function UpvoteContainer(props) {
 
 // Component Functions
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   postUpvotePercent: state.application.postUpvotePercent,
   commentUpvotePercent: state.application.commentUpvotePercent,

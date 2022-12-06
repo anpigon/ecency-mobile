@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
+import React, {PureComponent} from 'react';
+import {connect} from 'react-redux';
 import {
   Text,
   View,
@@ -31,8 +31,8 @@ class TabBar extends PureComponent {
   }
 
   _renderTab = (name, page, isTabActive, onPressHandler) => {
-    const { activeColor, inactiveColor } = this.state;
-    const { textStyle } = this.props;
+    const {activeColor, inactiveColor} = this.state;
+    const {textStyle} = this.props;
 
     const textColor = isTabActive ? activeColor : inactiveColor;
     const fontWeight = isTabActive ? 'bold' : 'normal';
@@ -46,19 +46,18 @@ class TabBar extends PureComponent {
         accessible
         accessibilityLabel={name}
         accessibilityTraits="button"
-        onPress={() => onPressHandler(page)}
-      >
+        onPress={() => onPressHandler(page)}>
         <View style={styles.tab}>
-          <Text style={[{ color: textColor, fontWeight }, styles.text, textStyle]}>{name}</Text>
+          <Text style={[{color: textColor, fontWeight}, styles.text, textStyle]}>{name}</Text>
         </View>
       </Button>
     );
   };
 
   _renderUnderline = () => {
-    const { tabs, tabUnderlineDefaultWidth, tabUnderlineScaleX, scrollValue, underlineStyle } =
+    const {tabs, tabUnderlineDefaultWidth, tabUnderlineScaleX, scrollValue, underlineStyle} =
       this.props;
-    const { activeColor } = this.state;
+    const {activeColor} = this.state;
 
     const containerWidth = getWindowDimensions().nativeWidth;
     const numberOfTabs = tabs.length;
@@ -80,7 +79,7 @@ class TabBar extends PureComponent {
       outputRange: [0, containerWidth / numberOfTabs],
     });
 
-    const scaleValue = (defaultScale) => {
+    const scaleValue = defaultScale => {
       const number = 4;
       const arr = new Array(number * 2);
 
@@ -90,7 +89,7 @@ class TabBar extends PureComponent {
           idx % 2 ? pre.outputRange.push(defaultScale) : pre.outputRange.push(1);
           return pre;
         },
-        { inputRange: [], outputRange: [] },
+        {inputRange: [], outputRange: []},
       );
     };
 
@@ -100,7 +99,7 @@ class TabBar extends PureComponent {
         style={[
           tabUnderlineStyle,
           {
-            transform: [{ translateX }, { scaleX }],
+            transform: [{translateX}, {scaleX}],
           },
           underlineStyle,
         ]}
@@ -109,10 +108,10 @@ class TabBar extends PureComponent {
   };
 
   render() {
-    const { activeTab, backgroundColor, style, goToPage, tabs } = this.props;
+    const {activeTab, backgroundColor, style, goToPage, tabs} = this.props;
 
     return (
-      <View style={[styles.tabs, { backgroundColor }, style]}>
+      <View style={[styles.tabs, {backgroundColor}, style]}>
         {tabs.map((name, page) => {
           const isTabActive = activeTab === page;
           return this._renderTab(name, page, isTabActive, goToPage);
@@ -128,8 +127,7 @@ function ButtonAndroid(props) {
     <TouchableNativeFeedback
       delayPressIn={0}
       background={TouchableNativeFeedback.SelectableBackground()}
-      {...props}
-    >
+      {...props}>
       {props.children}
     </TouchableNativeFeedback>
   );
@@ -139,7 +137,7 @@ function ButtonIos(props) {
   return <TouchableOpacity {...props}>{props.children}</TouchableOpacity>;
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isDarkTheme: state.application.isDarkTheme,
 });
 

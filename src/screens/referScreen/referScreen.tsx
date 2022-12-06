@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 import {
   ActivityIndicator,
   FlatList,
@@ -12,8 +12,8 @@ import {
 } from 'react-native';
 import get from 'lodash/get';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useDispatch } from 'react-redux';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import {useDispatch} from 'react-redux';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import {
   BasicHeader,
   Icon,
@@ -23,8 +23,8 @@ import {
   UserListItem,
 } from '../../components';
 // utils
-import { getReferralsList, getReferralsStats } from '../../providers/ecency/ecency';
-import { Referral } from '../../models';
+import {getReferralsList, getReferralsStats} from '../../providers/ecency/ecency';
+import {Referral} from '../../models';
 
 // styles
 import styles from './referScreenStyles';
@@ -33,15 +33,15 @@ import styles from './referScreenStyles';
 import ROUTES from '../../constants/routeNames';
 
 // Redux / Services
-import { showProfileModal } from '../../redux/actions/uiAction';
+import {showProfileModal} from '../../redux/actions/uiAction';
 import RootNavigation from '../../navigation/rootNavigation';
-import { useAppSelector } from '../../hooks';
+import {useAppSelector} from '../../hooks';
 
 function ReferScreen() {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const isDarkTheme = useAppSelector(state => state.application.isDarkTheme);
 
   const [referralsList, setReferralsList] = useState<Referral[]>([]);
   const [earnedPoints, setEarnedPoint] = useState(0);
@@ -132,8 +132,7 @@ function ReferScreen() {
           // isDisable={isLoading}
           style={styles.mainButton}
           height={50}
-          onPress={_handleRefer}
-        >
+          onPress={_handleRefer}>
           <View style={styles.mainButtonWrapper}>
             <Text style={styles.unclaimedText}>
               {intl.formatMessage({
@@ -160,8 +159,7 @@ function ReferScreen() {
             : intl.formatMessage({
                 id: 'refer.not_rewarded',
               })
-        }
-      >
+        }>
         <Text style={[styles.dollarSign, item.isRewarded ? styles.blueDollarSign : {}]}>$$</Text>
       </PopoverWrapper>
     );
@@ -171,8 +169,7 @@ function ReferScreen() {
     return (
       <TouchableOpacity
         style={styles.rightItemRendererContainer}
-        onPress={() => _handleDelegateHP(item)}
-      >
+        onPress={() => _handleDelegateHP(item)}>
         <Text style={styles.rightItemText}>
           {intl.formatMessage({
             id: 'refer.delegate_hp',
@@ -185,16 +182,16 @@ function ReferScreen() {
   const _renderEmptyView = loading ? (
     <ListPlaceHolder />
   ) : (
-    <Text style={styles.emptyText}>{intl.formatMessage({ id: 'refer.empty_text' })}</Text>
+    <Text style={styles.emptyText}>{intl.formatMessage({id: 'refer.empty_text'})}</Text>
   );
 
   const _renderFooterView = (
-    <View style={{ height: 72, justifyContent: 'center' }}>
+    <View style={{height: 72, justifyContent: 'center'}}>
       {loading && <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />}
     </View>
   );
 
-  const _renderReferralListItem = ({ item, index }: { item: Referral; index: number }) => {
+  const _renderReferralListItem = ({item, index}: {item: Referral; index: number}) => {
     return (
       <UserListItem
         key={get(item, '_id')}

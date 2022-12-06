@@ -27,7 +27,7 @@ const initialState: State = {
 
 export default function customTabsReducer(
   state: State = initialState,
-  action = { type: '', payload: {} },
+  action = {type: '', payload: {}},
 ): State {
   switch (action.type) {
     case SET_MAIN_TABS:

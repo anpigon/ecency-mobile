@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -8,29 +8,29 @@ import {
   Linking,
   Share,
 } from 'react-native';
-import { injectIntl, useIntl } from 'react-intl';
+import {injectIntl, useIntl} from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
 import VersionNumber from 'react-native-version-number';
-import { isEmpty } from 'lodash';
-import { useDispatch } from 'react-redux';
-import { getStorageType } from '../../../realm/realm';
+import {isEmpty} from 'lodash';
+import {useDispatch} from 'react-redux';
+import {getStorageType} from '../../../realm/realm';
 
 // Components
-import { Icon } from '../../icon';
-import { UserAvatar } from '../../userAvatar';
-import { TextWithIcon } from '../../basicUIElements';
+import {Icon} from '../../icon';
+import {UserAvatar} from '../../userAvatar';
+import {TextWithIcon} from '../../basicUIElements';
 
 // Constants
 import MENU from '../../../constants/sideMenuItems';
 import ROUTES from '../../../constants/routeNames';
 
 // Utils
-import { getVotingPower } from '../../../utils/manaBar';
+import {getVotingPower} from '../../../utils/manaBar';
 
 // Styles
 import styles from './sideMenuStyles';
-import { OptionsModal } from '../../atoms';
-import { toggleQRModal } from '../../../redux/actions/uiAction';
+import {OptionsModal} from '../../atoms';
+import {toggleQRModal} from '../../../redux/actions/uiAction';
 
 // Images
 const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png');
@@ -55,7 +55,7 @@ function SideMenuView({
   // Component Life Cycles
   useEffect(() => {
     let _isMounted = false;
-    getStorageType().then((item) => {
+    getStorageType().then(item => {
       if (!_isMounted) {
         setStorageT(item);
       }
@@ -72,7 +72,7 @@ function SideMenuView({
   });
 
   // Component Functions
-  const _handleOnMenuItemPress = (item) => {
+  const _handleOnMenuItemPress = item => {
     if (item.id === 'logout') {
       ActionSheetRef.current.show();
       return;
@@ -100,17 +100,16 @@ function SideMenuView({
     setMenuItems(isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS);
   }, [isLoggedIn]);
 
-  const { buildVersion, appVersion } = VersionNumber;
+  const {buildVersion, appVersion} = VersionNumber;
 
   const _username = currentAccount.name;
 
-  const _renderItem = (item) => (
+  const _renderItem = item => (
     <TouchableOpacity
       style={styles.listItem}
       onPress={() => {
         _handleOnMenuItemPress(item.item);
-      }}
-    >
+      }}>
       <View style={styles.itemWrapper}>
         {item.item.icon && (
           <Icon
@@ -123,7 +122,7 @@ function SideMenuView({
           <UserAvatar noAction username={item.item.username} style={styles.otherUserAvatar} />
         )}
         <Text style={styles.listItemText}>
-          {intl.formatMessage({ id: `side_menu.${item.item.id}` })}
+          {intl.formatMessage({id: `side_menu.${item.item.id}`})}
         </Text>
       </View>
     </TouchableOpacity>
@@ -132,11 +131,10 @@ function SideMenuView({
   const _renderHeader = () => {
     return (
       <LinearGradient
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 0}}
         colors={['#357ce6', '#2d5aa0']}
-        style={styles.headerView}
-      >
+        style={styles.headerView}>
         <ImageBackground source={SIDE_MENU_BACKGROUND} style={styles.imageBackground}>
           {isLoggedIn && (
             <View style={styles.headerContentWrapper}>
@@ -144,9 +142,8 @@ function SideMenuView({
               <View
                 style={[
                   styles.userInfoWrapper,
-                  currentAccount.display_name && { alignSelf: 'flex-start' },
-                ]}
-              >
+                  currentAccount.display_name && {alignSelf: 'flex-start'},
+                ]}>
                 {currentAccount.display_name && (
                   <Text numberOfLines={1} ellipsizeMode="tail" style={styles.username}>
                     {currentAccount.display_name}
@@ -184,19 +181,19 @@ function SideMenuView({
     <View style={styles.container}>
       {_renderHeader()}
       <View style={styles.contentView}>
-        <FlatList data={menuItems} keyExtractor={(item) => item.id} renderItem={_renderItem} />
+        <FlatList data={menuItems} keyExtractor={item => item.id} renderItem={_renderItem} />
       </View>
       <Text style={styles.versionText}>{`v${appVersion}, ${buildVersion}${storageT}`}</Text>
       <OptionsModal
         ref={ActionSheetRef}
         options={[
-          intl.formatMessage({ id: 'side_menu.logout' }),
-          intl.formatMessage({ id: 'side_menu.cancel' }),
+          intl.formatMessage({id: 'side_menu.logout'}),
+          intl.formatMessage({id: 'side_menu.cancel'}),
         ]}
-        title={intl.formatMessage({ id: 'side_menu.logout_text' })}
+        title={intl.formatMessage({id: 'side_menu.logout_text'})}
         cancelButtonIndex={1}
         destructiveButtonIndex={0}
-        onPress={(index) => {
+        onPress={index => {
           index === 0 ? handleLogout() : null;
         }}
       />

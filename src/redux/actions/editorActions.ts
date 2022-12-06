@@ -1,5 +1,5 @@
-import { SET_BENEFICIARIES, REMOVE_BENEFICIARIES } from '../constants/constants';
-import { Beneficiary } from '../reducers/editorReducer';
+import {SET_BENEFICIARIES, REMOVE_BENEFICIARIES} from '../constants/constants';
+import {Beneficiary} from '../reducers/editorReducer';
 
 export const setBeneficiaries = (draftId: string, benficiaries: Beneficiary[]) => ({
   payload: {

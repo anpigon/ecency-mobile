@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { ActivityIndicator, RefreshControl, View } from 'react-native';
-import { unionBy } from 'lodash';
+import React, {useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {ActivityIndicator, RefreshControl, View} from 'react-native';
+import {unionBy} from 'lodash';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Comments, NoPost } from '../..';
-import { useAppSelector } from '../../../hooks';
-import { getAccountPosts } from '../../../providers/hive/dhive';
+import {Comments, NoPost} from '../..';
+import {useAppSelector} from '../../../hooks';
+import {getAccountPosts} from '../../../providers/hive/dhive';
 import styles from '../profileStyles';
 
 interface CommentsTabContentProps {
@@ -25,7 +25,7 @@ function CommentsTabContent({
 }: CommentsTabContentProps) {
   const intl = useIntl();
 
-  const isHideImage = useAppSelector((state) => state.application.hidePostsThumbnails);
+  const isHideImage = useAppSelector(state => state.application.hidePostsThumbnails);
 
   const [data, setData] = useState([]);
   const [lastAuthor, setLastAuthor] = useState('');
@@ -40,7 +40,7 @@ function CommentsTabContent({
     }
   }, [selectedUser]);
 
-  const _fetchData = async ({ refresh }: { refresh?: boolean } = {}) => {
+  const _fetchData = async ({refresh}: {refresh?: boolean} = {}) => {
     if (loading || (!refresh && noMore)) {
       return;
     }
@@ -119,10 +119,7 @@ function CommentsTabContent({
           ListFooterComponent: _renderListFooter,
           onEndReachedThreshold: 1,
           refreshControl: (
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={() => _fetchData({ refresh: true })}
-            />
+            <RefreshControl refreshing={refreshing} onRefresh={() => _fetchData({refresh: true})} />
           ),
         }}
       />

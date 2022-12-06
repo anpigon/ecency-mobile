@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Platform, Alert, EmitterSubscription } from 'react-native';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Platform, Alert, EmitterSubscription} from 'react-native';
 import * as IAP from 'react-native-iap';
-import { injectIntl } from 'react-intl';
+import {injectIntl} from 'react-intl';
 import get from 'lodash/get';
 
 // Services
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import bugsnagInstance from '../config/bugsnag';
-import { purchaseOrder } from '../providers/ecency/ecency';
+import {purchaseOrder} from '../providers/ecency/ecency';
 
 // Utilities
-import { default as ROUTES } from '../constants/routeNames';
-import { showActionModal } from '../redux/actions/uiAction';
-import { UserAvatar } from '../components';
+import {default as ROUTES} from '../constants/routeNames';
+import {showActionModal} from '../redux/actions/uiAction';
+import {UserAvatar} from '../components';
 
 class InAppPurchaseContainer extends Component {
   purchaseUpdateSubscription: EmitterSubscription | null = null;
@@ -48,7 +48,7 @@ class InAppPurchaseContainer extends Component {
   }
 
   _initContainer = async () => {
-    const { intl } = this.props;
+    const {intl} = this.props;
     try {
       await IAP.initConnection();
       if (Platform.OS === 'android') {
@@ -98,13 +98,13 @@ class InAppPurchaseContainer extends Component {
 
   _purchaseUpdatedListener = () => {
     const {
-      currentAccount: { name },
+      currentAccount: {name},
       intl,
       fetchData,
       username,
     } = this.props;
 
-    this.purchaseUpdateSubscription = IAP.purchaseUpdatedListener((purchase) => {
+    this.purchaseUpdateSubscription = IAP.purchaseUpdatedListener(purchase => {
       const receipt = get(purchase, 'transactionReceipt');
       const token = get(purchase, 'purchaseToken');
 
@@ -128,21 +128,21 @@ class InAppPurchaseContainer extends Component {
               console.warn('ackErr', ackErr);
             }
 
-            this.setState({ isProcessing: false });
+            this.setState({isProcessing: false});
 
             if (fetchData) {
               fetchData();
             }
           })
-          .catch((err) =>
-            bugsnagInstance.notify(err, (report) => {
+          .catch(err =>
+            bugsnagInstance.notify(err, report => {
               report.addMetadata('data', data);
             }),
           );
       }
     });
 
-    this.purchaseErrorSubscription = IAP.purchaseErrorListener((error) => {
+    this.purchaseErrorSubscription = IAP.purchaseErrorListener(error => {
       bugsnagInstance.notify(error);
       if (get(error, 'responseCode') === '3' && Platform.OS === 'android') {
         Alert.alert(
@@ -162,12 +162,12 @@ class InAppPurchaseContainer extends Component {
           error.message,
         );
       }
-      this.setState({ isProcessing: false });
+      this.setState({isProcessing: false});
     });
   };
 
   // eslint-disable-next-line class-methods-use-this
-  _getTitle = (title) => {
+  _getTitle = title => {
     let _title = title.toUpperCase();
     if (_title !== 'FREE POINTS') {
       _title = `${_title.replace(/[^0-9]+/g, '')} POINTS`;
@@ -177,12 +177,12 @@ class InAppPurchaseContainer extends Component {
   };
 
   _getItems = async () => {
-    const { skus, intl } = this.props;
+    const {skus, intl} = this.props;
     try {
-      const products = await IAP.getProducts({ skus });
+      const products = await IAP.getProducts({skus});
       console.log(products);
       products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
-      this.setState({ productList: products });
+      this.setState({productList: products});
     } catch (error) {
       bugsnagInstance.notify(error);
       Alert.alert(
@@ -193,19 +193,19 @@ class InAppPurchaseContainer extends Component {
       );
     }
 
-    this.setState({ isLoading: false });
+    this.setState({isLoading: false});
   };
 
-  _buyItem = async (sku) => {
-    const { navigation } = this.props;
+  _buyItem = async sku => {
+    const {navigation} = this.props;
 
     if (sku !== 'freePoints') {
-      this.setState({ isProcessing: true });
+      this.setState({isProcessing: true});
 
       try {
-        IAP.requestPurchase(Platform.OS === 'ios' ? { sku } : { skus: [sku] });
+        IAP.requestPurchase(Platform.OS === 'ios' ? {sku} : {skus: [sku]});
       } catch (err) {
-        bugsnagInstance.notify(err, (report) => {
+        bugsnagInstance.notify(err, report => {
           report.addMetadata('sku', sku);
         });
       }
@@ -217,13 +217,13 @@ class InAppPurchaseContainer extends Component {
   };
 
   _handleQrPurchase = async () => {
-    const { skus, dispatch, intl, route } = this.props;
-    const products = await IAP.getProducts({ skus });
+    const {skus, dispatch, intl, route} = this.props;
+    const products = await IAP.getProducts({skus});
     const productId = route.param?.productId ?? '';
     const username = route.param?.username ?? '';
 
     const product: IAP.Product =
-      productId && products && products.find((product) => product.productId === productId);
+      productId && products && products.find(product => product.productId === productId);
 
     if (product) {
       const body = intl.formatMessage(
@@ -252,11 +252,11 @@ class InAppPurchaseContainer extends Component {
           body,
           buttons: [
             {
-              text: intl.formatMessage({ id: 'alert.cancel' }),
+              text: intl.formatMessage({id: 'alert.cancel'}),
               onPress: () => console.log('Cancel'),
             },
             {
-              text: intl.formatMessage({ id: 'alert.confirm' }),
+              text: intl.formatMessage({id: 'alert.confirm'}),
               onPress: () => this._buyItem(productId),
             },
           ],
@@ -267,12 +267,12 @@ class InAppPurchaseContainer extends Component {
   };
 
   render() {
-    const { children, isNoSpin, navigation } = this.props;
-    const { productList, isLoading, isProcessing } = this.state;
-    const FREE_ESTM = { productId: 'freePoints', title: 'free points' };
+    const {children, isNoSpin, navigation} = this.props;
+    const {productList, isLoading, isProcessing} = this.state;
+    const FREE_ESTM = {productId: 'freePoints', title: 'free points'};
     const _productList = isNoSpin
       ? productList
-      : [...productList.filter((item) => !item.productId.includes('spins')), FREE_ESTM];
+      : [...productList.filter(item => !item.productId.includes('spins')), FREE_ESTM];
 
     return (
       children &&
@@ -283,18 +283,18 @@ class InAppPurchaseContainer extends Component {
         isProcessing,
         getItems: this._getItems,
         getTitle: this._getTitle,
-        spinProduct: productList.filter((item) => item.productId.includes('spins')),
+        spinProduct: productList.filter(item => item.productId.includes('spins')),
         navigation,
       })
     );
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
 });
 
-const mapHooksToProps = (props) => {
+const mapHooksToProps = props => {
   const navigation = useNavigation();
   return <InAppPurchaseContainer {...props} navigation={navigation} />;
 };

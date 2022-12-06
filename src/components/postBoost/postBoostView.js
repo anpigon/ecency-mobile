@@ -1,26 +1,26 @@
-import React, { PureComponent, Fragment } from 'react';
-import { injectIntl } from 'react-intl';
-import { Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { WebView } from 'react-native-webview';
+import React, {PureComponent, Fragment} from 'react';
+import {injectIntl} from 'react-intl';
+import {Text, View, ScrollView, TouchableOpacity, Alert} from 'react-native';
+import {WebView} from 'react-native-webview';
 import get from 'lodash/get';
 import Autocomplete from '@esteemapp/react-native-autocomplete-input';
-import { Icon, TextInput } from '..';
-import { hsOptions } from '../../constants/hsOptions';
+import {Icon, TextInput} from '..';
+import {hsOptions} from '../../constants/hsOptions';
 
 // Services and Actions
-import { getPointsSummary } from '../../providers/ecency/ePoint';
-import { searchPath } from '../../providers/ecency/ecency';
+import {getPointsSummary} from '../../providers/ecency/ePoint';
+import {searchPath} from '../../providers/ecency/ecency';
 
 // Components
-import { BasicHeader } from '../basicHeader';
-import { TransferFormItem } from '../transferFormItem';
-import { MainButton } from '../mainButton';
-import { DropdownButton } from '../dropdownButton';
-import { Modal } from '../modal';
+import {BasicHeader} from '../basicHeader';
+import {TransferFormItem} from '../transferFormItem';
+import {MainButton} from '../mainButton';
+import {DropdownButton} from '../dropdownButton';
+import {Modal} from '../modal';
 
 // Styles
 import styles from './postBoostStyles';
-import { OptionsModal } from '../atoms';
+import {OptionsModal} from '../atoms';
 import postUrlParser from '../../utils/postUrlParser';
 
 class BoostPostScreen extends PureComponent {
@@ -48,28 +48,28 @@ class BoostPostScreen extends PureComponent {
 
   // Component Functions
 
-  _handleOnPermlinkChange = async (text) => {
-    this.setState({ permlink: text, isValid: false });
+  _handleOnPermlinkChange = async text => {
+    this.setState({permlink: text, isValid: false});
 
     if (this.timer) {
       clearTimeout(this.timer);
     }
 
     if (text.trim().length < 3) {
-      this.setState({ permlinkSuggestions: [] });
+      this.setState({permlinkSuggestions: []});
       return;
     }
 
     if (text && text.length > 0) {
       this.timer = setTimeout(
         () =>
-          searchPath(text).then((res) => {
-            this.setState({ permlinkSuggestions: res && res.length > 10 ? res.slice(0, 7) : res });
+          searchPath(text).then(res => {
+            this.setState({permlinkSuggestions: res && res.length > 10 ? res.slice(0, 7) : res});
           }),
         500,
       );
     } else {
-      await this.setState({ permlinkSuggestions: [], isValid: false });
+      await this.setState({permlinkSuggestions: [], isValid: false});
     }
   };
 
@@ -82,31 +82,31 @@ class BoostPostScreen extends PureComponent {
       style={styles.dropdown}
       dropdownStyle={styles.dropdownStyle}
       textStyle={styles.dropdownText}
-      options={accounts.map((item) => item.username)}
+      options={accounts.map(item => item.username)}
       defaultText={currentAccountName}
-      selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
+      selectedOptionIndex={accounts.findIndex(item => item.username === currentAccountName)}
       onSelect={(index, value) => {
-        this.setState({ selectedUser: value }, () => {
+        this.setState({selectedUser: value}, () => {
           this._getUserBalance(value);
         });
       }}
     />
   );
 
-  _getUserBalance = async (username) => {
+  _getUserBalance = async username => {
     await getPointsSummary(username)
-      .then((userPoints) => {
+      .then(userPoints => {
         const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
-        this.setState({ balance });
+        this.setState({balance});
       })
-      .catch((err) => {
+      .catch(err => {
         Alert.alert(err.message || err.toString());
       });
   };
 
   _handleOnSubmit = async () => {
-    const { handleOnSubmit, redeemType, navigationParams } = this.props;
-    const { permlink, selectedUser, factor } = this.state;
+    const {handleOnSubmit, redeemType, navigationParams} = this.props;
+    const {permlink, selectedUser, factor} = this.state;
     const fullPermlink = permlink || get(navigationParams, 'permlink');
 
     const amount = 150 + 50 * factor;
@@ -115,7 +115,7 @@ class BoostPostScreen extends PureComponent {
   };
 
   _validateUrl = () => {
-    const { permlink, isValid } = this.state;
+    const {permlink, isValid} = this.state;
     if (!isValid) {
       const postUrl = postUrlParser(permlink);
       if (postUrl && postUrl.author && postUrl.permlink) {
@@ -125,14 +125,14 @@ class BoostPostScreen extends PureComponent {
           isValid: true,
         });
       } else {
-        this.setState({ isValid: false });
+        this.setState({isValid: false});
       }
     }
   };
 
   render() {
-    const { intl } = this.props;
-    const { selectedUser, balance, factor, permlinkSuggestions, permlink, isValid } = this.state;
+    const {intl} = this.props;
+    const {selectedUser, balance, factor, permlinkSuggestions, permlink, isValid} = this.state;
 
     const {
       isLoading,
@@ -151,12 +151,12 @@ class BoostPostScreen extends PureComponent {
     // console.log('this.state.permlink : ', this.state.permlink);
     return (
       <>
-        <BasicHeader title={intl.formatMessage({ id: 'boostPost.title' })} />
+        <BasicHeader title={intl.formatMessage({id: 'boostPost.title'})} />
         <View style={styles.container}>
           <ScrollView keyboardShouldPersistTaps="handled">
             <View style={styles.middleContent}>
               <TransferFormItem
-                label={intl.formatMessage({ id: 'promote.user' })}
+                label={intl.formatMessage({id: 'promote.user'})}
                 rightComponent={() =>
                   this._renderDropdown(accounts, selectedUser || currentAccountName)
                 }
@@ -165,7 +165,7 @@ class BoostPostScreen extends PureComponent {
               <View style={styles.autocompleteLineContainer}>
                 <View style={styles.autocompleteLabelContainer}>
                   <Text style={styles.autocompleteLabelText}>
-                    {intl.formatMessage({ id: 'promote.permlink' })}
+                    {intl.formatMessage({id: 'promote.permlink'})}
                   </Text>
                 </View>
 
@@ -180,9 +180,9 @@ class BoostPostScreen extends PureComponent {
                   renderTextInput={() => (
                     <TextInput
                       style={styles.input}
-                      onChangeText={(text) => this._handleOnPermlinkChange(text)}
+                      onChangeText={text => this._handleOnPermlinkChange(text)}
                       value={permlink || get(navigationParams, 'permlink', '')}
-                      placeholder={intl.formatMessage({ id: 'promote.permlinkPlaceholder' })}
+                      placeholder={intl.formatMessage({id: 'promote.permlinkPlaceholder'})}
                       placeholderTextColor="#c1c5c7"
                       autoCapitalize="none"
                       returnKeyType="done"
@@ -190,7 +190,7 @@ class BoostPostScreen extends PureComponent {
                       innerRef={this.urlInputRef}
                     />
                   )}
-                  renderItem={({ item }) => (
+                  renderItem={({item}) => (
                     <TouchableOpacity
                       key={item}
                       onPress={() => {
@@ -200,8 +200,7 @@ class BoostPostScreen extends PureComponent {
                           isValid: true,
                           permlinkSuggestions: [],
                         });
-                      }}
-                    >
+                      }}>
                       <Text style={styles.autocompleteItemText}>{item}</Text>
                     </TouchableOpacity>
                   )}
@@ -223,11 +222,10 @@ class BoostPostScreen extends PureComponent {
                     this.setState({
                       factor: calculatedESTM > 150 ? factor - 1 : factor,
                     })
-                  }
-                >
+                  }>
                   <Icon
                     size={24}
-                    style={{ color: 'white' }}
+                    style={{color: 'white'}}
                     iconType="MaterialCommunityIcons"
                     name="minus"
                   />
@@ -240,9 +238,8 @@ class BoostPostScreen extends PureComponent {
                     this.setState({
                       factor: (balance || _balance) / 50 > factor + 4 ? factor + 1 : factor,
                     })
-                  }
-                >
-                  <Icon size={24} style={{ color: 'white' }} iconType="MaterialIcons" name="add" />
+                  }>
+                  <Icon size={24} style={{color: 'white'}} iconType="MaterialIcons" name="add" />
                 </MainButton>
               </View>
             </View>
@@ -255,7 +252,7 @@ class BoostPostScreen extends PureComponent {
                   iconType="MaterialIcons"
                   name="info-outline"
                 />
-                <Text style={styles.infoText}>{intl.formatMessage({ id: 'boost.info' })}</Text>
+                <Text style={styles.infoText}>{intl.formatMessage({id: 'boost.info'})}</Text>
               </View>
 
               <MainButton
@@ -266,9 +263,8 @@ class BoostPostScreen extends PureComponent {
                   (isLoading || !isValid)
                 }
                 onPress={() => this.startActionSheet.current.show()}
-                isLoading={isLoading}
-              >
-                <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
+                isLoading={isLoading}>
+                <Text style={styles.buttonText}>{intl.formatMessage({id: 'transfer.next'})}</Text>
               </MainButton>
             </View>
           </ScrollView>
@@ -276,13 +272,13 @@ class BoostPostScreen extends PureComponent {
         <OptionsModal
           ref={this.startActionSheet}
           options={[
-            intl.formatMessage({ id: 'alert.confirm' }),
-            intl.formatMessage({ id: 'alert.cancel' }),
+            intl.formatMessage({id: 'alert.confirm'}),
+            intl.formatMessage({id: 'alert.cancel'}),
           ]}
-          title={intl.formatMessage({ id: 'promote.information' })}
+          title={intl.formatMessage({id: 'promote.information'})}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={(index) => {
+          onPress={index => {
             if (index === 0) {
               if (index === 0) {
                 this._handleOnSubmit();
@@ -296,9 +292,8 @@ class BoostPostScreen extends PureComponent {
           isFullScreen
           isCloseButton
           handleOnModalClose={handleOnSCModalClose}
-          title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
-        >
-          <WebView source={{ uri: `${hsOptions.base_url}${SCPath}` }} />
+          title={intl.formatMessage({id: 'transfer.steemconnect_title'})}>
+          <WebView source={{uri: `${hsOptions.base_url}${SCPath}`}} />
         </Modal>
       </>
     );

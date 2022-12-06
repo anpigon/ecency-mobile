@@ -1,6 +1,6 @@
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { getStatusBarHeight } from 'react-native-iphone-x-helper';
+import {getStatusBarHeight} from 'react-native-iphone-x-helper';
 
 export const CONTAINER_HEIGHT = getStatusBarHeight() + 100;
 

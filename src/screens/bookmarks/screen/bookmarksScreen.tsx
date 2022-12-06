@@ -1,15 +1,15 @@
-import React, { useState, useRef } from 'react';
-import { injectIntl } from 'react-intl';
-import { View, FlatList, Text } from 'react-native';
+import React, {useState, useRef} from 'react';
+import {injectIntl} from 'react-intl';
+import {View, FlatList, Text} from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 // Components
-import { UserListItem, WalletDetailsPlaceHolder, BasicHeader, TabBar } from '../../../components';
+import {UserListItem, WalletDetailsPlaceHolder, BasicHeader, TabBar} from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
 import styles from './bookmarksStyles';
-import { OptionsModal } from '../../../components/atoms';
+import {OptionsModal} from '../../../components/atoms';
 
 function BookmarksScreen({
   isLoading,
@@ -67,20 +67,20 @@ function BookmarksScreen({
     return (
       <View style={styles.container}>
         <FlatList
-          data={data.map((item) =>
+          data={data.map(item =>
             item._id !== data[item._id] && isFavorites
               ? item.account !== data[item.account] && item
               : item,
           )}
-          keyExtractor={(item) => item._id}
+          keyExtractor={item => item._id}
           removeClippedSubviews={false}
-          renderItem={({ item, index }) => _renderItem(item, index, type)}
+          renderItem={({item, index}) => _renderItem(item, index, type)}
           ListEmptyComponent={_renderEmptyContent()}
         />
       </View>
     );
   };
-  const _handleLongPress = (_selectedItemId) => {
+  const _handleLongPress = _selectedItemId => {
     if (actionSheetRef.current) {
       setSelectedItemId(_selectedItemId);
       actionSheetRef.current.show();
@@ -96,8 +96,8 @@ function BookmarksScreen({
       />
 
       <ScrollableTabView
-        onChangeTab={(event) => setActiveTab(event.i)}
-        style={[globalStyles.tabView, { paddingBottom: 40 }]}
+        onChangeTab={event => setActiveTab(event.i)}
+        style={[globalStyles.tabView, {paddingBottom: 40}]}
         renderTabBar={() => (
           <TabBar
             style={styles.tabbar}
@@ -105,35 +105,32 @@ function BookmarksScreen({
             tabUnderlineScaleX={2}
             tabBarPosition="overlayTop"
           />
-        )}
-      >
+        )}>
         <View
           tabLabel={intl.formatMessage({
             id: 'bookmarks.title',
           })}
-          style={styles.tabbarItem}
-        >
+          style={styles.tabbarItem}>
           {_getTabItem(bookmarks, 'bookmarks')}
         </View>
         <View
           tabLabel={intl.formatMessage({
             id: 'favorites.title',
           })}
-          style={styles.tabbarItem}
-        >
+          style={styles.tabbarItem}>
           {_getTabItem(favorites, 'favorites')}
         </View>
       </ScrollableTabView>
       <OptionsModal
         ref={actionSheetRef}
         options={[
-          intl.formatMessage({ id: 'alert.delete' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
+          intl.formatMessage({id: 'alert.delete'}),
+          intl.formatMessage({id: 'alert.cancel'}),
         ]}
-        title={intl.formatMessage({ id: 'alert.remove_alert' })}
+        title={intl.formatMessage({id: 'alert.remove_alert'})}
         cancelButtonIndex={1}
         destructiveButtonIndex={0}
-        onPress={(index) => {
+        onPress={index => {
           if (index === 0) {
             activeTab === 0 ? removeBookmark(selectedItemId) : removeFavorite(selectedItemId);
           }

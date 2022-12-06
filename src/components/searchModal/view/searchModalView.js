@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
-import { View, Text, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
+import React, {PureComponent} from 'react';
+import {View, Text, FlatList, TouchableOpacity, SafeAreaView} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { get, has } from 'lodash';
+import {get, has} from 'lodash';
 
 // Components
-import { Modal, SearchInput } from '../..';
+import {Modal, SearchInput} from '../..';
 
 // Styles
 import styles from './searchModalStyles';
@@ -23,8 +23,8 @@ class SearchModalView extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-  _renderItem = ({ item }) => {
-    const { handleOnPressListItem, searchResults } = this.props;
+  _renderItem = ({item}) => {
+    const {handleOnPressListItem, searchResults} = this.props;
 
     return (
       // TODO: Make it quick ui component
@@ -64,8 +64,7 @@ class SearchModalView extends PureComponent {
         handleOnModalClose={handleOnClose}
         isFullScreen
         swipeToClose
-        isTransparent
-      >
+        isTransparent>
         <SafeAreaView style={styles.container}>
           <SearchInput
             onChangeText={handleOnChangeSearchInput}

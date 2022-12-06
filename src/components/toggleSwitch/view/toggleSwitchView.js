@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
-import { View, TouchableOpacity, NativeModules } from 'react-native';
-import Animated, { EasingNode } from 'react-native-reanimated';
+import React, {PureComponent} from 'react';
+import {View, TouchableOpacity, NativeModules} from 'react-native';
+import Animated, {EasingNode} from 'react-native-reanimated';
 
 // Constants
 
@@ -31,23 +31,23 @@ class ToggleSwitchView extends PureComponent {
   // Component Life Cycles
 
   UNSAFE_componentWillMount() {
-    this.setState({ duration: 0 });
+    this.setState({duration: 0});
   }
 
   componentDidMount() {
-    this.setState({ duration: 300 });
+    this.setState({duration: 300});
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     // eslint-disable-next-line react/destructuring-assignment
     if (nextProps.isOn !== this.props.isOn) {
-      this.setState({ isOn: nextProps.isOn });
+      this.setState({isOn: nextProps.isOn});
     }
   }
 
   // Component Functions
   _createCircleStyle = () => {
-    const { circleWidth, circleHeight } = this.state;
+    const {circleWidth, circleHeight} = this.state;
 
     return {
       alignItems: 'center',
@@ -55,7 +55,7 @@ class ToggleSwitchView extends PureComponent {
       paddingHorizontal: 10,
       position: 'absolute',
       backgroundColor: 'white',
-      transform: [{ translateX: this.offsetX }],
+      transform: [{translateX: this.offsetX}],
       width: circleWidth,
       marginLeft: 4,
       height: circleHeight,
@@ -69,8 +69,8 @@ class ToggleSwitchView extends PureComponent {
   };
 
   _createSwitchStyle = () => {
-    const { onColor, offColor } = this.props;
-    const { padding, width, isOn } = this.state;
+    const {onColor, offColor} = this.props;
+    const {padding, width, isOn} = this.state;
 
     return {
       justifyContent: 'center',
@@ -83,9 +83,9 @@ class ToggleSwitchView extends PureComponent {
   };
 
   _onToggle = () => {
-    const { onToggle, latchBack } = this.props;
-    const { isOn } = this.state;
-    this.setState({ isOn: !isOn });
+    const {onToggle, latchBack} = this.props;
+    const {isOn} = this.state;
+    this.setState({isOn: !isOn});
 
     // For debounce
     setTimeout(() => {
@@ -97,13 +97,13 @@ class ToggleSwitchView extends PureComponent {
 
     if (latchBack) {
       setTimeout(() => {
-        this.setState({ isOn });
+        this.setState({isOn});
       }, 500);
     }
   };
 
   _triggerAnimation = () => {
-    const { width, translateX, isOn, duration } = this.state;
+    const {width, translateX, isOn, duration} = this.state;
     const toValue = isOn ? width - (NativeModules.I18nManager.isRTL ? 100 : translateX) : 0; // in rtl layout, set the translate value to 100
 
     Animated.timing(this.offsetX, {
@@ -123,8 +123,7 @@ class ToggleSwitchView extends PureComponent {
           activeOpacity={0.8}
           onPress={() => {
             this._onToggle();
-          }}
-        >
+          }}>
           <Animated.View style={this._createCircleStyle()} />
         </TouchableOpacity>
       </View>

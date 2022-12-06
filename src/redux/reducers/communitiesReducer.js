@@ -12,7 +12,7 @@ import {
   LEAVE_COMMUNITY_SUCCESS,
   LEAVE_COMMUNITY_FAIL,
 } from '../constants/constants';
-import { statusMessage } from '../constants/communitiesConstants';
+import {statusMessage} from '../constants/communitiesConstants';
 
 const initialState = {
   communities: {
@@ -56,10 +56,7 @@ const initialState = {
   },
 };
 
-export default function communitiesReducer(
-  state = initialState,
-  action = { type: '', payload: {} },
-) {
+export default function communitiesReducer(state = initialState, action = {type: '', payload: {}}) {
   switch (action.type) {
     case FETCH_COMMUNITIES:
       return {

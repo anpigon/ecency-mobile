@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { useIntl } from 'react-intl';
+import React, {useState, useEffect} from 'react';
+import {useIntl} from 'react-intl';
 import get from 'lodash/get';
 import forEach from 'lodash/forEach';
 
 // Components
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { BasicHeader, FilterBar, VotersDisplay } from '../../../components';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {BasicHeader, FilterBar, VotersDisplay} from '../../../components';
 
 import AccountListContainer from '../../../containers/accountListContainer';
 
 // Utils
-import { getActiveVotes } from '../../../providers/hive/dhive';
-import { parseActiveVotes } from '../../../utils/postParser';
-import { getResizedAvatar } from '../../../utils/image';
+import {getActiveVotes} from '../../../providers/hive/dhive';
+import {parseActiveVotes} from '../../../utils/postParser';
+import {getResizedAvatar} from '../../../utils/image';
 
 const filterOptions = ['rewards', 'percent', 'time'];
 
-function VotersScreen({ route }) {
+function VotersScreen({route}) {
   const intl = useIntl();
 
   const [content] = useState(route.params?.content ?? null);
@@ -28,7 +28,7 @@ function VotersScreen({ route }) {
 
   useEffect(() => {
     const av = get(content, 'active_votes', []);
-    forEach(av, (value) => {
+    forEach(av, value => {
       value.reward = 0;
       value.percent = 0;
       value.is_down_vote = Math.sign(value.rshares) < 0;
@@ -40,9 +40,9 @@ function VotersScreen({ route }) {
   useEffect(() => {
     if (content) {
       getActiveVotes(get(content, 'author'), get(content, 'permlink'))
-        .then((result) => {
+        .then(result => {
           result.sort((a, b) => b.rshares - a.rshares);
-          const _votes = parseActiveVotes({ ...content, active_votes: result });
+          const _votes = parseActiveVotes({...content, active_votes: result});
           setActiveVotes(_votes);
         })
         .catch(() => {});
@@ -51,17 +51,17 @@ function VotersScreen({ route }) {
 
   return (
     <AccountListContainer data={activeVotes}>
-      {({ data, filterResult, filterIndex, handleOnVotersDropdownSelect, handleSearch }) => (
+      {({data, filterResult, filterIndex, handleOnVotersDropdownSelect, handleSearch}) => (
         <>
           <BasicHeader
             backIconName="close"
             title={`${headerTitle} (${data && data.length})`}
             isHasSearch
-            handleOnSearch={(text) => handleSearch(text, 'voter')}
+            handleOnSearch={text => handleSearch(text, 'voter')}
           />
           <FilterBar
             dropdownIconName="arrow-drop-down"
-            options={filterOptions.map((item) =>
+            options={filterOptions.map(item =>
               intl.formatMessage({
                 id: `voters_dropdown.${item}`,
               }),

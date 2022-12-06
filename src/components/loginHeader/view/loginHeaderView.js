@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react';
-import { View, Text, Image, SafeAreaView } from 'react-native';
+import React, {PureComponent} from 'react';
+import {View, Text, Image, SafeAreaView} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 // Constants
 
 // Components
-import { TextButton } from '../../buttons';
-import { LineBreak } from '../../basicUIElements';
+import {TextButton} from '../../buttons';
+import {LineBreak} from '../../basicUIElements';
 // Styles
 import styles from './loginHeaderStyles';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
@@ -27,7 +27,7 @@ class LoginHeaderView extends PureComponent {
   // Component Functions
 
   render() {
-    const { description, isKeyboardOpen, onPress, rightButtonText, title } = this.props;
+    const {description, isKeyboardOpen, onPress, rightButtonText, title} = this.props;
 
     return (
       <SafeAreaView style={styles.safeArea}>
@@ -38,17 +38,12 @@ class LoginHeaderView extends PureComponent {
               source={require('../../../assets/ecency_logo_transparent.png')}
             />
             <View style={styles.headerButton}>
-              <TextButton
-                onPress={onPress}
-                text={rightButtonText}
-                textStyle={{ color: '#357ce6' }}
-              />
+              <TextButton onPress={onPress} text={rightButtonText} textStyle={{color: '#357ce6'}} />
             </View>
           </View>
           <Animatable.View
             animation={isKeyboardOpen ? hideAnimation : showAnimation}
-            duration={300}
-          >
+            duration={300}>
             <View style={styles.body}>
               <View style={styles.titleText}>
                 <Text style={styles.title}>{title}</Text>
@@ -66,7 +61,7 @@ class LoginHeaderView extends PureComponent {
 
 export default LoginHeaderView;
 
-const { height } = getWindowDimensions();
+const {height} = getWindowDimensions();
 const bodyHeight = height / 3.9;
 const showAnimation = {
   from: {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, ComponentType } from 'react';
+import React, {useState, useEffect, useRef, ComponentType} from 'react';
 import {
   SafeAreaView,
   View,
@@ -10,39 +10,39 @@ import {
 } from 'react-native';
 
 // Containers
-import { FlatList, gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { useIntl } from 'react-intl';
+import {FlatList, gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {useIntl} from 'react-intl';
 import moment from 'moment';
-import { LoggedInContainer } from '../../../containers';
+import {LoggedInContainer} from '../../../containers';
 
 // Components
-import { Header, HorizontalIconList, PostCardPlaceHolder } from '../../../components';
+import {Header, HorizontalIconList, PostCardPlaceHolder} from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
 import styles from './walletScreenStyles';
 
-import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { CoinCard } from '../children';
-import { fetchMarketChart, INTERVAL_HOURLY } from '../../../providers/coingecko/coingecko';
+import {useAppDispatch, useAppSelector} from '../../../hooks';
+import {CoinCard} from '../children';
+import {fetchMarketChart, INTERVAL_HOURLY} from '../../../providers/coingecko/coingecko';
 import ROUTES from '../../../constants/routeNames';
-import { CoinDetailsScreenParams } from '../../coinDetails/screen/coinDetailsScreen';
-import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
-import { CoinBase, CoinData } from '../../../redux/reducers/walletReducer';
+import {CoinDetailsScreenParams} from '../../coinDetails/screen/coinDetailsScreen';
+import POINTS, {POINTS_KEYS} from '../../../constants/options/points';
+import {CoinBase, CoinData} from '../../../redux/reducers/walletReducer';
 import {
   fetchAndSetCoinsData,
   fetchCoinQuotes,
   resetWalletData,
   setPriceHistory,
 } from '../../../redux/actions/walletActions';
-import { COIN_IDS } from '../../../constants/defaultCoins';
-import { claimPoints } from '../../../providers/ecency/ePoint';
-import { claimRewardBalance, getAccount } from '../../../providers/hive/dhive';
-import { toastNotification } from '../../../redux/actions/uiAction';
+import {COIN_IDS} from '../../../constants/defaultCoins';
+import {claimPoints} from '../../../providers/ecency/ePoint';
+import {claimRewardBalance, getAccount} from '../../../providers/hive/dhive';
+import {toastNotification} from '../../../redux/actions/uiAction';
 
 const CHART_DAYS_RANGE = 1;
 
-function WalletScreen({ navigation }) {
+function WalletScreen({navigation}) {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
@@ -50,14 +50,14 @@ function WalletScreen({ navigation }) {
   const appState = useRef(AppState.currentState);
 
   // redux
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
-  const currency = useAppSelector((state) => state.application.currency);
+  const isDarkTheme = useAppSelector(state => state.application.isDarkTheme);
+  const currency = useAppSelector(state => state.application.currency);
 
-  const { selectedCoins, priceHistories, coinsData, updateTimestamp, quotes, ...wallet } =
-    useAppSelector((state) => state.wallet);
+  const {selectedCoins, priceHistories, coinsData, updateTimestamp, quotes, ...wallet} =
+    useAppSelector(state => state.wallet);
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinHash = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const pinHash = useAppSelector(state => state.application.pin);
 
   // state
   const [isLoading, setIsLoading] = useState(false);
@@ -113,7 +113,7 @@ function WalletScreen({ navigation }) {
           CHART_DAYS_RANGE,
           INTERVAL_HOURLY,
         );
-        const priceData = marketChart.prices.map((item) => item.yValue);
+        const priceData = marketChart.prices.map(item => item.yValue);
         dispatch(setPriceHistory(token.id, currency.currency, priceData));
       }
     });
@@ -161,7 +161,7 @@ function WalletScreen({ navigation }) {
         ),
       );
     } catch (error) {
-      Alert.alert(intl.formatMessage({ id: 'alert.claim_failed' }, { message: error.message }));
+      Alert.alert(intl.formatMessage({id: 'alert.claim_failed'}, {message: error.message}));
     }
     setIsClaiming(false);
   };
@@ -169,7 +169,7 @@ function WalletScreen({ navigation }) {
   const _claimRewards = (coinId: string) => {
     if (isLoading) {
       setRefreshing(true);
-      Alert.alert(intl.formatMessage({ id: 'alert.wallet_updating' }));
+      Alert.alert(intl.formatMessage({id: 'alert.wallet_updating'}));
       return;
     }
     switch (coinId) {
@@ -183,7 +183,7 @@ function WalletScreen({ navigation }) {
     }
   };
 
-  const _renderItem = ({ item, index }: { item: CoinBase; index: number }) => {
+  const _renderItem = ({item, index}: {item: CoinBase; index: number}) => {
     const coinData: CoinData = coinsData[item.id] || {};
 
     const _tokenMarketData: number[] = priceHistories[item.id] ? priceHistories[item.id].data : [];
@@ -244,10 +244,10 @@ function WalletScreen({ navigation }) {
       <View style={styles.header}>
         <Text style={styles.lastUpdateText}>
           {isLoading
-            ? intl.formatMessage({ id: 'wallet.updating' })
-            : `${intl.formatMessage({ id: 'wallet.last_updated' })} ${moment(
-                updateTimestamp,
-              ).format('HH:mm:ss')}`}
+            ? intl.formatMessage({id: 'wallet.updating'})
+            : `${intl.formatMessage({id: 'wallet.last_updated'})} ${moment(updateTimestamp).format(
+                'HH:mm:ss',
+              )}`}
         </Text>
       </View>
     );

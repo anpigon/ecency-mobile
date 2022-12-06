@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, TextStyle, ViewStyle } from 'react-native';
+import {View, Text, TextStyle, ViewStyle} from 'react-native';
 import LottieView from 'lottie-react-native';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 
 import styles from './emptyScreenStyles';
 import globalStyles from '../../../../globalStyles';
@@ -12,19 +12,19 @@ interface Props {
   text?: string;
 }
 
-function EmptyScreenView({ style, textStyle, text }: Props) {
+function EmptyScreenView({style, textStyle, text}: Props) {
   const intl = useIntl();
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', ...style }}>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', ...style}}>
       <LottieView
-        style={{ width: 150, height: 150, marginBottom: 12 }}
+        style={{width: 150, height: 150, marginBottom: 12}}
         source={require('../../../../assets/animations/empty_screen.json')}
         autoPlay
         loop={true}
       />
       <Text style={[globalStyles.title, styles.text, textStyle]}>
-        {text || intl.formatMessage({ id: 'empty_screen.nothing_here' })}
+        {text || intl.formatMessage({id: 'empty_screen.nothing_here'})}
       </Text>
     </View>
   );

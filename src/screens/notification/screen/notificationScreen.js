@@ -1,11 +1,11 @@
-import React, { Fragment } from 'react';
-import { View, SafeAreaView } from 'react-native';
+import React, {Fragment} from 'react';
+import {View, SafeAreaView} from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import { injectIntl } from 'react-intl';
+import {injectIntl} from 'react-intl';
 
 // Components
-import { TabBar, LeaderBoard, Notification, Header } from '../../../components';
-import { LoggedInContainer } from '../../../containers';
+import {TabBar, LeaderBoard, Notification, Header} from '../../../components';
+import {LoggedInContainer} from '../../../containers';
 
 // Styles
 import styles from './notificationStyles';
@@ -31,14 +31,12 @@ function NotificationScreen({
           style={globalStyles.tabView}
           renderTabBar={() => (
             <TabBar style={styles.tabbar} tabUnderlineDefaultWidth={100} tabUnderlineScaleX={2} />
-          )}
-        >
+          )}>
           <View
             tabLabel={intl.formatMessage({
               id: 'notification.notification',
             })}
-            style={styles.tabbarItem}
-          >
+            style={styles.tabbarItem}>
             <LoggedInContainer>
               {() => (
                 <Notification
@@ -59,8 +57,7 @@ function NotificationScreen({
             tabLabel={intl.formatMessage({
               id: 'notification.leaderboard',
             })}
-            style={styles.tabbarItem}
-          >
+            style={styles.tabbarItem}>
             <LeaderBoard />
           </View>
         </ScrollableTabView>

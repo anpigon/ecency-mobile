@@ -1,12 +1,12 @@
 /* eslint-disable react/no-unused-state */
-import React, { Component } from 'react';
-import { Text, View, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
-import { injectIntl } from 'react-intl';
+import React, {Component} from 'react';
+import {Text, View, ScrollView, Alert, KeyboardAvoidingView, Platform} from 'react-native';
+import {injectIntl} from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
 
-import { View as AnimatedView } from 'react-native-animatable';
-import { getWithdrawRoutes } from '../../../providers/hive/dhive';
+import {View as AnimatedView} from 'react-native-animatable';
+import {getWithdrawRoutes} from '../../../providers/hive/dhive';
 import AUTH_TYPE from '../../../constants/authType';
 
 import {
@@ -24,11 +24,11 @@ import WithdrawAccountModal from './withdrawAccountModal';
 
 import parseToken from '../../../utils/parseToken';
 import parseDate from '../../../utils/parseDate';
-import { hpToVests, vestsToHp } from '../../../utils/conversions';
-import { isEmptyDate, daysTillDate } from '../../../utils/time';
+import {hpToVests, vestsToHp} from '../../../utils/conversions';
+import {isEmptyDate, daysTillDate} from '../../../utils/time';
 
 import styles from './transferStyles';
-import { OptionsModal } from '../../../components/atoms';
+import {OptionsModal} from '../../../components/atoms';
 
 /* Props
  * ------------------------------------------------
@@ -57,17 +57,17 @@ class PowerDownView extends Component {
 
   // Component Life Cycles
   UNSAFE_componentWillMount() {
-    const { currentAccountName } = this.props;
+    const {currentAccountName} = this.props;
 
     this._fetchRoutes(currentAccountName);
   }
 
   // Component Functions
 
-  _fetchRoutes = (username) => {
+  _fetchRoutes = username => {
     return getWithdrawRoutes(username)
-      .then((res) => {
-        const accounts = res.map((item) => ({
+      .then(res => {
+        const accounts = res.map(item => ({
           username: item.to_account,
           percent: item.percent,
           autoPowerUp: item.auto_vest,
@@ -77,31 +77,31 @@ class PowerDownView extends Component {
         });
         return res;
       })
-      .catch((e) => {
+      .catch(e => {
         alert(e.message || e.toString());
       });
   };
 
   _handleTransferAction = () => {
-    const { transferToAccount, accountType, intl } = this.props;
-    const { from, destinationAccounts, amount } = this.state;
+    const {transferToAccount, accountType, intl} = this.props;
+    const {from, destinationAccounts, amount} = this.state;
 
-    this.setState({ isTransfering: true });
+    this.setState({isTransfering: true});
 
     if (accountType === AUTH_TYPE.STEEM_CONNECT) {
       Alert.alert(
-        intl.formatMessage({ id: 'alert.warning' }),
-        intl.formatMessage({ id: 'transfer.sc_power_down_error' }),
+        intl.formatMessage({id: 'alert.warning'}),
+        intl.formatMessage({id: 'transfer.sc_power_down_error'}),
       );
-      this.setState({ steemConnectTransfer: true, isTransfering: false });
+      this.setState({steemConnectTransfer: true, isTransfering: false});
     } else {
       transferToAccount(from, destinationAccounts, amount, '');
     }
   };
 
   // validate hp value if it is out of range or not a valid number
-  _validateHP = ({ value, availableVestingShares }) => {
-    const { hivePerMVests } = this.props;
+  _validateHP = ({value, availableVestingShares}) => {
+    const {hivePerMVests} = this.props;
     const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
     const parsedHpValue = parseFloat(value.toString().replace(',', '.'));
     const amountValid = !(
@@ -112,14 +112,14 @@ class PowerDownView extends Component {
     return amountValid;
   };
 
-  _handleAmountChange = ({ hpValue, availableVestingShares }) => {
-    const { hivePerMVests } = this.props;
+  _handleAmountChange = ({hpValue, availableVestingShares}) => {
+    const {hivePerMVests} = this.props;
     const parsedValue = parseFloat(hpValue.toString().replace(',', '.'));
     const vestsForHp = hpToVests(parsedValue, hivePerMVests);
     const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
 
     if (Number.isNaN(parsedValue)) {
-      this.setState({ amount: 0, hp: 0.0, isAmountValid: false });
+      this.setState({amount: 0, hp: 0.0, isAmountValid: false});
     } else if (parsedValue >= totalHP) {
       this.setState({
         amount: availableVestingShares,
@@ -127,15 +127,15 @@ class PowerDownView extends Component {
         isAmountValid: false,
       });
     } else {
-      this.setState({ amount: vestsForHp, hp: parsedValue, isAmountValid: true });
+      this.setState({amount: vestsForHp, hp: parsedValue, isAmountValid: true});
     }
   };
 
-  _handleSliderAmountChange = ({ value, availableVestingShares }) => {
-    const { hivePerMVests } = this.props;
+  _handleSliderAmountChange = ({value, availableVestingShares}) => {
+    const {hivePerMVests} = this.props;
     const hp = vestsToHp(value, hivePerMVests).toFixed(3);
     const isAmountValid = value !== 0 && value <= availableVestingShares;
-    this.setState({ amount: value, hp, isAmountValid });
+    this.setState({amount: value, hp, isAmountValid});
   };
 
   // renderers
@@ -179,21 +179,21 @@ class PowerDownView extends Component {
     );
   }; */
 
-  _removeDestinationAccount = (account) => {
-    const { destinationAccounts } = this.state;
-    const { setWithdrawVestingRoute, currentAccountName } = this.props;
+  _removeDestinationAccount = account => {
+    const {destinationAccounts} = this.state;
+    const {setWithdrawVestingRoute, currentAccountName} = this.props;
 
-    const result = destinationAccounts.filter((item) => item.username !== account.username);
+    const result = destinationAccounts.filter(item => item.username !== account.username);
 
     setWithdrawVestingRoute(currentAccountName, account.username, 0, false);
-    this.setState({ destinationAccounts: result });
+    this.setState({destinationAccounts: result});
   };
 
   _renderButton = () => (
     <SquareButton
       style={styles.formButton}
       textStyle={styles.formButtonText}
-      onPress={() => this.setState({ isOpenWithdrawAccount: true })}
+      onPress={() => this.setState({isOpenWithdrawAccount: true})}
       text="Add withdraw account"
     />
   );
@@ -210,17 +210,17 @@ class PowerDownView extends Component {
   ); */
 
   _renderBeneficiarySelectionContent = () => {
-    const { intl } = this.props;
-    const { from, destinationAccounts, amount } = this.state;
+    const {intl} = this.props;
+    const {from, destinationAccounts, amount} = this.state;
 
-    const powerDownBeneficiaries = destinationAccounts?.map((item) => ({
+    const powerDownBeneficiaries = destinationAccounts?.map(item => ({
       account: item.username,
       weight: item.percent * 100,
       autoPowerUp: item.autoPowerUp,
     }));
 
-    const _handleSaveBeneficiary = (beneficiaries) => {
-      const destinationAccounts = beneficiaries.map((item) => ({
+    const _handleSaveBeneficiary = beneficiaries => {
+      const destinationAccounts = beneficiaries.map(item => ({
         username: item.account,
         percent: item.weight / 100,
         autoPowerUp: item.autoPowerUp,
@@ -235,7 +235,7 @@ class PowerDownView extends Component {
       }
     };
 
-    const _handleRemoveBeneficiary = (beneficiary) => {
+    const _handleRemoveBeneficiary = beneficiary => {
       if (beneficiary) {
         const beneficiaryAccount = {
           username: beneficiary.account,
@@ -248,8 +248,8 @@ class PowerDownView extends Component {
     return (
       <View style={styles.beneficiaryContainer}>
         <BeneficiarySelectionContent
-          label={intl.formatMessage({ id: 'transfer.withdraw_accounts' })}
-          labelStyle={{ ...styles.sectionHeading, paddingLeft: 0 }}
+          label={intl.formatMessage({id: 'transfer.withdraw_accounts'})}
+          labelStyle={{...styles.sectionHeading, paddingLeft: 0}}
           setDisableDone={this._handleSetDisableDone}
           powerDown={true}
           powerDownBeneficiaries={powerDownBeneficiaries}
@@ -261,14 +261,14 @@ class PowerDownView extends Component {
   };
 
   _renderAmountInput = (placeholder, availableVestingShares) => {
-    const { isAmountValid } = this.state;
+    const {isAmountValid} = this.state;
     return (
       <TextInput
         style={[styles.amountInput, !isAmountValid && styles.error]}
-        onChangeText={(value) =>
+        onChangeText={value =>
           this.setState({
             hp: value.replace(',', '.'),
-            isAmountValid: this._validateHP({ value, availableVestingShares }),
+            isAmountValid: this._validateHP({value, availableVestingShares}),
           })
         }
         value={this.state.hp.toString()}
@@ -280,33 +280,33 @@ class PowerDownView extends Component {
         innerRef={this.amountTextInput}
         blurOnSubmit={true}
         returnKeyType="done"
-        onEndEditing={(e) =>
-          this._handleAmountChange({ hpValue: e.nativeEvent.text, availableVestingShares })
+        onEndEditing={e =>
+          this._handleAmountChange({hpValue: e.nativeEvent.text, availableVestingShares})
         }
       />
     );
   };
 
-  _handleSetDisableDone = (value) => {
-    this.setState({ disableDone: value });
+  _handleSetDisableDone = value => {
+    this.setState({disableDone: value});
   };
 
-  _handleOnDropdownChange = (value) => {
-    const { fetchBalance } = this.props;
+  _handleOnDropdownChange = value => {
+    const {fetchBalance} = this.props;
 
     fetchBalance(value);
     this._fetchRoutes(value);
-    this.setState({ from: value, amount: 0 });
+    this.setState({from: value, amount: 0});
   };
 
   // _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
 
   _handleOnSubmit = (username, percent, autoPowerUp) => {
-    const { destinationAccounts } = this.state;
-    const { setWithdrawVestingRoute, currentAccountName, intl } = this.props;
+    const {destinationAccounts} = this.state;
+    const {setWithdrawVestingRoute, currentAccountName, intl} = this.props;
 
-    if (!destinationAccounts.some((item) => item.username === username)) {
-      destinationAccounts.push({ username, percent, autoPowerUp });
+    if (!destinationAccounts.some(item => item.username === username)) {
+      destinationAccounts.push({username, percent, autoPowerUp});
       setWithdrawVestingRoute(currentAccountName, username, percent, autoPowerUp);
       this.setState({
         isOpenWithdrawAccount: false,
@@ -314,8 +314,8 @@ class PowerDownView extends Component {
       });
     } else {
       Alert.alert(
-        intl.formatMessage({ id: 'alert.fail' }),
-        intl.formatMessage({ id: 'alert.same_user' }),
+        intl.formatMessage({id: 'alert.fail'}),
+        intl.formatMessage({id: 'alert.same_user'}),
       );
     }
   };
@@ -330,7 +330,7 @@ class PowerDownView extends Component {
       currentAccountName,
       hivePerMVests,
     } = this.props;
-    const { amount, hp, isAmountValid, isTransfering, isOpenWithdrawAccount } = this.state;
+    const {amount, hp, isAmountValid, isTransfering, isOpenWithdrawAccount} = this.state;
     let poweringDownVests = 0;
     let availableVestingShares = 0;
     let poweringDownFund = 0;
@@ -365,9 +365,7 @@ class PowerDownView extends Component {
             thumbTintColor="#007ee5"
             maximumValue={availableVestingShares}
             value={amount}
-            onValueChange={(value) =>
-              this._handleSliderAmountChange({ value, availableVestingShares })
-            }
+            onValueChange={value => this._handleSliderAmountChange({value, availableVestingShares})}
           />
           <View style={styles.sliderAmountContainer}>
             <Text style={styles.amountText}>{`MAX  ${totalHP.toFixed(3)} HP`}</Text>
@@ -377,24 +375,24 @@ class PowerDownView extends Component {
     );
 
     const _renderMiddleContent = () => {
-      const { intl } = this.props;
+      const {intl} = this.props;
       return (
         <AnimatedView animation="bounceInRight" delay={500} useNativeDriver>
           <View style={styles.stepTwoContainer}>
             <Text style={styles.sectionHeading}>
-              {intl.formatMessage({ id: 'transfer.power_down_amount_head' })}
+              {intl.formatMessage({id: 'transfer.power_down_amount_head'})}
             </Text>
             <View style={styles.alreadyDelegateRow}>
               <Text style={styles.sectionSubheading}>
-                {intl.formatMessage({ id: 'transfer.power_down_amount_subhead' })}
+                {intl.formatMessage({id: 'transfer.power_down_amount_subhead'})}
               </Text>
             </View>
 
             <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.amount_hp' })}
+              label={intl.formatMessage({id: 'transfer.amount_hp'})}
               rightComponent={() =>
                 this._renderAmountInput(
-                  intl.formatMessage({ id: 'transfer.amount' }),
+                  intl.formatMessage({id: 'transfer.amount'}),
                   availableVestingShares,
                 )
               }
@@ -404,7 +402,7 @@ class PowerDownView extends Component {
             <View style={styles.estimatedContainer}>
               <Text style={styles.leftEstimated} />
               <Text style={styles.rightEstimated}>
-                {intl.formatMessage({ id: 'transfer.estimated_weekly' })} :
+                {intl.formatMessage({id: 'transfer.estimated_weekly'})} :
                 {`+ ${fundPerWeek.toFixed(3)} HIVE`}
               </Text>
             </View>
@@ -418,14 +416,14 @@ class PowerDownView extends Component {
       return (
         <View style={styles.powerDownInfoContainer}>
           <Text style={styles.sectionHeading}>
-            {intl.formatMessage({ id: 'transfer.powering_down' })}
+            {intl.formatMessage({id: 'transfer.powering_down'})}
           </Text>
           <Text style={styles.sectionSubheading}>
             {`${intl.formatMessage({
               id: 'transfer.powering_down_subheading',
             })}\n${intl.formatMessage(
-              { id: 'transfer.powering_down_info' },
-              { days, hp: poweringDownFund },
+              {id: 'transfer.powering_down_info'},
+              {days, hp: poweringDownFund},
             )}`}
           </Text>
         </View>
@@ -433,8 +431,8 @@ class PowerDownView extends Component {
     };
 
     const _handleMainBtn = () => {
-      if (this._validateHP({ value: hp, availableVestingShares })) {
-        this._handleAmountChange({ hpValue: hp, availableVestingShares });
+      if (this._validateHP({value: hp, availableVestingShares})) {
+        this._handleAmountChange({hpValue: hp, availableVestingShares});
         this.startActionSheet.current.show();
       }
     };
@@ -446,18 +444,16 @@ class PowerDownView extends Component {
             style={styles.button}
             isDisable={hp <= 0 || !isAmountValid}
             onPress={_handleMainBtn}
-            isLoading={isTransfering}
-          >
-            <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
+            isLoading={isTransfering}>
+            <Text style={styles.buttonText}>{intl.formatMessage({id: 'transfer.next'})}</Text>
           </MainButton>
         )}
         {poweringDown && (
           <MainButton
             style={styles.stopButton}
             onPress={() => this.stopActionSheet.current.show()}
-            isLoading={isTransfering}
-          >
-            <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.stop' })}</Text>
+            isLoading={isTransfering}>
+            <Text style={styles.buttonText}>{intl.formatMessage({id: 'transfer.stop'})}</Text>
           </MainButton>
         )}
       </View>
@@ -465,19 +461,17 @@ class PowerDownView extends Component {
     return (
       <>
         <BasicHeader
-          title={intl.formatMessage({ id: `transfer.${transferType}` })}
+          title={intl.formatMessage({id: `transfer.${transferType}`})}
           backIconName="close"
         />
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.powerDownKeyboadrAvoidingContainer}
-          keyboardShouldPersistTaps
-        >
+          keyboardShouldPersistTaps>
           <ScrollView
             keyboardShouldPersistTaps
             style={styles.scroll}
-            contentContainerStyle={styles.scrollContentContainer}
-          >
+            contentContainerStyle={styles.scrollContentContainer}>
             {!poweringDown && this._renderBeneficiarySelectionContent()}
             {!poweringDown && _renderMiddleContent()}
             {poweringDown && _renderPowerDownInfo()}
@@ -487,34 +481,33 @@ class PowerDownView extends Component {
         <OptionsModal
           ref={this.startActionSheet}
           options={[
-            intl.formatMessage({ id: 'alert.confirm' }),
-            intl.formatMessage({ id: 'alert.cancel' }),
+            intl.formatMessage({id: 'alert.confirm'}),
+            intl.formatMessage({id: 'alert.cancel'}),
           ]}
-          title={intl.formatMessage({ id: 'transfer.information' })}
+          title={intl.formatMessage({id: 'transfer.information'})}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={(index) => (index === 0 ? this._handleTransferAction() : null)}
+          onPress={index => (index === 0 ? this._handleTransferAction() : null)}
         />
         <OptionsModal
           ref={this.stopActionSheet}
           options={[
-            intl.formatMessage({ id: 'alert.confirm' }),
-            intl.formatMessage({ id: 'alert.cancel' }),
+            intl.formatMessage({id: 'alert.confirm'}),
+            intl.formatMessage({id: 'alert.cancel'}),
           ]}
-          title={intl.formatMessage({ id: 'transfer.stop_information' })}
+          title={intl.formatMessage({id: 'transfer.stop_information'})}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={(index) =>
-            index === 0 ? this.setState({ amount: 0 }, this._handleTransferAction()) : null
+          onPress={index =>
+            index === 0 ? this.setState({amount: 0}, this._handleTransferAction()) : null
           }
         />
         <Modal
           isOpen={isOpenWithdrawAccount}
           isCloseButton
           isFullScreen
-          title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
-          handleOnModalClose={() => this.setState({ isOpenWithdrawAccount: false })}
-        >
+          title={intl.formatMessage({id: 'transfer.steemconnect_title'})}
+          handleOnModalClose={() => this.setState({isOpenWithdrawAccount: false})}>
           <WithdrawAccountModal
             getAccountsWithUsername={getAccountsWithUsername}
             handleOnSubmit={this._handleOnSubmit}

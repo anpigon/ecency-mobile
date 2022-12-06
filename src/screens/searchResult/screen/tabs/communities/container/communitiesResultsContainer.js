@@ -1,21 +1,21 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useIntl } from 'react-intl';
-import { shuffle } from 'lodash';
+import {useState, useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {useIntl} from 'react-intl';
+import {shuffle} from 'lodash';
 
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import ROUTES from '../../../../../../constants/routeNames';
 
-import { getCommunities } from '../../../../../../providers/hive/dhive';
+import {getCommunities} from '../../../../../../providers/hive/dhive';
 
 import {
   subscribeCommunity,
   leaveCommunity,
 } from '../../../../../../redux/actions/communitiesAction';
-import { updateSubscribedCommunitiesCache } from '../../../../../../redux/actions/cacheActions';
-import { statusMessage } from '../../../../../../redux/constants/communitiesConstants';
+import {updateSubscribedCommunitiesCache} from '../../../../../../redux/actions/cacheActions';
+import {statusMessage} from '../../../../../../redux/constants/communitiesConstants';
 
-const CommunitiesResultsContainer = ({ children, searchValue }) => {
+const CommunitiesResultsContainer = ({children, searchValue}) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -23,23 +23,23 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   const [data, setData] = useState([]);
   const [noResult, setNoResult] = useState(false);
   const [isDiscoversLoading, setIsDiscoversLoading] = useState(false);
-  const pinCode = useSelector((state) => state.application.pin);
-  const currentAccount = useSelector((state) => state.account.currentAccount);
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
+  const pinCode = useSelector(state => state.application.pin);
+  const currentAccount = useSelector(state => state.account.currentAccount);
+  const isLoggedIn = useSelector(state => state.application.isLoggedIn);
   const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
   const subscribingCommunities = useSelector(
-    (state) => state.communities.subscribingCommunitiesInSearchResultsScreen,
+    state => state.communities.subscribingCommunitiesInSearchResultsScreen,
   );
   const subscribingCommunitiesInSearchResultsScreen = useSelector(
-    (state) => state.communities.subscribingCommunitiesInSearchResultsScreen,
+    state => state.communities.subscribingCommunitiesInSearchResultsScreen,
   );
-  const subscribedCommunities = useSelector((state) => state.communities.subscribedCommunities);
-  const subscribedCommunitiesCache = useSelector((state) => state.cache.subscribedCommunities);
+  const subscribedCommunities = useSelector(state => state.communities.subscribedCommunities);
+  const subscribedCommunitiesCache = useSelector(state => state.cache.subscribedCommunities);
 
   // handle cache when searchResultsScreen data updates in communities reducer
   useEffect(() => {
     if (subscribingCommunitiesInSearchResultsScreen && selectedCommunityItem) {
-      const { status } =
+      const {status} =
         subscribingCommunitiesInSearchResultsScreen[selectedCommunityItem.communityId];
       if (status === statusMessage.SUCCESS) {
         dispatch(updateSubscribedCommunitiesCache(selectedCommunityItem));
@@ -52,15 +52,15 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
     setNoResult(false);
     setIsDiscoversLoading(true);
     getCommunities('', searchValue ? 100 : 20, searchValue || null, 'rank')
-      .then((communities) => {
+      .then(communities => {
         if (currentAccount && currentAccount.username) {
           if (subscribedCommunities.data && subscribedCommunities.data.length) {
-            communities.forEach((community) => {
+            communities.forEach(community => {
               // first check in cache and then in subscription list
               const itemExistInCache = subscribedCommunitiesCache.get(community.name);
               const _isSubscribed = itemExistInCache
                 ? itemExistInCache.data[4]
-                : subscribedCommunities.data.findIndex((item) => item[0] === community.name) !== -1;
+                : subscribedCommunities.data.findIndex(item => item[0] === community.name) !== -1;
               return Object.assign(community, {
                 isSubscribed: _isSubscribed,
               });
@@ -87,7 +87,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
         }
         setIsDiscoversLoading(false);
       })
-      .catch((err) => {
+      .catch(err => {
         setNoResult(true);
         setData([]);
         setIsDiscoversLoading(false);
@@ -102,13 +102,13 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
       if (!subscribingCommunities[communityId].loading) {
         if (!subscribingCommunities[communityId].error) {
           if (subscribingCommunities[communityId].isSubscribed) {
-            communitiesData.forEach((item) => {
+            communitiesData.forEach(item => {
               if (item.name === communityId) {
                 item.isSubscribed = true;
               }
             });
           } else {
-            communitiesData.forEach((item) => {
+            communitiesData.forEach(item => {
               if (item.name === communityId) {
                 item.isSubscribed = false;
               }
@@ -122,7 +122,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   }, [subscribingCommunities]);
 
   // Component Functions
-  const _handleOnPress = (name) => {
+  const _handleOnPress = name => {
     navigation.navigate({
       name: ROUTES.SCREENS.COMMUNITY,
       params: {

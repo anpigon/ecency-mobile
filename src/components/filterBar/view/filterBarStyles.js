@@ -1,5 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Dimensions } from 'react-native';
+import {Dimensions} from 'react-native';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 const deviceWidth = getWindowDimensions().width;

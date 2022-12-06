@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react';
-import { Text, View, ScrollView } from 'react-native';
-import { injectIntl } from 'react-intl';
+import React, {Fragment} from 'react';
+import {Text, View, ScrollView} from 'react-native';
+import {injectIntl} from 'react-intl';
 import QRCode from 'react-native-qrcode-svg';
-import { connect } from 'react-redux';
-import { BasicHeader } from '../../../components';
+import {connect} from 'react-redux';
+import {BasicHeader} from '../../../components';
 
 import styles from './transferStyles';
 
@@ -28,7 +28,7 @@ function AddressView({
   return (
     <>
       <BasicHeader
-        title={intl.formatMessage({ id: `transfer.${transferType}` })}
+        title={intl.formatMessage({id: `transfer.${transferType}`})}
         backIconName="close"
       />
       <View style={styles.container}>
@@ -41,7 +41,7 @@ function AddressView({
                   <QRCode
                     value="Just some string value"
                     size={200}
-                    logo={{ uri: base64Logo }}
+                    logo={{uri: base64Logo}}
                     logoSize={50}
                     logoMargin={2}
                     logoBackgroundColor="transparent"
@@ -61,7 +61,7 @@ function AddressView({
   );
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   pinCode: state.application.pin,
   globalProps: state.account.globalProps,
   currency: state.application.currency.currency,

@@ -17,7 +17,7 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
     shadowOpacity: 0.2,
     shadowColor: '$shadowColor',
-    shadowOffset: { height: 4 },
+    shadowOffset: {height: 4},
     zIndex: 99,
     borderBottomColor: '$shadowColor',
     borderBottomWidth: 0.1,

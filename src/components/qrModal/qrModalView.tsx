@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, PermissionsAndroid, Platform, Text, View } from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {ActivityIndicator, Alert, PermissionsAndroid, Platform, Text, View} from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { useIntl } from 'react-intl';
-import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
+import {useIntl} from 'react-intl';
+import {check, request, PERMISSIONS, RESULTS, openSettings} from 'react-native-permissions';
 import styles from './qrModalStyles';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { toggleQRModal } from '../../redux/actions/uiAction';
-import { deepLinkParser } from '../../utils/deepLinkParser';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {toggleQRModal} from '../../redux/actions/uiAction';
+import {deepLinkParser} from '../../utils/deepLinkParser';
 import RootNavigation from '../../navigation/rootNavigation';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 
@@ -18,8 +18,8 @@ const screenHeight = getWindowDimensions().height;
 export function QRModal({}: QRModalProps) {
   const dispatch = useAppDispatch();
   const intl = useIntl();
-  const isVisibleQRModal = useAppSelector((state) => state.ui.isVisibleQRModal);
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const isVisibleQRModal = useAppSelector(state => state.ui.isVisibleQRModal);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
 
   const [isScannerActive, setIsScannerActive] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -39,7 +39,7 @@ export function QRModal({}: QRModalProps) {
     if (Platform.OS === 'ios') {
       const permissionStatus = await check(PERMISSIONS.IOS.CAMERA);
       if (permissionStatus !== RESULTS.GRANTED) {
-        request(PERMISSIONS.IOS.CAMERA).then((result) => {
+        request(PERMISSIONS.IOS.CAMERA).then(result => {
           if (result === RESULTS.GRANTED) {
             console.log('Camera permission granted');
           } else {
@@ -95,15 +95,15 @@ export function QRModal({}: QRModalProps) {
     dispatch(toggleQRModal(false));
   };
 
-  const onSuccess = (e) => {
+  const onSuccess = e => {
     setIsScannerActive(false);
     _handleDeepLink(e.data);
   };
 
-  const _handleDeepLink = async (url) => {
+  const _handleDeepLink = async url => {
     setIsProcessing(true);
     const deepLinkData = await deepLinkParser(url, currentAccount);
-    const { name, params, key } = deepLinkData || {};
+    const {name, params, key} = deepLinkData || {};
     setIsProcessing(false);
     if (name && params && key) {
       setIsScannerActive(false);
@@ -111,8 +111,8 @@ export function QRModal({}: QRModalProps) {
       RootNavigation.navigate(deepLinkData);
     } else {
       Alert.alert(
-        intl.formatMessage({ id: 'qr.unsupported_alert_title' }),
-        intl.formatMessage({ id: 'qr.unsupported_alert_desc' }),
+        intl.formatMessage({id: 'qr.unsupported_alert_title'}),
+        intl.formatMessage({id: 'qr.unsupported_alert_desc'}),
         [
           {
             text: 'Close',
@@ -137,18 +137,17 @@ export function QRModal({}: QRModalProps) {
     <ActionSheet
       ref={sheetModalRef}
       gestureEnabled={true}
-      containerStyle={{ ...styles.sheetContent, height: screenHeight }}
+      containerStyle={{...styles.sheetContent, height: screenHeight}}
       onClose={_onClose}
-      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
-    >
+      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}>
       <View style={styles.mainContainer}>
         <QRCodeScanner
           reactivate={isScannerActive}
           showMarker={true}
           ref={scannerRef}
           onRead={onSuccess}
-          topViewStyle={{ display: 'none' }}
-          bottomViewStyle={{ display: 'none' }}
+          topViewStyle={{display: 'none'}}
+          bottomViewStyle={{display: 'none'}}
           containerStyle={styles.scannerContainer}
           cameraContainerStyle={styles.cameraContainer}
           cameraStyle={styles.cameraStyle}

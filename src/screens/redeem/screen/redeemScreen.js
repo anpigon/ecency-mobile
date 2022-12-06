@@ -1,8 +1,8 @@
-import React, { PureComponent, Fragment } from 'react';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { RedeemContainer, PointsContainer } from '../../../containers';
+import React, {PureComponent, Fragment} from 'react';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {RedeemContainer, PointsContainer} from '../../../containers';
 
-import { Promote, PostBoost } from '../../../components';
+import {Promote, PostBoost} from '../../../components';
 
 class RedeemScreen extends PureComponent {
   constructor(props) {
@@ -15,7 +15,7 @@ class RedeemScreen extends PureComponent {
   // Component Functions
 
   render() {
-    const { route } = this.props;
+    const {route} = this.props;
     return (
       <PointsContainer route={route}>
         {({
@@ -28,7 +28,7 @@ class RedeemScreen extends PureComponent {
           user,
         }) => (
           <RedeemContainer>
-            {({ handleOnSubmit, SCPath, isSCModalOpen, handleOnSCModalClose, isLoading }) => (
+            {({handleOnSubmit, SCPath, isSCModalOpen, handleOnSCModalClose, isLoading}) => (
               <>
                 {redeemType === 'promote' && (
                   <Promote

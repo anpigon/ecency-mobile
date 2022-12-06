@@ -1,15 +1,15 @@
 import React from 'react';
-import { SafeAreaView, FlatList, View, Text, TouchableOpacity } from 'react-native';
+import {SafeAreaView, FlatList, View, Text, TouchableOpacity} from 'react-native';
 
 // Components
-import { ListPlaceHolder, EmptyScreen } from '../../../../../../components/basicUIElements';
+import {ListPlaceHolder, EmptyScreen} from '../../../../../../components/basicUIElements';
 import TopicsResultsContainer from '../container/topicsResultsContainer';
 
 import styles from './topicsResultsStyles';
 
 const filterOptions = ['user', 'tag'];
 
-function TopicsResults({ navigation, searchValue }) {
+function TopicsResults({navigation, searchValue}) {
   const _renderTagItem = (item, index) => (
     <View style={[styles.itemWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
       <Text style={styles.username}>{`#${item.tag}`}</Text>
@@ -22,7 +22,7 @@ function TopicsResults({ navigation, searchValue }) {
 
   return (
     <TopicsResultsContainer searchValue={searchValue}>
-      {({ tags, handleOnPress, noResult }) => (
+      {({tags, handleOnPress, noResult}) => (
         <SafeAreaView style={styles.container}>
           {noResult ? (
             <EmptyScreen />
@@ -30,7 +30,7 @@ function TopicsResults({ navigation, searchValue }) {
             <FlatList
               data={tags}
               keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item, index }) => (
+              renderItem={({item, index}) => (
                 <TouchableOpacity onPress={() => handleOnPress(item)}>
                   {_renderTagItem(item, index)}
                 </TouchableOpacity>

@@ -7,7 +7,7 @@ const b64uLookup = {
   '.': '=',
 };
 
-export const b64uEnc = (str) =>
+export const b64uEnc = str =>
   Buffer.from(str)
     .toString('base64')
-    .replace(/(\+|\/|=)/g, (m) => b64uLookup[m]);
+    .replace(/(\+|\/|=)/g, m => b64uLookup[m]);

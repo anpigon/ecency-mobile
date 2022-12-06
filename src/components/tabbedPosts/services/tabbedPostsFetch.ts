@@ -1,7 +1,7 @@
-import { getAccountPosts, getPost, getRankedPosts } from '../../../providers/hive/dhive';
-import { filterLatestPosts, getUpdatedPosts } from './tabbedPostsHelpers';
-import { LoadPostsOptions } from './tabbedPostsModels';
-import { getPromotedEntries } from '../../../providers/ecency/ecency';
+import {getAccountPosts, getPost, getRankedPosts} from '../../../providers/hive/dhive';
+import {filterLatestPosts, getUpdatedPosts} from './tabbedPostsHelpers';
+import {LoadPostsOptions} from './tabbedPostsModels';
+import {getPromotedEntries} from '../../../providers/ecency/ecency';
 
 const POSTS_FETCH_COUNT = 20;
 
@@ -28,7 +28,7 @@ export const loadPosts = async ({
     filter = 'feed';
   }
 
-  const { isLoading, startPermlink, startAuthor } = tabMeta;
+  const {isLoading, startPermlink, startAuthor} = tabMeta;
 
   // reject update if already loading
   if (
@@ -168,7 +168,7 @@ export const loadPosts = async ({
       retData.updatedPosts[0].permlink !== pinnedPermlink
     ) {
       const pinnedPost = await getPost(feedUsername, pinnedPermlink);
-      pinnedPost.stats = { is_pinned_blog: true, ...pinnedPost.stats };
+      pinnedPost.stats = {is_pinned_blog: true, ...pinnedPost.stats};
       retData.updatedPosts = [pinnedPost, ...retData.updatedPosts];
     }
 

@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { TransferContainer } from '../../containers';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {TransferContainer} from '../../containers';
 
 import TransferView from './screen/transferScreen';
 import AddressView from './screen/addressScreen';
 import PowerDownView from './screen/powerDownScreen';
 import DelegateView from './screen/delegateScreen';
 
-function Transfer({ navigation, route }) {
+function Transfer({navigation, route}) {
   return (
     <TransferContainer navigation={navigation} route={route}>
       {({

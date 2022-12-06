@@ -1,29 +1,29 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { View, TouchableOpacity, Text, Alert } from 'react-native';
-import { useIntl } from 'react-intl';
-import { Popover, PopoverController } from 'react-native-modal-popover';
+import React, {Fragment, useEffect, useState} from 'react';
+import {View, TouchableOpacity, Text, Alert} from 'react-native';
+import {useIntl} from 'react-intl';
+import {Popover, PopoverController} from 'react-native-modal-popover';
 import Slider from '@esteemapp/react-native-slider';
 
 // Utils
-import { getEstimatedAmount } from '../../../utils/vote';
+import {getEstimatedAmount} from '../../../utils/vote';
 
 // Components
-import { Icon } from '../../icon';
-import { PulseAnimation } from '../../animations';
-import { TextButton } from '../../buttons';
-import { FormattedCurrency } from '../../formatedElements';
+import {Icon} from '../../icon';
+import {PulseAnimation} from '../../animations';
+import {TextButton} from '../../buttons';
+import {FormattedCurrency} from '../../formatedElements';
 // Services
-import { setRcOffer } from '../../../redux/actions/uiAction';
+import {setRcOffer} from '../../../redux/actions/uiAction';
 
 // STEEM
-import { vote } from '../../../providers/hive/dhive';
+import {vote} from '../../../providers/hive/dhive';
 
 // Styles
 import styles from './upvoteStyles';
-import { useAppSelector } from '../../../hooks';
+import {useAppSelector} from '../../../hooks';
 import postTypes from '../../../constants/postTypes';
-import { useUserActivityMutation } from '../../../providers/queries';
-import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+import {useUserActivityMutation} from '../../../providers/queries';
+import {PointActivityIds} from '../../../providers/ecency/ecency.types';
 
 interface UpvoteViewProps {
   isDeclinedPayout: boolean;
@@ -82,9 +82,9 @@ function UpvoteView({
   const intl = useIntl();
   const userActivityMutation = useUserActivityMutation();
 
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinCode = useAppSelector((state) => state.application.pin);
+  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const pinCode = useAppSelector(state => state.application.pin);
 
   const [sliderValue, setSliderValue] = useState(1);
   const [amount, setAmount] = useState('0.00000');
@@ -127,7 +127,7 @@ function UpvoteView({
     }
   };
 
-  const _upvoteContent = (closePopover) => {
+  const _upvoteContent = closePopover => {
     if (!downvote) {
       closePopover();
       setIsVoting(true);
@@ -137,7 +137,7 @@ function UpvoteView({
 
       console.log(`casting up vote: ${weight}`);
       vote(currentAccount, pinCode, author, permlink, weight)
-        .then((response) => {
+        .then(response => {
           console.log('Vote response: ', response);
           // record user points
           userActivityMutation.mutate({
@@ -160,7 +160,7 @@ function UpvoteView({
           setIsVoting(false);
           onVote(amount, false);
         })
-        .catch((err) => {
+        .catch(err => {
           if (
             err &&
             err.response &&
@@ -202,7 +202,7 @@ function UpvoteView({
     }
   };
 
-  const _downvoteContent = (closePopover) => {
+  const _downvoteContent = closePopover => {
     if (downvote) {
       closePopover();
       setIsVoting(true);
@@ -212,7 +212,7 @@ function UpvoteView({
 
       console.log(`casting down vote: ${weight}`);
       vote(currentAccount, pinCode, author, permlink, weight)
-        .then((response) => {
+        .then(response => {
           // record usr points
           userActivityMutation.mutate({
             pointsTy: PointActivityIds.VOTE,
@@ -222,7 +222,7 @@ function UpvoteView({
           setIsVoting(false);
           onVote(amount, true);
         })
-        .catch((err) => {
+        .catch(err => {
           Alert.alert('Failed!', err.message);
           setUpvote(false);
           setIsVoting(false);
@@ -270,16 +270,15 @@ function UpvoteView({
 
   return (
     <PopoverController>
-      {({ openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect }) => (
+      {({openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect}) => (
         <>
           <TouchableOpacity
             ref={setPopoverAnchor}
             onPress={openPopover}
             style={styles.upvoteButton}
-            disabled={!isLoggedIn}
-          >
+            disabled={!isLoggedIn}>
             {isVoting ? (
-              <View style={{ width: 19 }}>
+              <View style={{width: 19}}>
                 <PulseAnimation
                   color="#357ce6"
                   numPulses={1}
@@ -290,9 +289,9 @@ function UpvoteView({
                 />
               </View>
             ) : (
-              <View hitSlop={{ top: 10, bottom: 10, left: 10, right: 5 }}>
+              <View hitSlop={{top: 10, bottom: 10, left: 10, right: 5}}>
                 <Icon
-                  style={[styles.upvoteIcon, isDownVoted && { color: '#ec8b88' }]}
+                  style={[styles.upvoteIcon, isDownVoted && {color: '#ec8b88'}]}
                   active={!isLoggedIn}
                   iconType={iconType}
                   name={isDownVoted ? downVoteIconName : iconName}
@@ -329,58 +328,54 @@ function UpvoteView({
             }}
             fromRect={popoverAnchorRect}
             placement="top"
-            supportedOrientations={['portrait', 'landscape']}
-          >
+            supportedOrientations={['portrait', 'landscape']}>
             <View style={styles.popoverWrapper}>
               {isShowDetails ? (
                 <View style={styles.popoverContent}>
                   {promotedPayout > 0 &&
                     _payoutPopupItem(
-                      intl.formatMessage({ id: 'payout.promoted' }),
+                      intl.formatMessage({id: 'payout.promoted'}),
                       <FormattedCurrency value={promotedPayout} isApproximate={true} />,
                     )}
 
                   {pendingPayout > 0 &&
                     _payoutPopupItem(
-                      intl.formatMessage({ id: 'payout.potential_payout' }),
+                      intl.formatMessage({id: 'payout.potential_payout'}),
                       <FormattedCurrency value={pendingPayout} isApproximate={true} />,
                     )}
 
                   {authorPayout > 0 &&
                     _payoutPopupItem(
-                      intl.formatMessage({ id: 'payout.author_payout' }),
+                      intl.formatMessage({id: 'payout.author_payout'}),
                       <FormattedCurrency value={authorPayout} isApproximate={true} />,
                     )}
 
                   {curationPayout > 0 &&
                     _payoutPopupItem(
-                      intl.formatMessage({ id: 'payout.curation_payout' }),
+                      intl.formatMessage({id: 'payout.curation_payout'}),
                       <FormattedCurrency value={curationPayout} isApproximate={true} />,
                     )}
                   {payoutLimitHit &&
                     _payoutPopupItem(
-                      intl.formatMessage({ id: 'payout.max_accepted' }),
+                      intl.formatMessage({id: 'payout.max_accepted'}),
                       <FormattedCurrency value={maxPayout} isApproximate={true} />,
                     )}
 
                   {!!breakdownPayout &&
                     pendingPayout > 0 &&
-                    _payoutPopupItem(
-                      intl.formatMessage({ id: 'payout.breakdown' }),
-                      breakdownPayout,
-                    )}
+                    _payoutPopupItem(intl.formatMessage({id: 'payout.breakdown'}), breakdownPayout)}
 
                   {beneficiaries.length > 0 &&
                     _payoutPopupItem(
-                      intl.formatMessage({ id: 'payout.beneficiaries' }),
+                      intl.formatMessage({id: 'payout.beneficiaries'}),
                       beneficiaries,
                     )}
 
                   {!!payoutDate &&
-                    _payoutPopupItem(intl.formatMessage({ id: 'payout.payout_date' }), payoutDate)}
+                    _payoutPopupItem(intl.formatMessage({id: 'payout.payout_date'}), payoutDate)}
 
                   {warnZeroPayout &&
-                    _payoutPopupItem(intl.formatMessage({ id: 'payout.warn_zero_payout' }), '')}
+                    _payoutPopupItem(intl.formatMessage({id: 'payout.warn_zero_payout'}), '')}
                 </View>
               ) : (
                 <>
@@ -388,11 +383,10 @@ function UpvoteView({
                     onPress={() => {
                       _upvoteContent(closePopover);
                     }}
-                    style={styles.upvoteButton}
-                  >
+                    style={styles.upvoteButton}>
                     <Icon
                       size={20}
-                      style={[styles.upvoteIcon, { color: '#007ee5' }]}
+                      style={[styles.upvoteIcon, {color: '#007ee5'}]}
                       active={!isLoggedIn}
                       iconType="AntDesign"
                       name={iconName}
@@ -406,7 +400,7 @@ function UpvoteView({
                     thumbStyle={styles.thumb}
                     thumbTintColor="#007ee5"
                     value={sliderValue}
-                    onValueChange={(value) => {
+                    onValueChange={value => {
                       setSliderValue(value);
                       _calculateEstimatedAmount(value);
                     }}
@@ -414,11 +408,10 @@ function UpvoteView({
                   <Text style={styles.percent}>{_percent}</Text>
                   <TouchableOpacity
                     onPress={() => _downvoteContent(closePopover)}
-                    style={styles.upvoteButton}
-                  >
+                    style={styles.upvoteButton}>
                     <Icon
                       size={20}
-                      style={[styles.upvoteIcon, { color: '#ec8b88' }]}
+                      style={[styles.upvoteIcon, {color: '#ec8b88'}]}
                       active={!isLoggedIn}
                       iconType="AntDesign"
                       name={downVoteIconName}

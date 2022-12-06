@@ -1,13 +1,13 @@
-import React, { PureComponent, Fragment } from 'react';
-import { StatusBar } from 'react-native';
-import { injectIntl } from 'react-intl';
+import React, {PureComponent, Fragment} from 'react';
+import {StatusBar} from 'react-native';
+import {injectIntl} from 'react-intl';
 import get from 'lodash/get';
 
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { ProfileEditContainer } from '../../../containers';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {ProfileEditContainer} from '../../../containers';
 
-import { AvatarHeader, ProfileEditForm } from '../../../components';
-import { OptionsModal } from '../../../components/atoms';
+import {AvatarHeader, ProfileEditForm} from '../../../components';
+import {OptionsModal} from '../../../components/atoms';
 
 class ProfileEditScreen extends PureComponent {
   /* Props
@@ -27,15 +27,15 @@ class ProfileEditScreen extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-  _showImageUploadActions = (action) => {
-    this.setState({ selectedUploadAction: action }, () => {
+  _showImageUploadActions = action => {
+    this.setState({selectedUploadAction: action}, () => {
       this.galleryRef.current.show();
     });
   };
 
   render() {
-    const { intl, route } = this.props;
-    const { selectedUploadAction } = this.state;
+    const {intl, route} = this.props;
+    const {selectedUploadAction} = this.state;
 
     return (
       <ProfileEditContainer route={route}>
@@ -96,7 +96,7 @@ class ProfileEditScreen extends PureComponent {
                 }),
               ]}
               cancelButtonIndex={2}
-              onPress={(index) => {
+              onPress={index => {
                 handleMediaAction(
                   index === 0 ? 'image' : index === 1 && 'camera',
                   selectedUploadAction,

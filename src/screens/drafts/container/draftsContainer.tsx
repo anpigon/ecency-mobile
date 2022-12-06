@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import React, {useState} from 'react';
+import {connect} from 'react-redux';
+import {injectIntl} from 'react-intl';
 
 // Services and Actions
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import {
   useDraftDeleteMutation,
   useGetDraftsQuery,
@@ -15,17 +15,17 @@ import {
 // Middleware
 
 // Constants
-import { default as ROUTES } from '../../../constants/routeNames';
+import {default as ROUTES} from '../../../constants/routeNames';
 
 // Utilities
 
 // Component
 import DraftsScreen from '../screen/draftsScreen';
 
-function DraftsContainer({ currentAccount, navigation, route }) {
-  const { mutate: deleteDraft, isLoading: isDeletingDraft } = useDraftDeleteMutation();
-  const { mutate: deleteSchedule, isLoading: isDeletingSchedule } = useScheduleDeleteMutation();
-  const { mutate: moveScheduleToDrafts, isLoading: isMovingToDrafts } =
+function DraftsContainer({currentAccount, navigation, route}) {
+  const {mutate: deleteDraft, isLoading: isDeletingDraft} = useDraftDeleteMutation();
+  const {mutate: deleteSchedule, isLoading: isDeletingSchedule} = useScheduleDeleteMutation();
+  const {mutate: moveScheduleToDrafts, isLoading: isMovingToDrafts} =
     useMoveScheduleToDraftsMutation();
 
   const {
@@ -82,7 +82,7 @@ function DraftsContainer({ currentAccount, navigation, route }) {
   );
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
 });
 

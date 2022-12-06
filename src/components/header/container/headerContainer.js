@@ -3,15 +3,15 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 
 // Component
-import { useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 import HeaderView from '../view/headerView';
 
-import { AccountContainer, ThemeContainer } from '../../../containers';
-import { parseReputation } from '../../../utils/user';
-import { toggleQRModal } from '../../../redux/actions/uiAction';
+import {AccountContainer, ThemeContainer} from '../../../containers';
+import {parseReputation} from '../../../utils/user';
+import {toggleQRModal} from '../../../redux/actions/uiAction';
 
-function HeaderContainer({ selectedUser, isReverse, handleOnBackPress, hideUser, showQR }) {
+function HeaderContainer({selectedUser, isReverse, handleOnBackPress, hideUser, showQR}) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -35,9 +35,9 @@ function HeaderContainer({ selectedUser, isReverse, handleOnBackPress, hideUser,
 
   return (
     <ThemeContainer>
-      {({ isDarkTheme }) => (
+      {({isDarkTheme}) => (
         <AccountContainer>
-          {({ currentAccount, isLoggedIn, isLoginDone }) => {
+          {({currentAccount, isLoggedIn, isLoginDone}) => {
             const _user = isReverse && selectedUser ? selectedUser : currentAccount;
 
             const reputation = parseReputation(get(_user, 'reputation'));

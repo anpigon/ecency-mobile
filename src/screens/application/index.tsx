@@ -3,7 +3,7 @@ import React from 'react';
 import ApplicationContainer from './container/applicationContainer';
 import ApplicationScreen from './children/applicationScreen';
 import ErrorBoundary from './children/errorBoundary';
-import { useInitApplication } from './hook/useInitApplication';
+import {useInitApplication} from './hook/useInitApplication';
 
 function Application() {
   // New hook to handle all custom app initializations
@@ -42,4 +42,4 @@ function Application() {
 
 export default Application;
 
-export { ApplicationContainer, ApplicationScreen };
+export {ApplicationContainer, ApplicationScreen};

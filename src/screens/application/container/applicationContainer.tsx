@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import {Component} from 'react';
 import {
   Platform,
   Alert,
@@ -10,9 +10,9 @@ import {
 import NetInfo from '@react-native-community/netinfo';
 import Config from 'react-native-config';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
-import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
-import { bindActionCreators } from '@reduxjs/toolkit';
+import {connect} from 'react-redux';
+import {injectIntl} from 'react-intl';
+import {bindActionCreators} from '@reduxjs/toolkit';
 import messaging from '@react-native-firebase/messaging';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
@@ -34,8 +34,8 @@ import {
   getLastUpdateCheck,
   setLastUpdateCheck,
 } from '../../../realm/realm';
-import { getUser, getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
-import { getPointsSummary } from '../../../providers/ecency/ePoint';
+import {getUser, getDigitPinCode, getMutes} from '../../../providers/hive/dhive';
+import {getPointsSummary} from '../../../providers/ecency/ePoint';
 import {
   migrateToMasterKeyWithAccessToken,
   refreshSCToken,
@@ -46,7 +46,7 @@ import {
   markNotifications,
   getUnreadNotificationCount,
 } from '../../../providers/ecency/ecency';
-import { fetchLatestAppVersion } from '../../../providers/github/github';
+import {fetchLatestAppVersion} from '../../../providers/github/github';
 import RootNavigation from '../../../navigation/rootNavigation';
 
 // Actions
@@ -73,18 +73,18 @@ import {
   toastNotification,
   updateActiveBottomTab,
 } from '../../../redux/actions/uiAction';
-import { setFeedPosts, setInitPosts } from '../../../redux/actions/postsAction';
-import { fetchCoinQuotes } from '../../../redux/actions/walletActions';
+import {setFeedPosts, setInitPosts} from '../../../redux/actions/postsAction';
+import {fetchCoinQuotes} from '../../../redux/actions/walletActions';
 
-import { decryptKey, encryptKey } from '../../../utils/crypto';
+import {decryptKey, encryptKey} from '../../../utils/crypto';
 
 import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 import parseVersionNumber from '../../../utils/parseVersionNumber';
-import { setMomentLocale } from '../../../utils/time';
-import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
-import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
+import {setMomentLocale} from '../../../utils/time';
+import {purgeExpiredCache} from '../../../redux/actions/cacheActions';
+import {fetchSubscribedCommunities} from '../../../redux/actions/communitiesAction';
 import MigrationHelpers from '../../../utils/migrationHelpers';
-import { deepLinkParser } from '../../../utils/deepLinkParser';
+import {deepLinkParser} from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
 
 let firebaseOnMessageListener: any = null;
@@ -105,13 +105,13 @@ class ApplicationContainer extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
 
     this._setNetworkListener();
 
     linkingEventSub = Linking.addEventListener('url', this._handleOpenURL);
     // TOOD: read initial URL
-    Linking.getInitialURL().then((url) => {
+    Linking.getInitialURL().then(url => {
       this._handleDeepLink(url);
     });
 
@@ -126,29 +126,23 @@ class ApplicationContainer extends Component {
     this._fetchApp();
 
     ReceiveSharingIntent.getReceivedFiles(
-      (files) => {
+      files => {
         RootNavigation.navigate({
           name: ROUTES.SCREENS.EDITOR,
-          params: { hasSharedIntent: true, files },
+          params: {hasSharedIntent: true, files},
         });
         // files returns as JSON Array example
         // [{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
         ReceiveSharingIntent.clearReceivedFiles(); // clear Intents
       },
-      (error) => {
+      error => {
         console.log('error :>> ', error);
       },
     );
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const {
-      isDarkTheme: _isDarkTheme,
-      selectedLanguage,
-      isLogingOut,
-      isConnected,
-      api,
-    } = this.props;
+    const {isDarkTheme: _isDarkTheme, selectedLanguage, isLogingOut, isConnected, api} = this.props;
 
     if (
       _isDarkTheme !== nextProps.isDarkTheme ||
@@ -181,7 +175,7 @@ class ApplicationContainer extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { isGlobalRenderRequired, dispatch } = this.props;
+    const {isGlobalRenderRequired, dispatch} = this.props;
 
     if (isGlobalRenderRequired !== prevProps.isGlobalRenderRequired && isGlobalRenderRequired) {
       this.setState(
@@ -198,7 +192,7 @@ class ApplicationContainer extends Component {
   }
 
   componentWillUnmount() {
-    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
+    const {isPinCodeOpen: _isPinCodeOpen} = this.props;
 
     // TOOD: listen for back press and cancel all pending api requests;
     if (linkingEventSub) {
@@ -221,8 +215,8 @@ class ApplicationContainer extends Component {
   }
 
   _setNetworkListener = () => {
-    this.netListener = NetInfo.addEventListener((state) => {
-      const { isConnected, dispatch } = this.props;
+    this.netListener = NetInfo.addEventListener(state => {
+      const {isConnected, dispatch} = this.props;
       if (state.isConnected !== isConnected) {
         dispatch(setConnectivityStatus(state.isConnected));
         this._fetchApp();
@@ -230,12 +224,12 @@ class ApplicationContainer extends Component {
     });
   };
 
-  _handleOpenURL = (event) => {
+  _handleOpenURL = event => {
     this._handleDeepLink(event.url);
   };
 
   _handleDeepLink = async (url: string | null) => {
-    const { currentAccount } = this.props;
+    const {currentAccount} = this.props;
 
     if (!url) {
       return;
@@ -243,7 +237,7 @@ class ApplicationContainer extends Component {
 
     try {
       const deepLinkData = await deepLinkParser(url, currentAccount);
-      const { name, params, key } = deepLinkData || {};
+      const {name, params, key} = deepLinkData || {};
 
       if (name && key) {
         RootNavigation.navigate({
@@ -259,7 +253,7 @@ class ApplicationContainer extends Component {
 
   _compareAndPromptForUpdate = async () => {
     const recheckInterval = 48 * 3600 * 1000; // 2 days
-    const { dispatch, intl } = this.props;
+    const {dispatch, intl} = this.props;
 
     const lastUpdateCheck = await getLastUpdateCheck();
 
@@ -275,20 +269,17 @@ class ApplicationContainer extends Component {
     if (parseVersionNumber(remoteVersion) > parseVersionNumber(VersionNumber.appVersion)) {
       dispatch(
         showActionModal({
-          title: intl.formatMessage(
-            { id: 'alert.update_available_title' },
-            { version: remoteVersion },
-          ),
-          body: intl.formatMessage({ id: 'alert.update_available_body' }),
+          title: intl.formatMessage({id: 'alert.update_available_title'}, {version: remoteVersion}),
+          body: intl.formatMessage({id: 'alert.update_available_body'}),
           buttons: [
             {
-              text: intl.formatMessage({ id: 'alert.remind_later' }),
+              text: intl.formatMessage({id: 'alert.remind_later'}),
               onPress: () => {
                 setLastUpdateCheck(new Date().getTime());
               },
             },
             {
-              text: intl.formatMessage({ id: 'alert.update' }),
+              text: intl.formatMessage({id: 'alert.update'}),
               onPress: () => {
                 setLastUpdateCheck(null);
                 Linking.openURL(
@@ -307,7 +298,7 @@ class ApplicationContainer extends Component {
   };
 
   _handleAlert = (text = null, title = null) => {
-    const { intl } = this.props;
+    const {intl} = this.props;
 
     Alert.alert(
       intl.formatMessage({
@@ -319,9 +310,9 @@ class ApplicationContainer extends Component {
     );
   };
 
-  _handleAppStateChange = (nextAppState) => {
-    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
-    const { appState } = this.state;
+  _handleAppStateChange = nextAppState => {
+    const {isPinCodeOpen: _isPinCodeOpen} = this.props;
+    const {appState} = this.state;
 
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
       this._refreshGlobalProps();
@@ -341,7 +332,7 @@ class ApplicationContainer extends Component {
   };
 
   _fetchApp = async () => {
-    const { dispatch, settingsMigratedV2 } = this.props;
+    const {dispatch, settingsMigratedV2} = this.props;
 
     await MigrationHelpers.migrateSettings(dispatch, settingsMigratedV2);
 
@@ -353,7 +344,7 @@ class ApplicationContainer extends Component {
   };
 
   _startPinCodeTimer = () => {
-    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
+    const {isPinCodeOpen: _isPinCodeOpen} = this.props;
     if (_isPinCodeOpen) {
       this._pinCodeTimer = setTimeout(() => {
         RootNavigation.navigate({
@@ -363,11 +354,11 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _showNotificationToast = (remoteMessage) => {
-    const { dispatch } = this.props;
+  _showNotificationToast = remoteMessage => {
+    const {dispatch} = this.props;
 
     if (remoteMessage && remoteMessage.notification) {
-      const { title } = remoteMessage.notification;
+      const {title} = remoteMessage.notification;
       dispatch(toastNotification(title));
     }
   };
@@ -375,7 +366,7 @@ class ApplicationContainer extends Component {
   _createPushListener = async () => {
     await messaging().requestPermission();
 
-    firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
+    firebaseOnMessageListener = messaging().onMessage(remoteMessage => {
       console.log('Notification Received: foreground', remoteMessage);
 
       this.setState({
@@ -384,8 +375,8 @@ class ApplicationContainer extends Component {
     });
   };
 
-  _handleConntectionChange = (status) => {
-    const { dispatch, isConnected } = this.props;
+  _handleConntectionChange = status => {
+    const {dispatch, isConnected} = this.props;
 
     if (isConnected !== status) {
       dispatch(setConnectivityStatus(status));
@@ -393,23 +384,23 @@ class ApplicationContainer extends Component {
   };
 
   _refreshGlobalProps = () => {
-    const { actions } = this.props;
+    const {actions} = this.props;
     actions.fetchGlobalProperties();
     actions.fetchCoinQuotes();
   };
 
   _refreshUnreadActivityCount = async () => {
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
     const unreadActivityCount = await getUnreadNotificationCount();
     dispatch(updateUnreadActivityCount(unreadActivityCount));
   };
 
   _getUserDataFromRealm = async () => {
-    const { dispatch, isPinCodeOpen: _isPinCodeOpen, isConnected } = this.props;
+    const {dispatch, isPinCodeOpen: _isPinCodeOpen, isConnected} = this.props;
     let realmData = [];
 
     const res = await getAuthStatus();
-    const { currentUsername } = res;
+    const {currentUsername} = res;
 
     if (res) {
       dispatch(login(true));
@@ -441,7 +432,7 @@ class ApplicationContainer extends Component {
             removeUserData(accountData.username);
           } else {
             const persistAccountData = persistAccountGenerator(accountData);
-            dispatch(addOtherAccount({ ...persistAccountData }));
+            dispatch(addOtherAccount({...persistAccountData}));
             // TODO: check post v2.2.5+ or remove setexistuser from login
             setExistUser(true);
           }
@@ -453,7 +444,7 @@ class ApplicationContainer extends Component {
     }
 
     if (realmData.length > 0) {
-      const realmObject = realmData.filter((data) => data.username === currentUsername);
+      const realmObject = realmData.filter(data => data.username === currentUsername);
 
       if (realmObject.length === 0) {
         realmObject[0] = realmData[realmData.length - 1];
@@ -464,7 +455,7 @@ class ApplicationContainer extends Component {
       realmObject[0].name = currentUsername;
       // If in dev mode pin code does not show
       if (_isPinCodeOpen) {
-        RootNavigation.navigate({ name: ROUTES.SCREENS.PINCODE });
+        RootNavigation.navigate({name: ROUTES.SCREENS.PINCODE});
       } else if (!_isPinCodeOpen) {
         const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
         dispatch(savePinCode(encryptedPin));
@@ -482,8 +473,8 @@ class ApplicationContainer extends Component {
     return null;
   };
 
-  _refreshAccessToken = async (currentAccount) => {
-    const { pinCode, isPinCodeOpen, encUnlockPin, dispatch, intl } = this.props;
+  _refreshAccessToken = async currentAccount => {
+    const {pinCode, isPinCodeOpen, encUnlockPin, dispatch, intl} = this.props;
 
     if (isPinCodeOpen && !encUnlockPin) {
       return currentAccount;
@@ -509,18 +500,18 @@ class ApplicationContainer extends Component {
         error.message,
         [
           {
-            text: intl.formatMessage({ id: 'side_menu.logout' }),
+            text: intl.formatMessage({id: 'side_menu.logout'}),
             onPress: () => dispatch(logout()),
           },
-          { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },
+          {text: intl.formatMessage({id: 'alert.cancel'}), style: 'destructive'},
         ],
       );
       return currentAccount;
     }
   };
 
-  _fetchUserDataFromDsteem = async (realmObject) => {
-    const { dispatch, intl, pinCode, isPinCodeOpen, encUnlockPin } = this.props;
+  _fetchUserDataFromDsteem = async realmObject => {
+    const {dispatch, intl, pinCode, isPinCodeOpen, encUnlockPin} = this.props;
 
     try {
       let accountData = await getUser(realmObject.username);
@@ -553,20 +544,19 @@ class ApplicationContainer extends Component {
       // TODO: better update device push token here after access token refresh
     } catch (err) {
       Alert.alert(
-        `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
+        `${intl.formatMessage({id: 'alert.fetch_error'})} \n${err.message.substr(0, 20)}`,
       );
     }
   };
 
   // update notification settings and update push token for each signed accoutn useing access tokens
   _registerDeviceForNotifications = (settings?: any) => {
-    const { currentAccount, otherAccounts, notificationDetails, isNotificationsEnabled } =
-      this.props;
+    const {currentAccount, otherAccounts, notificationDetails, isNotificationsEnabled} = this.props;
 
     const isEnabled = settings ? !!settings.notification : isNotificationsEnabled;
     settings = settings || notificationDetails;
 
-    const _enabledNotificationForAccount = (account) => {
+    const _enabledNotificationForAccount = account => {
       const encAccessToken = account?.local?.accessToken;
       // decrypt access token
       let accessToken = null;
@@ -580,7 +570,7 @@ class ApplicationContainer extends Component {
     };
 
     // updateing fcm token with settings;
-    otherAccounts.forEach((account) => {
+    otherAccounts.forEach(account => {
       // since there can be more than one accounts, process access tokens separate
       if (account?.local?.accessToken) {
         _enabledNotificationForAccount(account);
@@ -602,12 +592,12 @@ class ApplicationContainer extends Component {
     });
   };
 
-  _connectNotificationServer = (username) => {
+  _connectNotificationServer = username => {
     /* eslint no-undef: "warn" */
     const ws = new WebSocket(`${Config.ACTIVITY_WEBSOCKET_URL}?user=${username}`);
 
     ws.onmessage = () => {
-      const { activeBottomTab, unreadActivityCount, dispatch } = this.props;
+      const {activeBottomTab, unreadActivityCount, dispatch} = this.props;
 
       dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
 
@@ -622,14 +612,14 @@ class ApplicationContainer extends Component {
   _logout = () => {
     const {
       otherAccounts,
-      currentAccount: { name, local },
+      currentAccount: {name, local},
       dispatch,
       intl,
     } = this.props;
 
     removeUserData(name)
       .then(async () => {
-        const _otherAccounts = otherAccounts.filter((user) => user.username !== name);
+        const _otherAccounts = otherAccounts.filter(user => user.username !== name);
 
         this._enableNotification(name, false);
 
@@ -657,9 +647,9 @@ class ApplicationContainer extends Component {
         dispatch(removeOtherAccount(name));
         dispatch(logoutDone());
       })
-      .catch((err) => {
+      .catch(err => {
         Alert.alert(
-          `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
+          `${intl.formatMessage({id: 'alert.fetch_error'})} \n${err.message.substr(0, 20)}`,
         );
       });
   };
@@ -692,7 +682,7 @@ class ApplicationContainer extends Component {
 
     messaging()
       .getToken()
-      .then((token) => {
+      .then(token => {
         setPushToken(
           {
             username,
@@ -706,8 +696,8 @@ class ApplicationContainer extends Component {
       });
   };
 
-  _switchAccount = async (targetAccount) => {
-    const { dispatch, isConnected } = this.props;
+  _switchAccount = async targetAccount => {
+    const {dispatch, isConnected} = this.props;
 
     if (!isConnected) return;
 
@@ -753,7 +743,7 @@ class ApplicationContainer extends Component {
       children,
       rcOffer,
     } = this.props;
-    const { isRenderRequire, foregroundNotificationData } = this.state;
+    const {isRenderRequire, foregroundNotificationData} = this.state;
 
     return (
       children &&
@@ -771,7 +761,7 @@ class ApplicationContainer extends Component {
 }
 
 export default connect(
-  (state) => ({
+  state => ({
     // Application
     isDarkTheme: state.application.isDarkTheme,
     selectedLanguage: state.application.language,
@@ -798,7 +788,7 @@ export default connect(
     activeBottomTab: state.ui.activeBottomTab,
     rcOffer: state.ui.rcOffer,
   }),
-  (dispatch) => ({
+  dispatch => ({
     dispatch,
     actions: {
       ...bindActionCreators(

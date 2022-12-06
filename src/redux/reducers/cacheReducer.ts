@@ -1,4 +1,4 @@
-import { PointActivity } from '../../providers/ecency/ecency.types';
+import {PointActivity} from '../../providers/ecency/ecency.types';
 import {
   PURGE_EXPIRED_CACHE,
   UPDATE_VOTE_CACHE,
@@ -37,7 +37,7 @@ export interface Comment {
   author_reputation?: number;
   total_payout?: number;
   net_rshares?: number;
-  active_votes?: Array<{ rshares: number; voter: string }>;
+  active_votes?: Array<{rshares: number; voter: string}>;
   json_metadata?: any;
   isDeletable?: boolean;
   created?: string; // handle created and updated separatly
@@ -84,8 +84,8 @@ const initialState: State = {
   lastUpdate: null,
 };
 
-export default function cacheReducer(state = initialState, action = { type: '', payload: {} }) {
-  const { type, payload } = action;
+export default function cacheReducer(state = initialState, action = {type: '', payload: {}}) {
+  const {type, payload} = action;
   switch (type) {
     case UPDATE_VOTE_CACHE:
       if (!state.votes) {
@@ -119,7 +119,7 @@ export default function cacheReducer(state = initialState, action = { type: '', 
       if (state.comments && state.comments.has(payload)) {
         state.comments.delete(payload);
       }
-      return { ...state };
+      return {...state};
 
     case UPDATE_DRAFT_CACHE:
       if (!state.drafts) {
@@ -148,7 +148,7 @@ export default function cacheReducer(state = initialState, action = { type: '', 
       if (state.drafts && state.drafts.has(payload)) {
         state.drafts.delete(payload);
       }
-      return { ...state };
+      return {...state};
 
     case UPDATE_SUBSCRIBED_COMMUNITY_CACHE:
       if (!state.subscribedCommunities) {
@@ -165,12 +165,12 @@ export default function cacheReducer(state = initialState, action = { type: '', 
       if (state.subscribedCommunities && state.subscribedCommunities.has(payload)) {
         state.subscribedCommunities.delete(payload);
       }
-      return { ...state };
+      return {...state};
 
     case CLEAR_SUBSCRIBED_COMMUNITIES_CACHE:
       state.subscribedCommunities = new Map<string, SubscribedCommunity>();
 
-      return { ...state };
+      return {...state};
 
     case UPDATE_POINT_ACTIVITY_CACHE:
       if (!state.pointActivities) {
@@ -185,13 +185,13 @@ export default function cacheReducer(state = initialState, action = { type: '', 
       if (state.pointActivities && state.pointActivities.has(payload)) {
         state.pointActivities.delete(payload);
       }
-      return { ...state };
+      return {...state};
 
     case PURGE_EXPIRED_CACHE:
       const currentTime = new Date().getTime();
 
       if (state.votes && state.votes.size) {
-        Array.from(state.votes).forEach((entry) => {
+        Array.from(state.votes).forEach(entry => {
           if (entry[1].expiresAt < currentTime) {
             state.votes.delete(entry[0]);
           }
@@ -199,7 +199,7 @@ export default function cacheReducer(state = initialState, action = { type: '', 
       }
 
       if (state.comments && state.comments.size) {
-        Array.from(state.comments).forEach((entry) => {
+        Array.from(state.comments).forEach(entry => {
           if (entry[1].expiresAt < currentTime) {
             state.comments.delete(entry[0]);
           }
@@ -207,7 +207,7 @@ export default function cacheReducer(state = initialState, action = { type: '', 
       }
 
       if (state.drafts && state.drafts.size) {
-        Array.from(state.drafts).forEach((entry) => {
+        Array.from(state.drafts).forEach(entry => {
           if (entry[1].expiresAt < currentTime || !entry[1].body) {
             state.drafts.delete(entry[0]);
           }
@@ -215,7 +215,7 @@ export default function cacheReducer(state = initialState, action = { type: '', 
       }
 
       if (state.subscribedCommunities && state.subscribedCommunities.size) {
-        Array.from(state.subscribedCommunities).forEach((entry) => {
+        Array.from(state.subscribedCommunities).forEach(entry => {
           if (entry[1].expiresAt < currentTime) {
             state.subscribedCommunities.delete(entry[0]);
           }

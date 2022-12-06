@@ -1,11 +1,11 @@
-import React, { Fragment, useState, useRef } from 'react';
-import { Text, View } from 'react-native';
-import { WebView } from 'react-native-webview';
-import { injectIntl } from 'react-intl';
+import React, {Fragment, useState, useRef} from 'react';
+import {Text, View} from 'react-native';
+import {WebView} from 'react-native-webview';
+import {injectIntl} from 'react-intl';
 import get from 'lodash/get';
 
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { hsOptions } from '../../../constants/hsOptions';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {hsOptions} from '../../../constants/hsOptions';
 import AUTH_TYPE from '../../../constants/authType';
 
 import {
@@ -17,7 +17,7 @@ import {
 } from '../../../components';
 
 import styles from './transferStyles';
-import { OptionsModal } from '../../../components/atoms';
+import {OptionsModal} from '../../../components/atoms';
 import transferTypes from '../../../constants/transferTypes';
 
 function TransferView({
@@ -129,14 +129,13 @@ function TransferView({
   return (
     <>
       <BasicHeader
-        title={intl.formatMessage({ id: `transfer.${transferType}` })}
+        title={intl.formatMessage({id: `transfer.${transferType}`})}
         backIconName="close"
       />
 
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps
-        contentContainerStyle={[styles.grow, styles.keyboardAwareScrollContainer]}
-      >
+        contentContainerStyle={[styles.grow, styles.keyboardAwareScrollContainer]}>
         <View style={styles.container}>
           <TransferAccountSelector
             accounts={accounts}
@@ -176,9 +175,8 @@ function TransferView({
               style={styles.button}
               isDisable={!(amount >= 0.001 && isUsernameValid)}
               onPress={() => confirm.current.show()}
-              isLoading={isTransfering}
-            >
-              <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
+              isLoading={isTransfering}>
+              <Text style={styles.buttonText}>{intl.formatMessage({id: 'transfer.next'})}</Text>
             </MainButton>
           </View>
         </View>
@@ -187,13 +185,13 @@ function TransferView({
       <OptionsModal
         ref={confirm}
         options={[
-          intl.formatMessage({ id: 'alert.confirm' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
+          intl.formatMessage({id: 'alert.confirm'}),
+          intl.formatMessage({id: 'alert.cancel'}),
         ]}
-        title={intl.formatMessage({ id: 'transfer.information' })}
+        title={intl.formatMessage({id: 'transfer.information'})}
         cancelButtonIndex={1}
         destructiveButtonIndex={0}
-        onPress={(index) => {
+        onPress={index => {
           index === 0 ? _handleTransferAction() : null;
         }}
       />
@@ -203,9 +201,8 @@ function TransferView({
           isFullScreen
           isCloseButton
           handleOnModalClose={handleOnModalClose}
-          title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
-        >
-          <WebView source={{ uri: `${hsOptions.base_url}${path}` }} />
+          title={intl.formatMessage({id: 'transfer.steemconnect_title'})}>
+          <WebView source={{uri: `${hsOptions.base_url}${path}`}} />
         </Modal>
       )}
     </>

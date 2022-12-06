@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Image } from 'react-native';
+import {View, Image} from 'react-native';
 
-import { SpinIndicator } from '../spinIndicator/spinIndicator';
+import {SpinIndicator} from '../spinIndicator/spinIndicator';
 
 // Styles
 import styles from './boostIndicatorStyles';
 
-function BoostIndicatorAnimation({ isSpinning }) {
+function BoostIndicatorAnimation({isSpinning}) {
   return (
     <View style={styles.spinIndicatorContainer}>
       <SpinIndicator
@@ -34,11 +34,11 @@ function BoostIndicatorAnimation({ isSpinning }) {
         initStart={40}
       />
       <Image
-        style={{ width: 80, height: 80 }}
+        style={{width: 80, height: 80}}
         source={require('../../../assets/ecency-logo-round.png')}
       />
     </View>
   );
 }
 
-export { BoostIndicatorAnimation };
+export {BoostIndicatorAnimation};

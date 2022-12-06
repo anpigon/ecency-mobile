@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
-import { View, Text } from 'react-native';
+import React, {PureComponent} from 'react';
+import {View, Text} from 'react-native';
 
 // Constants
 
 // Components
-import { Icon } from '../../icon';
+import {Icon} from '../../icon';
 
 // Styles
 import styles from './containerHeaderStyles';
@@ -25,7 +25,7 @@ class ContainerHeaderView extends PureComponent {
   // Component Functions
 
   render() {
-    const { color, defaultTitle, fontSize, hasSeperator, iconName, isBoldTitle, title, isCenter } =
+    const {color, defaultTitle, fontSize, hasSeperator, iconName, isBoldTitle, title, isCenter} =
       this.props;
 
     return (
@@ -36,11 +36,10 @@ class ContainerHeaderView extends PureComponent {
           style={[
             styles.title,
             isCenter && styles.centerTitle,
-            isBoldTitle && { fontWeight: 'bold' },
-            color && { color },
-            fontSize && { fontSize },
-          ]}
-        >
+            isBoldTitle && {fontWeight: 'bold'},
+            color && {color},
+            fontSize && {fontSize},
+          ]}>
           {title || defaultTitle}
         </Text>
         {iconName && <Icon style={styles.icon} iconType="MaterialIcons" name={iconName} />}

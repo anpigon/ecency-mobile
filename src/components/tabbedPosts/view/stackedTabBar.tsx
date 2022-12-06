@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { CustomiseFiltersModal, FilterBar } from '../..';
-import { setHidePostsThumbnails } from '../../../redux/actions/applicationActions';
-import { CustomiseFiltersModalRef } from '../../customiseFiltersModal/customiseFiltersModal';
+import React, {useRef, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {useDispatch, useSelector} from 'react-redux';
+import {CustomiseFiltersModal, FilterBar} from '../..';
+import {setHidePostsThumbnails} from '../../../redux/actions/applicationActions';
+import {CustomiseFiltersModalRef} from '../../customiseFiltersModal/customiseFiltersModal';
 
 export interface TabItem {
   filterKey: string;
@@ -40,7 +40,7 @@ export function StackedTabBar({
   const customiseModalRef = useRef<CustomiseFiltersModalRef>();
 
   // redux properties
-  const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
+  const isHideImages = useSelector(state => state.application.hidePostsThumbnails);
 
   const [selectedFilterIndex, setSelectedFilterIndex] = useState(initialFirstStackIndex);
   const [selectedSecondStackIndex, setSelectedSecondStackIndex] = useState(0);
@@ -63,14 +63,14 @@ export function StackedTabBar({
         options={firstStack.map((item, index) => {
           return tabs[index]
             ? tabs[index]
-            : intl.formatMessage({ id: item.label.toLowerCase() }).toUpperCase();
+            : intl.formatMessage({id: item.label.toLowerCase()}).toUpperCase();
         })}
         selectedOptionIndex={selectedFilterIndex}
         rightIconName={toggleHideImagesFlag && 'view-module'}
         rightIconType={toggleHideImagesFlag && 'MaterialIcons'}
         enableCustomiseButton={enableCustomTabs}
         onCustomisePress={_onCustomisePress}
-        onDropdownSelect={(index) => {
+        onDropdownSelect={index => {
           setSelectedFilterIndex(index);
 
           if (index == 0 && shouldStack) {
@@ -87,11 +87,11 @@ export function StackedTabBar({
 
       {selectedFilterIndex == 0 && shouldStack && (
         <FilterBar
-          options={secondStack.map((item) =>
-            intl.formatMessage({ id: item.label.toLowerCase() }).toUpperCase(),
+          options={secondStack.map(item =>
+            intl.formatMessage({id: item.label.toLowerCase()}).toUpperCase(),
           )}
           selectedOptionIndex={selectedSecondStackIndex}
-          onDropdownSelect={(index) => {
+          onDropdownSelect={index => {
             setSelectedSecondStackIndex(index);
             onFilterSelect(secondStack[index].filterKey);
             goToPage(firstStack.length + index);

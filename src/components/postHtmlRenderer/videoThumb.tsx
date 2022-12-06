@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, ImageBackground } from 'react-native';
+import {View, ImageBackground} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { TouchableHighlight } from 'react-native-gesture-handler';
-import { IconButton } from '..';
+import {TouchableHighlight} from 'react-native-gesture-handler';
+import {IconButton} from '..';
 import styles from './postHtmlRendererStyles';
 
 interface Props {
@@ -11,15 +11,14 @@ interface Props {
   onPress?: () => void;
 }
 
-function VideoThumb({ contentWidth, uri, onPress }: Props) {
+function VideoThumb({contentWidth, uri, onPress}: Props) {
   return (
     <TouchableHighlight onPress={onPress} disabled={!onPress}>
       <View pointerEvents="none">
         <ImageBackground
-          source={{ uri }}
-          style={{ ...styles.videoThumb, width: contentWidth, height: (contentWidth * 9) / 16 }}
-          resizeMode="cover"
-        >
+          source={{uri}}
+          style={{...styles.videoThumb, width: contentWidth, height: (contentWidth * 9) / 16}}
+          resizeMode="cover">
           <IconButton
             style={styles.playButton}
             size={44}

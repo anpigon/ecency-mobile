@@ -5,16 +5,16 @@ import {
   useQueries,
   useQueryClient,
 } from '@tanstack/react-query';
-import { useState } from 'react';
-import { useIntl } from 'react-intl';
-import { unionBy } from 'lodash';
+import {useState} from 'react';
+import {useIntl} from 'react-intl';
+import {unionBy} from 'lodash';
 import bugsnapInstance from '../../config/bugsnag';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { updateUnreadActivityCount } from '../../redux/actions/accountAction';
-import { toastNotification } from '../../redux/actions/uiAction';
-import { getNotifications, markNotifications } from '../ecency/ecency';
-import { NotificationFilters } from '../ecency/ecency.types';
-import { markHiveNotifications } from '../hive/dhive';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {updateUnreadActivityCount} from '../../redux/actions/accountAction';
+import {toastNotification} from '../../redux/actions/uiAction';
+import {getNotifications, markNotifications} from '../ecency/ecency';
+import {NotificationFilters} from '../ecency/ecency.types';
+import {markHiveNotifications} from '../hive/dhive';
 import QUERIES from './queryKeys';
 import lastItem from '../../utils/lastItem';
 
@@ -26,7 +26,7 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
 
   const _fetchNotifications = async (pageParam: string) => {
     console.log('fetching page since:', pageParam);
-    const response = await getNotifications({ filter, since: pageParam, limit: FETCH_LIMIT });
+    const response = await getNotifications({filter, since: pageParam, limit: FETCH_LIMIT});
     console.log('new page fetched', response);
     return response || [];
   };
@@ -39,7 +39,7 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
 
   // query initialization
   const notificationQueries = useQueries({
-    queries: pageParams.map((pageParam) => ({
+    queries: pageParams.map(pageParam => ({
       queryKey: [QUERIES.NOTIFICATIONS.GET, filter, pageParam],
       queryFn: () => _fetchNotifications(pageParam),
       initialData: [],
@@ -67,7 +67,7 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
     }
   };
 
-  const _dataArrs = notificationQueries.map((query) => query.data);
+  const _dataArrs = notificationQueries.map(query => query.data);
 
   return {
     data: unionBy(..._dataArrs, 'id'),
@@ -83,8 +83,8 @@ export const useNotificationReadMutation = () => {
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinCode = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const pinCode = useAppSelector(state => state.application.pin);
 
   // id is options, if no id is provided program marks all notifications as read;
   const _mutationFn = async (id?: string) => {
@@ -103,7 +103,7 @@ export const useNotificationReadMutation = () => {
   };
 
   const _options: UseMutationOptions<number, unknown, string | undefined, void> = {
-    onMutate: async (notificationId) => {
+    onMutate: async notificationId => {
       // TODO: find a way to optimise mutations by avoiding too many loops
       console.log('on mutate data', notificationId);
 
@@ -116,7 +116,7 @@ export const useNotificationReadMutation = () => {
       queriesData.forEach(([queryKey, data]) => {
         if (data) {
           console.log('mutating data', queryKey);
-          const _mutatedData = data.map((item) => ({
+          const _mutatedData = data.map(item => ({
             ...item,
             read: !notificationId || notificationId === item.id ? 1 : item.read,
           }));
@@ -134,7 +134,7 @@ export const useNotificationReadMutation = () => {
       }
     },
     onError: () => {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      dispatch(toastNotification(intl.formatMessage({id: 'alert.fail'})));
     },
   };
 

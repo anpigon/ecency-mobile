@@ -1,7 +1,7 @@
-import { COIN_IDS } from '../../constants/defaultCoins';
-import { Referral } from '../../models';
-import { QuoteItem } from '../../redux/reducers/walletReducer';
-import { CommentHistoryItem, LatestQuotes, ReferralStat } from './ecency.types';
+import {COIN_IDS} from '../../constants/defaultCoins';
+import {Referral} from '../../models';
+import {QuoteItem} from '../../redux/reducers/walletReducer';
+import {CommentHistoryItem, LatestQuotes, ReferralStat} from './ecency.types';
 
 export const convertReferral = (rawData: any) => {
   return {

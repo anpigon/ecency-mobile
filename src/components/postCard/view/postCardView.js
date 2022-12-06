@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import get from 'lodash/get';
-import { TouchableOpacity, Text, View } from 'react-native';
-import { injectIntl } from 'react-intl';
+import {TouchableOpacity, Text, View} from 'react-native';
+import {injectIntl} from 'react-intl';
 
 // Utils
 import FastImage from 'react-native-fast-image';
-import { getTimeFromNow } from '../../../utils/time';
+import {getTimeFromNow} from '../../../utils/time';
 // import bugsnagInstance from '../../../config/bugsnag';
 
 // Components
-import { PostHeaderDescription } from '../../postElements';
-import { PostDropdown } from '../../postDropdown';
-import { TextWithIcon } from '../../basicUIElements';
-import { Icon } from '../../icon';
+import {PostHeaderDescription} from '../../postElements';
+import {PostDropdown} from '../../postDropdown';
+import {TextWithIcon} from '../../basicUIElements';
+import {Icon} from '../../icon';
 
 // STEEM
-import { Upvote } from '../../upvote';
+import {Upvote} from '../../upvote';
 // Styles
 import styles from './postCardStyles';
-import { TextButton } from '../..';
+import {TextButton} from '../..';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import postTypes from '../../../constants/postTypes';
 
@@ -53,7 +53,7 @@ function PostCardView({
   const [calcImgHeight, setCalcImgHeight] = useState(imageHeight || 300);
 
   // Component Functions
-  const _handleOnUserPress = (username) => {
+  const _handleOnUserPress = username => {
     if (handleOnUserPress) {
       handleOnUserPress(username);
     }
@@ -81,15 +81,15 @@ function PostCardView({
 
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
 
-  let images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
+  let images = {image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE};
   if (content.thumbnail) {
     if (isMuted || (nsfw !== '0' && content.nsfw)) {
-      images = { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };
+      images = {image: NSFW_IMAGE, thumbnail: NSFW_IMAGE};
     } else {
-      images = { image: content.image, thumbnail: content.thumbnail };
+      images = {image: content.image, thumbnail: content.thumbnail};
     }
   } else {
-    images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
+    images = {image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE};
   }
 
   return (
@@ -97,7 +97,7 @@ function PostCardView({
       {!!rebloggedBy && (
         <TextWithIcon
           wrapperStyle={styles.reblogWrapper}
-          text={`${intl.formatMessage({ id: 'post.reblogged' })} ${rebloggedBy}`}
+          text={`${intl.formatMessage({id: 'post.reblogged'})} ${rebloggedBy}`}
           iconType="MaterialIcons"
           iconName="repeat"
           iconSize={16}
@@ -135,11 +135,10 @@ function PostCardView({
         <TouchableOpacity
           activeOpacity={1}
           style={styles.hiddenImages}
-          onPress={_handleOnContentPress}
-        >
+          onPress={_handleOnContentPress}>
           {!isHideImage && (
             <FastImage
-              source={{ uri: images.image }}
+              source={{uri: images.image}}
               style={[
                 styles.thumbnail,
                 {
@@ -152,7 +151,7 @@ function PostCardView({
                   ? FastImage.resizeMode.contain
                   : FastImage.resizeMode.cover
               }
-              onLoad={(evt) => {
+              onLoad={evt => {
                 if (!imageHeight) {
                   const height =
                     (evt.nativeEvent.height / evt.nativeEvent.width) * (dim.width - 18);
@@ -172,7 +171,7 @@ function PostCardView({
               style={styles.revealButton}
               textStyle={styles.revealText}
               onPress={() => handleOnUnmutePress()}
-              text={intl.formatMessage({ id: 'post.reveal_muted' })}
+              text={intl.formatMessage({id: 'post.reveal_muted'})}
             />
           )}
         </TouchableOpacity>

@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
-import { ActivityIndicator, Image, Text, TouchableOpacity, View } from 'react-native';
+import React, {Component, Fragment} from 'react';
+import {ActivityIndicator, Image, Text, TouchableOpacity, View} from 'react-native';
 
 // Components
-import { Icon } from '../../icon';
+import {Icon} from '../../icon';
 
 // Styles
 import styles from './mainButtonStyles';
@@ -29,7 +29,7 @@ class MainButton extends Component {
 
   // Component Life Cycles
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isLoading, isDisable } = this.props;
+    const {isLoading, isDisable} = this.props;
     if (nextProps.isLoading !== isLoading || nextProps.isDisable !== isDisable) {
       this.setState({
         isDisable: !nextProps.isLoading && nextProps.isDisable,
@@ -39,7 +39,7 @@ class MainButton extends Component {
 
   // Component Functions
   _handleOnPress = () => {
-    const { onPress } = this.props;
+    const {onPress} = this.props;
 
     if (onPress) {
       onPress();
@@ -47,7 +47,7 @@ class MainButton extends Component {
   };
 
   _getBody = () => {
-    const { isLoading, text, secondText, iconColor, iconName, source, iconType, textStyle } =
+    const {isLoading, text, secondText, iconColor, iconName, source, iconType, textStyle} =
       this.props;
 
     if (isLoading) {
@@ -91,8 +91,8 @@ class MainButton extends Component {
   _getIndicator = () => <ActivityIndicator color="white" style={styles.activityIndicator} />;
 
   render() {
-    const { wrapperStyle, children, height, style, isLoading } = this.props;
-    const { isDisable } = this.state;
+    const {wrapperStyle, children, height, style, isLoading} = this.props;
+    const {isDisable} = this.state;
 
     return (
       <View style={wrapperStyle}>
@@ -102,10 +102,9 @@ class MainButton extends Component {
           style={[
             styles.touchable,
             isDisable && styles.disableTouchable,
-            height && { height },
+            height && {height},
             style && style,
-          ]}
-        >
+          ]}>
           <View style={styles.body}>
             {isLoading ? this._getIndicator() : children || this._getBody()}
           </View>

@@ -1,16 +1,16 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 import times from 'lodash/times';
-import { CircularButton } from '../../buttons';
-import { IconButton } from '../../iconButton';
+import {CircularButton} from '../../buttons';
+import {IconButton} from '../../iconButton';
 
 import styles from './numericKeyboardStyles';
 
-function NumericKeyboard({ onPress }) {
+function NumericKeyboard({onPress}) {
   return (
     <View style={styles.container}>
       <View style={styles.buttonGroup}>
-        {times(9, (i) => (
+        {times(9, i => (
           <CircularButton
             key={i}
             style={styles.button}
@@ -25,7 +25,7 @@ function NumericKeyboard({ onPress }) {
           style={styles.button}
           text={0}
           value={0}
-          onPress={(value) => onPress && onPress(value)}
+          onPress={value => onPress && onPress(value)}
         />
         <IconButton
           onPress={() => onPress && onPress('clear')}
