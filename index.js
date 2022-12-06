@@ -1,3 +1,7 @@
+/**
+ * @format
+ */
+
 import { AppRegistry, LogBox } from 'react-native';
 import AppCenter from 'appcenter';
 import { name as appName } from './app.json';
@@ -5,9 +9,15 @@ import 'core-js';
 import 'intl';
 import 'intl/locale-data/jsonp/en-US';
 
-// set check frequency options
-const EcencyApp = require('./App').default;
+import App from './src/index';
 
+if (__DEV__) {
+  import('./reactotron-config').then(() => {
+    console.log('Reactotron Configured');
+  });
+}
+
+// set check frequency options
 AppCenter.setLogLevel(AppCenter.LogLevel.VERBOSE);
 
 // TODO Remove ignoreLogs when referenced issue is fixed properly
@@ -15,4 +25,4 @@ AppCenter.setLogLevel(AppCenter.LogLevel.VERBOSE);
 // ignore warnings
 LogBox.ignoreLogs(['Require cycle:', 'Remote debugger']);
 
-AppRegistry.registerComponent(appName, () => EcencyApp);
+AppRegistry.registerComponent(appName, () => App);
