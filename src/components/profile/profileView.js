@@ -161,7 +161,7 @@ class ProfileView extends PureComponent {
     );
   };
 
-  _contentComentsTab = type => {
+  _contentCommentsTab = type => {
     const {username, isOwnProfile, selectedUser} = this.props;
     return (
       <CommentsTabContent
@@ -169,6 +169,7 @@ class ProfileView extends PureComponent {
         selectedUser={selectedUser}
         isOwnProfile={isOwnProfile}
         type={type}
+        key={type}
         onScroll={this._handleOnScroll}
       />
     );
@@ -231,8 +232,8 @@ class ProfileView extends PureComponent {
     // compile content overrides
     const tabContentOverrides = new Map();
 
-    tabContentOverrides.set(tabs.indexOf('replies'), this._contentComentsTab('replies'));
-    tabContentOverrides.set(tabs.indexOf('comments'), this._contentComentsTab('comments'));
+    tabContentOverrides.set(tabs.indexOf('replies'), this._contentCommentsTab('replies'));
+    tabContentOverrides.set(tabs.indexOf('comments'), this._contentCommentsTab('comments'));
     tabContentOverrides.set(tabs.indexOf('wallet'), this._contentWalletTab());
 
     return (
