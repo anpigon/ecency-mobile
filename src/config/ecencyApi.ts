@@ -18,18 +18,18 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(request => {
-  console.log('Starting ecency Request', request);
+  console.log('Starting ecency Request', request.url);
 
   // skip code addition is register and token refresh endpoint is triggered
   if (
     request.url === '/private-api/account-create' ||
     request.url === '/auth-api/hs-token-refresh' ||
     request.url === '/private-api/promoted-entries' ||
-    request.url.startsWith('private-api/leaderboard') ||
-    request.url.startsWith('/private-api/received-vesting/') ||
-    request.url.startsWith('/private-api/referrals/') ||
-    request.url.startsWith('/private-api/market-data') ||
-    request.url.startsWith('/private-api/comment-history')
+    request.url?.startsWith('private-api/leaderboard') ||
+    request.url?.startsWith('/private-api/received-vesting/') ||
+    request.url?.startsWith('/private-api/referrals/') ||
+    request.url?.startsWith('/private-api/market-data') ||
+    request.url?.startsWith('/private-api/comment-history')
   ) {
     return request;
   }
@@ -63,7 +63,7 @@ api.interceptors.request.use(request => {
 });
 
 api.interceptors.response.use(response => {
-  console.log('Response:', response);
+  console.log('Response:', response.status, response.url);
   return response;
 });
 

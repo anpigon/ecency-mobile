@@ -16,7 +16,6 @@ interface ParsedAuthUrl {
 
 export default (urlString: string): ParsedAuthUrl | null => {
   const url = new URL(urlString);
-  console.log(JSON.stringify(url, null, '\t'));
   if (url.pathname === '/signup') {
     const referredUser = url.searchParams.get('referral');
     return {

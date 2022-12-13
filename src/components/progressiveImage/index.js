@@ -26,10 +26,6 @@ function ProgressiveImage({thumbnailSource, source, style, ...props}) {
   const imageAnimated = new Animated.Value(0);
 
   const handleThumbnailLoad = e => {
-    /* if (e) {
-      setCalcImgHeight(Math.floor((e.nativeEvent.height / e.nativeEvent.width) * dim.width));
-      console.log(e.nativeEvent.width, e.nativeEvent.height);
-    } */
     Animated.timing(thumbnailAnimated, {
       toValue: 1,
       easing: EasingNode.inOut(EasingNode.ease),

@@ -148,7 +148,6 @@ class BoostPostScreen extends PureComponent {
     } = this.props;
 
     const calculatedESTM = 150 + 50 * factor;
-    // console.log('this.state.permlink : ', this.state.permlink);
     return (
       <>
         <BasicHeader title={intl.formatMessage({id: 'boostPost.title'})} />

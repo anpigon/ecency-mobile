@@ -24,7 +24,6 @@ import getWindowDimensions from '../../../../utils/getWindowDimensions';
 const WIDTH = getWindowDimensions().width;
 
 function PostBody({body, dispatch, onLoadEnd, width}) {
-  console.log('body : ', body);
   const navigation = useNavigation();
 
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);

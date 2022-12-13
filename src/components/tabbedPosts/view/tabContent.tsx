@@ -103,7 +103,6 @@ function TabContent({
   }, [filterScrollRequest]);
 
   useEffect(() => {
-    console.log('curPinned change', userPinned);
     if (pageType === 'ownProfile' && userPinned !== curPinned) {
       _scrollToTop();
       _loadPosts({shouldReset: true, _pinnedPermlink: userPinned});

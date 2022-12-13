@@ -85,8 +85,6 @@ export const catchImageFromMetadata = (meta, format = 'match', thumbnail = false
 
   if (meta && meta.image) {
     const images = meta.image;
-    // console.log('images : ',images);
-
     if (thumbnail) {
       return proxifyImageSrc(images[0], 6, 5, format);
     }

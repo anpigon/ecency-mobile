@@ -135,10 +135,8 @@ function UpvoteView({
 
       const weight = sliderValue ? Math.trunc(sliderValue * 100) * 100 : 0;
 
-      console.log(`casting up vote: ${weight}`);
       vote(currentAccount, pinCode, author, permlink, weight)
         .then(response => {
-          console.log('Vote response: ', response);
           // record user points
           userActivityMutation.mutate({
             pointsTy: PointActivityIds.VOTE,
@@ -210,7 +208,6 @@ function UpvoteView({
 
       const weight = sliderValue ? Math.trunc(sliderValue * 100) * -100 : 0;
 
-      console.log(`casting down vote: ${weight}`);
       vote(currentAccount, pinCode, author, permlink, weight)
         .then(response => {
           // record usr points

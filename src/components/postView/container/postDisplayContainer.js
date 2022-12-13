@@ -40,7 +40,6 @@ function PostDisplayContainer({
 
   useEffect(() => {
     if (post) {
-      console.log('Gettting reblogs inside postDisplayContainer');
       const votes = get(post, 'active_votes', []);
       setActiveVotes(votes);
       setActiveVotesCount(votes.length);

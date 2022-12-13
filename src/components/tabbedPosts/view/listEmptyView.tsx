@@ -143,7 +143,7 @@ function TabEmptyView({filterKey, isNoPost}: TabEmptyViewProps) {
 
       setRecommendedCommunities(recommendeds);
     } catch (err) {
-      console.log(err, '_getRecommendedUsers Error');
+      console.error(err, '_getRecommendedUsers Error');
     }
   };
 

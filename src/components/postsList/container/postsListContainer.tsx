@@ -56,7 +56,6 @@ const postsListContainer = (
   }));
 
   useEffect(() => {
-    console.log('Scroll Position: ', scrollPosition);
     if (posts && posts.length == 0) {
       flatListRef.current?.scrollToOffset({
         offset: 0,
@@ -66,7 +65,6 @@ const postsListContainer = (
   }, [posts]);
 
   useEffect(() => {
-    console.log('Scroll Position: ', scrollPosition);
     flatListRef.current?.scrollToOffset({
       offset: posts && posts.length == 0 ? 0 : scrollPosition,
       animated: false,

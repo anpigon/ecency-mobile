@@ -118,15 +118,6 @@ export const QuickReplyModalContent = forwardRef(
         const parentAuthor = selectedPost.author;
         const parentPermlink = selectedPost.permlink;
         const parentTags = selectedPost.json_metadata.tags;
-        console.log(
-          currentAccount,
-          pinCode,
-          parentAuthor,
-          parentPermlink,
-          permlink,
-          commentValue,
-          parentTags,
-        );
 
         const status = await postComment(
           currentAccount,
@@ -185,7 +176,7 @@ export const QuickReplyModalContent = forwardRef(
             onClose();
           })
           .catch(error => {
-            console.log(error);
+            console.error(error);
             Alert.alert(
               intl.formatMessage({
                 id: 'alert.fail',
@@ -196,7 +187,6 @@ export const QuickReplyModalContent = forwardRef(
             setIsSending(false);
             _addQuickCommentIntoCache(); // add comment value into cache if there is error while posting comment
           });
-        console.log('status : ', status);
       }
     };
 

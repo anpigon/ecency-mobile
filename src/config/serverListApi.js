@@ -10,12 +10,12 @@ const slist = axios.create({
 });
 
 slist.interceptors.request.use(request => {
-  console.log('Starting server list Request', request);
+  console.log('Starting server list Request', request.url);
   return request;
 });
 
 slist.interceptors.response.use(response => {
-  console.log('Response:', response);
+  console.log('Response:', response.status, response.url);
   return response;
 });
 

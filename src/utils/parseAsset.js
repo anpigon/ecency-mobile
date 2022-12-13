@@ -1,6 +1,5 @@
 export default strVal => {
   if (typeof strVal !== 'string') {
-    // console.log(strVal);
     return {
       amount: 0,
       symbol: '',

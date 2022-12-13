@@ -60,7 +60,6 @@ function PostCardView({
   };
 
   const _handleOnContentPress = () => {
-    console.log('content : ', content);
     handleOnContentPress(content);
   };
 

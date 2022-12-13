@@ -135,7 +135,6 @@ function TagInput({value, handleTagChanged, intl, isPreviewActive, autoFocus, se
     );
   };
 
-  console.log('text : ', text, '\nvalue : ', value);
   return (
     <View style={[globalStyles.containerHorizontal16, styles.container]}>
       <ScrollView

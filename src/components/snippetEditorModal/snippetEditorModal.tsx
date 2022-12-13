@@ -51,8 +51,6 @@ function SnippetEditorModal({}, ref) {
       return;
     }
 
-    console.log('Saving snippet:', title, body);
-
     snippetsMutation.mutate({
       id: isNewSnippet ? null : snippetId,
       title,

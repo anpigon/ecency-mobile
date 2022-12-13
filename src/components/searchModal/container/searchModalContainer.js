@@ -51,7 +51,7 @@ function SearchModalContainer({isConnected, handleOnClose, username, isOpen, pla
               : [];
             setSearchResults({type: 'user', data: users});
           })
-          .catch(e => console.log('lookupAccounts', e));
+          .catch(e => console.error('lookupAccounts', e));
       } else if (text[0] === '#') {
         getTrendingTags(text.substr(1).trim())
           .then(res => {
@@ -64,7 +64,7 @@ function SearchModalContainer({isConnected, handleOnClose, username, isOpen, pla
 
             setSearchResults({type: 'tag', data: tags});
           })
-          .catch(e => console.log('getTrendingTags', e));
+          .catch(e => console.error('getTrendingTags', e));
       } else if (
         text.includes('https://') ||
         text.includes('esteem://') ||
@@ -100,7 +100,7 @@ function SearchModalContainer({isConnected, handleOnClose, username, isOpen, pla
                     setSearchResults({type: 'content', data: []});
                   }
                 })
-                .catch(e => console.log('getPurePost', e));
+                .catch(e => console.error('getPurePost', e));
             } else {
               lookupAccounts(author)
                 .then(res => {
@@ -111,7 +111,7 @@ function SearchModalContainer({isConnected, handleOnClose, username, isOpen, pla
                   }));
                   setSearchResults({type: 'user', data: users});
                 })
-                .catch(e => console.log('lookupAccounts', e));
+                .catch(e => console.error('lookupAccounts', e));
             }
           } else if (feedType) {
             // handleOnClose();
@@ -154,7 +154,7 @@ function SearchModalContainer({isConnected, handleOnClose, username, isOpen, pla
               }));
             setSearchResults({type: 'content', data: get(res, 'results', [])});
           })
-          .catch(e => console.log('search', e));
+          .catch(e => console.error('search', e));
       }
     }
   };

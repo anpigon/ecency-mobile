@@ -57,7 +57,7 @@ function SelectCommunityModalContainer({onPressCommunity, currentAccount, onClos
           setSearchedCommunities(searcheds);
         })
         .catch(error => {
-          console.log(error, 'searcheds error');
+          console.error(error, 'searcheds error');
         });
     } else {
       setShowSearchedCommunities(false);

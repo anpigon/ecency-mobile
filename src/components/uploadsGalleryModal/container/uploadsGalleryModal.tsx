@@ -89,8 +89,6 @@ export const UploadsGalleryModal = forwardRef(
 
     useEffect(() => {
       if (paramFiles) {
-        console.log('files : ', paramFiles);
-
         // delay is a workaround to let editor ready before initiating uploads on mount
         delay(500).then(() => {
           const _mediaItems = paramFiles.map(el => {
@@ -228,7 +226,7 @@ export const UploadsGalleryModal = forwardRef(
           },
         );
       } catch (error) {
-        console.log('error while uploading image : ', error);
+        console.error('error while uploading image : ', error);
 
         if (error.toString().includes('code 413')) {
           Alert.alert(
@@ -309,9 +307,7 @@ export const UploadsGalleryModal = forwardRef(
     const _getMediaUploads = async () => {
       try {
         if (username) {
-          console.log(`getting images for: ${username}`);
           const images = await getImages();
-          console.log('images received', images);
           setMediaUploads(images || []);
         }
       } catch (err) {
@@ -325,7 +321,6 @@ export const UploadsGalleryModal = forwardRef(
       const data: MediaInsertData[] = [];
       // eslint-disable-next-line no-restricted-syntax
       for (const index of map.keys()) {
-        console.log(index);
         const item = mediaUploads[index];
         data.push({
           url: item.url,

@@ -162,8 +162,6 @@ function PostsContainer({
   };
 
   const cacheReducer = (state, action) => {
-    console.log('reducer action:', action);
-
     switch (action.type) {
       case 'is-filter-loading': {
         const {filter} = action.payload;
@@ -463,7 +461,6 @@ function PostsContainer({
     }
 
     appState.current = nextAppState;
-    console.log('AppState', appState.current);
   };
 
   const _handleImagesHide = () => {
@@ -717,7 +714,7 @@ function PostsContainer({
 
       setRecommendedCommunities(recommendeds);
     } catch (err) {
-      console.log(err, '_getRecommendedUsers Error');
+      console.error(err, '_getRecommendedUsers Error');
     }
   };
 

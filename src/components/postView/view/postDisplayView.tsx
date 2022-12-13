@@ -93,7 +93,6 @@ function PostDisplayView({
 
   const _handleOnScroll = event => {
     const {y} = event.nativeEvent.contentOffset;
-    console.log('scroll height', y);
     setScrollHeight(HEIGHT + y);
 
     const _commentButtonBounceOffset = y + HEIGHT / 1.7;
@@ -109,7 +108,6 @@ function PostDisplayView({
 
   const _handleOnPostLayout = event => {
     const {height} = event.nativeEvent.layout;
-    console.log('post height', height);
     setPostHeight(height);
   };
 

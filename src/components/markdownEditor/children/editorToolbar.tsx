@@ -120,12 +120,6 @@ export function EditorToolbar({
   };
 
   const _onPanHandlerStateChange = (e: HandlerStateChangeEvent<PanGestureHandlerEventPayload>) => {
-    console.log(
-      'handler state change',
-      e.nativeEvent.velocityY,
-      e.nativeEvent.velocityY > 300,
-      e.nativeEvent.translationY,
-    );
     shouldHideExtension.current =
       e.nativeEvent.velocityY > 300 || e.nativeEvent.translationY > extensionHeight.current / 2;
   };

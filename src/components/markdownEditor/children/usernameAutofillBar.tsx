@@ -29,7 +29,6 @@ export function UsernameAutofillBar({text, selection, onApplyUsername}: Props) {
     debounce(
       (text: string, index: number) => {
         const word = extractWordAtIndex(text, index);
-        console.log('selection word is: ', word);
         if (word.startsWith('@') && word.length > 1) {
           _handleUserSearch(word.substring(1));
         } else {
@@ -52,7 +51,6 @@ export function UsernameAutofillBar({text, selection, onApplyUsername}: Props) {
           if (username) {
             setQuery(username);
             users = await lookupAccounts(username);
-            console.log('result users for', username, users);
           }
           setSearchedUsers(users);
         }
