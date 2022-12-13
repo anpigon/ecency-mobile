@@ -2,20 +2,14 @@
  * @format
  */
 
-import { AppRegistry, LogBox } from 'react-native';
+import {AppRegistry, LogBox} from 'react-native';
 import AppCenter from 'appcenter';
-import { name as appName } from './app.json';
+import {name as appName} from './app.json';
 import 'core-js';
 import 'intl';
 import 'intl/locale-data/jsonp/en-US';
 
 import App from './src/index';
-
-if (__DEV__) {
-  import('./reactotron-config').then(() => {
-    console.log('Reactotron Configured');
-  });
-}
 
 // set check frequency options
 AppCenter.setLogLevel(AppCenter.LogLevel.VERBOSE);
