@@ -32,4 +32,8 @@ export default EStyleSheet.create({
   circle: {
     bottom: scalePx(25),
   },
+  tabButtons: {
+    flex: 1,
+    alignItems: 'center',
+  },
 });
