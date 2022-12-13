@@ -59,9 +59,9 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>To access your photos, Ecency needs your permission to help you share your photos.</string>
+	<string>To access your photos, upsteem needs your permission to help you share your photos.</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>Ecency requires FaceID access to allow you quick and secure access.</string>
+	<string>upsteem requires FaceID access to allow you quick and secure access.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>To get accurate location for sharing</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

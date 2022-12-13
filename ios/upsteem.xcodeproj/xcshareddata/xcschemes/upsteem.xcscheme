@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "05B6C48C24C306CE00B7FA60"
-               BuildableName = "Ecency.app"
-               BlueprintName = "Ecency"
-               ReferencedContainer = "container:Ecency.xcodeproj">
+               BuildableName = "upsteem.app"
+               BlueprintName = "upsteem"
+               ReferencedContainer = "container:upsteem.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -57,9 +57,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "EcencyTests.xctest"
-               BlueprintName = "EcencyTests"
-               ReferencedContainer = "container:Ecency.xcodeproj">
+               BuildableName = "upsteemTests.xctest"
+               BlueprintName = "upsteemTests"
+               ReferencedContainer = "container:upsteem.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -73,9 +73,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "05B6C48C24C306CE00B7FA60"
-            BuildableName = "Ecency.app"
-            BlueprintName = "Ecency"
-            ReferencedContainer = "container:Ecency.xcodeproj">
+            BuildableName = "upsteem.app"
+            BlueprintName = "upsteem"
+            ReferencedContainer = "container:upsteem.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -84,9 +84,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "EcencyTests.xctest"
-               BlueprintName = "EcencyTests"
-               ReferencedContainer = "container:Ecency.xcodeproj">
+               BuildableName = "upsteemTests.xctest"
+               BlueprintName = "upsteemTests"
+               ReferencedContainer = "container:upsteem.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -106,9 +106,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "05B6C48C24C306CE00B7FA60"
-            BuildableName = "Ecency.app"
-            BlueprintName = "Ecency"
-            ReferencedContainer = "container:Ecency.xcodeproj">
+            BuildableName = "upsteem.app"
+            BlueprintName = "upsteem"
+            ReferencedContainer = "container:upsteem.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -123,9 +123,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "05B6C48C24C306CE00B7FA60"
-            BuildableName = "Ecency.app"
-            BlueprintName = "Ecency"
-            ReferencedContainer = "container:Ecency.xcodeproj">
+            BuildableName = "upsteem.app"
+            BlueprintName = "upsteem"
+            ReferencedContainer = "container:upsteem.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

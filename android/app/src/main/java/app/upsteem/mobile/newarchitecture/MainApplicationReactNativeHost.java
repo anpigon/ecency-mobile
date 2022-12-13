@@ -1,4 +1,4 @@
-package app.esteem.mobile.android.newarchitecture;
+package app.upsteem.mobile.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import app.esteem.mobile.android.BuildConfig;
-import app.esteem.mobile.android.newarchitecture.components.MainComponentsRegistry;
-import app.esteem.mobile.android.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import app.upsteem.mobile.BuildConfig;
+import app.upsteem.mobile.newarchitecture.components.MainComponentsRegistry;
+import app.upsteem.mobile.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* EcencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EcencyTests.m */; };
+		00E356F31AD99517003FC87E /* upsteemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* upsteemTests.m */; };
 		021526F0AF8A45FCB60C9C56 /* Roboto-medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7900A87FFF214846B5FE0430 /* Roboto-medium.ttf */; };
 		0516470B24D2C513005DE9C5 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0516470A24D2C513005DE9C5 /* ShareViewController.swift */; };
 		0516470E24D2C513005DE9C5 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0516470C24D2C513005DE9C5 /* MainInterface.storyboard */; };
@@ -21,13 +21,13 @@
 		065B9DDE2930E42A004310E4 /* hermes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F72CA5290B2D7F003392F3 /* hermes.xcframework */; };
 		06844A5529119F05002FCC34 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06844A5429119F05002FCC34 /* BootSplash.storyboard */; };
 		06F72CA3290B2159003392F3 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 06F72CA2290B2159003392F3 /* AppDelegate.mm */; };
-		154D7B6BE9C0AC2184D199D1 /* libPods-Ecency.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00310051DF33C416E604769D /* libPods-Ecency.a */; };
+		154D7B6BE9C0AC2184D199D1 /* libPods-upsteem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00310051DF33C416E604769D /* libPods-upsteem.a */; };
 		1CD0B89E258019B600A7D78E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1CD0B89B258019B600A7D78E /* GoogleService-Info.plist */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2DCD954D1E0B4F2C00145EB5 /* EcencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EcencyTests.m */; };
+		2DCD954D1E0B4F2C00145EB5 /* upsteemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* upsteemTests.m */; };
 		2E340255E74B48D8AF5B650C /* Sansation_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ADE4B4B75DF437495E202D4 /* Sansation_Regular.ttf */; };
-		5077325F939D09CED21BD378 /* libPods-Ecency-EcencyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58642EEBBD5C53B1097D32CF /* libPods-Ecency-EcencyTests.a */; };
+		5077325F939D09CED21BD378 /* libPods-upsteem-upsteemTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58642EEBBD5C53B1097D32CF /* libPods-upsteem-upsteemTests.a */; };
 		58F9BCC624793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
 		58F9BCC724793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
 		58F9BCC824793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
@@ -50,7 +50,7 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
-			remoteInfo = "Ecency-tvOS";
+			remoteInfo = "upsteem-tvOS";
 		};
 		588A5069232A497100FC1361 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -84,51 +84,51 @@
 
 /* Begin PBXFileReference section */
 		000EE3558E824DA88770325D /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
-		00310051DF33C416E604769D /* libPods-Ecency.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ecency.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		00310051DF33C416E604769D /* libPods-upsteem.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-upsteem.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* EcencyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EcencyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* upsteemTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = upsteemTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* EcencyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EcencyTests.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* upsteemTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = upsteemTests.m; sourceTree = "<group>"; };
 		0516470824D2C513005DE9C5 /* eshare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = eshare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0516470A24D2C513005DE9C5 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		0516470D24D2C513005DE9C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		0516470F24D2C513005DE9C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0516471624D2C534005DE9C5 /* eshare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = eshare.entitlements; sourceTree = "<group>"; };
 		053EA2FF26B2B9920082FEB9 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
-		053EA30126B2BA140082FEB9 /* EcencyTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EcencyTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		053EA30126B2BA140082FEB9 /* upsteemTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "upsteemTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		053EA30226B2BA150082FEB9 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
-		05A14D162518B03000EB7509 /* Ecency-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ecency-Bridging-Header.h"; sourceTree = "<group>"; };
-		05B6C4B724C306CE00B7FA60 /* Ecency.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ecency.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		06844A5429119F05002FCC34 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = Ecency/BootSplash.storyboard; sourceTree = "<group>"; };
-		06F72CA2290B2159003392F3 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Ecency/AppDelegate.mm; sourceTree = "<group>"; };
+		05A14D162518B03000EB7509 /* upsteem-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "upsteem-Bridging-Header.h"; sourceTree = "<group>"; };
+		05B6C4B724C306CE00B7FA60 /* upsteem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = upsteem.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		06844A5429119F05002FCC34 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = upsteem/BootSplash.storyboard; sourceTree = "<group>"; };
+		06F72CA2290B2159003392F3 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = upsteem/AppDelegate.mm; sourceTree = "<group>"; };
 		06F72CA5290B2D7F003392F3 /* hermes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = hermes.xcframework; path = "Pods/hermes-engine/destroot/Library/Frameworks/universal/hermes.xcframework"; sourceTree = "<group>"; };
 		112758B0BBF9458381CE41FD /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		11CAB2F9B4B7425ABCAB4007 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Ecency/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Ecency/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Ecency/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Ecency/main.m; sourceTree = "<group>"; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = upsteem/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = upsteem/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = upsteem/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = upsteem/main.m; sourceTree = "<group>"; };
 		1CD0B89B258019B600A7D78E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		22F5F05A06E142C2B41A4D38 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		263FA8C0EF21473FAAAD3EDD /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
-		2D02E47B1E0B4A5D006451C7 /* Ecency-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ecency-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D02E4901E0B4A5D006451C7 /* Ecency-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ecency-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E47B1E0B4A5D006451C7 /* upsteem-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "upsteem-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E4901E0B4A5D006451C7 /* upsteem-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "upsteem-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34E88D888DD444F8B285363C /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
-		35A5C828DD40E183E78893AF /* Pods-Ecency.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency.release.xcconfig"; path = "Target Support Files/Pods-Ecency/Pods-Ecency.release.xcconfig"; sourceTree = "<group>"; };
+		35A5C828DD40E183E78893AF /* Pods-upsteem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-upsteem.release.xcconfig"; path = "Target Support Files/Pods-upsteem/Pods-upsteem.release.xcconfig"; sourceTree = "<group>"; };
 		420ABF9795564845A0963C27 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		4EB466C53BAE4EDC904357B3 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		5795D1B1C55E46FF96CC4AED /* RobotoMono-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoMono-Regular.ttf"; path = "../src/assets/fonts/RobotoMono-Regular.ttf"; sourceTree = "<group>"; };
 		58190B3B23294814000EA0E1 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		58190B3D23294823000EA0E1 /* Ecency.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Ecency.entitlements; path = Ecency/Ecency.entitlements; sourceTree = "<group>"; };
+		58190B3D23294823000EA0E1 /* upsteem.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = upsteem.entitlements; path = upsteem/upsteem.entitlements; sourceTree = "<group>"; };
 		58190B4723294D1D000EA0E1 /* libreact-native-config.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-config.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		58642EEBBD5C53B1097D32CF /* libPods-Ecency-EcencyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ecency-EcencyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		58642EEBBD5C53B1097D32CF /* libPods-upsteem-upsteemTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-upsteem-upsteemTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		588019232355C26B008397D1 /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
 		588A5064232A497100FC1361 /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
-		58C9F50B24CE084600A026DD /* EcencyDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = EcencyDebug.entitlements; path = Ecency/EcencyDebug.entitlements; sourceTree = "<group>"; };
+		58C9F50B24CE084600A026DD /* upsteemDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = upsteemDebug.entitlements; path = upsteem/upsteemDebug.entitlements; sourceTree = "<group>"; };
 		58F6300F2350580B0017C953 /* libRealmJS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRealmJS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		58F9BCC224793C61004F0790 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5ADE4B4B75DF437495E202D4 /* Sansation_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Sansation_Regular.ttf; path = ../src/assets/fonts/Sansation_Regular.ttf; sourceTree = "<group>"; };
-		620A004025440D5DADF8666D /* Pods-Ecency-EcencyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency-EcencyTests.debug.xcconfig"; path = "Target Support Files/Pods-Ecency-EcencyTests/Pods-Ecency-EcencyTests.debug.xcconfig"; sourceTree = "<group>"; };
+		620A004025440D5DADF8666D /* Pods-upsteem-upsteemTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-upsteem-upsteemTests.debug.xcconfig"; path = "Target Support Files/Pods-upsteem-upsteemTests/Pods-upsteem-upsteemTests.debug.xcconfig"; sourceTree = "<group>"; };
 		64F2A611E6EF486C8D3FB82C /* Roboto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto.ttf; path = ../src/assets/fonts/Roboto.ttf; sourceTree = "<group>"; };
 		65F56948860941D6BA55779F /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "rubicon-icon-font.ttf"; path = "../src/assets/fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
 		6D935B44FB5A4CF3BF4D01DF /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -140,8 +140,8 @@
 		9BC08A790166415B9BB3F5CF /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		A239FC84622A4A9CA7950ED9 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		BB1093ACCD904E2883413214 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
-		CF0FF1D217AA749ADDABDD79 /* Pods-Ecency-EcencyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency-EcencyTests.release.xcconfig"; path = "Target Support Files/Pods-Ecency-EcencyTests/Pods-Ecency-EcencyTests.release.xcconfig"; sourceTree = "<group>"; };
-		DD217031EB36987A5EFECBDE /* Pods-Ecency.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency.debug.xcconfig"; path = "Target Support Files/Pods-Ecency/Pods-Ecency.debug.xcconfig"; sourceTree = "<group>"; };
+		CF0FF1D217AA749ADDABDD79 /* Pods-upsteem-upsteemTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-upsteem-upsteemTests.release.xcconfig"; path = "Target Support Files/Pods-upsteem-upsteemTests/Pods-upsteem-upsteemTests.release.xcconfig"; sourceTree = "<group>"; };
+		DD217031EB36987A5EFECBDE /* Pods-upsteem.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-upsteem.debug.xcconfig"; path = "Target Support Files/Pods-upsteem/Pods-upsteem.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F1D77AE9F7B24CF19834052B /* Sansation_Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Sansation_Bold.ttf; path = ../src/assets/fonts/Sansation_Bold.ttf; sourceTree = "<group>"; };
@@ -152,7 +152,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5077325F939D09CED21BD378 /* libPods-Ecency-EcencyTests.a in Frameworks */,
+				5077325F939D09CED21BD378 /* libPods-upsteem-upsteemTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,7 +169,7 @@
 			files = (
 				05B6C49424C306CE00B7FA60 /* StoreKit.framework in Frameworks */,
 				065B9DDE2930E42A004310E4 /* hermes.xcframework in Frameworks */,
-				154D7B6BE9C0AC2184D199D1 /* libPods-Ecency.a in Frameworks */,
+				154D7B6BE9C0AC2184D199D1 /* libPods-upsteem.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,15 +190,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* EcencyTests */ = {
+		00E356EF1AD99517003FC87E /* upsteemTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* EcencyTests.m */,
+				00E356F21AD99517003FC87E /* upsteemTests.m */,
 				053EA30226B2BA150082FEB9 /* File.swift */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
-				053EA30126B2BA140082FEB9 /* EcencyTests-Bridging-Header.h */,
+				053EA30126B2BA140082FEB9 /* upsteemTests-Bridging-Header.h */,
 			);
-			path = EcencyTests;
+			path = upsteemTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -220,32 +220,32 @@
 			path = eshare;
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* Ecency */ = {
+		13B07FAE1A68108700A75B9A /* upsteem */ = {
 			isa = PBXGroup;
 			children = (
 				06844A5429119F05002FCC34 /* BootSplash.storyboard */,
 				06F72CA2290B2159003392F3 /* AppDelegate.mm */,
-				58C9F50B24CE084600A026DD /* EcencyDebug.entitlements */,
+				58C9F50B24CE084600A026DD /* upsteemDebug.entitlements */,
 				58F9BCC224793C61004F0790 /* GoogleService-Info.plist */,
-				58190B3D23294823000EA0E1 /* Ecency.entitlements */,
+				58190B3D23294823000EA0E1 /* upsteem.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				053EA2FF26B2B9920082FEB9 /* File.swift */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				05A14D162518B03000EB7509 /* Ecency-Bridging-Header.h */,
+				05A14D162518B03000EB7509 /* upsteem-Bridging-Header.h */,
 			);
-			name = Ecency;
+			name = upsteem;
 			sourceTree = "<group>";
 		};
 		258E34A3BDFFFBF80D598187 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				DD217031EB36987A5EFECBDE /* Pods-Ecency.debug.xcconfig */,
-				35A5C828DD40E183E78893AF /* Pods-Ecency.release.xcconfig */,
-				620A004025440D5DADF8666D /* Pods-Ecency-EcencyTests.debug.xcconfig */,
-				CF0FF1D217AA749ADDABDD79 /* Pods-Ecency-EcencyTests.release.xcconfig */,
+				DD217031EB36987A5EFECBDE /* Pods-upsteem.debug.xcconfig */,
+				35A5C828DD40E183E78893AF /* Pods-upsteem.release.xcconfig */,
+				620A004025440D5DADF8666D /* Pods-upsteem-upsteemTests.debug.xcconfig */,
+				CF0FF1D217AA749ADDABDD79 /* Pods-upsteem-upsteemTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -259,8 +259,8 @@
 				58190B3B23294814000EA0E1 /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				00310051DF33C416E604769D /* libPods-Ecency.a */,
-				58642EEBBD5C53B1097D32CF /* libPods-Ecency-EcencyTests.a */,
+				00310051DF33C416E604769D /* libPods-upsteem.a */,
+				58642EEBBD5C53B1097D32CF /* libPods-upsteem-upsteemTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -323,9 +323,9 @@
 			children = (
 				588019232355C26B008397D1 /* AppCenter-Config.plist */,
 				1CD0B89B258019B600A7D78E /* GoogleService-Info.plist */,
-				13B07FAE1A68108700A75B9A /* Ecency */,
+				13B07FAE1A68108700A75B9A /* upsteem */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* EcencyTests */,
+				00E356EF1AD99517003FC87E /* upsteemTests */,
 				0516470924D2C513005DE9C5 /* eshare */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
@@ -341,10 +341,10 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				00E356EE1AD99517003FC87E /* EcencyTests.xctest */,
-				2D02E47B1E0B4A5D006451C7 /* Ecency-tvOS.app */,
-				2D02E4901E0B4A5D006451C7 /* Ecency-tvOSTests.xctest */,
-				05B6C4B724C306CE00B7FA60 /* Ecency.app */,
+				00E356EE1AD99517003FC87E /* upsteemTests.xctest */,
+				2D02E47B1E0B4A5D006451C7 /* upsteem-tvOS.app */,
+				2D02E4901E0B4A5D006451C7 /* upsteem-tvOSTests.xctest */,
+				05B6C4B724C306CE00B7FA60 /* upsteem.app */,
 				0516470824D2C513005DE9C5 /* eshare.appex */,
 			);
 			name = Products;
@@ -353,9 +353,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* EcencyTests */ = {
+		00E356ED1AD99517003FC87E /* upsteemTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "EcencyTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "upsteemTests" */;
 			buildPhases = (
 				E3C5D6347E83A6E342C9AFBA /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -368,9 +368,9 @@
 			);
 			dependencies = (
 			);
-			name = EcencyTests;
-			productName = EcencyTests;
-			productReference = 00E356EE1AD99517003FC87E /* EcencyTests.xctest */;
+			name = upsteemTests;
+			productName = upsteemTests;
+			productReference = 00E356EE1AD99517003FC87E /* upsteemTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		0516470724D2C513005DE9C5 /* eshare */ = {
@@ -390,9 +390,9 @@
 			productReference = 0516470824D2C513005DE9C5 /* eshare.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		05B6C48C24C306CE00B7FA60 /* Ecency */ = {
+		05B6C48C24C306CE00B7FA60 /* upsteem */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 05B6C4B424C306CE00B7FA60 /* Build configuration list for PBXNativeTarget "Ecency" */;
+			buildConfigurationList = 05B6C4B424C306CE00B7FA60 /* Build configuration list for PBXNativeTarget "upsteem" */;
 			buildPhases = (
 				CC9EC18FF9D1D5F0C61D1609 /* [CP] Check Pods Manifest.lock */,
 				05B6C48E24C306CE00B7FA60 /* Start Packager */,
@@ -412,14 +412,14 @@
 			dependencies = (
 				0516471124D2C513005DE9C5 /* PBXTargetDependency */,
 			);
-			name = Ecency;
-			productName = Ecency;
-			productReference = 05B6C4B724C306CE00B7FA60 /* Ecency.app */;
+			name = upsteem;
+			productName = upsteem;
+			productReference = 05B6C4B724C306CE00B7FA60 /* upsteem.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E47A1E0B4A5D006451C7 /* Ecency-tvOS */ = {
+		2D02E47A1E0B4A5D006451C7 /* upsteem-tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Ecency-tvOS" */;
+			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "upsteem-tvOS" */;
 			buildPhases = (
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
@@ -430,14 +430,14 @@
 			);
 			dependencies = (
 			);
-			name = "Ecency-tvOS";
-			productName = "Ecency-tvOS";
-			productReference = 2D02E47B1E0B4A5D006451C7 /* Ecency-tvOS.app */;
+			name = "upsteem-tvOS";
+			productName = "upsteem-tvOS";
+			productReference = 2D02E47B1E0B4A5D006451C7 /* upsteem-tvOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E48F1E0B4A5D006451C7 /* Ecency-tvOSTests */ = {
+		2D02E48F1E0B4A5D006451C7 /* upsteem-tvOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Ecency-tvOSTests" */;
+			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "upsteem-tvOSTests" */;
 			buildPhases = (
 				57F4EECD4004FE3420E6DF92 /* Bundle React Native Code And Images */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
@@ -449,9 +449,9 @@
 			dependencies = (
 				2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */,
 			);
-			name = "Ecency-tvOSTests";
-			productName = "Ecency-tvOSTests";
-			productReference = 2D02E4901E0B4A5D006451C7 /* Ecency-tvOSTests.xctest */;
+			name = "upsteem-tvOSTests";
+			productName = "upsteem-tvOSTests";
+			productReference = 2D02E4901E0B4A5D006451C7 /* upsteem-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -492,7 +492,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Ecency" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "upsteem" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -512,10 +512,10 @@
 			);
 			projectRoot = "";
 			targets = (
-				05B6C48C24C306CE00B7FA60 /* Ecency */,
-				00E356ED1AD99517003FC87E /* EcencyTests */,
-				2D02E47A1E0B4A5D006451C7 /* Ecency-tvOS */,
-				2D02E48F1E0B4A5D006451C7 /* Ecency-tvOSTests */,
+				05B6C48C24C306CE00B7FA60 /* upsteem */,
+				00E356ED1AD99517003FC87E /* upsteemTests */,
+				2D02E47A1E0B4A5D006451C7 /* upsteem-tvOS */,
+				2D02E48F1E0B4A5D006451C7 /* upsteem-tvOSTests */,
 				0516470724D2C513005DE9C5 /* eshare */,
 			);
 		};
@@ -661,7 +661,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Ecency/Pods-Ecency-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-upsteem/Pods-upsteem-frameworks.sh",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion/double-conversion.framework/double-conversion",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-Glog/glog.framework/glog",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
@@ -676,7 +676,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ecency/Pods-Ecency-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-upsteem/Pods-upsteem-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		3D1F6693773C4541A695BB3C /* Upload source maps to Bugsnag */ = {
@@ -713,7 +713,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Ecency/Pods-Ecency-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-upsteem/Pods-upsteem-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
@@ -758,7 +758,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ecency/Pods-Ecency-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-upsteem/Pods-upsteem-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CC9EC18FF9D1D5F0C61D1609 /* [CP] Check Pods Manifest.lock */ = {
@@ -776,7 +776,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Ecency-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-upsteem-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -789,7 +789,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Ecency-EcencyTests/Pods-Ecency-EcencyTests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-upsteem-upsteemTests/Pods-upsteem-upsteemTests-frameworks.sh",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion/double-conversion.framework/double-conversion",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-Glog/glog.framework/glog",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
@@ -804,7 +804,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ecency-EcencyTests/Pods-Ecency-EcencyTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-upsteem-upsteemTests/Pods-upsteem-upsteemTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E3C5D6347E83A6E342C9AFBA /* [CP] Check Pods Manifest.lock */ = {
@@ -822,7 +822,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Ecency-EcencyTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-upsteem-upsteemTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -835,7 +835,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Ecency-EcencyTests/Pods-Ecency-EcencyTests-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-upsteem-upsteemTests/Pods-upsteem-upsteemTests-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
@@ -880,7 +880,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ecency-EcencyTests/Pods-Ecency-EcencyTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-upsteem-upsteemTests/Pods-upsteem-upsteemTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F122414F3F0027D42C /* Start Packager */ = {
@@ -909,7 +909,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* EcencyTests.m in Sources */,
+				00E356F31AD99517003FC87E /* upsteemTests.m in Sources */,
 				053EA30326B2BA150082FEB9 /* File.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -944,7 +944,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DCD954D1E0B4F2C00145EB5 /* EcencyTests.m in Sources */,
+				2DCD954D1E0B4F2C00145EB5 /* upsteemTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -958,7 +958,7 @@
 		};
 		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2D02E47A1E0B4A5D006451C7 /* Ecency-tvOS */;
+			target = 2D02E47A1E0B4A5D006451C7 /* upsteem-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -977,7 +977,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 620A004025440D5DADF8666D /* Pods-Ecency-EcencyTests.debug.xcconfig */;
+			baseConfigurationReference = 620A004025440D5DADF8666D /* Pods-upsteem-upsteemTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -990,7 +990,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = EcencyTests/Info.plist;
+				INFOPLIST_FILE = upsteemTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1004,7 +1004,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "EcencyTests/EcencyTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "upsteemTests/upsteemTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1014,7 +1014,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CF0FF1D217AA749ADDABDD79 /* Pods-Ecency-EcencyTests.release.xcconfig */;
+			baseConfigurationReference = CF0FF1D217AA749ADDABDD79 /* Pods-upsteem-upsteemTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1024,7 +1024,7 @@
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
-				INFOPLIST_FILE = EcencyTests/Info.plist;
+				INFOPLIST_FILE = upsteemTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1039,7 +1039,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "EcencyTests/EcencyTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "upsteemTests/upsteemTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "";
@@ -1121,12 +1121,12 @@
 		};
 		05B6C4B524C306CE00B7FA60 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DD217031EB36987A5EFECBDE /* Pods-Ecency.debug.xcconfig */;
+			baseConfigurationReference = DD217031EB36987A5EFECBDE /* Pods-upsteem.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Ecency/EcencyDebug.entitlements;
+				CODE_SIGN_ENTITLEMENTS = upsteem/upsteemDebug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -1179,7 +1179,7 @@
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
 					"\"${PODS_ROOT}/../node_modules/react-native/Libraries/LinkingIOS\"",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Ecency/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/upsteem/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1194,7 +1194,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = ios_dev_app;
-				SWIFT_OBJC_BRIDGING_HEADER = "Ecency-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "upsteem-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1204,12 +1204,12 @@
 		};
 		05B6C4B624C306CE00B7FA60 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35A5C828DD40E183E78893AF /* Pods-Ecency.release.xcconfig */;
+			baseConfigurationReference = 35A5C828DD40E183E78893AF /* Pods-upsteem.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Ecency/Ecency.entitlements;
+				CODE_SIGN_ENTITLEMENTS = upsteem/upsteem.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2815;
@@ -1261,7 +1261,7 @@
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
 					"\"${PODS_ROOT}/../node_modules/react-native/Libraries/LinkingIOS\"",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Ecency/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/upsteem/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1276,7 +1276,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = ios_dev_app;
-				SWIFT_OBJC_BRIDGING_HEADER = "Ecency-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "upsteem-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1295,7 +1295,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Ecency-tvOS/Info.plist";
+				INFOPLIST_FILE = "upsteem-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1305,7 +1305,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Ecency-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.upsteem-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -1325,7 +1325,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Ecency-tvOS/Info.plist";
+				INFOPLIST_FILE = "upsteem-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1335,7 +1335,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Ecency-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.upsteem-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -1354,7 +1354,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Ecency-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "upsteem-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1365,10 +1365,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Ecency-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.upsteem-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ecency-tvOS.app/Ecency-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/upsteem-tvOS.app/upsteem-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
@@ -1384,7 +1384,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Ecency-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "upsteem-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1395,10 +1395,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Ecency-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.upsteem-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ecency-tvOS.app/Ecency-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/upsteem-tvOS.app/upsteem-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Release;
@@ -1518,7 +1518,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "EcencyTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "upsteemTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -1536,7 +1536,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		05B6C4B424C306CE00B7FA60 /* Build configuration list for PBXNativeTarget "Ecency" */ = {
+		05B6C4B424C306CE00B7FA60 /* Build configuration list for PBXNativeTarget "upsteem" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				05B6C4B524C306CE00B7FA60 /* Debug */,
@@ -1545,7 +1545,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Ecency-tvOS" */ = {
+		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "upsteem-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4971E0B4A5E006451C7 /* Debug */,
@@ -1554,7 +1554,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Ecency-tvOSTests" */ = {
+		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "upsteem-tvOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
@@ -1563,7 +1563,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Ecency" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "upsteem" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

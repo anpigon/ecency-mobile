@@ -1,4 +1,4 @@
-package app.esteem.mobile.android.newarchitecture.modules;
+package app.upsteem.mobile.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

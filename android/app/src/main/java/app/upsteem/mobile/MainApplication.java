@@ -1,4 +1,4 @@
-package app.esteem.mobile.android;
+package app.upsteem.mobile;
 
 import android.app.Application;
 
@@ -10,7 +10,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.soloader.SoLoader;
-import app.esteem.mobile.android.newarchitecture.MainApplicationReactNativeHost;
+import app.upsteem.mobile.newarchitecture.MainApplicationReactNativeHost;
 import androidx.multidex.MultiDexApplication;
 import com.getkeepsafe.relinker.ReLinker;
 import com.bugsnag.android.Bugsnag;
@@ -102,7 +102,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("app.esteem.mobile.android.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("app.upsteem.mobile.ReactNativeFlipper");
         aClass
                 .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
                 .invoke(null, context, reactInstanceManager);

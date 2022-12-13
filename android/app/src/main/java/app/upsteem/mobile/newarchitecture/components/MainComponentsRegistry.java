@@ -1,4 +1,4 @@
-package app.esteem.mobile.android.newarchitecture.components;
+package app.upsteem.mobile.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;
