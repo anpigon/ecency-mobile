@@ -2,7 +2,6 @@ import {configureStore, StoreEnhancer, Middleware} from '@reduxjs/toolkit';
 
 import {createMigrate, createTransform, persistReducer, persistStore} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Reactotron from '../../../reactotron-config';
 
 import reducers from '../reducers';
 import MigrationHelpers from '../../utils/migrationHelpers';
@@ -53,12 +52,9 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, reducers);
 
 const middleware: Middleware[] = [];
-const enhancers: StoreEnhancer[] = [];
 if (__DEV__) {
   const createDebugger = require('redux-flipper').default;
   middleware.push(createDebugger());
-  // @ts-ignore
-  enhancers.push(Reactotron.createEnhancer());
 }
 
 export const store = configureStore({
@@ -67,7 +63,6 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
     }).concat(middleware),
-  enhancers,
 });
 
 export const persistor = persistStore(store);
