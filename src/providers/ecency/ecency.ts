@@ -29,7 +29,7 @@ import {
  * ************************************
  */
 
-export const getCurrencyRate = currency =>
+export const getCurrencyRate = currency => {
   ecencyApi
     .get(`/private-api/market-data/${currency}/hbd?fixed=1`)
     .then(resp => resp.data)
@@ -38,6 +38,7 @@ export const getCurrencyRate = currency =>
       // TODO: save currency rate of offline values
       return 1;
     });
+};
 
 export const getLatestQuotes = async (currencyRate: number): Promise<LatestMarketPrices> => {
   try {
@@ -434,14 +435,15 @@ export const getNotifications = async (data: {
 };
 
 export const getUnreadNotificationCount = async (accessToken?: string) => {
-  try {
+  /* try {
     const data = accessToken ? {code: accessToken} : {};
     const response = await ecencyApi.post('/private-api/notifications/unread', data);
     return response.data ? response.data.count : 0;
   } catch (error) {
     bugsnagInstance.notify(error);
     return 0;
-  }
+  } */
+  return 0;
 };
 
 export const markNotifications = async (id: string | null = null) => {
@@ -456,7 +458,7 @@ export const markNotifications = async (id: string | null = null) => {
 };
 
 export const setPushToken = async (data, accessToken = null) => {
-  try {
+  /* try {
     if (!data.username) {
       console.log('skipping push token setting, as no user is provided');
       return;
@@ -471,7 +473,7 @@ export const setPushToken = async (data, accessToken = null) => {
   } catch (error) {
     console.warn('Failed to set push token on server');
     bugsnagInstance.notify(error);
-  }
+  } */
 };
 
 /**
@@ -726,7 +728,7 @@ export const getNodes = () => serverList.get().then(resp => resp.data.hived || S
  * @returns scToken (includes accessToken as property)
  */
 export const getSCAccessToken = async (code: string) => {
-  try {
+  /* try {
     const response = await ecencyApi.post('/auth-api/hs-token-refresh', {
       code,
     });
@@ -735,7 +737,7 @@ export const getSCAccessToken = async (code: string) => {
     console.warn('failed to refresh token');
     bugsnagInstance.notify(error);
     throw error;
-  }
+  } */
 };
 
 /**
@@ -744,7 +746,7 @@ export const getSCAccessToken = async (code: string) => {
  * @returns array of promoted posts
  */
 export const getPromotedEntries = async (username: string) => {
-  try {
+  /* try {
     console.log('Fetching promoted entries');
     return ecencyApi.get('/private-api/promoted-entries').then(resp => {
       return resp.data.map((post_data: any) =>
@@ -755,20 +757,22 @@ export const getPromotedEntries = async (username: string) => {
     console.warn('Failed to get promoted enties');
     bugsnagInstance.notify(error);
     return error;
-  }
+  } */
 };
 
-export const purchaseOrder = data =>
-  api
+export const purchaseOrder = data => {
+  /* api
     .post('/purchase-order', data)
     .then(resp => resp.data)
-    .catch(error => bugsnagInstance.notify(error));
+    .catch(error => bugsnagInstance.notify(error)); */
+};
 
-export const getPostReblogs = data =>
-  api
+export const getPostReblogs = data => {
+  /*   api
     .get(`/post-reblogs/${data.author}/${data.permlink}`)
     .then(resp => resp.data)
-    .catch(error => bugsnagInstance.notify(error));
+    .catch(error => bugsnagInstance.notify(error)); */
+};
 
 /**
  * Registers new user with ecency and hive, on confirmation sends

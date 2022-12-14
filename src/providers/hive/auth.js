@@ -65,14 +65,14 @@ export const login = async (username, password) => {
     }
   });
 
-  const signerPrivateKey = privateKeys.ownerKey || privateKeys.activeKey || privateKeys.postingKey;
-  const code = await makeHsCode(account.name, signerPrivateKey);
-  const scTokens = await getSCAccessToken(code);
+  // const signerPrivateKey = privateKeys.ownerKey || privateKeys.activeKey || privateKeys.postingKey;
+  // const code = await makeHsCode(account.name, signerPrivateKey);
+  // const scTokens = await getSCAccessToken(code);
 
   try {
-    const accessToken = scTokens?.access_token;
-    account.unread_activity_count = await getUnreadNotificationCount(accessToken);
-    account.pointsSummary = await getPointsSummary(account.username);
+    // const accessToken = scTokens?.access_token;
+    // account.unread_activity_count = await getUnreadNotificationCount(accessToken);
+    // account.pointsSummary = await getPointsSummary(account.username);
     account.mutes = await getMutes(account.username);
   } catch (err) {
     console.warn('Optional user data fetch failed, account can still function without them', err);

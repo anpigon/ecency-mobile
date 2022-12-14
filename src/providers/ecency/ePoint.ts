@@ -32,7 +32,7 @@ export const userActivity = async (ty: number, tx: string = '', bl: string | num
 };
 
 export const getPointsSummary = async (username: string): Promise<EcencyUser> => {
-  try {
+  /* try {
     const data = {username};
     const response = await ecencyApi.post('/private-api/points', data);
     console.log('returning user points data', response.data);
@@ -41,7 +41,8 @@ export const getPointsSummary = async (username: string): Promise<EcencyUser> =>
     console.warn('Failed to get points', error);
     bugsnagInstance.notify(error);
     throw new Error(error.response?.data?.message || error.message);
-  }
+  } */
+  return Promise.resolve({username} as EcencyUser);
 };
 
 export const getPointsHistory = (username: string): Promise<UserPoint[]> =>
@@ -58,14 +59,14 @@ export const getPointsHistory = (username: string): Promise<UserPoint[]> =>
   });
 
 export const claimPoints = async () => {
-  try {
+  /* try {
     const response = await ecencyApi.post('/private-api/points-claim');
     return response.data;
   } catch (error) {
     console.warn('Failed to calim points', error);
     bugsnagInstance.notify(error);
     throw new Error(error.response?.data?.message || error.message);
-  }
+  } */
 };
 
 export const gameStatusCheck = (username, type) =>
