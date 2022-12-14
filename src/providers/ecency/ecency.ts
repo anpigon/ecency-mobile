@@ -772,6 +772,7 @@ export const getPostReblogs = data => {
     .get(`/post-reblogs/${data.author}/${data.permlink}`)
     .then(resp => resp.data)
     .catch(error => bugsnagInstance.notify(error)); */
+  return Promise.resolve([]);
 };
 
 /**
