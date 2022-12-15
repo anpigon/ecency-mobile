@@ -12,7 +12,7 @@ import {EcencyUser, UserPoint} from './ecency.types';
  * @returns
  */
 export const userActivity = async (ty: number, tx: string = '', bl: string | number = '') => {
-  try {
+  /* try {
     const data: {
       ty: number;
       bl?: string | number;
@@ -28,7 +28,8 @@ export const userActivity = async (ty: number, tx: string = '', bl: string | num
     console.warn('Failed to push user activity point', error);
     bugsnagInstance.notify(error);
     throw error;
-  }
+  } */
+  return Promise.resolve();
 };
 
 export const getPointsSummary = async (username: string): Promise<EcencyUser> => {
@@ -45,8 +46,8 @@ export const getPointsSummary = async (username: string): Promise<EcencyUser> =>
   return Promise.resolve({username} as EcencyUser);
 };
 
-export const getPointsHistory = (username: string): Promise<UserPoint[]> =>
-  new Promise(resolve => {
+export const getPointsHistory = (username: string): Promise<UserPoint[]> => {
+  /* return new Promise(resolve => {
     ePointApi
       .get(`/users/${username}/points`)
       .then(res => {
@@ -56,7 +57,9 @@ export const getPointsHistory = (username: string): Promise<UserPoint[]> =>
         Alert.alert('Error', error.message);
         bugsnagInstance.notify(error);
       });
-  });
+  }); */
+  return Promise.resolve([]);
+};
 
 export const claimPoints = async () => {
   /* try {
@@ -69,8 +72,8 @@ export const claimPoints = async () => {
   } */
 };
 
-export const gameStatusCheck = (username, type) =>
-  new Promise((resolve, reject) => {
+export const gameStatusCheck = (username, type) => {
+  /* return new Promise((resolve, reject) => {
     ePointApi
       .get(`/game/${username}`, {
         params: {
@@ -83,10 +86,12 @@ export const gameStatusCheck = (username, type) =>
       .catch(error => {
         reject(error);
       });
-  });
+  }); */
+  return Promise.resolve();
+};
 
-export const gameClaim = (username, type, key) =>
-  new Promise((resolve, reject) => {
+export const gameClaim = (username, type, key) => {
+  /* return new Promise((resolve, reject) => {
     ePointApi
       .post(`/game/${username}?type=${type}`, {
         key,
@@ -97,4 +102,6 @@ export const gameClaim = (username, type, key) =>
       .catch(error => {
         reject(error);
       });
-  });
+  }); */
+  return Promise.resolve();
+};
