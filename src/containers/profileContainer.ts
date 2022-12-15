@@ -534,6 +534,9 @@ class ProfileContainer extends Component {
       resourceCredits = getRcPower(user).toFixed(1);
     }
 
+    // TODO: 이 화면 작업할 것
+    console.log('test')
+
     return (
       children &&
       children({
@@ -591,7 +594,7 @@ const mapStateToProps = state => ({
 
 const mapHooksToProps = props => {
   const navigation = useNavigation();
-  return <ProfileContainer {...props} navigation={navigation} />;
+  return <ProfileContainer navigation={navigation} {...props} />;
 };
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

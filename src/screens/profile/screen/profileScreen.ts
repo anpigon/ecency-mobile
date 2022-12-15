@@ -5,6 +5,7 @@ import {Profile} from '../../../components';
 import {ProfileContainer} from '../../../containers';
 
 function ProfileScreen({route}) {
+  console.log(route)
   return (
     <ProfileContainer route={route}>
       {({

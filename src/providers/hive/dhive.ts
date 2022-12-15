@@ -505,7 +505,7 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   }
 };
 
-export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
+export const getAccountPosts = async (query: any, currentUserName: any, filterNsfw: string) => {
   try {
     console.log('Getting account posts: ', query);
     let posts = await client.call('bridge', 'get_account_posts', query);
