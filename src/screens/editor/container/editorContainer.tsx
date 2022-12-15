@@ -685,6 +685,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             }, 3000);
           })
           .catch(error => {
+            console.error('editorContainer', error);
             this._handleSubmitFailure(error);
           });
       }

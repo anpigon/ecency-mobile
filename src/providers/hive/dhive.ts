@@ -1,6 +1,4 @@
-// import '../../../shim';
-// import * as bitcoin from 'bitcoinjs-lib';
-
+/* eslint-disable no-bitwise */
 import {
   Client,
   cryptoUtils,
@@ -9,8 +7,8 @@ import {
   Transaction,
   Operation,
   TransactionConfirmation,
-} from '@hiveio/dhive';
-import {PrivateKey} from '@esteemapp/dhive';
+  PrivateKey,
+} from '@upvu/dsteem';
 import bytebuffer from 'bytebuffer';
 import {createHash} from 'react-native-crypto';
 
@@ -89,13 +87,13 @@ export const sendHiveOperations = async (
   const ref_block_prefix = Buffer.from(head_block_id, 'hex').readUInt32LE(4);
   const expireTime = 60 * 1000;
   const chainId = Buffer.from(
-    'beeab0de00000000000000000000000000000000000000000000000000000000',
+    '0000000000000000000000000000000000000000000000000000000000000000',
     'hex',
   );
   const expiration = new Date(new Date(`${time}Z`).getTime() + expireTime)
     .toISOString()
     .slice(0, -5);
-  const extensions = [];
+  const extensions: any[] = [];
 
   const tx: Transaction = {
     expiration,
@@ -151,14 +149,14 @@ export const fetchGlobalProps = async () => {
   }
 
   const hivePerMVests =
-    (parseToken(get(globalDynamic, 'total_vesting_fund_hive')) /
-      parseToken(get(globalDynamic, 'total_vesting_shares'))) *
+    (parseToken(globalDynamic.total_vesting_fund_steem.toString()) /
+      parseToken(globalDynamic.total_vesting_shares.toString())) *
     1e6;
-  const hbdPrintRate = get(globalDynamic, 'hbd_print_rate');
-  const base = parseAsset(get(medianHistory, 'current_median_history.base')).amount;
-  const quote = parseAsset(get(medianHistory, 'current_median_history.quote')).amount;
-  const fundRecentClaims = get(rewardFund, 'recent_claims');
-  const fundRewardBalance = parseToken(get(rewardFund, 'reward_balance'));
+  const hbdPrintRate = globalDynamic.sbd_print_rate;
+  const base = parseAsset(medianHistory.current_median_history.base).amount;
+  const quote = parseAsset(medianHistory.current_median_history.quote).amount;
+  const fundRecentClaims = rewardFund.recent_claims;
+  const fundRewardBalance = parseToken(rewardFund.reward_balance);
   const globalProps = {
     hivePerMVests,
     base,
@@ -1337,6 +1335,7 @@ const _postContent = async (
 
     const privateKey = PrivateKey.fromString(key);
 
+    console.log('opArray', opArray);
     return sendHiveOperations(opArray, privateKey).catch(error => {
       if (error && get(error, 'jse_info.code') === 4030100) {
         error.message = getDsteemDateErrorMessage(error);

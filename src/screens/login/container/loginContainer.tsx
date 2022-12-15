@@ -188,6 +188,7 @@ class LoginContainer extends PureComponent {
         }
       })
       .catch(err => {
+        console.error(err.stack);
         // if error description exist, pass it to alert else pass error message key
         const errorDescription = err?.response?.data?.error_description
           ? err?.response?.data?.error_description

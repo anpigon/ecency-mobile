@@ -100,45 +100,45 @@ export const makeOptions = postObj => {
     return {};
   }
 
-  const a = {
+  const result = {
     allow_curation_rewards: true,
     allow_votes: true,
     author: postObj.author,
     permlink: postObj.permlink,
-    max_accepted_payout: '1000000.000 HBD',
-    percent_hbd: 10000,
+    max_accepted_payout: '1000000.000 SBD',
+    percent_steem_dollars: 10000,
     extensions: [],
   };
   switch (postObj.operationType) {
     case 'sp':
-      a.max_accepted_payout = '1000000.000 HBD';
-      a.percent_hbd = 0;
+      result.max_accepted_payout = '1000000.000 SBD';
+      result.percent_steem_dollars = 0;
       if (postObj.beneficiaries && postObj.beneficiaries.length > 0) {
         postObj.beneficiaries.sort((a, b) => a.account.localeCompare(b.account));
-        a.extensions = [[0, {beneficiaries: postObj.beneficiaries}]];
+        result.extensions = [[0, {beneficiaries: postObj.beneficiaries}]];
       }
       break;
 
     case 'dp':
-      a.max_accepted_payout = '0.000 HBD';
-      a.percent_hbd = 10000;
+      result.max_accepted_payout = '0.000 SBD';
+      result.percent_steem_dollars = 10000;
       if (postObj.beneficiaries && postObj.beneficiaries.length > 0) {
         postObj.beneficiaries.sort((a, b) => a.account.localeCompare(b.account));
-        a.extensions = [[0, {beneficiaries: postObj.beneficiaries}]];
+        result.extensions = [[0, {beneficiaries: postObj.beneficiaries}]];
       }
       break;
 
     default:
-      a.max_accepted_payout = '1000000.000 HBD';
-      a.percent_hbd = 10000;
+      result.max_accepted_payout = '1000000.000 SBD';
+      result.percent_steem_dollars = 10000;
       if (postObj.beneficiaries && postObj.beneficiaries.length > 0) {
         postObj.beneficiaries.sort((a, b) => a.account.localeCompare(b.account));
-        a.extensions = [[0, {beneficiaries: postObj.beneficiaries}]];
+        result.extensions = [[0, {beneficiaries: postObj.beneficiaries}]];
       }
       break;
   }
 
-  return a;
+  return result;
 };
 
 export const makeJsonMetadataReply = tags => ({

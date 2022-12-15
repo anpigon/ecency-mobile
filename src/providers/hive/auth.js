@@ -102,7 +102,7 @@ export const login = async (username, password) => {
     const resData = {
       pinCode: Config.DEFAULT_PIN,
       password,
-      accessToken: get(scTokens, 'access_token', ''),
+      // accessToken: get(scTokens, 'access_token', ''),
     };
     const updatedUserData = await getUpdatedUserData(userData, resData);
 
@@ -114,7 +114,7 @@ export const login = async (username, password) => {
       currentUsername: username,
     };
     await setAuthStatus(authData);
-    await setSCAccount(scTokens);
+    // await setSCAccount(scTokens);
 
     // Save user data to Realm DB
     await setUserData(account.local);

@@ -2644,6 +2644,23 @@
     "@typescript-eslint/types" "5.45.0"
     eslint-visitor-keys "^3.3.0"
 
+"@upvu/dsteem@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@upvu/dsteem/-/dsteem-1.1.5.tgz#21b4a401ba7e52b230cfb44870c00f41ca0f3e13"
+  integrity sha512-XtOMKZgsfi1sXtekkWyXIxtinkM/U7Enz4QvcKugjck5NWK/dUR0UwTN05fw4HVAfDm5e2UvnKIGhAqbU6D2FQ==
+  dependencies:
+    bs58 "^4.0.1"
+    bytebuffer "^5.0.1"
+    core-js "^3.6.4"
+    cross-fetch "^3.0.4"
+    https "^1.0.0"
+    jsbi "^3.1.4"
+    node-fetch "^2.6.0"
+    ripemd160 "^2.0.2"
+    secp256k1 "^3.8.0"
+    verror "^1.10.0"
+    whatwg-fetch "^3.0.0"
+
 "@xmldom/xmldom@~0.7.0":
   version "0.7.9"
   resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.7.9.tgz#7f9278a50e737920e21b297b8a35286e9942c056"
@@ -9723,7 +9740,7 @@ rimraf@~2.6.2:
   dependencies:
     glob "^7.1.3"
 
-ripemd160@^2.0.0, ripemd160@^2.0.1:
+ripemd160@^2.0.0, ripemd160@^2.0.1, ripemd160@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/ripemd160/-/ripemd160-2.0.2.tgz#a1c1a6f624751577ba5d07914cbc92850585890c"
   integrity sha512-ii4iagi25WusVoiC4B4lq7pbXfAp3D9v5CwfkY33vffw2+pkDjY1D8GaN7spsxvCSx8dkPqOZCEZyfxcmJG2IA==
