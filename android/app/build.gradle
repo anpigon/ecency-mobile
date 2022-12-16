@@ -142,10 +142,6 @@ android {
      compileSdkVersion rootProject.ext.compileSdkVersion
 
 
-    lintOptions {
-        checkReleaseBuilds false
-    }
-
     defaultConfig {
         applicationId "app.upsteem.mobile"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -241,6 +237,10 @@ android {
             keyPassword 'android'
         }
     }
+    lint {
+        checkReleaseBuilds false
+    }
+    namespace 'app.upsteem.mobile'
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
