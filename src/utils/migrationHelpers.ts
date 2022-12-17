@@ -1,5 +1,6 @@
 import {Appearance} from 'react-native';
 import Config from 'react-native-config';
+import {Dispatch} from '@reduxjs/toolkit';
 
 // Constants
 import THEME_OPTIONS from '../constants/options/theme';
@@ -69,7 +70,9 @@ export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean
       dispatch(setPostUpvotePercent(percent));
       dispatch(setCommentUpvotePercent(percent));
     }
-    if (settings.isDefaultFooter !== '') dispatch(isDefaultFooter(settings.isDefaultFooter)); // TODO: remove as not being used
+    if (settings.isDefaultFooter !== '') {
+      dispatch(isDefaultFooter(settings.isDefaultFooter)); // TODO: remove as not being used
+    }
 
     if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
 
@@ -91,7 +94,12 @@ export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean
 };
 
 // migrates local user data to use default pin encruption instead of user pin encryption
-export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin, onFailure) => {
+export const migrateUserEncryption = async (
+  dispatch: Dispatch<any>,
+  currentAccount: any,
+  encUserPin: string,
+  onFailure: (error: any) => void,
+) => {
   const oldPinCode = decryptKey(encUserPin, Config.PIN_KEY);
 
   if (oldPinCode === undefined || oldPinCode === Config.DEFAULT_PIN) {
@@ -162,18 +170,18 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
 };
 
 const reduxMigrations = {
-  0: state => {
+  0: (state: any) => {
     const {upvotePercent} = state.application;
     state.application.postUpvotePercent = upvotePercent;
     state.application.commentUpvotePercent = upvotePercent;
     state.application.upvotePercent = undefined;
     return state;
   },
-  1: state => {
+  1: (state: any) => {
     state.application.notificationDetails.favoriteNotification = true;
     return state;
   },
-  2: state => {
+  2: (state: any) => {
     state.application.notificationDetails.bookmarkNotification = true;
     return state;
   },

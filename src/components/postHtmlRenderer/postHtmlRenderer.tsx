@@ -43,7 +43,7 @@ export const PostHtmlRenderer = memo(
     // new renderer functions
     body = body.replace(/<center>/g, '<div class="text-center">').replace(/<\/center>/g, '</div>');
 
-    console.log('Comment body:', body);
+    // console.log('Comment body:', body);
 
     const _minTableColWidth = contentWidth / 3 - 12;
 

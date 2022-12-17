@@ -1,6 +1,6 @@
-const parseCatAuthorPermlink = u => {
+const parseCatAuthorPermlink = (url: string) => {
   const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*?)(?:\?|$)/i;
-  const postMatch = u.match(postRegex);
+  const postMatch = url.match(postRegex);
 
   if (postMatch && postMatch.length === 5) {
     return {
@@ -9,7 +9,7 @@ const parseCatAuthorPermlink = u => {
     };
   }
   const authorRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)/i;
-  const authorMatch = u.match(authorRegex);
+  const authorMatch = url.match(authorRegex);
   if (authorMatch && authorMatch.length === 4) {
     return {
       author: authorMatch[3].replace('@', ''),
@@ -17,7 +17,7 @@ const parseCatAuthorPermlink = u => {
     };
   }
   const r = /^https?:\/\/(.*)\/(@[\w.\d-]+)\/(.*?)(?:\?|$)/i;
-  const match = u.match(r);
+  const match = url.match(r);
 
   if (match && match.length === 4) {
     return {
@@ -28,9 +28,9 @@ const parseCatAuthorPermlink = u => {
   return null;
 };
 
-const parseAuthorPermlink = u => {
+const parseAuthorPermlink = (url: string) => {
   const r = /^https?:\/\/(.*)\/(@[\w.\d-]+)\/(.*?)(?:\?|$)/i;
-  const match = u.match(r);
+  const match = url.match(r);
 
   if (match && match.length === 4) {
     return {
@@ -39,7 +39,7 @@ const parseAuthorPermlink = u => {
     };
   }
   const authorRegex = /^https?:\/\/(.*)\/(@[\w.\d-]+)/i;
-  const authorMatch = u.match(authorRegex);
+  const authorMatch = url.match(authorRegex);
   if (authorMatch && authorMatch.length === 3) {
     return {
       author: authorMatch[2].replace('@', ''),
@@ -50,7 +50,7 @@ const parseAuthorPermlink = u => {
   return null;
 };
 
-export default url => {
+export default function postUrlParser(url: string) {
   url = url && url.toLowerCase();
   if (url.startsWith('ecency://') || url.startsWith('esteem://')) {
     url = url
@@ -132,4 +132,4 @@ export default url => {
     return parseAuthorPermlink(url);
   }
   return null;
-};
+}

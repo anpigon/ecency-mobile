@@ -1,5 +1,5 @@
-export default (accountData = {}) => {
-  const persistData = {};
+export default (accountData: any = {}) => {
+  const persistData: any = {};
 
   Object.assign(persistData, {
     about: accountData.about,

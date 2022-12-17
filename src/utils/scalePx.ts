@@ -6,7 +6,7 @@ const {width: SCREEN_WIDTH} = getWindowDimensions();
 // based on iphone X's scale
 const scale = SCREEN_WIDTH / 414;
 
-export default size => {
+export default (size: number) => {
   const newSize = size * scale;
   if (Platform.OS === 'ios') {
     return Math.round(PixelRatio.roundToNearestPixel(newSize));

@@ -1,7 +1,7 @@
 import qs from 'qs';
 import {Linking} from 'react-native';
 
-export const sendEmail = async (to, subject, body, options = {}) => {
+export const sendEmail = async (to: string, subject: string, body: string, options: any = {}) => {
   const {cc, bcc} = options;
 
   let url = `mailto:${to}`;

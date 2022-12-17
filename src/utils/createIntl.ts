@@ -12,7 +12,7 @@ const _createIntl = () => {
   const intl = createIntl(
     {
       locale,
-      messages: flattenMessages(messages[locale]),
+      messages: flattenMessages((messages as any)[locale]),
     },
     cache,
   );

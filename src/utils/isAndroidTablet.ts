@@ -1,6 +1,6 @@
 import {Platform} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
-export default () => {
-  return Platform.OS === 'android' && DeviceInfo.isTablet();
-};
+const isAndroidTablet = () => Platform.OS === 'android' && DeviceInfo.isTablet();
+
+export default isAndroidTablet;

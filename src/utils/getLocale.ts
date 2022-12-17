@@ -1,6 +1,6 @@
 import {NativeModules, Platform} from 'react-native';
 
-export default () => {
+const getLocale = () => {
   let locale = '';
 
   if (Platform.OS === 'ios') {
@@ -13,3 +13,5 @@ export default () => {
 
   return locale;
 };
+
+export default getLocale;

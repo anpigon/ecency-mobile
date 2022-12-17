@@ -13,7 +13,7 @@ export const encryptKey = (data = '', key = '') => {
   return encData;
 };
 
-export const decryptKey = (data: string, key: string, onError: onError) => {
+export const decryptKey = (data: string, key?: string, onError?: onError) => {
   const legacyDecrypt = () => decryptKeyLegacy(data, key, onError);
 
   try {
@@ -35,10 +35,10 @@ const decryptKeyNew = (data = '', key = '') => {
   return ret;
 };
 
-const decryptKeyLegacy = (data: string, key: string, onError: onError) => {
+const decryptKeyLegacy = (data: string, key?: string, onError?: onError) => {
   try {
     console.log('decrypting legacy ', data, key);
-    const ret = CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
+    const ret = CryptoJS.AES.decrypt(data, key || '').toString(CryptoJS.enc.Utf8);
     console.log('returning: ', ret);
     return ret;
   } catch (err: any) {

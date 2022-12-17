@@ -1,4 +1,4 @@
-import {cryptoUtils, PrivateKey} from '@hiveio/dhive';
+import {cryptoUtils, PrivateKey} from '@upvu/dsteem';
 import {b64uEnc} from './b64';
 
 export interface HiveSignerMessage {

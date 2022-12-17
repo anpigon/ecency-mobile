@@ -1,18 +1,17 @@
-import get from 'lodash/get';
 import {getPost, getUser} from '../providers/hive/dhive';
 import postUrlParser from './postUrlParser';
 import parseAuthUrl, {AUTH_MODES} from './parseAuthUrl';
 import ROUTES from '../constants/routeNames';
 import parsePurchaseUrl from './parsePurchaseUrl';
 
-export const deepLinkParser = async (url, currentAccount) => {
+export const deepLinkParser = async (url: string, currentAccount: any) => {
   if (!url || url.indexOf('ShareMedia://') >= 0) return;
 
   let routeName;
   let params;
   let content;
   let profile;
-  let keey;
+  let key;
 
   // profess url for post/content
   const postUrl = postUrlParser(url);
@@ -37,24 +36,24 @@ export const deepLinkParser = async (url, currentAccount) => {
       profile = await getUser(author);
       routeName = ROUTES.SCREENS.PROFILE;
       params = {
-        username: get(profile, 'name'),
-        reputation: get(profile, 'reputation'),
+        username: profile?.name,
+        reputation: profile?.reputation,
         deepLinkFilter, // TODO: process this in profile screen
       };
-      keey = get(profile, 'name');
+      key = profile?.name;
     } else if (permlink === 'communities') {
       routeName = ROUTES.SCREENS.WEB_BROWSER;
       params = {
         url,
       };
-      keey = 'WebBrowser';
+      key = 'WebBrowser';
     } else if (permlink) {
       content = await getPost(author, permlink, currentAccount.name);
       routeName = ROUTES.SCREENS.POST;
       params = {
         content,
       };
-      keey = `${author}/${permlink}`;
+      key = `${author}/${permlink}`;
     }
   }
 
@@ -70,7 +69,7 @@ export const deepLinkParser = async (url, currentAccount) => {
       tag,
       filter: feedType,
     };
-    keey = `${feedType}/${tag || ''}`;
+    key = `${feedType}/${tag || ''}`;
   }
 
   // process url for authentication
@@ -84,7 +83,7 @@ export const deepLinkParser = async (url, currentAccount) => {
         params = {
           referredUser,
         };
-        keey = `${mode}/${referredUser || ''}`;
+        key = `${mode}/${referredUser || ''}`;
       }
 
       if (mode === AUTH_MODES.AUTH) {
@@ -93,7 +92,7 @@ export const deepLinkParser = async (url, currentAccount) => {
           username,
           code,
         };
-        keey = `${mode}/${username || ''}`;
+        key = `${mode}/${username || ''}`;
       }
     }
   }
@@ -107,7 +106,7 @@ export const deepLinkParser = async (url, currentAccount) => {
       params = {
         username,
       };
-      keey = `${type}/${username || ''}`;
+      key = `${type}/${username || ''}`;
     }
     if (type && type === 'points') {
       routeName = ROUTES.SCREENS.BOOST;
@@ -115,13 +114,13 @@ export const deepLinkParser = async (url, currentAccount) => {
         username,
         productId,
       };
-      keey = `${type}/${username || ''}`;
+      key = `${type}/${username || ''}`;
     }
   }
 
   return {
     name: routeName,
     params,
-    key: keey,
+    key,
   };
 };

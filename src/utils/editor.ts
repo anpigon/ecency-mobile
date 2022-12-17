@@ -3,12 +3,12 @@ import {diff_match_patch as diffMatchPatch} from 'diff-match-patch';
 import VersionNumber from 'react-native-version-number';
 import MimeTypes from 'mime-types';
 
-export const getWordsCount = text =>
+export const getWordsCount = (text: string) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
 
 export const generateRndStr = () => (Math.random() + 1).toString(16).substring(2);
 
-export const generatePermlink = (title, random = false) => {
+export const generatePermlink = (title: string, random = false) => {
   if (!title) {
     return '';
   }
@@ -79,7 +79,7 @@ export const extractWordAtIndex = (text: string, index: number) => {
   return word;
 };
 
-export const generateReplyPermlink = toAuthor => {
+export const generateReplyPermlink = (toAuthor?: string) => {
   if (!toAuthor) {
     return '';
   }
@@ -95,12 +95,12 @@ export const generateReplyPermlink = toAuthor => {
   return `re-${toAuthor.replace(/\./g, '')}-${timeFormat}`;
 };
 
-export const makeOptions = postObj => {
+export const makeOptions = (postObj: any) => {
   if (!postObj.author || !postObj.permlink) {
     return {};
   }
 
-  const result = {
+  const result: any = {
     allow_curation_rewards: true,
     allow_votes: true,
     author: postObj.author,
@@ -132,7 +132,7 @@ export const makeOptions = postObj => {
       result.max_accepted_payout = '1000000.000 SBD';
       result.percent_steem_dollars = 10000;
       if (postObj.beneficiaries && postObj.beneficiaries.length > 0) {
-        postObj.beneficiaries.sort((a, b) => a.account.localeCompare(b.account));
+        postObj.beneficiaries.sort((a: any, b: any) => a.account.localeCompare(b.account));
         result.extensions = [[0, {beneficiaries: postObj.beneficiaries}]];
       }
       break;
@@ -141,27 +141,31 @@ export const makeOptions = postObj => {
   return result;
 };
 
-export const makeJsonMetadataReply = tags => ({
+export const makeJsonMetadataReply = (tags: any[]) => ({
   tags,
   app: `ecency/${VersionNumber.appVersion}-mobile`,
   format: 'markdown+html',
 });
 
-export const makeJsonMetadata = (meta, tags) => ({
+export const makeJsonMetadata = (meta: any, tags: any[]) => ({
   ...meta,
   tags,
   app: `ecency/${VersionNumber.appVersion}-mobile`,
   format: 'markdown+html',
 });
 
-export const makeJsonMetadataForUpdate = (oldJson, meta, tags) => {
-  const {meta: oldMeta} = oldJson;
-  const mergedMeta = {...oldMeta, ...meta};
-
-  return {...oldJson, ...mergedMeta, tags};
+export const makeJsonMetadataForUpdate = (oldJson: any, meta: any, tags: any[]) => {
+  return {
+    ...oldJson,
+    meta: {
+      ...oldJson.meta,
+      ...meta,
+    },
+    tags,
+  };
 };
 
-const extractUrls = (body: string) => {
+const extractUrls = (body?: string) => {
   const urlReg = /(\b(https?|ftp):\/\/[A-Z0-9+&@#/%?=~_|!:,.;-]*[-A-Z0-9+&@#/%=~_|])/gim;
   const mUrls = body && body.match(urlReg);
   return mUrls || [];
@@ -169,18 +173,11 @@ const extractUrls = (body: string) => {
 
 export const extractImageUrls = ({body, urls}: {body?: string; urls?: string[]}) => {
   const imgReg = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|heic|webp))/gim;
-
-  const imgUrls = [];
   const mUrls = urls || extractUrls(body);
-
-  mUrls.forEach(url => {
+  return mUrls.filter(url => {
     const isImage = url.match(imgReg);
-    if (isImage) {
-      imgUrls.push(url);
-    }
+    return isImage;
   });
-
-  return imgUrls;
 };
 
 export const extractFilenameFromPath = ({path, mimeType}: {path: string; mimeType?: string}) => {
@@ -197,7 +194,7 @@ export const extractFilenameFromPath = ({path, mimeType}: {path: string; mimeTyp
   } catch (err) {
     let _ext = 'jpg';
     if (mimeType) {
-      _ext = MimeTypes.extension(mimeType);
+      _ext = MimeTypes.extension(mimeType).toString();
     }
     return `${generateRndStr()}.${_ext}`;
   }
@@ -206,14 +203,14 @@ export const extractFilenameFromPath = ({path, mimeType}: {path: string; mimeTyp
 export const extractMetadata = (body: string, thumbUrl?: string) => {
   const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
 
-  const out = {};
+  const results: any = {};
 
   const mUrls = extractUrls(body);
   const mUsers = body && body.match(userReg);
 
   const matchedImages = extractImageUrls({urls: mUrls});
-  const matchedLinks = [];
-  const matchedUsers = [];
+  const matchedLinks: any[] = [];
+  const matchedUsers: any[] = [];
 
   if (mUrls) {
     mUrls.forEach(url => {
@@ -224,7 +221,7 @@ export const extractMetadata = (body: string, thumbUrl?: string) => {
   }
 
   if (matchedLinks.length) {
-    out.links = matchedLinks.slice(0, 10); // return only first 10 links
+    results.links = matchedLinks.slice(0, 10); // return only first 10 links
   }
 
   if (matchedImages.length) {
@@ -232,7 +229,7 @@ export const extractMetadata = (body: string, thumbUrl?: string) => {
       matchedImages.sort(item => (item === thumbUrl ? -1 : 1));
     }
 
-    out.image = matchedImages.slice(0, 10); // return only first 10 images
+    results.image = matchedImages.slice(0, 10); // return only first 10 images
   }
 
   if (mUsers) {
@@ -242,13 +239,13 @@ export const extractMetadata = (body: string, thumbUrl?: string) => {
   }
 
   if (matchedUsers.length) {
-    out.users = matchedUsers.slice(0, 10); // return only first 10 users
+    results.users = matchedUsers.slice(0, 10); // return only first 10 users
   }
 
-  return out;
+  return results;
 };
 
-export const createPatch = (text1, text2) => {
+export const createPatch = (text1: string, text2: string) => {
   if (!text1 && text1 === '') {
     return undefined;
   }
@@ -260,7 +257,8 @@ export const createPatch = (text1, text2) => {
   return patch;
 };
 
-export const delay = ms =>
-  new Promise(resolve => {
+export const delay = (ms: number) => {
+  return new Promise(resolve => {
     setTimeout(resolve, ms);
   });
+};

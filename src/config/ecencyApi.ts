@@ -9,7 +9,6 @@ import bugsnagInstance from './bugsnag';
 
 export const ECENCY_TERMS_URL = `${Config.ECENCY_BACKEND_API}/terms-of-service`;
 
-console.log('ECENCY_BACKEND_API', Config.ECENCY_BACKEND_API);
 const api = axios.create({
   baseURL: Config.ECENCY_BACKEND_API,
   headers: {

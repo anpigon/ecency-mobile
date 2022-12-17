@@ -12,7 +12,7 @@ const MONTH = 60 * 60 * 24 * 30;
 const YEAR = 60 * 60 * 24 * 365;
 
 // TODO: once hermes has Intl support, enable native version
-export const getTimeFromNowNative = d => {
+export const getTimeFromNowNative = (d: string) => {
   if (!d) {
     return null;
   }
@@ -24,7 +24,7 @@ export const getTimeFromNowNative = d => {
     future = true;
   }
 
-  const diff = Math.abs((dateNow - dateIn) / 1000);
+  const diff = Math.abs((dateNow.getTime() - dateIn.getTime()) / 1000);
 
   if (diff < MINUTE) {
     return {unit: 'second', value: future ? Math.round(diff) : -Math.round(diff)};
@@ -74,7 +74,7 @@ export const setMomentLocale = () => {
   });
 };
 
-export const getTimeFromNow = (value, isWithoutUtc) => {
+export const getTimeFromNow = (value: string, isWithoutUtc: boolean) => {
   if (!value) {
     return null;
   }
@@ -86,7 +86,7 @@ export const getTimeFromNow = (value, isWithoutUtc) => {
   return moment.utc(value).fromNow();
 };
 
-export const getFormatedCreatedDate = value => {
+export const getFormatedCreatedDate = (value: string) => {
   if (!value) {
     return null;
   }
@@ -94,9 +94,9 @@ export const getFormatedCreatedDate = value => {
   return new Date(value).toLocaleDateString();
 };
 
-export const isBefore = (a, b) => new Date(b) - new Date(a);
+export const isBefore = (a: string, b: string) => new Date(b).getTime() - new Date(a).getTime();
 
-export const isToday = value => {
+export const isToday = (value: string) => {
   const day = new Date(value);
   return TODAY.getDate() === day.getDate() &&
     TODAY.getMonth() === day.getMonth() &&
@@ -105,27 +105,27 @@ export const isToday = value => {
     : 0;
 };
 
-export const isYesterday = value => {
+export const isYesterday = (value: string) => {
   const day = new Date(value).getTime();
   return day < TODAY.getTime() && day > ONE_DAY.getTime();
 };
 
-export const isThisWeek = value => {
+export const isThisWeek = (value: string) => {
   const day = new Date(value).getTime();
   return day < TODAY.getTime() && day > SEVEN_DAY.getTime();
 };
 
-export const isLastWeek = value => {
+export const isLastWeek = (value: string) => {
   const day = new Date(value).getTime();
   return day < SEVEN_DAY.getTime() && day > 2 * SEVEN_DAY.getTime();
 };
 
-export const isThisMonth = value => {
+export const isThisMonth = (value: string) => {
   const day = new Date(value);
   return TODAY.getMonth() === day.getMonth() && TODAY.getFullYear() === day.getFullYear() ? 1 : 0;
 };
 
-export const isEmptyContentDate = value => {
+export const isEmptyContentDate = (value: string) => {
   if (!value) {
     return false;
   }
@@ -139,7 +139,7 @@ export const isEmptyDate = s => parseInt(s.split('-')[0], 10) < 1980;
  * Accepts javascript date , returns number of days between given date and todays date.
  *
  * */
-export const daysTillDate = dateObj => {
+export const daysTillDate = (dateObj: string) => {
   const given = moment(dateObj);
   const current = moment();
   return Math.round(moment.duration(given.diff(current)).asDays());
@@ -150,7 +150,7 @@ export const daysTillDate = dateObj => {
  * For example d = '2022-04-13T18:16:42+00:00' , format = 'LL' will return 'April 13, 2022'
  *
  * */
-export const dateToFormatted = (d, format = 'LLLL') => {
+export const dateToFormatted = (d: string, format = 'LLLL') => {
   const isTimeZoned = d.indexOf('.') !== -1 || d.indexOf('+') !== -1 ? d : `${d}.000Z`;
   const dm = moment(new Date(isTimeZoned));
   return dm.format(format);

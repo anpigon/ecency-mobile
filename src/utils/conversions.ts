@@ -1,4 +1,4 @@
-export const vestsToHp = (vests, hivePerMVests) => {
+export const vestsToHp = (vests: string, hivePerMVests: number) => {
   if (!vests || !hivePerMVests) {
     return 0;
   }
@@ -6,7 +6,7 @@ export const vestsToHp = (vests, hivePerMVests) => {
   return (parseFloat(vests) / 1e6) * hivePerMVests;
 };
 
-export const hpToVests = (hp, hivePerMVests) => {
+export const hpToVests = (hp: string, hivePerMVests: number) => {
   if (!hp || !hivePerMVests) {
     return 0;
   }
