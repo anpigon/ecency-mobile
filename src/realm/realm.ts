@@ -1,7 +1,6 @@
 import sha256 from 'crypto-js/sha256';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import parseVersionNumber from '../utils/parseVersionNumber';
-import {lte} from 'lodash';
 
 // CONSTANTS
 const USER_SCHEMA = 'user';
@@ -292,7 +291,7 @@ export const getCurrency = async () => {
   return setting?.currency || false;
 };
 export const setCache = async (params: any, value: any) => {
-  const cache = await getItemFromStorage(CACHE_SCHEMA);
+  const cache = (await getItemFromStorage(CACHE_SCHEMA)) || {};
   cache[params] = value;
   await setItemToStorage(CACHE_SCHEMA, cache);
   return true;
