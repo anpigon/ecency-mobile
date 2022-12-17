@@ -8,7 +8,7 @@ const parseAsset = (strVal: string) => {
   const sp = strVal.trim().split(' ');
   return {
     amount: parseFloat(sp[0]),
-    symbol: sp[1].trim(),
+    symbol: Symbol(sp[1].trim()),
   };
 };
 
