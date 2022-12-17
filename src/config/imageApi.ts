@@ -1,7 +1,12 @@
 import axios from 'axios';
 import Config from 'react-native-config';
 
-function upload(fd, username, signature, uploadProgress) {
+export const upload = (
+  fd: any,
+  username: string,
+  signature: string,
+  uploadProgress: (progressEvent: any) => void,
+) => {
   const image = axios.create({
     baseURL: `${Config.NEW_IMAGE_API}/hs/${signature}`, // Config.NEW_IMAGE_API
     headers: {
@@ -17,11 +22,9 @@ function upload(fd, username, signature, uploadProgress) {
   });
 
   image.interceptors.response.use(response => {
-    console.log('Response:', response.status, response.url);
+    console.log('Response:', response.status, (response as any).url);
     return response;
   });
 
   return image.post('', fd);
-}
-
-export {upload};
+};

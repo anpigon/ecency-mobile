@@ -1,10 +1,9 @@
-import * as dsteem from '@esteemapp/dhive';
-import sha256 from 'crypto-js/sha256';
+import * as dsteem from '@upvu/dsteem';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
 import {getDigitPinCode, getMutes, getUser} from './dhive';
-import {getPointsSummary} from '../ecency/ePoint';
+// import {getPointsSummary} from '../ecency/ePoint';
 import {
   setUserData,
   setAuthStatus,
@@ -15,7 +14,6 @@ import {
   setSCAccount,
   getSCAccount,
   setPinCode,
-  getPinCode,
 } from '../../realm/realm';
 import {encryptKey, decryptKey} from '../../utils/crypto';
 import hsApi from './hivesignerAPI';
@@ -25,7 +23,7 @@ import {getSCAccessToken, getUnreadNotificationCount} from '../ecency/ecency';
 import AUTH_TYPE from '../../constants/authType';
 import {makeHsCode} from '../../utils/hive-signer-helper';
 
-export const login = async (username, password) => {
+export const login = async (username: string, password: string) => {
   let loginFlag = false;
   let avatar = '';
   let authType = '';
@@ -43,49 +41,51 @@ export const login = async (username, password) => {
 
   // Public keys of user
   const publicKeys = {
-    activeKey: get(account, 'active.key_auths', []).map(x => x[0])[0],
-    memoKey: get(account, 'memo_key', ''),
-    ownerKey: get(account, 'owner.key_auths', []).map(x => x[0])[0],
-    postingKey: get(account, 'posting.key_auths', []).map(x => x[0])[0],
+    activeKey: (account?.active.key_auths || []).map(x => x[0])[0],
+    memoKey: account?.memo_key || '',
+    ownerKey: (account?.owner.key_auths || []).map(x => x[0])[0],
+    postingKey: (account?.posting.key_auths || []).map(x => x[0])[0],
   };
 
   // // Set private keys of user
   const privateKeys = getPrivateKeys(username, password);
 
   // Check all keys
-  // eslint-disable-next-line
-  Object.keys(publicKeys).map((pubKey) => {
-    if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
+  Object.keys(publicKeys).forEach(key => {
+    // @ts-ignore
+    if (publicKeys[key].toString() === privateKeys[key].createPublic().toString()) {
       loginFlag = true;
       if (privateKeys.isMasterKey) {
         authType = AUTH_TYPE.MASTER_KEY;
       } else {
-        authType = pubKey;
+        authType = key;
       }
     }
   });
 
-  // const signerPrivateKey = privateKeys.ownerKey || privateKeys.activeKey || privateKeys.postingKey;
-  // const code = await makeHsCode(account.name, signerPrivateKey);
-  // const scTokens = await getSCAccessToken(code);
+  /*
+  const signerPrivateKey = privateKeys.ownerKey || privateKeys.activeKey || privateKeys.postingKey;
+  const code = await makeHsCode(account.name, signerPrivateKey);
+  const scTokens = await getSCAccessToken(code);
 
   try {
-    // const accessToken = scTokens?.access_token;
-    // account.unread_activity_count = await getUnreadNotificationCount(accessToken);
-    // account.pointsSummary = await getPointsSummary(account.username);
+    const accessToken = scTokens?.access_token;
+    account.unread_activity_count = await getUnreadNotificationCount(accessToken);
+    account.pointsSummary = await getPointsSummary(account.username);
     account.mutes = await getMutes(account.username);
   } catch (err) {
     console.warn('Optional user data fetch failed, account can still function without them', err);
   }
+  */
 
   let jsonMetadata;
   try {
-    jsonMetadata = JSON.parse(account.posting_json_metadata) || '';
+    jsonMetadata = JSON.parse(account?.posting_json_metadata || '{}');
   } catch (err) {
     jsonMetadata = '';
   }
-  if (Object.keys(jsonMetadata).length !== 0) {
-    avatar = jsonMetadata.profile.profile_image || '';
+  if ('profile' in jsonMetadata) {
+    avatar = jsonMetadata?.profile?.profile_image || '';
   }
   if (loginFlag) {
     const userData = {
@@ -102,11 +102,13 @@ export const login = async (username, password) => {
     const resData = {
       pinCode: Config.DEFAULT_PIN,
       password,
-      // accessToken: get(scTokens, 'access_token', ''),
+      // accessToken: scTokens?.access_token || '',
     };
     const updatedUserData = await getUpdatedUserData(userData, resData);
 
+    // @ts-ignore
     account.local = updatedUserData;
+    // @ts-ignore
     account.local.avatar = avatar;
 
     const authData = {
@@ -116,6 +118,7 @@ export const login = async (username, password) => {
     await setAuthStatus(authData);
     // await setSCAccount(scTokens);
 
+    // @ts-ignore
     // Save user data to Realm DB
     await setUserData(account.local);
     await updateCurrentUsername(account.name);
@@ -124,12 +127,13 @@ export const login = async (username, password) => {
       password,
     };
   }
+
   return Promise.reject(new Error('auth.invalid_credentials'));
 };
 
-export const loginWithSC2 = async code => {
+export const loginWithSC2 = async (code: string) => {
   const scTokens = await getSCAccessToken(code);
-  await hsApi.setAccessToken(get(scTokens, 'access_token', ''));
+  await hsApi.setAccessToken(scTokens?.access_token || '');
   const scAccount = await hsApi.me();
   const account = await getUser(scAccount.account.name);
   let avatar = '';
@@ -137,17 +141,17 @@ export const loginWithSC2 = async code => {
   // eslint-disable-next-line
   return new Promise(async (resolve, reject) => {
     try {
-      const accessToken = scTokens ? scTokens.access_token : '';
-      account.unread_activity_count = await getUnreadNotificationCount(accessToken);
-      account.pointsSummary = await getPointsSummary(account.username);
-      account.mutes = await getMutes(account.username);
+      const accessToken = scTokens?.access_token || '';
+      // account!.unread_activity_count = await getUnreadNotificationCount(accessToken);
+      // account!.pointsSummary = await getPointsSummary(account.username);
+      // account!.mutes = await getMutes(account.username);
     } catch (err) {
       console.warn('Optional user data fetch failed, account can still function without them', err);
     }
 
     let jsonMetadata;
     try {
-      jsonMetadata = JSON.parse(account.posting_json_metadata) || '';
+      jsonMetadata = JSON.parse(account?.posting_json_metadata || '{}');
       if (Object.keys(jsonMetadata).length !== 0) {
         avatar = jsonMetadata.profile.profile_image || '';
       }
@@ -155,7 +159,7 @@ export const loginWithSC2 = async code => {
       jsonMetadata = '';
     }
     const userData = {
-      username: account.name,
+      username: account?.name,
       avatar,
       authType: AUTH_TYPE.STEEM_CONNECT,
       masterKey: '',
@@ -164,7 +168,7 @@ export const loginWithSC2 = async code => {
       memoKey: '',
       accessToken: '',
     };
-    const isUserLoggedIn = await isLoggedInUser(account.name);
+    const isUserLoggedIn = await isLoggedInUser(account?.name);
 
     const resData = {
       pinCode: Config.DEFAULT_PIN,
@@ -172,15 +176,15 @@ export const loginWithSC2 = async code => {
     };
     const updatedUserData = await getUpdatedUserData(userData, resData);
 
-    account.local = updatedUserData;
-    account.local.avatar = avatar;
+    // account!.local = updatedUserData;
+    // account!.local.avatar = avatar;
 
     if (isUserLoggedIn) {
       reject(new Error('auth.already_logged'));
       return;
     }
 
-    setUserData(account.local)
+    /* setUserData(account.local)
       .then(async () => {
         updateCurrentUsername(account.name);
         const authData = {
@@ -196,21 +200,18 @@ export const loginWithSC2 = async code => {
       })
       .catch(() => {
         reject(new Error('auth.unknow_error'));
-      });
+      }); */
   });
 };
 
-export const setUserDataWithPinCode = async data => {
+export const setUserDataWithPinCode = async (data: any) => {
   try {
     const result = await getUserDataWithUsername(data.username);
     const userData = result[0];
 
     if (!data.password) {
       const publicKey =
-        get(userData, 'masterKey') ||
-        get(userData, 'activeKey') ||
-        get(userData, 'memoKey') ||
-        get(userData, 'postingKey');
+        userData?.masterKey || userData?.activeKey || userData?.memoKey || userData?.postingKey;
 
       if (publicKey) {
         data.password = decryptKey(publicKey, get(data, 'pinCode'));
@@ -229,7 +230,7 @@ export const setUserDataWithPinCode = async data => {
   }
 };
 
-export const updatePinCode = data =>
+export const updatePinCode = (data: any) =>
   new Promise((resolve, reject) => {
     let currentUser = null;
     try {
@@ -366,7 +367,7 @@ export const switchAccount = username =>
       });
   });
 
-const getPrivateKeys = (username, password) => {
+const getPrivateKeys = (username: string, password: string) => {
   try {
     return {
       activeKey: dsteem.PrivateKey.from(password),
@@ -386,37 +387,47 @@ const getPrivateKeys = (username, password) => {
   }
 };
 
-export const getUpdatedUserData = (userData, data) => {
-  const privateKeys = getPrivateKeys(get(userData, 'username', ''), get(data, 'password'));
+export interface UserData {
+  accessToken: string;
+  avatar?: string;
+  username: string;
+  authType: keyof typeof AUTH_TYPE;
+  activeKey: string;
+  masterKey: string;
+  memoKey: string;
+  postingKey: string;
+}
+
+export const getUpdatedUserData = (
+  userData: UserData,
+  data: {password: string; pinCode: string, accessToken?: string},
+) => {
+  const privateKeys = getPrivateKeys(userData?.username || '', data?.password);
+  const pinCode = data?.pinCode || '';
 
   return {
-    username: get(userData, 'username', ''),
-    authType: get(userData, 'authType', ''),
-    accessToken: encryptKey(data.accessToken, get(data, 'pinCode')),
+    username: userData?.username || '',
+    authType: userData?.authType || '',
+    accessToken: encryptKey(data?.accessToken || '', pinCode),
 
     masterKey:
-      get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY
-        ? encryptKey(data.password, get(data, 'pinCode'))
-        : '',
+      userData?.authType === AUTH_TYPE.MASTER_KEY ? encryptKey(data.password, pinCode) : '',
     postingKey:
-      get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-      get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
-        ? encryptKey(get(privateKeys, 'postingKey', '').toString(), get(data, 'pinCode'))
+      userData?.authType === AUTH_TYPE.MASTER_KEY || userData?.authType === AUTH_TYPE.POSTING_KEY
+        ? encryptKey(privateKeys?.postingKey?.toString(), pinCode)
         : '',
     activeKey:
-      get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-      get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY
-        ? encryptKey(get(privateKeys, 'activeKey', '').toString(), get(data, 'pinCode'))
+      userData?.authType === AUTH_TYPE.MASTER_KEY || userData?.authType === AUTH_TYPE.ACTIVE_KEY
+        ? encryptKey(privateKeys?.activeKey?.toString(), pinCode)
         : '',
     memoKey:
-      get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-      get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
-        ? encryptKey(get(privateKeys, 'memoKey', '').toString(), get(data, 'pinCode'))
+      userData?.authType === AUTH_TYPE.MASTER_KEY || userData?.authType === AUTH_TYPE.MEMO_KEY
+        ? encryptKey(privateKeys?.memoKey?.toString(), pinCode)
         : '',
   };
 };
 
-const isLoggedInUser = async username => {
+const isLoggedInUser = async (username: string) => {
   const result = await getUserDataWithUsername(username);
   if (result.length > 0) {
     return true;

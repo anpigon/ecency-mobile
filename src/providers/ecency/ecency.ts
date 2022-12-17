@@ -720,7 +720,7 @@ export const uploadImage = async (media, username, sign, uploadProgress = null) 
 
 // New image service
 
-export const getNodes = () => serverList.get().then(resp => resp.data.hived || SERVER_LIST);
+export const getNodes = () => serverList.get('').then(resp => resp.data.hived || SERVER_LIST);
 
 /**
  * refreshes access token using refresh token
@@ -738,6 +738,7 @@ export const getSCAccessToken = async (code: string) => {
     bugsnagInstance.notify(error);
     throw error;
   } */
+  return Promise.resolve({access_token: null});
 };
 
 /**

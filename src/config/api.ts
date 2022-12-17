@@ -16,7 +16,7 @@ api.interceptors.request.use(request => {
 });
 
 api.interceptors.response.use(response => {
-  console.log('Response:', response.status, response.url);
+  console.log('Response:', response.status, (response as any).url);
   return response;
 });
 
