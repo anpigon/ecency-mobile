@@ -52,7 +52,7 @@ export default {
   $deviceHeight:
     Platform.OS === 'ios'
       ? getWindowDimensions().height
-      : getWindowDimensions().height + StatusBar.currentHeight,
+      : getWindowDimensions().height + (StatusBar.currentHeight || 0),
   $deviceWidth: getWindowDimensions().width,
 
   // Fonts Properties
