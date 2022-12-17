@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
 import {Alert} from 'react-native';
 import {connect} from 'react-redux';
-import {injectIntl} from 'react-intl';
-import ImagePicker from 'react-native-image-crop-picker';
-import get from 'lodash/get';
+import {injectIntl, IntlShape} from 'react-intl';
+import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
+import {Dispatch, AnyAction} from '@reduxjs/toolkit';
 
-import {useNavigation} from '@react-navigation/native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {uploadImage} from '../providers/ecency/ecency';
 
 import {profileUpdate, signImage} from '../providers/hive/dhive';
 import {updateCurrentAccount} from '../redux/actions/accountAction';
 import {setAvatarCacheStamp} from '../redux/actions/uiAction';
-
-// import ROUTES from '../constants/routeNames';
+import {RootState} from '../redux/store/store';
 
 const FORM_DATA = [
   {
@@ -41,25 +40,49 @@ const FORM_DATA = [
   },
 ];
 
-class ProfileEditContainer extends Component {
+interface Props {
+  children: any;
+  currentAccount: any;
+  isDarkTheme: boolean;
+  intl: IntlShape;
+  pinCode: string;
+  dispatch: Dispatch<AnyAction>;
+  navigation: NavigationProp<any>;
+  route: any;
+}
+
+interface State {
+  isLoading: boolean;
+  isUploading: boolean;
+  name: string;
+  location: string;
+  website: string;
+  about: string;
+  coverUrl: string;
+  avatarUrl: string;
+  pinned: any;
+  saveEnabled: boolean;
+}
+
+class ProfileEditContainer extends Component<Props, State> {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       isLoading: false,
       isUploading: false,
       saveEnabled: false,
-      about: get(props.currentAccount, 'about.profile.about'),
-      name: get(props.currentAccount, 'about.profile.name'),
-      location: get(props.currentAccount, 'about.profile.location'),
-      website: get(props.currentAccount, 'about.profile.website'),
-      coverUrl: get(props.currentAccount, 'about.profile.cover_image'),
-      pinned: get(props.currentAccount, 'about.profile.pinned'),
-      avatarUrl: get(props.currentAccount, 'avatar'),
+      about: props.currentAccount?.about.profile.about,
+      name: props.currentAccount?.about.profile.name,
+      location: props.currentAccount?.about.profile.location,
+      website: props.currentAccount?.about.profile.website,
+      coverUrl: props.currentAccount?.about.profile.cover_image,
+      pinned: props.currentAccount?.about.profile.pinned,
+      avatarUrl: props.currentAccount?.avatar,
     };
   }
 
@@ -67,80 +90,56 @@ class ProfileEditContainer extends Component {
 
   // Component Functions
 
-  _handleOnItemChange = (val, item) => {
-    this.setState({[item]: val, saveEnabled: true});
+  _handleOnItemChange = (val: any, key: keyof State) => {
+    this.setState(prevState => ({...prevState, [key]: val, saveEnabled: true}));
   };
 
-  _uploadImage = async (media, action) => {
+  _uploadImage = async (media: ImageOrVideo, action: 'coverUrl' | 'avatarUrl') => {
     const {intl, currentAccount, pinCode} = this.props;
 
     this.setState({isUploading: true});
 
-    const sign = await signImage(media, currentAccount, pinCode);
-
-    uploadImage(media, currentAccount.name, sign)
-      .then(res => {
-        if (res.data && res.data.url) {
-          this.setState({[action]: res.data.url, isUploading: false, saveEnabled: true});
-        }
-      })
-      .catch(error => {
-        if (error) {
-          Alert.alert(
-            intl.formatMessage({
-              id: 'alert.fail',
-            }),
-            error.message || error.toString(),
-          );
-        }
-        this.setState({isUploading: false});
-      });
-  };
-
-  _handleMediaAction = (type, uploadAction) => {
-    if (type === 'camera') {
-      this._handleOpenCamera(uploadAction);
-    } else if (type === 'image') {
-      this._handleOpenImagePicker(uploadAction);
+    try {
+      const sign = await signImage(media, currentAccount, pinCode);
+      const res = await uploadImage(media, currentAccount.name, sign);
+      if (res?.data && res?.data?.url) {
+        this.setState(prevState => ({
+          ...prevState,
+          [action]: res.data.url,
+          isUploading: false,
+          saveEnabled: true,
+        }));
+      }
+    } catch (error: any) {
+      if (error) {
+        Alert.alert(intl.formatMessage({id: 'alert.fail'}), error.message || error.toString());
+      }
+      this.setState({isUploading: false});
     }
   };
 
-  _handleOpenImagePicker = action => {
-    ImagePicker.openPicker(
-      action == 'avatarUrl' ? IMAGE_PICKER_AVATAR_OPTIONS : IMAGE_PICKER_COVER_OPTIONS,
-    )
-      .then(media => {
-        this._uploadImage(media, action);
-      })
-      .catch(e => {
-        this._handleMediaOnSelectFailure(e);
-      });
-  };
+  _handleMediaAction = async (type: 'image' | 'camera', action: 'coverUrl' | 'avatarUrl') => {
+    const options =
+      action === 'avatarUrl' ? IMAGE_PICKER_AVATAR_OPTIONS : IMAGE_PICKER_COVER_OPTIONS;
 
-  _handleOpenCamera = action => {
-    ImagePicker.openCamera(
-      action == 'avatarUrl' ? IMAGE_PICKER_AVATAR_OPTIONS : IMAGE_PICKER_COVER_OPTIONS,
-    )
-      .then(media => {
-        this._uploadImage(media, action);
-      })
-      .catch(e => {
-        this._handleMediaOnSelectFailure(e);
-      });
-  };
-
-  _handleMediaOnSelectFailure = error => {
-    const {intl} = this.props;
-
-    if (get(error, 'code') === 'E_PERMISSION_MISSING') {
-      Alert.alert(
-        intl.formatMessage({
-          id: 'alert.permission_denied',
-        }),
-        intl.formatMessage({
-          id: 'alert.permission_text',
-        }),
-      );
+    let media: ImageOrVideo | null = null;
+    try {
+      if (type === 'camera') {
+        media = await ImagePicker.openCamera(options);
+      } else if (type === 'image') {
+        media = await ImagePicker.openPicker(options);
+      }
+      if (media) {
+        await this._uploadImage(media, action);
+      }
+    } catch (error: any) {
+      const {intl} = this.props;
+      if (error?.code === 'E_PERMISSION_MISSING') {
+        Alert.alert(
+          intl.formatMessage({id: 'alert.permission_denied'}),
+          intl.formatMessage({id: 'alert.permission_text'}),
+        );
+      }
     }
   };
 
@@ -173,13 +172,8 @@ class ProfileEditContainer extends Component {
       this.setState({isLoading: false});
       route.params.fetchUser();
       navigation.goBack();
-    } catch (err) {
-      Alert.alert(
-        intl.formatMessage({
-          id: 'alert.fail',
-        }),
-        get(err, 'message', err.toString()),
-      );
+    } catch (err: any) {
+      Alert.alert(intl.formatMessage({id: 'alert.fail'}), err?.message || err.toString());
       this.setState({isLoading: false});
     }
   };
@@ -221,14 +215,16 @@ class ProfileEditContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState) => ({
   currentAccount: state.account.currentAccount,
   isDarkTheme: state.application.isDarkTheme,
   pinCode: state.application.pin,
 });
 
-const mapHooksToProps = props => {
+const mapHooksToProps = (props: any) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const navigation = useNavigation();
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <ProfileEditContainer {...props} navigation={navigation} />;
 };
 

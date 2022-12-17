@@ -508,7 +508,7 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _fetchUserDataFromDsteem = async realmObject => {
+  _fetchUserDataFromDsteem = async (realmObject: any) => {
     const {dispatch, intl, pinCode, isPinCodeOpen, encUnlockPin} = this.props;
 
     try {

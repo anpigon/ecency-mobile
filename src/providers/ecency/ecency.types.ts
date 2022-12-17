@@ -100,3 +100,9 @@ export enum PointActivityIds {
   VOTE = 120,
   REBLOG = 130,
 }
+
+export interface LatestMarketPrices extends LatestQuotes {
+  // hive: {quotes: {usd: any}};
+  // hbd: {quotes: {usd: any}};
+  // estm: {quotes: {usd: any}};
+}

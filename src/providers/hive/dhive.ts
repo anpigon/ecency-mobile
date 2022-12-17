@@ -110,7 +110,7 @@ export const sendHiveOperations = async (
   return result;
 };
 
-export const getDigitPinCode = pin => decryptKey(pin, Config.PIN_KEY);
+export const getDigitPinCode = (pin: string) => decryptKey(pin, Config.PIN_KEY);
 
 export const getDynamicGlobalProperties = () => client.database.getDynamicGlobalProperties();
 
@@ -257,7 +257,7 @@ export const getState = async path => client.database.getState(path);
  * @method getUser get account data
  * @param user username
  */
-export const getUser = async user => {
+export const getUser = async (user: any) => {
   const account = await client.database.getAccounts([user]);
   const _account = {
     ...account[0],
@@ -505,7 +505,11 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   }
 };
 
-export const getAccountPosts = async (query: any, currentUserName: any, filterNsfw: string) => {
+export const getAccountPosts = async (
+  query: any,
+  currentUserName?: any,
+  filterNsfw?: '0' | '1' | '2',
+) => {
   try {
     console.log('Getting account posts: ', query);
     let posts = await client.call('bridge', 'get_account_posts', query);
@@ -1484,13 +1488,19 @@ export const promote = (currentAccount, pinCode, duration, permlink, author) => 
   throw new Error('Check private key permission! Required private active key or above.');
 };
 
-export const boost = (currentAccount, pinCode, point, permlink, author) => {
+export const boost = (
+  currentAccount: any,
+  pinCode: string,
+  point: number,
+  permlink: string,
+  author: any,
+) => {
   const pin = getDigitPinCode(pinCode);
-  const key = getActiveKey(get(currentAccount, 'local'), pin);
+  const key = getActiveKey(currentAccount?.local, pin);
 
   if (key && point) {
     const privateKey = PrivateKey.fromString(key);
-    const user = get(currentAccount, 'name');
+    const user = currentAccount?.name;
 
     const json = {
       id: 'ecency_boost',
@@ -1503,7 +1513,7 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
       required_auths: [user],
       required_posting_auths: [],
     };
-    const opArray = [['custom_json', json]];
+    const opArray: Operation[] = [['custom_json', json]];
 
     return sendHiveOperations(opArray, privateKey);
   }

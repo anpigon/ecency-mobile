@@ -1,4 +1,4 @@
-export default {
+const POINTS = {
   999: {
     icon: 'compare-arrows',
     textKey: 'incoming_transfer_title',
@@ -88,6 +88,8 @@ export default {
     point: 10,
   },
 };
+
+export default POINTS;
 
 export const POINTS_KEYS = [
   {

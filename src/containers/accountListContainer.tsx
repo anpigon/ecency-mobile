@@ -5,61 +5,61 @@ import {isBefore} from '../utils/time';
 
 import ROUTES from '../constants/routeNames';
 
-const AccountListContainer = ({data, children}) => {
+interface Props {
+  data: any[];
+  children: Function;
+}
+
+const AccountListContainer: React.FC<Props> = ({data, children}) => {
   const navigation = useNavigation();
 
-  const [vdata, setVData] = useState(data);
-  const [filterResult, setFilterResult] = useState(null);
+  const [vData, setVData] = useState(data);
+  const [filterResult, setFilterResult] = useState<any[] | null>(null);
   const [filterIndex, setFilterIndex] = useState(0);
 
   useEffect(() => {
     setVData(data);
   }, [data]);
 
-  const _handleSearch = (searchText, key) => {
-    const newData = vdata.filter(item => {
+  const _handleSearch = (searchText: string, key: string) => {
+    const newData = vData.filter(item => {
       const itemName = item[key].toUpperCase();
       const _text = searchText.toUpperCase();
-
       return itemName.indexOf(_text) > -1;
     });
 
     if (filterIndex !== 0) {
-      _handleOnVotersDropdownSelect(filterIndex, '', newData);
+      _handleOnVotersDropdownSelect(filterIndex, newData);
     } else {
       setFilterResult(newData);
     }
   };
 
-  const _handleOnVotersDropdownSelect = (index, text, oldData) => {
-    const _data = Object.assign([], oldData || vdata);
+  const _handleOnVotersDropdownSelect = (index: number, oldData: any) => {
+    const _data = Object.assign([], oldData || vData);
 
     if (filterIndex === index) {
       switch (index) {
         case 0:
-          _data.sort((a, b) => Number(a.value) - Number(b.value));
+          _data.sort((a: any, b: any) => Number(a.value) - Number(b.value));
           break;
         case 1:
-          _data.sort((a, b) => a.percent - b.percent);
+          _data.sort((a: any, b: any) => a.percent - b.percent);
           break;
         case 2:
-          _data.sort((a, b) => isBefore(b.time, a.time));
-          break;
-        default:
+          _data.sort((a: any, b: any) => isBefore(b.time, a.time));
           break;
       }
     } else {
       switch (index) {
         case 0:
-          _data.sort((a, b) => Number(b.value) - Number(a.value));
+          _data.sort((a: any, b: any) => Number(b.value) - Number(a.value));
           break;
         case 1:
-          _data.sort((a, b) => b.percent - a.percent);
+          _data.sort((a: any, b: any) => b.percent - a.percent);
           break;
         case 2:
-          _data.sort((a, b) => isBefore(a.time, b.time));
-          break;
-        default:
+          _data.sort((a: any, b: any) => isBefore(a.time, b.time));
           break;
       }
     }
@@ -67,8 +67,9 @@ const AccountListContainer = ({data, children}) => {
     setFilterIndex(index);
   };
 
-  const _handleOnUserPress = username => {
-    navigation.navigate({
+  const _handleOnUserPress = (username: string) => {
+    // @ts-ignore
+    navigation.navigate(ROUTES.SCREENS.PROFILE, {
       name: ROUTES.SCREENS.PROFILE,
       params: {
         username,

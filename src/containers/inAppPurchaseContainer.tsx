@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Platform, Alert, EmitterSubscription} from 'react-native';
 import * as IAP from 'react-native-iap';
-import {injectIntl} from 'react-intl';
-import get from 'lodash/get';
+import {injectIntl, IntlShape} from 'react-intl';
+import {Sku} from 'react-native-iap';
+import {Dispatch, AnyAction} from '@reduxjs/toolkit';
 
 // Services
-import {useNavigation} from '@react-navigation/native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import bugsnagInstance from '../config/bugsnag';
 import {purchaseOrder} from '../providers/ecency/ecency';
 
@@ -15,12 +16,31 @@ import {default as ROUTES} from '../constants/routeNames';
 import {showActionModal} from '../redux/actions/uiAction';
 import {UserAvatar} from '../components';
 
-class InAppPurchaseContainer extends Component {
+interface Props {
+  intl: IntlShape;
+  currentAccount: {name: string};
+  fetchData: any;
+  username: string;
+  skus: string[];
+  navigation: NavigationProp<any>;
+  dispatch: Dispatch<AnyAction>;
+  route: any;
+  children: any;
+  isNoSpin: boolean;
+}
+
+interface State {
+  productList: any[];
+  isLoading: boolean;
+  isProcessing: boolean;
+}
+
+class InAppPurchaseContainer extends Component<Props, State> {
   purchaseUpdateSubscription: EmitterSubscription | null = null;
 
   purchaseErrorSubscription: EmitterSubscription | null = null;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       productList: [],
@@ -59,7 +79,7 @@ class InAppPurchaseContainer extends Component {
       this._getItems();
       this._purchaseUpdatedListener();
       await this._handleQrPurchase();
-    } catch (err) {
+    } catch (err: any) {
       bugsnagInstance.notify(err);
       console.warn(err.code, err.message);
 
@@ -88,7 +108,7 @@ class InAppPurchaseContainer extends Component {
           isConsumable: true,
         });
       }
-    } catch (err) {
+    } catch (err: any) {
       bugsnagInstance.notify(err);
       console.warn(err.code, err.message);
     }
@@ -105,15 +125,14 @@ class InAppPurchaseContainer extends Component {
     } = this.props;
 
     this.purchaseUpdateSubscription = IAP.purchaseUpdatedListener(purchase => {
-      const receipt = get(purchase, 'transactionReceipt');
-      const token = get(purchase, 'purchaseToken');
-
+      const receipt = purchase?.transactionReceipt;
+      const token = purchase?.purchaseToken;
       if (receipt) {
         const data = {
           platform: Platform.OS === 'android' ? 'play_store' : 'app_store',
-          product: get(purchase, 'productId'),
+          product: purchase?.productId,
           receipt: Platform.OS === 'android' ? token : receipt,
-          user: username || name, // username from passed in props from nav params i-e got from url qr scan
+          user: username || name,
         };
 
         purchaseOrder(data)
@@ -144,7 +163,8 @@ class InAppPurchaseContainer extends Component {
 
     this.purchaseErrorSubscription = IAP.purchaseErrorListener(error => {
       bugsnagInstance.notify(error);
-      if (get(error, 'responseCode') === '3' && Platform.OS === 'android') {
+      const errorCode = `${error?.responseCode}`;
+      if (errorCode === '3' && Platform.OS === 'android') {
         Alert.alert(
           intl.formatMessage({
             id: 'alert.warning',
@@ -153,7 +173,7 @@ class InAppPurchaseContainer extends Component {
             id: 'alert.google_play_version',
           }),
         );
-      } else if (get(error, 'responseCode') !== '2') {
+      } else if (errorCode !== '2') {
         console.warn('failed puchase:', error);
         Alert.alert(
           intl.formatMessage({
@@ -167,12 +187,11 @@ class InAppPurchaseContainer extends Component {
   };
 
   // eslint-disable-next-line class-methods-use-this
-  _getTitle = title => {
+  _getTitle = (title: string) => {
     let _title = title.toUpperCase();
     if (_title !== 'FREE POINTS') {
       _title = `${_title.replace(/[^0-9]+/g, '')} POINTS`;
     }
-
     return _title;
   };
 
@@ -183,7 +202,7 @@ class InAppPurchaseContainer extends Component {
       console.log(products);
       products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
       this.setState({productList: products});
-    } catch (error) {
+    } catch (error: any) {
       bugsnagInstance.notify(error);
       Alert.alert(
         intl.formatMessage({
@@ -196,7 +215,7 @@ class InAppPurchaseContainer extends Component {
     this.setState({isLoading: false});
   };
 
-  _buyItem = async sku => {
+  _buyItem = async (sku: Sku) => {
     const {navigation} = this.props;
 
     if (sku !== 'freePoints') {
@@ -204,15 +223,13 @@ class InAppPurchaseContainer extends Component {
 
       try {
         IAP.requestPurchase(Platform.OS === 'ios' ? {sku} : {skus: [sku]});
-      } catch (err) {
+      } catch (err: any) {
         bugsnagInstance.notify(err, report => {
-          report.addMetadata('sku', sku);
+          report.addMetadata('sku', {sku});
         });
       }
     } else {
-      navigation.navigate({
-        name: ROUTES.SCREENS.SPIN_GAME,
-      });
+      navigation.navigate(ROUTES.SCREENS.SPIN_GAME);
     }
   };
 
@@ -223,7 +240,7 @@ class InAppPurchaseContainer extends Component {
     const username = route.param?.username ?? '';
 
     const product: IAP.Product =
-      productId && products && products.find(product => product.productId === productId);
+      productId && products && products.find(e => e.productId === productId);
 
     if (product) {
       const body = intl.formatMessage(
@@ -290,14 +307,15 @@ class InAppPurchaseContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: any) => ({
   currentAccount: state.account.currentAccount,
 });
 
-const mapHooksToProps = props => {
+const mapHooksToProps = (props: any) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const navigation = useNavigation();
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <InAppPurchaseContainer {...props} navigation={navigation} />;
 };
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
-/* eslint-enable */

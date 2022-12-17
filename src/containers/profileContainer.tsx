@@ -1,12 +1,12 @@
-/* eslint-disable no-unused-vars */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {unionBy} from 'lodash';
 import {Alert} from 'react-native';
-import {injectIntl} from 'react-intl';
+import {injectIntl, IntlShape} from 'react-intl';
+import {Dispatch, AnyAction} from '@reduxjs/toolkit';
 
 // Providers
-import {useNavigation} from '@react-navigation/native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {
   followUser,
   unfollowUser,
@@ -27,9 +27,50 @@ import {toastNotification, setRcOffer, showActionModal} from '../redux/actions/u
 // Constants
 import {default as ROUTES} from '../constants/routeNames';
 import {updateCurrentAccount} from '../redux/actions/accountAction';
+import {RootState} from '../redux/store/store';
 
-class ProfileContainer extends Component {
-  constructor(props) {
+interface Props {
+  route: any;
+  currentAccount: {name: string; mutes: any[]};
+  navigation: NavigationProp<any>;
+  isConnected: boolean;
+  isLoggedIn: boolean;
+  isHideImage: boolean;
+  isDarkTheme: boolean;
+  activeBottomTab: any;
+  pinCode: string;
+  dispatch: Dispatch<AnyAction>;
+  intl: IntlShape;
+  currency: any;
+  children: any;
+}
+
+interface State {
+  comments: any[];
+  follows: any;
+  forceLoadPost: boolean;
+  isFavorite: boolean;
+  isFollowing: boolean;
+  isMuted: boolean;
+  isProfileLoading: boolean;
+  isReady: boolean;
+  isOwnProfile: boolean;
+  user: any | null;
+  quickProfile: {
+    reputation?: string;
+    name?: string;
+    display_name?: string;
+  };
+  reverseHeader: boolean;
+  deepLinkFilter: any;
+  username?: string;
+  avatar?: any;
+  error?: any;
+}
+
+// FIXME: functional components로 변환할 것
+class ProfileContainer extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     // check if is signed in user profile
@@ -75,7 +116,7 @@ class ProfileContainer extends Component {
     this._loadProfile(targetUsername);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (!nextProps.isConnected) {
       return;
     }
@@ -104,175 +145,133 @@ class ProfileContainer extends Component {
     }
   }
 
-  _getReplies = async query => {
+  _getReplies = async (query?: {author: string | null; permlink?: string}) => {
+    if (!query) {
+      return;
+    }
     const {isOwnProfile, comments} = this.state;
     this.setState({isProfileLoading: true});
-    let repliesAction;
-
-    if (!isOwnProfile) {
-      repliesAction = getAccountPosts;
-      if (query) {
-        query.account = query.author;
-        if (comments.length > 0) {
-          query.start_author = query.author;
-          query.start_permlink = query.permlink;
-        }
-        query.limit = 5;
-        query.observer = '';
-        query.sort = 'comments';
-      }
-    } else {
-      repliesAction = getAccountPosts;
-      if (query) {
-        query.account = query.author;
-        if (comments.length > 0) {
-          query.start_author = query.author;
-          query.start_permlink = query.permlink;
-        }
-        query.limit = 5;
-        query.observer = '';
-        query.sort = 'replies';
-      }
-    }
-
-    if (query) {
-      delete query.author;
-      delete query.permlink;
-      repliesAction(query).then(result => {
-        const _comments = unionBy(comments, result, 'permlink');
-        this.setState({
-          comments: _comments,
-          isProfileLoading: false,
-        });
-      });
-    }
+    const params = {
+      account: query.author,
+      limit: 5,
+      observer: '',
+      sort: isOwnProfile ? 'replies' : 'comments',
+      ...(comments.length > 0 && {
+        start_author: query.author,
+        start_permlink: query.permlink,
+      }),
+    };
+    const result = await getAccountPosts(params);
+    this.setState({
+      comments: unionBy(comments, result, 'permlink'),
+      isProfileLoading: false,
+    });
   };
 
-  _handleFollowUnfollowUser = async isFollowAction => {
+  handleFollowUnfollowUser = async (isFollowAction = false) => {
     const {isFollowing, username} = this.state;
     const {currentAccount, pinCode, dispatch, intl} = this.props;
     const follower = currentAccount.name || '';
     const following = username;
 
-    let followAction;
+    this.setState({isProfileLoading: true});
 
-    this.setState({
-      isProfileLoading: true,
-    });
+    try {
+      const followAction = isFollowAction && !isFollowing ? followUser : unfollowUser;
+      await followAction(currentAccount, pinCode, {follower, following});
 
-    if (isFollowAction && !isFollowing) {
-      followAction = followUser;
-    } else {
-      followAction = unfollowUser;
-    }
-
-    followAction(currentAccount, pinCode, {
-      follower,
-      following,
-    })
-      .then(() => {
-        // means user is now being followed
-        if (!isFollowing) {
-          const mutes = currentAccount.mutes || [];
-          const mutedIndex = mutes.indexOf(username);
-          if (mutedIndex >= 0) {
-            mutes.splice(mutedIndex, 1);
-            currentAccount.mutes = mutes;
-            dispatch(updateCurrentAccount(currentAccount));
-          }
+      // means user is now being followed
+      if (!isFollowing) {
+        const mutes = currentAccount.mutes || [];
+        const mutedIndex = mutes.indexOf(username);
+        if (mutedIndex >= 0) {
+          mutes.splice(mutedIndex, 1);
+          currentAccount.mutes = mutes;
+          dispatch(updateCurrentAccount(currentAccount));
         }
+      }
 
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: isFollowAction ? 'alert.success_follow' : 'alert.success_unfollow',
-            }),
-          ),
-        );
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: isFollowAction ? 'alert.success_follow' : 'alert.success_unfollow',
+          }),
+        ),
+      );
 
-        this.setState({
-          isFollowing: isFollowAction,
-        });
+      this.setState({isFollowing: isFollowAction});
 
-        this._profileActionDone({shouldFetchProfile: false});
-      })
-      .catch(err => {
-        this._profileActionDone({error: err});
-      });
-  };
-
-  _handleMuteUnmuteUser = async isMuteAction => {
-    if (isMuteAction) {
-      this._muteUser();
-    } else {
-      this._handleFollowUnfollowUser();
+      this._profileActionDone(null, false);
+    } catch (err: any) {
+      this._profileActionDone(err);
     }
   };
 
-  _muteUser = () => {
+  handleMuteUnmuteUser = async (isMuteAction = false) => {
+    if (isMuteAction) {
+      this.handleMuteUser();
+    } else {
+      this.handleFollowUnfollowUser();
+    }
+  };
+
+  handleMuteUser = async () => {
     const {username} = this.state;
     const {currentAccount, pinCode, dispatch, intl} = this.props;
     const follower = currentAccount.name;
     const following = username;
 
-    this.setState({
-      isProfileLoading: true,
-    });
+    this.setState({isProfileLoading: true});
 
-    ignoreUser(currentAccount, pinCode, {
-      follower,
-      following,
-    })
-      .then(() => {
-        this.setState({
-          isMuted: true,
-          isProfileLoading: false,
-        });
-
-        const curMutes = currentAccount.mutes || [];
-        if (curMutes.indexOf(username) < 0) {
-          // check to avoid double entry corner case
-          currentAccount.mutes = [username, ...curMutes];
-        }
-        dispatch(updateCurrentAccount(currentAccount));
-
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'alert.success_mute',
-            }),
-          ),
-        );
-      })
-      .catch(err => {
-        this._profileActionDone({error: err});
+    try {
+      await ignoreUser(currentAccount, pinCode, {
+        follower,
+        following,
       });
+
+      this.setState({
+        isMuted: true,
+        isProfileLoading: false,
+      });
+
+      const curMutes = currentAccount.mutes || [];
+      if (curMutes.indexOf(username) < 0) {
+        // check to avoid double entry corner case
+        currentAccount.mutes = [username, ...curMutes];
+      }
+      dispatch(updateCurrentAccount(currentAccount));
+
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: 'alert.success_mute',
+          }),
+        ),
+      );
+    } catch (err: any) {
+      this._profileActionDone(err);
+    }
   };
 
-  _profileActionDone = ({error = null, shouldFetchProfile = true}: any) => {
+  _profileActionDone = (error: any = null, shouldFetchProfile = true) => {
     const {username} = this.state;
     const {intl, dispatch} = this.props;
 
-    this.setState({
-      isProfileLoading: false,
-    });
+    this.setState({isProfileLoading: false});
+
     if (error) {
       if (error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
         // when RC is not enough, offer boosting account
         dispatch(setRcOffer(true));
       } else {
         // when other errors
-        this.setState(
-          {
-            error,
-          },
-          () =>
-            Alert.alert(
-              intl.formatMessage({
-                id: 'alert.fail',
-              }),
-              error.message || error.toString(),
-            ),
+        this.setState({error}, () =>
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.fail',
+            }),
+            error.message || error.toString(),
+          ),
         );
       }
     } else if (shouldFetchProfile) {
@@ -280,7 +279,7 @@ class ProfileContainer extends Component {
     }
   };
 
-  _fetchProfile = async (username = null, isProfileAction = false) => {
+  _fetchProfile = async (username: string | null = null, isProfileAction = false) => {
     const {intl} = this.props;
     try {
       const {username: _username, isFollowing, isMuted, isOwnProfile} = this.state;
@@ -329,30 +328,34 @@ class ProfileContainer extends Component {
     }
   };
 
-  _loadProfile = async (username = null) => {
+  _loadProfile = async (username: string | null = null) => {
     let user: any;
-    const {isOwnProfile} = this.state;
     try {
-      user = await getUser(username, isOwnProfile);
+      user = await getUser(username);
       this._fetchProfile(username);
     } catch (error) {
-      this._profileActionDone({error});
+      this._profileActionDone(error);
     }
 
-    this.setState(prevState => ({
-      quickProfile: {
-        ...prevState.quickProfile,
-        display_name: user?.display_name,
-        reputation: user?.reputation,
-      },
-      user,
-      username,
-    }));
+    console.log('_loadProfile', user);
+    this.setState(
+      prevState =>
+        ({
+          ...prevState,
+          quickProfile: {
+            ...prevState.quickProfile,
+            display_name: user?.display_name,
+            reputation: user?.reputation,
+          },
+          user,
+          username,
+        } as State),
+    );
 
     this._getReplies({author: username, permlink: undefined});
   };
 
-  _handleFollowsPress = async isFollowingPress => {
+  handleFollowsPress = async (isFollowingPress: boolean) => {
     const {navigation} = this.props;
     const {username, follows} = this.state;
     const count = isFollowingPress ? follows.following_count : follows.follower_count;
@@ -368,61 +371,41 @@ class ProfileContainer extends Component {
     });
   };
 
-  _handleOnFavoritePress = (isFavorite = false) => {
+  handleOnFavoritePress = async (isFavorite = false) => {
     const {dispatch, intl} = this.props;
-    const {username} = this.state;
+    const {username = ''} = this.state;
 
-    this.setState({
-      isProfileLoading: true,
-    });
+    this.setState({isProfileLoading: true});
 
-    const favoriteAction = isFavorite ? deleteFavorite : addFavorite;
-    favoriteAction(username)
-      .then(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: isFavorite ? 'alert.success_unfavorite' : 'alert.success_favorite',
-            }),
-          ),
-        );
-        this.setState({isFavorite: !isFavorite, isProfileLoading: false});
-      })
-      .catch(error => {
-        console.warn('Failed to perform favorite action');
-        Alert.alert(
+    try {
+      const favoriteAction = isFavorite ? deleteFavorite : addFavorite;
+      await favoriteAction(username);
+      dispatch(
+        toastNotification(
           intl.formatMessage({
-            id: 'alert.fail',
+            id: isFavorite ? 'alert.success_unfavorite' : 'alert.success_favorite',
           }),
-          error.message || error.toString(),
-        );
-      });
+        ),
+      );
+      this.setState({isFavorite: !isFavorite, isProfileLoading: false});
+    } catch (error: any) {
+      console.warn('Failed to perform favorite action');
+      Alert.alert(intl.formatMessage({id: 'alert.fail'}), error.message || error.toString());
+      this.setState({isProfileLoading: false});
+    }
   };
 
-  _handleReportUser = () => {
+  handleReportUser = () => {
     const {dispatch, intl} = this.props;
-    const {username} = this.state;
+    const {username = ''} = this.state;
 
-    const _onConfirm = () => {
-      addReport('user', username)
-        .then(() => {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'report.added',
-              }),
-            ),
-          );
-        })
-        .catch(() => {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'report.added',
-              }),
-            ),
-          );
-        });
+    const _onConfirm = async () => {
+      try {
+        await addReport('user', username);
+        dispatch(toastNotification(intl.formatMessage({id: 'report.added'})));
+      } catch {
+        dispatch(toastNotification(intl.formatMessage({id: 'report.added'})));
+      }
     };
 
     dispatch(
@@ -443,7 +426,7 @@ class ProfileContainer extends Component {
     );
   };
 
-  _handleDelegateHp = () => {
+  handleDelegateHp = () => {
     const {route, navigation} = this.props;
     const username = route.params?.username ?? '';
     navigation.navigate({
@@ -456,20 +439,25 @@ class ProfileContainer extends Component {
     });
   };
 
-  _handleOnBackPress = () => {
+  handleOnBackPress = () => {
     const {route} = this.props;
     if (route && route.params && route.params.fetchData) {
       route.params.fetchData();
     }
   };
 
-  _changeForceLoadPostState = value => {
+  // eslint-disable-next-line class-methods-use-this
+  setEstimatedWalletValue = () => {
+    // _setEstimatedWalletValue
+    console.log('_setEstimatedWalletValue');
+  };
+
+  changeForceLoadPostState = (value: any) => {
     this.setState({forceLoadPost: value});
   };
 
-  _handleOnPressProfileEdit = () => {
+  handleOnPressProfileEdit = () => {
     const {navigation, currentAccount} = this.props;
-
     navigation.navigate({
       name: ROUTES.SCREENS.PROFILE_EDIT,
       params: {
@@ -508,8 +496,8 @@ class ProfileContainer extends Component {
         about: user?.about?.profile,
         activePage,
         avatar,
-        setEstimatedWalletValue: this._setEstimatedWalletValue,
-        changeForceLoadPostState: this._changeForceLoadPostState,
+        setEstimatedWalletValue: this.setEstimatedWalletValue,
+        changeForceLoadPostState: this.changeForceLoadPostState,
         comments,
         currency,
         currencyRate: currency.currencyRate,
@@ -520,14 +508,14 @@ class ProfileContainer extends Component {
         follows,
         forceLoadPost,
         getReplies: this._getReplies,
-        handleFollowUnfollowUser: this._handleFollowUnfollowUser,
-        handleMuteUnmuteUser: this._handleMuteUnmuteUser,
-        handleOnBackPress: this._handleOnBackPress,
-        handleOnFavoritePress: this._handleOnFavoritePress,
-        handleOnFollowsPress: this._handleFollowsPress,
-        handleOnPressProfileEdit: this._handleOnPressProfileEdit,
-        handleReportUser: this._handleReportUser,
-        handleDelegateHp: this._handleDelegateHp,
+        handleFollowUnfollowUser: this.handleFollowUnfollowUser,
+        handleMuteUnmuteUser: this.handleMuteUnmuteUser,
+        handleOnBackPress: this.handleOnBackPress,
+        handleOnFavoritePress: this.handleOnFavoritePress,
+        handleOnFollowsPress: this.handleFollowsPress,
+        handleOnPressProfileEdit: this.handleOnPressProfileEdit,
+        handleReportUser: this.handleReportUser,
+        handleDelegateHp: this.handleDelegateHp,
         isDarkTheme,
         isFavorite,
         isFollowing,
@@ -546,7 +534,7 @@ class ProfileContainer extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState) => ({
   currency: state.application.currency,
   isConnected: state.application.isConnected,
   isDarkTheme: state.application.isDarkTheme,
@@ -557,10 +545,11 @@ const mapStateToProps = state => ({
   isHideImage: state.application.hidePostsThumbnails,
 });
 
-const mapHooksToProps = props => {
+const mapHooksToProps = (props: any) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const navigation = useNavigation();
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <ProfileContainer navigation={navigation} {...props} />;
 };
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
-/* eslint-enable */

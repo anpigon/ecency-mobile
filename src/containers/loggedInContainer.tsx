@@ -1,23 +1,27 @@
 import React from 'react';
+import {StyleSheet} from 'react-native';
 import {useIntl} from 'react-intl';
-import {connect} from 'react-redux';
 import ROUTES from '../constants/routeNames';
 import RootNavigation from '../navigation/rootNavigation';
 
 import {NoPost} from '../components';
+import {useAppSelector} from '../hooks';
 
-function LoggedInContainer({isLoggedIn, isLoginDone, children}) {
+function LoggedInContainer({children}: any) {
   const intl = useIntl();
+
+  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
+  const isLoginDone = useAppSelector(state => state.application.isLoginDone);
 
   if (!isLoggedIn) {
     return (
       <NoPost
-        style={{flex: 1}}
+        style={styles.noPost}
         isButtonText
         defaultText={intl.formatMessage({
           id: 'profile.login_to_see',
         })}
-        handleOnButtonPress={() => RootNavigation.navigate({name: ROUTES.SCREENS.LOGIN})}
+        handleOnButtonPress={() => RootNavigation.navigate(ROUTES.SCREENS.LOGIN)}
       />
     );
   }
@@ -31,10 +35,10 @@ function LoggedInContainer({isLoggedIn, isLoginDone, children}) {
   );
 }
 
-const mapStateToProps = state => ({
-  isLoggedIn: state.application.isLoggedIn,
-  isLoginDone: state.application.isLoginDone,
-});
+export default LoggedInContainer;
 
-export default connect(mapStateToProps)(LoggedInContainer);
-/* eslint-enable */
+const styles = StyleSheet.create({
+  noPost: {
+    flex: 1,
+  },
+});

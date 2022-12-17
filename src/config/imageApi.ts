@@ -5,7 +5,7 @@ export const upload = (
   fd: any,
   username: string,
   signature: string,
-  uploadProgress: (progressEvent: any) => void,
+  uploadProgress?: (progressEvent: any) => void,
 ) => {
   const image = axios.create({
     baseURL: `${Config.NEW_IMAGE_API}/hs/${signature}`, // Config.NEW_IMAGE_API

@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {Alert} from 'react-native';
-import {connect, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import get from 'lodash/get';
+import {AxiosError} from 'axios';
 import {useIntl} from 'react-intl';
 
 // Services and Actions
@@ -19,6 +20,8 @@ import ROUTES from '../constants/routeNames';
 
 // Utils
 import {groomingPointsTransactionData, getPointsEstimate} from '../utils/wallet';
+import {useAppSelector} from '../hooks';
+import {UserPoint} from '../providers/ecency/ecency.types';
 
 /*
  *            Props Name        Description                                     Value
@@ -26,36 +29,34 @@ import {groomingPointsTransactionData, getPointsEstimate} from '../utils/wallet'
  *
  */
 
-const PointsContainer = ({
-  username,
-  isConnected,
-  children,
-  accounts,
-  currentAccount,
-  user,
-  activeBottomTab,
-  isPinCodeOpen,
-  globalProps,
-  pinCode,
-  currency,
-  route,
-}) => {
-  const navigation = useNavigation();
+const PointsContainer: React.FC<any> = ({children, route}) => {
+  const navigation = useNavigation<any>();
+
+  const user = useAppSelector(state => state.account.currentAccount);
+  const username = useAppSelector(state => state.account.currentAccount.name);
+  const activeBottomTab = useAppSelector(state => state.ui.activeBottomTab);
+  const isConnected = useAppSelector(state => state.application.isConnected);
+  const accounts = useAppSelector(state => state.account.otherAccounts);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const pinCode = useAppSelector(state => state.application.pin);
+  const isPinCodeOpen = useAppSelector(state => state.application.isPinCodeOpen);
+  const currency = useAppSelector(state => state.application.currency.currency);
+  // const globalProps = useAppSelector(state => state.account.globalProps);
 
   const [userPoints, setUserPoints] = useState({});
-  const [userActivities, setUserActivities] = useState(null);
+  const [userActivities, setUserActivities] = useState<any[] | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const [isClaiming, setIsClaiming] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [estimatedEstm, setEstimatedEstm] = useState(0);
-  const [navigationParams, setNavigationParams] = useState({});
+  const [navigationParams, setNavigationParams] = useState<any>({});
   const [balance, setBalance] = useState(0);
   const intl = useIntl();
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (isConnected) {
-      _fetchUserPointActivities(username);
+      fetchUserPointActivities(username);
     }
 
     if (route && route.params) {
@@ -63,21 +64,21 @@ const PointsContainer = ({
 
       setNavigationParams(_navigationParams);
     }
-  }, [_fetchUserPointActivities, isConnected, route, username]);
+  }, [isConnected, route, username]);
 
   useEffect(() => {
     if (isConnected && activeBottomTab === ROUTES.TABBAR.WALLET && username) {
-      _fetchUserPointActivities(username);
+      fetchUserPointActivities(username);
     }
-  }, [isConnected, username, _fetchUserPointActivities, activeBottomTab]);
+  }, [isConnected, username, activeBottomTab]);
 
   // Component Functions
 
-  const _handleOnDropdownSelected = index => {
+  const handleOnDropdownSelected = (type: string) => {
     let navigateTo;
     let navigateParams;
 
-    if (index === 'dropdown_transfer') {
+    if (type === 'dropdown_transfer') {
       navigateTo = ROUTES.SCREENS.TRANSFER;
       navigateParams = {
         transferType: 'points',
@@ -85,14 +86,14 @@ const PointsContainer = ({
         balance,
       };
     }
-    if (index === 'dropdown_promote') {
+    if (type === 'dropdown_promote') {
       navigateTo = ROUTES.SCREENS.REDEEM;
       navigateParams = {
         balance,
         redeemType: 'promote',
       };
     }
-    if (index === 'dropdown_boost') {
+    if (type === 'dropdown_boost') {
       navigateTo = ROUTES.SCREENS.REDEEM;
       navigateParams = {
         balance,
@@ -109,24 +110,27 @@ const PointsContainer = ({
         },
       });
     } else {
-      navigation.navigate({
+      // @ts-ignore
+      navigation.navigate(navigateTo, {
         name: navigateTo,
         params: navigateParams,
       });
     }
   };
 
-  const _groomUserActivities = _userActivities =>
-    _userActivities.map(item =>
-      groomingPointsTransactionData({
+  const _groomUserActivities = (_userActivities: UserPoint[]) => {
+    return _userActivities.map(item => {
+      const point = POINTS[item.type as keyof typeof POINTS];
+      return groomingPointsTransactionData({
         ...item,
-        icon: get(POINTS[get(item, 'type')], 'icon'),
-        iconType: get(POINTS[get(item, 'type')], 'iconType'),
-        textKey: get(POINTS[get(item, 'type')], 'textKey'),
-      }),
-    );
+        icon: point?.icon,
+        iconType: point?.iconType,
+        textKey: point?.textKey,
+      });
+    });
+  };
 
-  const _fetchUserPointActivities = useCallback(async (_username = username) => {
+  const fetchUserPointActivities = useCallback(async (_username = username) => {
     if (!_username) {
       return;
     }
@@ -134,13 +138,13 @@ const PointsContainer = ({
 
     await getPointsSummary(_username)
       .then(async userPointsP => {
-        const _balance = Math.round(get(userPointsP, 'points') * 1000) / 1000;
+        const _balance = Math.round(Number(userPointsP.points) || 0 * 1000) / 1000;
         setUserPoints(userPointsP);
         setBalance(_balance);
         setEstimatedEstm(await getPointsEstimate(_balance, currency));
       })
-      .catch(err => {
-        Alert.alert(get(err, 'message', 'Error'));
+      .catch((err: AxiosError) => {
+        Alert.alert(err?.message || 'Error');
       });
 
     await getPointsHistory(_username)
@@ -149,9 +153,9 @@ const PointsContainer = ({
           setUserActivities(_groomUserActivities(userActivitiesP));
         }
       })
-      .catch(err => {
+      .catch((err: AxiosError) => {
         if (err) {
-          Alert.alert(get(err, 'message') || err.toString());
+          Alert.alert(err?.message || err.toString());
         }
       });
 
@@ -159,10 +163,10 @@ const PointsContainer = ({
     setIsLoading(false);
   }, []);
 
-  const _getUserBalance = async _username => {
+  const getUserBalance = async (_username: string) => {
     await getPointsSummary(_username)
       .then(_userPoints => {
-        const _balance = Math.round(get(_userPoints, 'points') * 1000) / 1000;
+        const _balance = Math.round(Number(_userPoints?.points) * 1000) || 0 / 1000;
         return _balance;
       })
       .catch(err => {
@@ -177,11 +181,12 @@ const PointsContainer = ({
 
     await claimPoints()
       .then(() => {
-        _fetchUserPointActivities(username);
+        fetchUserPointActivities(username);
       })
       .catch(error => {
         if (error) {
           Alert.alert(
+            // eslint-disable-next-line max-len
             `PointsClaim - Connection issue, try again or write to support@ecency.com \n${error.message.substr(
               0,
               20,
@@ -193,7 +198,7 @@ const PointsContainer = ({
     setIsClaiming(false);
   };
 
-  const _boost = async (point, permlink, author, _user) => {
+  const _boost = async (point: number, permlink: string, author: string, _user: any) => {
     setIsLoading(true);
 
     await boost(_user || currentAccount, pinCode, point, permlink, author)
@@ -210,9 +215,7 @@ const PointsContainer = ({
       });
   };
 
-  const _getESTMPrice = points => {
-    return points / 150;
-  };
+  const getESTMPrice = (points: number) => points / 150;
 
   return (
     children &&
@@ -223,12 +226,12 @@ const PointsContainer = ({
       claim: _claimPoints,
       currentAccount,
       currentAccountName: currentAccount.name,
-      fetchUserActivity: _fetchUserPointActivities,
+      fetchUserActivity: fetchUserPointActivities,
       getAccount,
-      getESTMPrice: _getESTMPrice,
-      getUserBalance: _getUserBalance,
+      getESTMPrice,
+      getUserBalance,
       getUserDataWithUsername,
-      handleOnDropdownSelected: _handleOnDropdownSelected,
+      handleOnDropdownSelected,
       isClaiming,
       isLoading,
       navigationParams,
@@ -236,24 +239,11 @@ const PointsContainer = ({
       userActivities,
       userPoints,
       estimatedEstm,
-      redeemType: get(navigationParams, 'redeemType'),
+      redeemType: navigationParams?.redeemType,
       user,
       dropdownOptions: ['dropdown_transfer', 'dropdown_promote', 'dropdown_boost'],
     })
   );
 };
 
-const mapStateToProps = state => ({
-  user: state.account.currentAccount,
-  username: state.account.currentAccount.name,
-  activeBottomTab: state.ui.activeBottomTab,
-  isConnected: state.application.isConnected,
-  accounts: state.account.otherAccounts,
-  currentAccount: state.account.currentAccount,
-  pinCode: state.application.pin,
-  isPinCodeOpen: state.application.isPinCodeOpen,
-  globalProps: state.account.globalProps,
-  currency: state.application.currency.currency,
-});
-
-export default connect(mapStateToProps)(PointsContainer);
+export default PointsContainer;

@@ -3,6 +3,7 @@ import {View, TouchableOpacity, Text, Alert} from 'react-native';
 import {useIntl} from 'react-intl';
 import {Popover, PopoverController} from 'react-native-modal-popover';
 import Slider from '@esteemapp/react-native-slider';
+import {Dispatch, AnyAction} from '@reduxjs/toolkit';
 
 // Utils
 import {getEstimatedAmount} from '../../../utils/vote';
@@ -44,7 +45,7 @@ interface UpvoteViewProps {
   author: string;
   handleSetUpvotePercent: (value: number) => void;
   permlink: string;
-  dispatch: any;
+  dispatch: Dispatch<AnyAction>;
   onVote: (amount: string, downvote: boolean) => void;
   isVoted: boolean;
   postUpvotePercent: number;

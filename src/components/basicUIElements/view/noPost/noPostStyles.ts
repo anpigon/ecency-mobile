@@ -18,4 +18,7 @@ export default EStyleSheet.create({
     marginTop: 12,
     fontWeight: 'bold',
   },
+  mainButton: {
+    width: 150,
+  },
 });

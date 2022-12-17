@@ -1,4 +1,4 @@
-const filterNsfwPost = (posts: any[], option: '1' | '2') => {
+const filterNsfwPost = (posts: any[], option?: '0' | '1' | '2') => {
   if (option === '1') {
     return posts.map(post => {
       const nsfw = post.parent_permlink === 'nsfw' || post.json_metadata?.tags?.includes('nsfw');
