@@ -397,12 +397,10 @@ class ApplicationContainer extends Component {
 
   _getUserDataFromRealm = async () => {
     const {dispatch, isPinCodeOpen: _isPinCodeOpen, isConnected} = this.props;
-    let realmData = [];
+    let realmData: any[] = [];
 
-    const res = await getAuthStatus();
-    const {currentUsername} = res;
-
-    if (res) {
+    const auth = await getAuthStatus();
+    if (auth) {
       dispatch(login(true));
       const userData = await getUserData();
 
@@ -444,7 +442,7 @@ class ApplicationContainer extends Component {
     }
 
     if (realmData.length > 0) {
-      const realmObject = realmData.filter(data => data.username === currentUsername);
+      const realmObject = realmData.filter(data => data.username === auth.currentUsername);
 
       if (realmObject.length === 0) {
         realmObject[0] = realmData[realmData.length - 1];
@@ -452,7 +450,7 @@ class ApplicationContainer extends Component {
         await switchAccount(realmObject[0].username);
       }
 
-      realmObject[0].name = currentUsername;
+      realmObject[0].name = auth.currentUsername;
       // If in dev mode pin code does not show
       if (_isPinCodeOpen) {
         RootNavigation.navigate({name: ROUTES.SCREENS.PINCODE});
@@ -671,7 +669,7 @@ class ApplicationContainer extends Component {
       };
 
       // eslint-disable-next-line
-      Object.keys(settings).map((item) => {
+      Object.keys(settings).map(item => {
         if (notifyTypesConst[item] && settings[item]) {
           notify_types.push(notifyTypesConst[item]);
         }
