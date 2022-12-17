@@ -1,11 +1,11 @@
 import React from 'react';
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 
 import {Profile} from '../../../components';
 import {ProfileContainer} from '../../../containers';
 
-function ProfileScreen({route}) {
-  console.log(route)
+function ProfileScreen({route}: BottomTabScreenProps<any>) {
   return (
     <ProfileContainer route={route}>
       {({

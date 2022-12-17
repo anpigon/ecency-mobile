@@ -172,11 +172,11 @@ class ProfileSummaryView extends PureComponent {
       <>
         <View style={[isColumn ? styles.textWithIconWrapperColumn : styles.textWithIconWrapper]}>
           {ABOUT_DATA.map(item =>
-            get(item, 'text', null) ? (
+            item.text ? (
               <TextWithIcon
-                isClickable={get(item, 'onPress')}
-                onPress={get(item, 'onPress')}
-                key={get(item, 'id')}
+                isClickable={item.onPress}
+                onPress={item.onPress}
+                key={item.id}
                 text={item.text}
                 iconSize={14}
                 iconName={item.icon}

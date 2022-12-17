@@ -117,11 +117,9 @@ class ProfileView extends PureComponent {
 
     const {isSummaryOpen, collapsibleMoreHeight} = this.state;
 
-    return !isReady ? (
-      <ProfileSummaryPlaceHolder />
-    ) : (
+    return isReady ? (
       <CollapsibleCard
-        title={get(about, 'about')}
+        title={about.about}
         isTitleCenter
         defaultTitle={intl.formatMessage({
           id: 'profile.details',
@@ -131,7 +129,7 @@ class ProfileView extends PureComponent {
         handleOnExpanded={this._handleOnSummaryExpanded}
         moreHeight={collapsibleMoreHeight}>
         <ProfileSummary
-          date={getFormatedCreatedDate(get(selectedUser, 'created'))}
+          date={getFormatedCreatedDate(selectedUser.created)}
           about={about}
           followerCount={follows ? follows.follower_count : 0}
           followingCount={follows ? follows.following_count : 0}
@@ -158,6 +156,8 @@ class ProfileView extends PureComponent {
           username={username}
         />
       </CollapsibleCard>
+    ) : (
+      <ProfileSummaryPlaceHolder />
     );
   };
 
@@ -272,10 +272,6 @@ class ProfileView extends PureComponent {
       </View>
     );
   };
-
-  // _isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
-  //   return layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
-  // }
 
   render() {
     const {handleOnBackPress, quickProfile, reverseHeader, isMuted} = this.props;

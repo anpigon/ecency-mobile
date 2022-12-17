@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {get, has, unionBy, update} from 'lodash';
+import {unionBy} from 'lodash';
 import {Alert} from 'react-native';
 import {injectIntl} from 'react-intl';
 
@@ -34,10 +34,7 @@ class ProfileContainer extends Component {
 
     // check if is signed in user profile
     const username = props.route.params?.username ?? '';
-    const {
-      currentAccount: {name: currentAccountUsername},
-    } = props;
-    const isOwnProfile = !username || currentAccountUsername === username;
+    const isOwnProfile = !username || props.currentAccount.name === username;
 
     this.state = {
       comments: [],
@@ -51,40 +48,30 @@ class ProfileContainer extends Component {
       isOwnProfile,
       user: null,
       quickProfile: {
-        reputation: get(props, 'route.params.reputation', ''),
-        name: get(props, 'route.params.username', ''),
+        reputation: props.route.params.reputation || '',
+        name: props.route.params.username || '',
       },
-      reverseHeader: !!username,
-      deepLinkFilter: get(props, 'route.params.deepLinkFilter'),
+      reverseHeader: Boolean(username),
+      deepLinkFilter: props.route.params.deepLinkFilter,
     };
   }
 
   componentDidMount() {
-    const {
-      route,
-      navigation,
-      isConnected,
-      isLoggedIn,
-      currentAccount: {name: currentAccountUsername},
-    } = this.props;
+    const {route, navigation, isConnected, isLoggedIn, currentAccount} = this.props;
     const username = route.params?.username || '';
-
     const {isOwnProfile} = this.state;
-    let targetUsername = currentAccountUsername;
 
     if (!isConnected) {
       return;
     }
 
+    // FIXME: 로그인 체크를 전역에서 처리하도록 변경
     if (!isLoggedIn && !username) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
       return;
     }
 
-    if (!isOwnProfile) {
-      targetUsername = username;
-    }
-
+    const targetUsername = isOwnProfile ? currentAccount.name : username;
     this._loadProfile(targetUsername);
   }
 
@@ -106,23 +93,19 @@ class ProfileContainer extends Component {
       const {activeBottomTab, currentAccount} = this.props;
 
       const currentUsername =
-        get(currentAccount, 'name') !== get(nextProps, 'currentAccount.name') &&
-        get(nextProps, 'currentAccount.name');
+        currentAccount.name !== nextProps.currentAccount.name && nextProps.currentAccount.name;
       const isActiveTabChanged =
-        activeBottomTab !== get(nextProps, 'activeBottomTab') &&
-        get(nextProps, 'activeBottomTab') === ROUTES.TABBAR.PROFILE;
+        activeBottomTab !== nextProps.activeBottomTab &&
+        nextProps.activeBottomTab === ROUTES.TABBAR.PROFILE;
 
       if ((isActiveTabChanged && user) || currentUsername) {
-        this._loadProfile(get(nextProps, 'currentAccount.name'));
+        this._loadProfile(nextProps.currentAccount.name);
       }
     }
   }
 
   _getReplies = async query => {
-    const {isOwnProfile, comments, user} = this.state;
-    const {
-      currentAccount: {name: currentAccountUsername},
-    } = this.props;
+    const {isOwnProfile, comments} = this.state;
     this.setState({isProfileLoading: true});
     let repliesAction;
 
@@ -168,7 +151,7 @@ class ProfileContainer extends Component {
   _handleFollowUnfollowUser = async isFollowAction => {
     const {isFollowing, username} = this.state;
     const {currentAccount, pinCode, dispatch, intl} = this.props;
-    const follower = get(currentAccount, 'name', '');
+    const follower = currentAccount.name || '';
     const following = username;
 
     let followAction;
@@ -266,7 +249,7 @@ class ProfileContainer extends Component {
       });
   };
 
-  _profileActionDone = ({error = null, shouldFetchProfile = true}) => {
+  _profileActionDone = ({error = null, shouldFetchProfile = true}: any) => {
     const {username} = this.state;
     const {intl, dispatch} = this.props;
 
@@ -335,7 +318,7 @@ class ProfileContainer extends Component {
           });
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.warn('Failed to fetch complete profile data', error);
       Alert.alert(
         intl.formatMessage({
@@ -347,7 +330,7 @@ class ProfileContainer extends Component {
   };
 
   _loadProfile = async (username = null) => {
-    let user;
+    let user: any;
     const {isOwnProfile} = this.state;
     try {
       user = await getUser(username, isOwnProfile);
@@ -359,8 +342,8 @@ class ProfileContainer extends Component {
     this.setState(prevState => ({
       quickProfile: {
         ...prevState.quickProfile,
-        display_name: get(user, 'display_name'),
-        reputation: get(user, 'reputation'),
+        display_name: user?.display_name,
+        reputation: user?.reputation,
       },
       user,
       username,
@@ -372,7 +355,7 @@ class ProfileContainer extends Component {
   _handleFollowsPress = async isFollowingPress => {
     const {navigation} = this.props;
     const {username, follows} = this.state;
-    const count = get(follows, !isFollowingPress ? 'follower_count' : 'following_count');
+    const count = isFollowingPress ? follows.following_count : follows.follower_count;
 
     navigation.navigate({
       name: ROUTES.SCREENS.FOLLOWS,
@@ -388,18 +371,12 @@ class ProfileContainer extends Component {
   _handleOnFavoritePress = (isFavorite = false) => {
     const {dispatch, intl} = this.props;
     const {username} = this.state;
-    let favoriteAction;
 
     this.setState({
       isProfileLoading: true,
     });
 
-    if (isFavorite) {
-      favoriteAction = deleteFavorite;
-    } else {
-      favoriteAction = addFavorite;
-    }
-
+    const favoriteAction = isFavorite ? deleteFavorite : addFavorite;
     favoriteAction(username)
       .then(() => {
         dispatch(
@@ -481,7 +458,6 @@ class ProfileContainer extends Component {
 
   _handleOnBackPress = () => {
     const {route} = this.props;
-
     if (route && route.params && route.params.fetchData) {
       route.params.fetchData();
     }
@@ -522,33 +498,22 @@ class ProfileContainer extends Component {
       deepLinkFilter,
     } = this.state;
     const {currency, isDarkTheme, isLoggedIn, children, isHideImage, route} = this.props;
-
     const activePage = route.params?.state ?? 0;
-    const {currencyRate, currencySymbol} = currency;
-
-    let votingPower;
-    let resourceCredits;
-
-    if (user) {
-      votingPower = getVotingPower(user).toFixed(1);
-      resourceCredits = getRcPower(user).toFixed(1);
-    }
-
-    // TODO: 이 화면 작업할 것
-    console.log('test')
+    const votingPower = user ? getVotingPower(user).toFixed(1) : '';
+    const resourceCredits = user ? getRcPower(user).toFixed(1) : '';
 
     return (
       children &&
       children({
-        about: get(user, 'about.profile'),
+        about: user?.about?.profile,
         activePage,
         avatar,
         setEstimatedWalletValue: this._setEstimatedWalletValue,
         changeForceLoadPostState: this._changeForceLoadPostState,
         comments,
         currency,
-        currencyRate,
-        currencySymbol,
+        currencyRate: currency.currencyRate,
+        currencySymbol: currency.currencySymbol,
         votingPower,
         resourceCredits,
         error,
