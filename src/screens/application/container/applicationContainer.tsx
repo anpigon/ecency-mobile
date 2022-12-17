@@ -540,7 +540,8 @@ class ApplicationContainer extends Component {
       dispatch(fetchSubscribedCommunities(realmObject.username));
       this._connectNotificationServer(accountData.name);
       // TODO: better update device push token here after access token refresh
-    } catch (err) {
+    } catch (err: any) {
+      console.error('_fetchUserDataFromDsteem', err, err.stack);
       Alert.alert(
         `${intl.formatMessage({id: 'alert.fetch_error'})} \n${err.message.substr(0, 20)}`,
       );
@@ -646,6 +647,7 @@ class ApplicationContainer extends Component {
         dispatch(logoutDone());
       })
       .catch(err => {
+        console.error('removeUserData', err, err.stack);
         Alert.alert(
           `${intl.formatMessage({id: 'alert.fetch_error'})} \n${err.message.substr(0, 20)}`,
         );

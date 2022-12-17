@@ -1,6 +1,6 @@
 import React from 'react';
 
-const useCombinedRefs = (...refs) => {
+const useCombinedRefs = (...refs: any[]) => {
   const targetRef = React.useRef();
 
   React.useEffect(() => {
