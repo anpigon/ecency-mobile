@@ -48,7 +48,15 @@ const initialState: UiState = {
   replyModalVisible: false,
 };
 
-export default function uiReducer(state = initialState, action = {type: '', payload: {}}): UiState {
+interface Action {
+  type: string;
+  payload: any;
+}
+
+export default function uiReducer(
+  state = initialState,
+  action: Action = {type: '', payload: {}},
+): UiState {
   switch (action.type) {
     case UPDATE_ACTIVE_BOTTOM_TAB:
       return {

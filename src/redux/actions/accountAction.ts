@@ -8,8 +8,9 @@ import {
   UPDATE_CURRENT_ACCOUNT,
   UPDATE_UNREAD_ACTIVITY_COUNT,
 } from '../constants/constants';
+import {AppDispatch} from '../store/store';
 
-export const fetchGlobalProperties = () => dispatch =>
+export const fetchGlobalProperties = () => (dispatch: AppDispatch) =>
   fetchGlobalProps().then(res =>
     dispatch({
       type: SET_GLOBAL_PROPS,
@@ -17,36 +18,36 @@ export const fetchGlobalProperties = () => dispatch =>
     }),
   );
 
-export const updateCurrentAccount = data => ({
+export const updateCurrentAccount = (payload: any) => ({
   type: UPDATE_CURRENT_ACCOUNT,
-  payload: data,
+  payload,
 });
 
-export const addOtherAccount = data => ({
+export const addOtherAccount = (payload: any) => ({
   type: ADD_OTHER_ACCOUNT,
-  payload: data,
+  payload,
 });
 
-export const failedAccount = data => ({
+export const failedAccount = (payload: any) => ({
   type: FETCH_ACCOUNT_FAIL,
-  payload: data,
+  payload,
 });
 
-export const updateUnreadActivityCount = data => ({
+export const updateUnreadActivityCount = (payload: any) => ({
   type: UPDATE_UNREAD_ACTIVITY_COUNT,
-  payload: data,
+  payload,
 });
 
-export const removeOtherAccount = data => ({
+export const removeOtherAccount = (payload: any) => ({
   type: REMOVE_OTHER_ACCOUNT,
-  payload: data,
+  payload,
 });
 
 export const removeAllOtherAccount = () => ({
   type: REMOVE_ALL_OTHER_ACCOUNT,
 });
 
-export const setGlobalProps = data => ({
+export const setGlobalProps = (payload: any) => ({
   type: SET_GLOBAL_PROPS,
-  payload: data,
+  payload,
 });

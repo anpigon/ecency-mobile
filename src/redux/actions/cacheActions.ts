@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {renderPostBody} from '@ecency/render-helper';
 import {Platform} from 'react-native';
 import {PointActivity} from '../../providers/ecency/ecency.types';
@@ -153,3 +154,4 @@ export const deletePointActivityCache = (id: string) => ({
 export const purgeExpiredCache = () => ({
   type: PURGE_EXPIRED_CACHE,
 });
+/* eslint-enable max-len */

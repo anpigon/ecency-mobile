@@ -17,7 +17,15 @@ const initialState: State = {
   beneficiariesMap: {},
 };
 
-export default function editReducer(state = initialState, action = {type: '', payload: {}}) {
+interface Action {
+  type: string;
+  payload: any;
+}
+
+export default function editReducer(
+  state = initialState,
+  action: Action = {type: '', payload: {}},
+) {
   const {type, payload} = action;
   switch (type) {
     case SET_BENEFICIARIES:

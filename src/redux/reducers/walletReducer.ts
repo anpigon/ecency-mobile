@@ -62,18 +62,10 @@ export interface CoinActivitiesCollection {
 
 interface State {
   selectedCoins: CoinBase[];
-  coinsData: {
-    [key: string]: CoinData;
-  };
-  priceHistories: {
-    [key: string]: PriceHistory;
-  };
-  coinsActivities: {
-    [key: string]: CoinActivitiesCollection;
-  };
-  quotes: {
-    [key: string]: QuoteItem;
-  };
+  coinsData: Record<string, CoinData>;
+  priceHistories: Record<string, PriceHistory>;
+  coinsActivities: Record<string, CoinActivitiesCollection>;
+  quotes: Record<string, QuoteItem> | null;
   vsCurrency: string;
   username: string;
   updateTimestamp: number;
@@ -90,7 +82,15 @@ const initialState: State = {
   updateTimestamp: 0,
 };
 
-export default function walletReducer(state = initialState, action = {type: '', payload: {}}) {
+interface Action {
+  type: string;
+  payload: any;
+}
+
+export default function walletReducer(
+  state = initialState,
+  action: Action = {type: '', payload: {}},
+) {
   const {type, payload} = action;
   switch (type) {
     case RESET_WALLET_DATA: {

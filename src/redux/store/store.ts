@@ -1,4 +1,4 @@
-import {configureStore, StoreEnhancer, Middleware} from '@reduxjs/toolkit';
+import {configureStore, Middleware} from '@reduxjs/toolkit';
 
 import {createMigrate, createTransform, persistReducer, persistStore} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';

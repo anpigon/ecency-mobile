@@ -56,7 +56,15 @@ const initialState = {
   },
 };
 
-export default function communitiesReducer(state = initialState, action = {type: '', payload: {}}) {
+interface Action {
+  type: string;
+  payload: any;
+}
+
+export default function communitiesReducer(
+  state = initialState,
+  action: Action = {type: '', payload: {}},
+) {
   switch (action.type) {
     case FETCH_COMMUNITIES:
       return {

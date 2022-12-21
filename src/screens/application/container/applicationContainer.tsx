@@ -142,7 +142,7 @@ class ApplicationContainer extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const {isDarkTheme: _isDarkTheme, selectedLanguage, isLogingOut, isConnected, api} = this.props;
+    const {isDarkTheme: _isDarkTheme, selectedLanguage, isLoggedOut, isConnected, api} = this.props;
 
     if (
       _isDarkTheme !== nextProps.isDarkTheme ||
@@ -165,7 +165,7 @@ class ApplicationContainer extends Component {
       }
     }
 
-    if (isLogingOut !== nextProps.isLogingOut && nextProps.isLogingOut) {
+    if (isLoggedOut !== nextProps.isLoggedOut && nextProps.isLoggedOut) {
       this._logout();
     }
 
@@ -767,7 +767,7 @@ export default connect(
     selectedLanguage: state.application.language,
     isPinCodeOpen: state.application.isPinCodeOpen,
     encUnlockPin: state.application.encUnlockPin,
-    isLogingOut: state.application.isLogingOut,
+    isLoggedOut: state.application.isLoggedOut,
     isLoggedIn: state.application.isLoggedIn, // TODO: remove as is not being used in this class
     isConnected: state.application.isConnected,
     api: state.application.api,

@@ -50,7 +50,7 @@ export const resetWalletData = () => ({
   type: RESET_WALLET_DATA,
 });
 
-export const fetchCoinQuotes = () => (dispatch, getState) => {
+export const fetchCoinQuotes = () => (dispatch: AppDispatch, getState: RootState) => {
   const {currency} = getState().application;
   console.log('fetching quotes for currency', currency);
   getLatestQuotes(currency.currencyRate).then(quotes => {

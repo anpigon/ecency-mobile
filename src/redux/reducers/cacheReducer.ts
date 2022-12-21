@@ -72,7 +72,7 @@ interface State {
     postPath: string;
     updatedAt: number;
     type: 'vote' | 'comment' | 'draft';
-  };
+  } | null;
 }
 
 const initialState: State = {
@@ -84,7 +84,15 @@ const initialState: State = {
   lastUpdate: null,
 };
 
-export default function cacheReducer(state = initialState, action = {type: '', payload: {}}) {
+interface Action {
+  type: string;
+  payload: any;
+}
+
+export default function cacheReducer(
+  state = initialState,
+  action: Action = {type: '', payload: {}},
+) {
   const {type, payload} = action;
   switch (type) {
     case UPDATE_VOTE_CACHE:
@@ -200,7 +208,7 @@ export default function cacheReducer(state = initialState, action = {type: '', p
 
       if (state.comments && state.comments.size) {
         Array.from(state.comments).forEach(entry => {
-          if (entry[1].expiresAt < currentTime) {
+          if (entry?.[1]?.expiresAt && entry[1].expiresAt < currentTime) {
             state.comments.delete(entry[0]);
           }
         });
@@ -208,7 +216,7 @@ export default function cacheReducer(state = initialState, action = {type: '', p
 
       if (state.drafts && state.drafts.size) {
         Array.from(state.drafts).forEach(entry => {
-          if (entry[1].expiresAt < currentTime || !entry[1].body) {
+          if (entry?.[1]?.expiresAt && (entry[1].expiresAt < currentTime || !entry[1].body)) {
             state.drafts.delete(entry[0]);
           }
         });
@@ -216,7 +224,7 @@ export default function cacheReducer(state = initialState, action = {type: '', p
 
       if (state.subscribedCommunities && state.subscribedCommunities.size) {
         Array.from(state.subscribedCommunities).forEach(entry => {
-          if (entry[1].expiresAt < currentTime) {
+          if (entry?.[1]?.expiresAt && entry[1].expiresAt < currentTime) {
             state.subscribedCommunities.delete(entry[0]);
           }
         });

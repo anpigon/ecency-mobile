@@ -47,7 +47,7 @@ interface State {
   isDefaultFooter: boolean; // TODO: remove present of isDefaultFooter as it's no longer in use
   isLoggedIn: boolean; // Has any logged in user.
   isLoginDone: boolean;
-  isLogingOut: boolean;
+  isLoggedOut: boolean;
   isNotificationOpen: boolean;
   language: string;
   loading: boolean; // It is lock to all screen and shows loading animation.
@@ -59,6 +59,7 @@ interface State {
     reblogNotification: boolean;
     transfersNotification: boolean;
     voteNotification: boolean;
+    bookmarkNotification: boolean;
   };
   postUpvotePercent: number;
   commentUpvotePercent: number;
@@ -66,7 +67,7 @@ interface State {
   pin: string | null; // encrypted pin used for encrypting sensitive user data
   isPinCodeOpen: boolean;
   isRenderRequired: boolean;
-  encUnlockPin: string; // ecryped pin used for user defined lock screen pass code
+  encUnlockPin: string; // encrypted pin used for user defined lock screen pass code
   lastAppVersion: string;
   settingsMigratedV2: boolean;
   hidePostsThumbnails: boolean;
@@ -87,7 +88,7 @@ const initialState: State = {
   isDefaultFooter: true, // TODO: remove present of isDefaultFooter as it's no longer in use
   isLoggedIn: false, // Has any logged in user.
   isLoginDone: false,
-  isLogingOut: false,
+  isLoggedOut: false,
   isNotificationOpen: true,
   language: 'en-US',
   loading: false, // It is lock to all screen and shows loading animation.
@@ -99,6 +100,7 @@ const initialState: State = {
     reblogNotification: true,
     transfersNotification: true,
     voteNotification: true,
+    bookmarkNotification: false,
   },
   postUpvotePercent: 1,
   commentUpvotePercent: 1,
@@ -114,9 +116,14 @@ const initialState: State = {
   isBiometricEnabled: false,
 };
 
+interface Action {
+  type: string;
+  payload: any;
+}
+
 export default function applicationReducer(
   state = initialState,
-  action = {type: '', payload: {}},
+  action: Action = {type: '', payload: {}},
 ): State {
   switch (action.type) {
     case LOGIN:
@@ -138,12 +145,12 @@ export default function applicationReducer(
     case LOGOUT:
       return {
         ...state,
-        isLogingOut: true,
+        isLoggedOut: true,
       };
     case LOGOUT_DONE:
       return {
         ...state,
-        isLogingOut: false,
+        isLoggedOut: false,
       };
 
     case SET_API:

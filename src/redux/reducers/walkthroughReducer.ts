@@ -11,9 +11,15 @@ interface State {
 const initialState: State = {
   walkthroughMap: new Map(),
 };
+
+interface Action {
+  type: string;
+  payload: any;
+}
+
 export default function walkthroughtReducer(
   state = initialState,
-  action = {type: '', payload: {}},
+  action: Action = {type: '', payload: {}},
 ) {
   const {type, payload} = action;
   switch (type) {

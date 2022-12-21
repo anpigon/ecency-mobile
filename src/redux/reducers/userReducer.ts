@@ -25,7 +25,15 @@ const initialState = {
   },
 };
 
-export default function userReducer(state = initialState, action = {type: '', payload: {}}) {
+interface Action {
+  type: string;
+  payload: any;
+}
+
+export default function userReducer(
+  state = initialState,
+  action: Action = {type: '', payload: {}},
+) {
   switch (action.type) {
     case FOLLOW_USER:
       return {

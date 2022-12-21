@@ -26,22 +26,30 @@ interface AccountState {
   currentAccount: any;
   otherAccounts: any[];
   hasError: boolean;
-  errorMessage: string;
-  isLogingOut: boolean;
+  errorMessage: string | null;
+  isLoggedOut: boolean;
   globalProps: GlobalProps | null;
 }
 
 const initialState: AccountState = {
-  isFetching: null,
+  isFetching: false,
   otherAccounts: [],
   currentAccount: {},
   hasError: false,
   errorMessage: null,
-  isLogingOut: false,
+  isLoggedOut: false,
   globalProps: null,
 };
 
-export default function accountReducer(state = initialState, action = {type: '', payload: {}}) {
+interface Action {
+  type: string;
+  payload: any;
+}
+
+export default function accountReducer(
+  state = initialState,
+  action: Action = {type: '', payload: {}},
+) {
   switch (action.type) {
     case FETCHING_ACCOUNT:
       return {
@@ -114,7 +122,7 @@ export default function accountReducer(state = initialState, action = {type: '',
     case LOGOUT_FAIL:
       return {
         ...state,
-        isLogingOut: true,
+        isLoggedOut: true,
       };
 
     default:

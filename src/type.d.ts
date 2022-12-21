@@ -135,3 +135,7 @@ declare module 'react-native-crypto' {
     };
   };
 }
+
+declare module 'currency-symbol-map' {
+  export default function (currency: any): void;
+}

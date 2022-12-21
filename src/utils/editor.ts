@@ -141,7 +141,7 @@ export const makeOptions = (postObj: any) => {
   return result;
 };
 
-export const makeJsonMetadataReply = (tags: any[]) => ({
+export const makeJsonMetadataReply = (tags: string[] = []) => ({
   tags,
   app: `ecency/${VersionNumber.appVersion}-mobile`,
   format: 'markdown+html',
