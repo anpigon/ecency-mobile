@@ -2,17 +2,18 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {Text, Image, View, SafeAreaView, TouchableOpacity} from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 import {gestureHandlerRootHOC, ScrollView} from 'react-native-gesture-handler';
 import VersionNumber from 'react-native-version-number';
 
-import {CheckBox, Icon, MainButton} from '../../components';
+import {MainButton} from '../../components';
 import {ECENCY_TERMS_URL} from '../../config/ecencyApi';
 import ROUTES from '../../constants/routeNames';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {setLastAppVersion, setIsTermsAccepted} from '../../redux/actions/applicationActions';
 import LaunchScreen from '../launch';
+import WelcomeConsent from './components/WelcomeConsent';
+import WelcomeInfo from './components/WelcomeInfo';
 
 import styles from './WelcomeScreenStyles';
 
@@ -27,20 +28,18 @@ function WelcomeScreen() {
   const [appVersion] = useState(VersionNumber.appVersion);
 
   useEffect(() => {
+    const _showWelcomeModal = () => {
+      setShowAnimation(true);
+      setTimeout(() => {
+        setShowAnimation(false);
+      }, 3550);
+    };
     _showWelcomeModal();
   }, []);
-
-  const _showWelcomeModal = () => {
-    setShowAnimation(true);
-    setTimeout(() => {
-      setShowAnimation(false);
-    }, 3550);
-  };
 
   const _handleButtonPress = () => {
     dispatch(setLastAppVersion(appVersion));
     dispatch(setIsTermsAccepted(isConsentChecked));
-
     navigation.navigate(ROUTES.STACK.MAIN);
   };
 
@@ -52,44 +51,10 @@ function WelcomeScreen() {
     const url = ECENCY_TERMS_URL;
     navigation.navigate({
       name: ROUTES.SCREENS.WEB_BROWSER,
-      params: {
-        url,
-      },
+      params: {url},
       key: url,
     });
   };
-
-  const _renderInfo = (iconName: string, headingIntlId: string, bodyIntlId: string) => (
-    <View style={styles.sectionRow}>
-      <Icon
-        iconType="SimpleLineIcons"
-        name={iconName}
-        color={EStyleSheet.value('$primaryBlue')}
-        size={30}
-      />
-      <View>
-        <Text style={styles.sectionTitle}>{intl.formatMessage({id: headingIntlId})}</Text>
-        <Text style={styles.sectionText}>{intl.formatMessage({id: bodyIntlId})}</Text>
-      </View>
-    </View>
-  );
-
-  const _renderConsent = () => (
-    <View style={styles.consentContainer}>
-      <CheckBox isChecked={isConsentChecked} clicked={_onCheckPress} style={styles.checkStyle} />
-      <TouchableOpacity onPress={_onTermsPress}>
-        <View style={styles.consentTextContainer}>
-          <Text style={styles.termsDescText}>
-            {intl.formatMessage({id: 'welcome.terms_description'})}
-            <Text style={styles.termsLinkText}>
-              {' '}
-              {intl.formatMessage({id: 'welcome.terms_text'})}
-            </Text>
-          </Text>
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
 
   return (
     <SafeAreaView style={styles.root}>
@@ -97,7 +62,7 @@ function WelcomeScreen() {
         <Image
           style={styles.mascot}
           resizeMode="contain"
-          source={require('../../../assets/love_mascot.png')}
+          source={require('../../assets/love_mascot.png')}
         />
 
         <View style={styles.topText}>
@@ -107,14 +72,30 @@ function WelcomeScreen() {
 
         <ScrollView contentContainerStyle={styles.contentContainer}>
           <TouchableOpacity disabled={!isConsentChecked} onPress={_handleButtonPress}>
-            {_renderInfo('question', 'welcome.line1_heading', 'welcome.line1_body')}
-            {_renderInfo('emotsmile', 'welcome.line2_heading', 'welcome.line2_body')}
-            {_renderInfo('people', 'welcome.line3_heading', 'welcome.line3_body')}
+            <WelcomeInfo
+              iconName="question"
+              headingIntlId="welcome.line1_heading"
+              bodyIntlId="welcome.line1_body"
+            />
+            <WelcomeInfo
+              iconName="emotsmile"
+              headingIntlId="welcome.line2_heading"
+              bodyIntlId="welcome.line2_body"
+            />
+            <WelcomeInfo
+              iconName="people"
+              headingIntlId="welcome.line3_heading"
+              bodyIntlId="welcome.line3_body"
+            />
           </TouchableOpacity>
         </ScrollView>
 
         <View style={styles.bottomContainer}>
-          {_renderConsent()}
+          <WelcomeConsent
+            isConsentChecked={isConsentChecked}
+            onCheckPress={_onCheckPress}
+            onTermsPress={_onTermsPress}
+          />
           <MainButton
             onPress={_handleButtonPress}
             isDisable={!isConsentChecked}

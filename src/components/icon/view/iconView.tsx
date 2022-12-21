@@ -22,7 +22,7 @@ interface Props extends PropsWithChildren, IconProps {
   badgeTextStyle?: StyleProp<TextStyle>;
 }
 
-export default function IconView(props: Props) {
+const IconView: React.FC<Props> = props => {
   const {badgeCount, iconType, name, androidName, children, badgeStyle, badgeTextStyle} = props;
 
   const badgeCountString = useMemo(
@@ -40,31 +40,23 @@ export default function IconView(props: Props) {
   };
 
   const renderIcon = useMemo(() => {
-    const iconName = iconType !== 'MaterialIcons' ? getIconName(name) : name;
     switch (iconType) {
       case 'Feather':
-        return <Feather {...props} name={iconName} />;
+        return <Feather {...props} />;
       case 'FontAwesome':
-        return <FontAwesome {...props} name={iconName} />;
+        return <FontAwesome {...props} />;
       case 'FontAwesome5':
-        return <FontAwesome5 {...props} name={iconName} />;
+        return <FontAwesome5 {...props} />;
       case 'SimpleLineIcons':
-        return (
-          <SimpleLineIcons {...props} name={iconName}>
-            {children}
-          </SimpleLineIcons>
-        );
+        return <SimpleLineIcons {...props}>{children}</SimpleLineIcons>;
       case 'AntDesign':
-        return (
-          <AntDesign {...props} name={iconName}>
-            {children}
-          </AntDesign>
-        );
+        return <AntDesign {...props}>{children}</AntDesign>;
       case 'MaterialIcons':
         return <MaterialIcons {...props}>{children}</MaterialIcons>;
       case 'MaterialCommunityIcons':
         return <MaterialCommunityIcons {...props}>{children}</MaterialCommunityIcons>;
       default:
+        const iconName = getIconName(name);
         return <Ionicons {...props} name={iconName} />;
     }
   }, [iconType, name, androidName, children, badgeStyle, badgeTextStyle]);
@@ -85,5 +77,7 @@ export default function IconView(props: Props) {
   }
 
   return getIconWithBadge(badgeCountString);
-}
+};
+
+export default IconView;
 /* eslint-enable react/jsx-props-no-spreading */

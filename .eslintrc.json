@@ -71,14 +71,20 @@
         "ts": "never",
         "tsx": "never"
       }
-   ],
-   "prefer-destructuring": ["warn", {"object": true, "array": false}],
-   "react/jsx-props-no-spreading": "warn",
-   "react/no-unused-state": "warn",
-   "react/no-unused-prop-types": "warn",
-   "@typescript-eslint/no-unused-vars": "warn",
-   "react/no-unused-class-component-methods": "warn",
-   "no-useless-catch": "warn",
-   "no-empty-pattern": "off"
+    ],
+    "prefer-destructuring": ["warn", {"object": true, "array": false}],
+    "react/jsx-props-no-spreading": "warn",
+    "react/no-unused-state": "warn",
+    "react/no-unused-prop-types": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "react/no-unused-class-component-methods": "warn",
+    "no-useless-catch": "warn",
+    "no-empty-pattern": "off",
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": ["arrow-function", "function-declaration"]
+      }
+    ]
   }
 }

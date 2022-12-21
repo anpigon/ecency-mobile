@@ -11,11 +11,7 @@ interface Props {
   style?: StyleProp<ViewStyle>;
 }
 
-CheckBoxView.defaultProps = {
-  locked: false,
-};
-
-function CheckBoxView({clicked, value, isChecked, style, locked}: Props) {
+const CheckBoxView: React.FC<Props> = ({clicked, value, isChecked, style, locked}) => {
   const [isCheck, setIsCheck] = useState(false);
 
   useEffect(() => {
@@ -45,6 +41,10 @@ function CheckBoxView({clicked, value, isChecked, style, locked}: Props) {
       </View>
     </TouchableOpacity>
   );
-}
+};
+
+CheckBoxView.defaultProps = {
+  locked: false,
+};
 
 export default CheckBoxView;
