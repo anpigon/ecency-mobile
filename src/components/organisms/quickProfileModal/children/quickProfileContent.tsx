@@ -14,7 +14,7 @@ import {ActionPanel} from './actionPanel';
 import {getTimeFromNowNative} from '../../../../utils/time';
 import {useAppDispatch, useAppSelector} from '../../../../hooks';
 import {toastNotification} from '../../../../redux/actions/uiAction';
-import bugsnapInstance from '../../../../config/bugsnag';
+import bugsnagInstance from '../../../../config/bugsnag';
 import RootNavigation from '../../../../navigation/rootNavigation';
 
 interface QuickProfileContentProps {
@@ -123,7 +123,7 @@ export function QuickProfileContent({username, onClose}: QuickProfileContentProp
     } catch (err) {
       setIsLoading(false);
       console.warn('Failed to follow user', err);
-      bugsnapInstance.notify(err);
+      bugsnagInstance.notify(err);
       Alert.alert(intl.formatMessage({id: 'alert.fail'}), err.message);
     }
   };

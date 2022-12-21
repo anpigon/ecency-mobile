@@ -10,6 +10,6 @@ const AUTH_TYPE = {
   ACTIVE_KEY,
   MEMO_KEY,
   POSTING_KEY,
-};
+} as const;
 
 export default AUTH_TYPE;

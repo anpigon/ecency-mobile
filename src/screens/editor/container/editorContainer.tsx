@@ -45,7 +45,7 @@ import {
   updateDraftCache,
 } from '../../../redux/actions/cacheActions';
 import QUERIES from '../../../providers/queries/queryKeys';
-import bugsnapInstance from '../../../config/bugsnag';
+import bugsnagInstance from '../../../config/bugsnag';
 import {useUserActivityMutation} from '../../../providers/queries/pointQueries';
 import {PointActivityIds} from '../../../providers/ecency/ecency.types';
 
@@ -405,7 +405,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       this._saveCurrentDraft(this._updatedDraftFields);
     } catch (err) {
       console.warn('local draft safe failed, skipping for remote only', err);
-      bugsnapInstance.notify(err);
+      bugsnagInstance.notify(err);
     }
 
     if (isReply) {

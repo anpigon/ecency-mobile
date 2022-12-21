@@ -2,7 +2,7 @@ import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} fro
 import {useIntl} from 'react-intl';
 import {Alert} from 'react-native';
 import ImagePicker, {Image} from 'react-native-image-crop-picker';
-import bugsnapInstance from '../../../config/bugsnag';
+import bugsnagInstance from '../../../config/bugsnag';
 import {getImages} from '../../../providers/ecency/ecency';
 import UploadsGalleryContent from '../children/uploadsGalleryContent';
 
@@ -183,7 +183,7 @@ export const UploadsGalleryModal = forwardRef(
       } catch (error) {
         console.log('Failed to upload image', error);
 
-        bugsnapInstance.notify(error);
+        bugsnagInstance.notify(error);
       }
     };
 

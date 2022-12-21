@@ -1,5 +1,5 @@
 import Bugsnag from '@bugsnag/react-native';
 
-const bugsnapInstance = Bugsnag.start();
+const bugsnagInstance = Bugsnag.start();
 
-export default bugsnapInstance;
+export default bugsnagInstance;

@@ -10,7 +10,7 @@ export const fetchLatestAppVersion = async () => {
     }
 
     return data.tag_name;
-  } catch (error) {
+  } catch (error: any) {
     bugsnagInstance.notify(error);
     throw error;
   }

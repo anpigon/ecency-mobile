@@ -127,3 +127,11 @@ declare module '@esteemapp/react-native-slider' {
 
   export default Sider;
 }
+
+declare module 'react-native-crypto' {
+  export function createHash(arg: string): {
+    update(message: Buffer | string): {
+      digest(): Buffer;
+    };
+  };
+}

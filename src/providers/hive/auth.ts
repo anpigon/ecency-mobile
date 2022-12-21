@@ -2,7 +2,7 @@ import * as dsteem from '@upvu/dsteem';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
-import {getDigitPinCode, getMutes, getUser} from './dhive';
+import {getDigitPinCode, getUser} from './dhive';
 // import {getPointsSummary} from '../ecency/ePoint';
 import {
   setUserData,
@@ -17,16 +17,27 @@ import {
 } from '../../realm/realm';
 import {encryptKey, decryptKey} from '../../utils/crypto';
 import hsApi from './hivesignerAPI';
-import {getSCAccessToken, getUnreadNotificationCount} from '../ecency/ecency';
+import {getSCAccessToken} from '../ecency/ecency';
 
 // Constants
 import AUTH_TYPE from '../../constants/authType';
 import {makeHsCode} from '../../utils/hive-signer-helper';
 
+export interface UserData {
+  accessToken: string;
+  avatar?: string;
+  username: string;
+  authType: typeof AUTH_TYPE[keyof typeof AUTH_TYPE];
+  activeKey: string;
+  masterKey: string;
+  memoKey: string;
+  postingKey: string;
+}
+
 export const login = async (username: string, password: string) => {
   let loginFlag = false;
   let avatar = '';
-  let authType = '';
+  let authType = '' as UserData['authType'];
   // Get user account data from HIVE Blockchain
   const account = await getUser(username);
   const isUserLoggedIn = await isLoggedInUser(username);
@@ -58,7 +69,7 @@ export const login = async (username: string, password: string) => {
       if (privateKeys.isMasterKey) {
         authType = AUTH_TYPE.MASTER_KEY;
       } else {
-        authType = key;
+        authType = key as typeof authType;
       }
     }
   });
@@ -88,7 +99,7 @@ export const login = async (username: string, password: string) => {
     avatar = jsonMetadata?.profile?.profile_image || '';
   }
   if (loginFlag) {
-    const userData = {
+    const userData: UserData = {
       username,
       avatar,
       authType,
@@ -138,10 +149,10 @@ export const loginWithSC2 = async (code: string) => {
   const account = await getUser(scAccount.account.name);
   let avatar = '';
 
-  // eslint-disable-next-line
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     try {
-      const accessToken = scTokens?.access_token || '';
+      // const accessToken = scTokens?.access_token || '';
       // account!.unread_activity_count = await getUnreadNotificationCount(accessToken);
       // account!.pointsSummary = await getPointsSummary(account.username);
       // account!.mutes = await getMutes(account.username);
@@ -158,8 +169,8 @@ export const loginWithSC2 = async (code: string) => {
     } catch (error) {
       jsonMetadata = '';
     }
-    const userData = {
-      username: account?.name,
+    const userData: UserData = {
+      username: account?.name || '',
       avatar,
       authType: AUTH_TYPE.STEEM_CONNECT,
       masterKey: '',
@@ -168,20 +179,21 @@ export const loginWithSC2 = async (code: string) => {
       memoKey: '',
       accessToken: '',
     };
-    const isUserLoggedIn = await isLoggedInUser(account?.name);
+    const isUserLoggedIn = account?.name && (await isLoggedInUser(account?.name));
 
     const resData = {
       pinCode: Config.DEFAULT_PIN,
-      accessToken: get(scTokens, 'access_token', ''),
+      accessToken: scTokens?.access_token || '',
     };
     const updatedUserData = await getUpdatedUserData(userData, resData);
 
-    // account!.local = updatedUserData;
-    // account!.local.avatar = avatar;
+    if (account && account.local) {
+      account.local = updatedUserData;
+      account.local.avatar = avatar;
+    }
 
     if (isUserLoggedIn) {
       reject(new Error('auth.already_logged'));
-      return;
     }
 
     /* setUserData(account.local)
@@ -387,20 +399,9 @@ const getPrivateKeys = (username: string, password: string) => {
   }
 };
 
-export interface UserData {
-  accessToken: string;
-  avatar?: string;
-  username: string;
-  authType: keyof typeof AUTH_TYPE;
-  activeKey: string;
-  masterKey: string;
-  memoKey: string;
-  postingKey: string;
-}
-
 export const getUpdatedUserData = (
   userData: UserData,
-  data: {password: string; pinCode: string, accessToken?: string},
+  data: {password: string; pinCode?: string; accessToken?: string},
 ) => {
   const privateKeys = getPrivateKeys(userData?.username || '', data?.password);
   const pinCode = data?.pinCode || '';

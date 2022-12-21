@@ -19,8 +19,8 @@ export const parsePosts = (posts: any[], currentUserName: string) => {
 
 export const parsePost = (
   post: any,
-  currentUserName: string,
-  isPromoted: boolean,
+  currentUserName: string | null = null,
+  isPromoted: boolean = false,
   isList = false,
 ) => {
   if (!post) {

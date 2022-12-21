@@ -35,22 +35,15 @@ export const parseReputation = (input: string | number): number => {
   return Math.floor(reputationLevel);
 };
 
-export const getName = about => {
-  if (about.profile && about.profile.name) {
-    return about.profile.name;
-  }
-  return null;
+export const getName = (about: any): string => {
+  return about?.profile?.name || '';
 };
 
-export const getAvatar = about => {
-  if (about.profile && about.profile.profile_image) {
-    return about.profile.profile_image;
-  }
-  return null;
+export const getAvatar = (about: any): string => {
+  return about?.profile?.profile_image || '';
 };
 
-export const validateUsername = username => {
+export const validateUsername = (username: string) => {
   const usernameRegex = /^[a-zA-Z0-9]+$/g;
-
   return usernameRegex.test(username);
 };

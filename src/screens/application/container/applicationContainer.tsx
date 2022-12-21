@@ -85,7 +85,7 @@ import {purgeExpiredCache} from '../../../redux/actions/cacheActions';
 import {fetchSubscribedCommunities} from '../../../redux/actions/communitiesAction';
 import MigrationHelpers from '../../../utils/migrationHelpers';
 import {deepLinkParser} from '../../../utils/deepLinkParser';
-import bugsnapInstance from '../../../config/bugsnag';
+import bugsnagInstance from '../../../config/bugsnag';
 
 let firebaseOnMessageListener: any = null;
 let appStateSub: NativeEventSubscription | null = null;
@@ -575,7 +575,7 @@ class ApplicationContainer extends Component {
         _enabledNotificationForAccount(account);
       } else {
         console.warn('access token not present, reporting to bugsnag');
-        bugsnapInstance.notify(
+        bugsnagInstance.notify(
           new Error(
             `Reporting missing access token in other accounts section: account:${
               account.name

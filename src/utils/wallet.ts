@@ -203,67 +203,80 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
   return result;
 };
 
-export const groomingWalletData = async (user, globalProps, userCurrency) => {
-  const walletData = {};
+export const groomingWalletData = async (user: any, globalProps: any, userCurrency: any) => {
+  const results = {
+    rewardHiveBalance: 0,
+    rewardHbdBalance: 0,
+    rewardVestingHive: 0,
+    hasUnclaimedRewards: false,
+    balance: 0,
+    vestingShares: 0,
+    vestingSharesDelegated: 0,
+    vestingSharesReceived: 0,
+    vestingSharesTotal: 0,
+    hbdBalance: 0,
+    savingBalance: 0,
+    savingBalanceHbd: 0,
+    hivePerMVests: 0,
+    estimatedValue: 0,
+    estimatedHiveValue: 0,
+    estimatedHbdValue: 0,
+    estimatedHpValue: 0,
+    showPowerDown: false,
+    nextVestingWithdrawal: 0,
+    transactions: [] as any[],
+  };
 
   if (!user) {
-    return walletData;
+    return results;
   }
 
-  const userdata = await getAccount(get(user, 'name'));
+  const account = await getAccount(user?.name);
 
-  // const { accounts } = state;
-  // if (!accounts) {
-  //  return walletData;
-  // }
-
-  walletData.rewardHiveBalance = parseToken(userdata.reward_hive_balance);
-  walletData.rewardHbdBalance = parseToken(userdata.reward_hbd_balance);
-  walletData.rewardVestingHive = parseToken(userdata.reward_vesting_hive);
-  walletData.hasUnclaimedRewards =
-    walletData.rewardHiveBalance > 0 ||
-    walletData.rewardHbdBalance > 0 ||
-    walletData.rewardVestingHive > 0;
-  walletData.balance = parseToken(userdata.balance);
-  walletData.vestingShares = parseToken(userdata.vesting_shares);
-  walletData.vestingSharesDelegated = parseToken(userdata.delegated_vesting_shares);
-  walletData.vestingSharesReceived = parseToken(userdata.received_vesting_shares);
-  walletData.vestingSharesTotal =
-    walletData.vestingShares - walletData.vestingSharesDelegated + walletData.vestingSharesReceived;
-  walletData.hbdBalance = parseToken(userdata.hbd_balance);
-  walletData.savingBalance = parseToken(userdata.savings_balance);
-  walletData.savingBalanceHbd = parseToken(userdata.savings_hbd_balance);
+  results.rewardHiveBalance = parseToken(account.reward_steem_balance);
+  results.rewardHbdBalance = parseToken(account.reward_sbd_balance);
+  results.rewardVestingHive = parseToken(account.reward_vesting_steem);
+  results.hasUnclaimedRewards =
+    results.rewardHiveBalance > 0 || results.rewardHbdBalance > 0 || results.rewardVestingHive > 0;
+  results.balance = parseToken(account.balance);
+  results.vestingShares = parseToken(account.vesting_shares);
+  results.vestingSharesDelegated = parseToken(account.delegated_vesting_shares);
+  results.vestingSharesReceived = parseToken(account.received_vesting_shares);
+  results.vestingSharesTotal =
+    results.vestingShares - results.vestingSharesDelegated + results.vestingSharesReceived;
+  results.hbdBalance = parseToken(account.sbd_balance);
+  results.savingBalance = parseToken(account.savings_balance);
+  results.savingBalanceHbd = parseToken(account.savings_sbd_balance);
 
   // TOOD: use base and quote from account.globalProps redux
   const feedHistory = await getFeedHistory();
   const base = parseToken(feedHistory.current_median_history.base);
   const quote = parseToken(feedHistory.current_median_history.quote);
 
-  walletData.hivePerMVests = globalProps.hivePerMVests;
+  results.hivePerMVests = globalProps.hivePerMVests;
 
   const pricePerHive = base / quote;
 
   const totalHive =
-    vestsToHp(walletData.vestingShares, walletData.hivePerMVests) +
-    walletData.balance +
-    walletData.savingBalance;
+    vestsToHp(results.vestingShares, results.hivePerMVests) +
+    results.balance +
+    results.savingBalance;
 
-  const totalHbd = walletData.hbdBalance + walletData.savingBalanceHbd;
+  const totalHbd = results.hbdBalance + results.savingBalanceHbd;
 
-  walletData.estimatedValue = totalHive * pricePerHive + totalHbd;
+  results.estimatedValue = totalHive * pricePerHive + totalHbd;
 
   // TODO: cache data in redux or fetch once on wallet startup
   const ppHbd = await getCurrencyTokenRate(userCurrency, 'hbd');
   const ppHive = await getCurrencyTokenRate(userCurrency, 'hive');
 
-  walletData.estimatedHiveValue = (walletData.balance + walletData.savingBalance) * ppHive;
-  walletData.estimatedHbdValue = totalHbd * ppHbd;
-  walletData.estimatedHpValue =
-    vestsToHp(walletData.vestingShares, walletData.hivePerMVests) * ppHive;
+  results.estimatedHiveValue = (results.balance + results.savingBalance) * ppHive;
+  results.estimatedHbdValue = totalHbd * ppHbd;
+  results.estimatedHpValue = vestsToHp(results.vestingShares, results.hivePerMVests) * ppHive;
 
-  walletData.showPowerDown = userdata.next_vesting_withdrawal !== '1969-12-31T23:59:59';
-  const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());
-  walletData.nextVestingWithdrawal = Math.round(timeDiff / (1000 * 3600));
+  results.showPowerDown = account.next_vesting_withdrawal !== '1969-12-31T23:59:59';
+  const timeDiff = Math.abs(parseDate(account.next_vesting_withdrawal).getTime() - Date.now());
+  results.nextVestingWithdrawal = Math.round(timeDiff / (1000 * 3600));
 
   // TOOD: transfer history can be separated from here
   const op = utils.operationOrders;
@@ -284,14 +297,12 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
     op.return_vesting_delegation, // HP
   ];
 
-  const history = await getAccountHistory(get(user, 'name'), ops);
-
-  const transfers = history.filter(tx => transferTypes.includes(get(tx[1], 'op[0]', false)));
-
+  const history = await getAccountHistory(user?.name, ops);
+  const transfers = history.filter(tx => transferTypes.includes(tx[1]?.op?.[0] || false));
   transfers.sort(compare);
 
-  walletData.transactions = transfers;
-  return walletData;
+  results.transactions = transfers;
+  return results;
 };
 
 const fetchPendingRequests = async (
