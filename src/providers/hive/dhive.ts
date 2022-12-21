@@ -1147,7 +1147,7 @@ export const markHiveNotifications = async (currentAccount, pinHash) => {
   throw new Error('Check private key permission! Required private active key or above.');
 };
 
-export const lookupAccounts = async username => {
+export const lookupAccounts = async (username: string) => {
   try {
     const users = await client.database.call('lookup_accounts', [username, 20]);
     return users;
@@ -1157,7 +1157,7 @@ export const lookupAccounts = async username => {
   }
 };
 
-export const getTrendingTags = async (tag, number = 20) => {
+export const getTrendingTags = async (tag: string, number = 20) => {
   try {
     const tags = await client.database.call('get_trending_tags', [tag, number]);
     return tags;

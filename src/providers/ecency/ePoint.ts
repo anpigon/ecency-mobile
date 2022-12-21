@@ -72,7 +72,7 @@ export const claimPoints = async () => {
   } */
 };
 
-export const gameStatusCheck = (username, type) => {
+export const gameStatusCheck = (username: string, type: string) => {
   /* return new Promise((resolve, reject) => {
     ePointApi
       .get(`/game/${username}`, {
@@ -87,10 +87,10 @@ export const gameStatusCheck = (username, type) => {
         reject(error);
       });
   }); */
-  return Promise.resolve();
+  return Promise.resolve({} as any);
 };
 
-export const gameClaim = (username, type, key) => {
+export const gameClaim = (username: string, type: string, key: string) => {
   /* return new Promise((resolve, reject) => {
     ePointApi
       .post(`/game/${username}?type=${type}`, {
@@ -103,5 +103,5 @@ export const gameClaim = (username, type, key) => {
         reject(error);
       });
   }); */
-  return Promise.resolve();
+  return Promise.resolve({} as any);
 };

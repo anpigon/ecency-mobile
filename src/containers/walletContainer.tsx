@@ -1,12 +1,11 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import {connect, useDispatch} from 'react-redux';
 import {useIntl} from 'react-intl';
 
-import get from 'lodash/get';
 import {toastNotification} from '../redux/actions/uiAction';
 
 // dhive
-import {getAccount, claimRewardBalance, getBtcAddress} from '../providers/hive/dhive';
+import {getAccount, claimRewardBalance} from '../providers/hive/dhive';
 
 // Utils
 import {groomingWalletData, groomingTransactionData, transferTypes} from '../utils/wallet';
@@ -18,6 +17,7 @@ import {getEstimatedAmount} from '../utils/vote';
 // Constants
 import ROUTES from '../constants/routeNames';
 import {COIN_IDS} from '../constants/defaultCoins';
+import {RootState} from '../redux/store/store';
 
 const HIVE_DROPDOWN = [
   'purchase_estm',
@@ -31,24 +31,36 @@ const SAVING_HIVE_DROPDOWN = ['withdraw_hive'];
 const SAVING_HBD_DROPDOWN = ['withdraw_hbd'];
 const HIVE_POWER_DROPDOWN = ['delegate', 'power_down'];
 
+interface Props {
+  children: any;
+  currentAccount: any;
+  coinSymbol: any;
+  globalProps: any;
+  pinCode: any;
+  selectedUser: any;
+  setEstimatedWalletValue: any;
+  hivePerMVests: any;
+  isPinCodeOpen: boolean;
+  currency: any;
+}
+
 const WalletContainer = ({
   children,
   currentAccount,
   coinSymbol,
   globalProps,
-  handleOnScroll,
   pinCode,
   selectedUser,
   setEstimatedWalletValue,
   hivePerMVests,
   isPinCodeOpen,
   currency,
-}) => {
+}: Props) => {
   const [isClaiming, setIsClaiming] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [walletData, setWalletData] = useState(null);
-  const [userActivities, setUserActivities] = useState([]);
+  const [walletData, setWalletData] = useState<any>(null);
+  const [userActivities, setUserActivities] = useState<any[]>([]);
   const [hbdBalance, setHbdBalance] = useState(0);
   const [tokenBalance, setTokenBalance] = useState(0);
   const [tokenAddress, setTokenAddress] = useState('');
@@ -64,170 +76,148 @@ const WalletContainer = ({
   const [unclaimedBalance, setUnclaimedBalance] = useState('');
   const [estimatedAmount, setEstimatedAmount] = useState(0);
   const [delegationsAmount, setDelegationsAmount] = useState(0);
-  const [transferHistory, setTransferHistory] = useState([]);
+  const [transferHistory, setTransferHistory] = useState<any[]>([]);
   const intl = useIntl();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setEstimatedAmount(getEstimatedAmount(currentAccount, globalProps));
+    setEstimatedAmount(parseFloat(getEstimatedAmount(currentAccount, globalProps)));
   }, [currentAccount, globalProps]);
 
   useEffect(() => {
     _getWalletData(selectedUser);
-  }, [_getWalletData, selectedUser]);
+  }, [selectedUser]);
 
   useEffect(() => {
-    const _transferHistory = userActivities.filter(item =>
-      transferTypes.includes(get(item, 'textKey')),
-    );
+    const _transferHistory = userActivities.filter(item => transferTypes.includes(item?.textKey));
 
     setTransferHistory(_transferHistory);
-    setHbdBalance(Math.round(get(walletData, 'hbdBalance', 0) * 1000) / 1000);
-    setTokenBalance(Math.round(get(walletData, 'tokenBalance', 0) * 1000) / 1000);
-    setTokenAddress(get(walletData, 'tokenAddress', ''));
-    setHiveBalance(Math.round(get(walletData, 'balance', 0) * 1000) / 1000);
-    setHiveSavingBalance(Math.round(get(walletData, 'savingBalance', 0) * 1000) / 1000);
-    setHbdSavingBalance(Math.round(get(walletData, 'savingBalanceHbd', 0) * 1000) / 1000);
+    setHbdBalance(Math.round((walletData?.hbdBalance || 0) * 1000) / 1000);
+    setTokenBalance(Math.round((walletData?.tokenBalance || 0) * 1000) / 1000);
+    setTokenAddress(walletData?.tokenAddress || '');
+    setHiveBalance(Math.round((walletData?.balance || 0) * 1000) / 1000);
+    setHiveSavingBalance(Math.round((walletData?.savingBalance || 0) * 1000) / 1000);
+    setHbdSavingBalance(Math.round((walletData?.savingBalanceHbd || 0) * 1000) / 1000);
     setHpBalance(
-      Math.round(
-        vestsToHp(get(walletData, 'vestingShares', 0), get(walletData, 'hivePerMVests', 0)) * 1000,
-      ) / 1000,
+      Math.round(vestsToHp(walletData?.vestingShares || 0, walletData?.hivePerMVests || 0) * 1000) /
+        1000,
     );
-    setEstimatedValue(get(walletData, 'estimatedValue', 0));
-    setEstimatedHiveValue(get(walletData, 'estimatedHiveValue', 0));
-    setEstimatedHbdValue(get(walletData, 'estimatedHbdValue', 0));
-    setEstimatedTokenValue(get(walletData, 'estimatedTokenValue', 0));
-    setEstimatedHpValue(get(walletData, 'estimatedHpValue', 0));
+    setEstimatedValue(walletData?.estimatedValue || 0);
+    setEstimatedHiveValue(walletData?.estimatedHiveValue || 0);
+    setEstimatedHbdValue(walletData?.estimatedHbdValue || 0);
+    setEstimatedTokenValue(walletData?.estimatedTokenValue || 0);
+    setEstimatedHpValue(walletData?.estimatedHpValue || 0);
     setDelegationsAmount(
-      vestsToHp(
-        get(walletData, 'vestingSharesReceived', 0) - get(walletData, 'vestingSharesDelegated', 0),
-        get(walletData, 'hivePerMVests', 0),
-      ).toFixed(3),
+      parseFloat(
+        vestsToHp(
+          (walletData?.vestingSharesReceived || 0) - (walletData?.vestingSharesDelegated || 0),
+          walletData?.hivePerMVests || 0,
+        ).toFixed(3),
+      ),
     );
 
     if (
-      get(walletData, 'rewardHiveBalance', 0) ||
-      get(walletData, 'rewardHbdBalance', 0) ||
-      get(walletData, 'rewardVestingHive', 0)
+      walletData?.rewardHiveBalance ||
+      walletData?.rewardHbdBalance ||
+      walletData?.rewardVestingHive
     ) {
-      const getBalance = (val, cur) => (val ? Math.round(val * 1000) / 1000 + cur : '');
-
-      setUnclaimedBalance(
-        `${getBalance(get(walletData, 'rewardHiveBalance', 0), ' HIVE')} ${getBalance(
-          get(walletData, 'rewardHbdBalance', 0),
-          ' HBD',
-        )} ${getBalance(get(walletData, 'rewardVestingHive', 0), ' HP')}`,
-      );
+      updateUnclaimedBalance(walletData);
     }
   }, [userActivities, walletData]);
+
+  const getBalance = (val: number, cur: string) => (val ? Math.round(val * 1000) / 1000 + cur : '');
+  const updateUnclaimedBalance = (_walletData: any) => {
+    setUnclaimedBalance(
+      `${getBalance(_walletData?.rewardHiveBalance || 0, ' STEEM')} ${getBalance(
+        _walletData?.rewardHbdBalance || 0,
+        ' SBD',
+      )} ${getBalance(_walletData?.rewardVestingHive || 0, ' SP')}`,
+    );
+  };
 
   // Components functions
 
   const _getWalletData = useCallback(
-    async _selectedUser => {
+    async (_selectedUser: any) => {
+      console.log('call _getWalletData');
+      console.trace();
       const _walletData = await groomingWalletData(_selectedUser, globalProps, currency);
 
       setWalletData(_walletData);
       setIsLoading(false);
       setUserActivities(
-        get(_walletData, 'transactions', []).map(item =>
-          groomingTransactionData(item, hivePerMVests),
-        ),
+        _walletData?.transactions?.map(item => groomingTransactionData(item, hivePerMVests)),
       );
       setEstimatedWalletValue && setEstimatedWalletValue(_walletData.estimatedValue);
-      const getBalance = (val, cur) => (val ? Math.round(val * 1000) / 1000 + cur : '');
-      setUnclaimedBalance(
-        `${getBalance(get(_walletData, 'rewardHiveBalance', 0), ' HIVE')} ${getBalance(
-          get(_walletData, 'rewardHbdBalance', 0),
-          ' HBD',
-        )} ${getBalance(get(_walletData, 'rewardVestingHive', 0), ' HP')}`,
-      );
+      updateUnclaimedBalance(_walletData);
     },
     [globalProps, setEstimatedWalletValue, hivePerMVests],
   );
 
-  const _isHasUnclaimedRewards = account => {
+  const _isHasUnclaimedRewards = (account: any) => {
     return (
-      parseToken(get(account, 'reward_hive_balance')) > 0 ||
-      parseToken(get(account, 'reward_hbd_balance')) > 0 ||
-      parseToken(get(account, 'reward_vesting_hive')) > 0
+      parseToken(account?.reward_hive_balance) > 0 ||
+      parseToken(account?.reward_hbd_balance) > 0 ||
+      parseToken(account?.reward_vesting_hive) > 0
     );
   };
 
   const _claimRewardBalance = async () => {
-    let isHasUnclaimedRewards;
+    let isHasUnclaimedRewards = false;
 
     if (isClaiming) {
       return;
     }
 
-    await setIsClaiming(true);
+    setIsClaiming(true);
 
     getAccount(currentAccount.name)
       .then(account => {
         isHasUnclaimedRewards = _isHasUnclaimedRewards(account);
         if (isHasUnclaimedRewards) {
-          const {
-            reward_hive_balance: hiveBal,
-            reward_hbd_balance: hbdBal,
-            reward_vesting_balance: vestingBal,
-          } = account;
-          return claimRewardBalance(currentAccount, pinCode, hiveBal, hbdBal, vestingBal);
+          return claimRewardBalance(
+            currentAccount,
+            pinCode,
+            account.reward_steem_balance,
+            account.reward_sbd_balance,
+            account.reward_vesting_balance,
+          );
         }
         setIsClaiming(false);
       })
       .then(() => getAccount(currentAccount.name))
-      .then(account => {
+      .then(() => {
         _getWalletData(selectedUser);
         if (isHasUnclaimedRewards) {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'alert.claim_reward_balance_ok',
-              }),
-            ),
-          );
+          dispatch(toastNotification(intl.formatMessage({id: 'alert.claim_reward_balance_ok'})));
         }
       })
-      .then(account => {
+      .then(() => {
         _getWalletData(selectedUser);
         setIsClaiming(false);
       })
       .catch(() => {
         setIsClaiming(false);
-
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'alert.fail',
-            }),
-          ),
-        );
+        dispatch(toastNotification(intl.formatMessage({id: 'alert.fail'})));
       });
   };
 
   const _handleOnWalletRefresh = () => {
     if (refreshing) return;
     setRefreshing(true);
-
     getAccount(selectedUser.name)
-      .then(account => {
+      .then(() => {
         _getWalletData(selectedUser);
-        setRefreshing(false);
       })
       .catch(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'alert.fail',
-            }),
-          ),
-        );
+        dispatch(toastNotification(intl.formatMessage({id: 'alert.fail'})));
+      })
+      .finally(() => {
         setRefreshing(false);
       });
   };
 
-  const _navigate = async (transferType, fundType) => {
+  const _navigate = async (transferType: any, fundType: any) => {
     let balance;
 
     if (
@@ -267,7 +257,7 @@ const WalletContainer = ({
     }
   };
 
-  const getTokenAddress = tokenType => {
+  const getTokenAddress = (tokenType: string) => {
     if (tokenType === 'BTC') {
       // console.log(getBtcAddress(pinCode, currentAccount));
     }
@@ -301,7 +291,7 @@ const WalletContainer = ({
       handleOnWalletRefresh: _handleOnWalletRefresh,
       isClaiming,
       refreshing,
-      selectedUsername: get(selectedUser, 'name', ''),
+      selectedUsername: selectedUser?.name || '',
       isLoading,
       walletData,
       hivePerMVests,
@@ -338,7 +328,7 @@ const WalletContainer = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState) => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
   globalProps: state.account.globalProps,

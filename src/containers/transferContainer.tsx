@@ -1,7 +1,8 @@
+/* eslint-disable no-bitwise */
 import {Component} from 'react';
 import {connect} from 'react-redux';
 import {injectIntl} from 'react-intl';
-import get from 'lodash/get';
+import {Alert} from 'react-native';
 
 // Services and Actions
 import {
@@ -25,6 +26,7 @@ import {getPointsSummary} from '../providers/ecency/ePoint';
 import {countDecimals} from '../utils/number';
 import bugsnagInstance from '../config/bugsnag';
 import {fetchAndSetCoinsData} from '../redux/actions/walletActions';
+import {RootState} from '../redux/store/store';
 
 /*
  *            Props Name        Description                                     Value
@@ -32,12 +34,23 @@ import {fetchAndSetCoinsData} from '../redux/actions/walletActions';
  *
  */
 
-class TransferContainer extends Component {
-  constructor(props) {
+type Props = any;
+
+interface State {
+  fundType: string;
+  balance: number;
+  tokenAddress: string;
+  transferType: string;
+  referredUsername: string;
+  selectedAccount: any;
+}
+
+class TransferContainer extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       fundType: props.route.params?.fundType ?? '',
-      balance: props.route.params?.balance ?? '',
+      balance: props.route.params?.balance ?? 0,
       tokenAddress: props.route.params?.tokenAddress ?? '',
       transferType: props.route.params?.transferType ?? '',
       referredUsername: props.route.params?.referredUsername,
@@ -56,70 +69,68 @@ class TransferContainer extends Component {
 
   // Component Functions
 
-  _getUserPointsBalance = async username => {
-    await getPointsSummary(username)
-      .then(userPoints => {
-        const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
-        this.setState({balance});
-      })
-      .catch(err => {
-        if (err) {
-          alert(get(err, 'message') || err.toString());
-        }
-      });
+  _getUserPointsBalance = async (username: string) => {
+    try {
+      const userPoints = await getPointsSummary(username);
+      const balance = Math.round(Number(userPoints?.points) * 1000) / 1000;
+      this.setState({balance});
+    } catch (err: any) {
+      if (err) {
+        Alert.alert(err?.message || err.toString());
+      }
+    }
   };
 
-  fetchBalance = username => {
+  fetchBalance = async (username: string) => {
     const {fundType, transferType, tokenAddress} = this.state;
 
-    getAccount(username).then(async account => {
-      let balance;
+    const account = await getAccount(username);
+    let balance;
 
-      if (
-        (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
-        fundType === 'HIVE'
-      ) {
-        balance = account.balance.replace(fundType, '');
-      }
-      if (
-        (transferType === 'purchase_estm' ||
-          transferType === 'convert' ||
-          transferType === 'transfer_token') &&
-        fundType === 'HBD'
-      ) {
-        balance = account.hbd_balance.replace(fundType, '');
-      }
-      if (transferType === 'points' && fundType === 'ESTM') {
-        this._getUserPointsBalance(username);
-      }
-      if (transferType === 'transfer_to_savings' && fundType === 'HIVE') {
-        balance = account.balance.replace(fundType, '');
-      }
-      if (transferType === 'transfer_to_savings' && fundType === 'HBD') {
-        balance = account.hbd_balance.replace(fundType, '');
-      }
-      if (transferType === 'transfer_to_vesting' && fundType === 'HIVE') {
-        balance = account.balance.replace(fundType, '');
-      }
-      if (transferType === 'address_view' && fundType === 'BTC') {
-        // TODO implement transfer of custom tokens
-        console.log(tokenAddress);
-      }
+    if (
+      (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
+      fundType === 'STEEM'
+    ) {
+      balance = account.balance?.toString().replace(fundType, '');
+    }
+    if (
+      (transferType === 'purchase_estm' ||
+        transferType === 'convert' ||
+        transferType === 'transfer_token') &&
+      fundType === 'SBD'
+    ) {
+      balance = account.sbd_balance?.toString().replace(fundType, '');
+    }
+    if (transferType === 'points' && fundType === 'ESTM') {
+      this._getUserPointsBalance(username);
+    }
+    if (transferType === 'transfer_to_savings' && fundType === 'STEEM') {
+      balance = account.balance?.toString().replace(fundType, '');
+    }
+    if (transferType === 'transfer_to_savings' && fundType === 'SBD') {
+      balance = account.sbd_balance?.toString().replace(fundType, '');
+    }
+    if (transferType === 'transfer_to_vesting' && fundType === 'STEEM') {
+      balance = account.balance?.toString().replace(fundType, '');
+    }
+    if (transferType === 'address_view' && fundType === 'BTC') {
+      // TODO implement transfer of custom tokens
+      console.log(tokenAddress);
+    }
 
-      const local = await getUserDataWithUsername(username);
+    const local = await getUserDataWithUsername(username);
 
-      if (balance) {
-        this.setState({balance: Number(balance)});
-      }
+    if (balance) {
+      this.setState({balance: Number(balance)});
+    }
 
-      this.setState({
-        selectedAccount: {...account, local: local[0]},
-      });
+    this.setState({
+      selectedAccount: {...account, local: local[0]},
     });
   };
 
-  // eslint-disable-next-line
-  _getAccountsWithUsername = async (username) => {
+  // eslint-disable-next-line class-methods-use-this
+  _getAccountsWithUsername = async (username: string) => {
     const validUsers = await lookupAccounts(username);
     return validUsers;
   };
@@ -131,7 +142,7 @@ class TransferContainer extends Component {
     }, 3000);
   };
 
-  _transferToAccount = async (from, destination, amount, memo) => {
+  _transferToAccount = async (from: string, destination: string, amount: number, memo: string) => {
     const {pinCode, navigation, dispatch, intl, route} = this.props;
     let {currentAccount} = this.props;
     const {selectedAccount} = this.state;
@@ -140,7 +151,7 @@ class TransferContainer extends Component {
     const fundType = route.params?.fundType ?? '';
     let func;
 
-    const data = {
+    const data: any = {
       from,
       destination,
       amount,
@@ -198,7 +209,7 @@ class TransferContainer extends Component {
       currentAccount.local = realmData[0];
     }
 
-    return func(currentAccount, pinCode, data)
+    return func?.(currentAccount, pinCode, data)
       .then(() => {
         dispatch(toastNotification(intl.formatMessage({id: 'alert.successful'})));
         this._delayedRefreshCoinsData();
@@ -211,19 +222,23 @@ class TransferContainer extends Component {
       });
   };
 
-  _setWithdrawVestingRoute = (from, to, percentage, autoVest) => {
+  _setWithdrawVestingRoute = async (
+    from: string,
+    to: string,
+    percentage: string,
+    autoVest: string,
+  ) => {
     const {currentAccount, pinCode} = this.props;
-
-    const data = {
-      from,
-      to,
-      percentage,
-      autoVest,
-    };
-
-    setWithdrawVestingRoute(currentAccount, pinCode, data).catch(err => {
-      alert(err.message || err.toString());
-    });
+    try {
+      await setWithdrawVestingRoute(currentAccount, pinCode, {
+        from,
+        to,
+        percentage,
+        autoVest,
+      });
+    } catch (err: any) {
+      Alert.alert(err.message || err.toString());
+    }
   };
 
   _handleOnModalClose = () => {
@@ -256,15 +271,15 @@ class TransferContainer extends Component {
         getAccountsWithUsername: this._getAccountsWithUsername,
         transferToAccount: this._transferToAccount,
         handleOnModalClose: this._handleOnModalClose,
-        accountType: get(selectedAccount || currentAccount, 'local.authType'),
-        currentAccountName: get(currentAccount, 'name'),
+        accountType: selectedAccount?.local?.authType || currentAccount?.local?.authType,
+        currentAccountName: currentAccount?.name,
         setWithdrawVestingRoute: this._setWithdrawVestingRoute,
       })
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState) => ({
   accounts: state.account.otherAccounts,
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
@@ -273,3 +288,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(injectIntl(TransferContainer));
+/* eslint-enable no-bitwise */

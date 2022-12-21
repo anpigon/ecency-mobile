@@ -1,8 +1,12 @@
-/* eslint-disable no-unused-vars */
-import React from 'react';
 import {connect} from 'react-redux';
+import {RootState} from '../redux/store/store';
 
-const ThemeContainer = ({children, isDarkTheme}) => {
+interface Props {
+  children: any;
+  isDarkTheme: boolean;
+}
+
+const ThemeContainer = ({children, isDarkTheme}: Props) => {
   return (
     children &&
     children({
@@ -11,9 +15,8 @@ const ThemeContainer = ({children, isDarkTheme}) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState) => ({
   isDarkTheme: state.application.isDarkTheme,
 });
 
 export default connect(mapStateToProps)(ThemeContainer);
-/* eslint-enable */
