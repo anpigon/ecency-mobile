@@ -2,23 +2,23 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {Text, Image, View, SafeAreaView, TouchableOpacity} from 'react-native';
-
 import EStyleSheet from 'react-native-extended-stylesheet';
+
 import {gestureHandlerRootHOC, ScrollView} from 'react-native-gesture-handler';
 import VersionNumber from 'react-native-version-number';
 
-import {CheckBox, Icon, MainButton} from '../../../components';
-import {ECENCY_TERMS_URL} from '../../../config/ecencyApi';
-import ROUTES from '../../../constants/routeNames';
-import {useAppDispatch, useAppSelector} from '../../../hooks';
-import {setLastAppVersion, setIsTermsAccepted} from '../../../redux/actions/applicationActions';
-import LaunchScreen from '../../launch';
+import {CheckBox, Icon, MainButton} from '../../components';
+import {ECENCY_TERMS_URL} from '../../config/ecencyApi';
+import ROUTES from '../../constants/routeNames';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {setLastAppVersion, setIsTermsAccepted} from '../../redux/actions/applicationActions';
+import LaunchScreen from '../launch';
 
-import styles from '../children/WelcomeScreenStyles';
+import styles from './WelcomeScreenStyles';
 
 function WelcomeScreen() {
   const intl = useIntl();
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const dispatch = useAppDispatch();
 
   const isTermsAccepted = useAppSelector(state => state.application.isTermsAccepted);
@@ -44,7 +44,7 @@ function WelcomeScreen() {
     navigation.navigate(ROUTES.STACK.MAIN);
   };
 
-  const _onCheckPress = (value, isCheck) => {
+  const _onCheckPress = (_value: any, isCheck: boolean) => {
     setIsConsentChecked(isCheck);
   };
 
@@ -59,7 +59,7 @@ function WelcomeScreen() {
     });
   };
 
-  const _renderInfo = (iconName, headingIntlId, bodyIntlId) => (
+  const _renderInfo = (iconName: string, headingIntlId: string, bodyIntlId: string) => (
     <View style={styles.sectionRow}>
       <Icon
         iconType="SimpleLineIcons"
@@ -80,14 +80,10 @@ function WelcomeScreen() {
       <TouchableOpacity onPress={_onTermsPress}>
         <View style={styles.consentTextContainer}>
           <Text style={styles.termsDescText}>
-            {intl.formatMessage({
-              id: 'welcome.terms_description',
-            })}
+            {intl.formatMessage({id: 'welcome.terms_description'})}
             <Text style={styles.termsLinkText}>
               {' '}
-              {intl.formatMessage({
-                id: 'welcome.terms_text',
-              })}
+              {intl.formatMessage({id: 'welcome.terms_text'})}
             </Text>
           </Text>
         </View>
@@ -123,7 +119,7 @@ function WelcomeScreen() {
             onPress={_handleButtonPress}
             isDisable={!isConsentChecked}
             isLoading={false}
-            style={{alignSelf: 'center', paddingHorizontal: 30}}
+            style={styles.mainButton}
             text={intl.formatMessage({id: 'welcome.get_started'})}
           />
         </View>

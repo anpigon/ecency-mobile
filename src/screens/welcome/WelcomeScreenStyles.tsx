@@ -1,7 +1,7 @@
 import {Platform} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
-import scalePx from '../../../utils/scalePx';
+import getWindowDimensions from '../../utils/getWindowDimensions';
+import scalePx from '../../utils/scalePx';
 
 const WINDOW_HEIGHT = getWindowDimensions().height;
 
@@ -99,5 +99,9 @@ export default EStyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
     color: '$primaryBlue',
+  },
+  mainButton: {
+    alignSelf: 'center',
+    paddingHorizontal: 30,
   },
 });
