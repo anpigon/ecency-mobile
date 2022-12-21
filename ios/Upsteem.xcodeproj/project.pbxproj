@@ -11,7 +11,7 @@
 		021526F0AF8A45FCB60C9C56 /* Roboto-medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7900A87FFF214846B5FE0430 /* Roboto-medium.ttf */; };
 		0516470B24D2C513005DE9C5 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0516470A24D2C513005DE9C5 /* ShareViewController.swift */; };
 		0516470E24D2C513005DE9C5 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0516470C24D2C513005DE9C5 /* MainInterface.storyboard */; };
-		0516471224D2C513005DE9C5 /* eshare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0516470824D2C513005DE9C5 /* eshare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0516471224D2C513005DE9C5 /* eshare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0516470824D2C513005DE9C5 /* eshare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		053EA30026B2B9920082FEB9 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053EA2FF26B2B9920082FEB9 /* File.swift */; };
 		053EA30326B2BA150082FEB9 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053EA30226B2BA150082FEB9 /* File.swift */; };
 		05B6C49224C306CE00B7FA60 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -69,15 +69,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		58C9F50524CE017800A026DD /* Embed App Extensions */ = {
+		58C9F50524CE017800A026DD /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				0516471224D2C513005DE9C5 /* eshare.appex in Embed App Extensions */,
+				0516471224D2C513005DE9C5 /* eshare.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -86,7 +86,7 @@
 		000EE3558E824DA88770325D /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		00310051DF33C416E604769D /* libPods-upsteem.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-upsteem.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* upsteemTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = upsteemTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* UpsteemTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UpsteemTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* upsteemTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = upsteemTests.m; sourceTree = "<group>"; };
 		0516470824D2C513005DE9C5 /* eshare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = eshare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,7 +98,7 @@
 		053EA30126B2BA140082FEB9 /* upsteemTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "upsteemTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		053EA30226B2BA150082FEB9 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		05A14D162518B03000EB7509 /* upsteem-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "upsteem-Bridging-Header.h"; sourceTree = "<group>"; };
-		05B6C4B724C306CE00B7FA60 /* upsteem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = upsteem.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		05B6C4B724C306CE00B7FA60 /* Upsteem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Upsteem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06844A5429119F05002FCC34 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = upsteem/BootSplash.storyboard; sourceTree = "<group>"; };
 		06F72CA2290B2159003392F3 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = upsteem/AppDelegate.mm; sourceTree = "<group>"; };
 		06F72CA5290B2D7F003392F3 /* hermes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = hermes.xcframework; path = "Pods/hermes-engine/destroot/Library/Frameworks/universal/hermes.xcframework"; sourceTree = "<group>"; };
@@ -111,8 +111,8 @@
 		1CD0B89B258019B600A7D78E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		22F5F05A06E142C2B41A4D38 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		263FA8C0EF21473FAAAD3EDD /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
-		2D02E47B1E0B4A5D006451C7 /* upsteem-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "upsteem-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D02E4901E0B4A5D006451C7 /* upsteem-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "upsteem-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E47B1E0B4A5D006451C7 /* Upsteem-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Upsteem-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E4901E0B4A5D006451C7 /* Upsteem-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Upsteem-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34E88D888DD444F8B285363C /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		35A5C828DD40E183E78893AF /* Pods-upsteem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-upsteem.release.xcconfig"; path = "Target Support Files/Pods-upsteem/Pods-upsteem.release.xcconfig"; sourceTree = "<group>"; };
 		420ABF9795564845A0963C27 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
@@ -341,10 +341,10 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				00E356EE1AD99517003FC87E /* upsteemTests.xctest */,
-				2D02E47B1E0B4A5D006451C7 /* upsteem-tvOS.app */,
-				2D02E4901E0B4A5D006451C7 /* upsteem-tvOSTests.xctest */,
-				05B6C4B724C306CE00B7FA60 /* upsteem.app */,
+				00E356EE1AD99517003FC87E /* UpsteemTests.xctest */,
+				2D02E47B1E0B4A5D006451C7 /* Upsteem-tvOS.app */,
+				2D02E4901E0B4A5D006451C7 /* Upsteem-tvOSTests.xctest */,
+				05B6C4B724C306CE00B7FA60 /* Upsteem.app */,
 				0516470824D2C513005DE9C5 /* eshare.appex */,
 			);
 			name = Products;
@@ -353,9 +353,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* upsteemTests */ = {
+		00E356ED1AD99517003FC87E /* UpsteemTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "upsteemTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "UpsteemTests" */;
 			buildPhases = (
 				E3C5D6347E83A6E342C9AFBA /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -368,9 +368,9 @@
 			);
 			dependencies = (
 			);
-			name = upsteemTests;
+			name = UpsteemTests;
 			productName = upsteemTests;
-			productReference = 00E356EE1AD99517003FC87E /* upsteemTests.xctest */;
+			productReference = 00E356EE1AD99517003FC87E /* UpsteemTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		0516470724D2C513005DE9C5 /* eshare */ = {
@@ -390,9 +390,9 @@
 			productReference = 0516470824D2C513005DE9C5 /* eshare.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		05B6C48C24C306CE00B7FA60 /* upsteem */ = {
+		05B6C48C24C306CE00B7FA60 /* Upsteem */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 05B6C4B424C306CE00B7FA60 /* Build configuration list for PBXNativeTarget "upsteem" */;
+			buildConfigurationList = 05B6C4B424C306CE00B7FA60 /* Build configuration list for PBXNativeTarget "Upsteem" */;
 			buildPhases = (
 				CC9EC18FF9D1D5F0C61D1609 /* [CP] Check Pods Manifest.lock */,
 				05B6C48E24C306CE00B7FA60 /* Start Packager */,
@@ -400,7 +400,7 @@
 				05B6C49324C306CE00B7FA60 /* Frameworks */,
 				05B6C49624C306CE00B7FA60 /* Resources */,
 				05B6C4B124C306CE00B7FA60 /* Bundle React Native code and images */,
-				58C9F50524CE017800A026DD /* Embed App Extensions */,
+				58C9F50524CE017800A026DD /* Embed Foundation Extensions */,
 				05BAAAEE25BF43F80072EA01 /* ShellScript */,
 				3D1F6693773C4541A695BB3C /* Upload source maps to Bugsnag */,
 				2E2DF52E9572E61DC69EE1D7 /* [CP] Embed Pods Frameworks */,
@@ -412,14 +412,14 @@
 			dependencies = (
 				0516471124D2C513005DE9C5 /* PBXTargetDependency */,
 			);
-			name = upsteem;
+			name = Upsteem;
 			productName = upsteem;
-			productReference = 05B6C4B724C306CE00B7FA60 /* upsteem.app */;
+			productReference = 05B6C4B724C306CE00B7FA60 /* Upsteem.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E47A1E0B4A5D006451C7 /* upsteem-tvOS */ = {
+		2D02E47A1E0B4A5D006451C7 /* Upsteem-tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "upsteem-tvOS" */;
+			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Upsteem-tvOS" */;
 			buildPhases = (
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
@@ -430,14 +430,14 @@
 			);
 			dependencies = (
 			);
-			name = "upsteem-tvOS";
+			name = "Upsteem-tvOS";
 			productName = "upsteem-tvOS";
-			productReference = 2D02E47B1E0B4A5D006451C7 /* upsteem-tvOS.app */;
+			productReference = 2D02E47B1E0B4A5D006451C7 /* Upsteem-tvOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E48F1E0B4A5D006451C7 /* upsteem-tvOSTests */ = {
+		2D02E48F1E0B4A5D006451C7 /* Upsteem-tvOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "upsteem-tvOSTests" */;
+			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Upsteem-tvOSTests" */;
 			buildPhases = (
 				57F4EECD4004FE3420E6DF92 /* Bundle React Native Code And Images */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
@@ -449,9 +449,9 @@
 			dependencies = (
 				2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */,
 			);
-			name = "upsteem-tvOSTests";
+			name = "Upsteem-tvOSTests";
 			productName = "upsteem-tvOSTests";
-			productReference = 2D02E4901E0B4A5D006451C7 /* upsteem-tvOSTests.xctest */;
+			productReference = 2D02E4901E0B4A5D006451C7 /* Upsteem-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -462,7 +462,7 @@
 			attributes = {
 				DefaultBuildSystemTypeForWorkspace = Original;
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1230;
+				LastUpgradeCheck = 1420;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -492,7 +492,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "upsteem" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Upsteem" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -512,10 +512,10 @@
 			);
 			projectRoot = "";
 			targets = (
-				05B6C48C24C306CE00B7FA60 /* upsteem */,
-				00E356ED1AD99517003FC87E /* upsteemTests */,
-				2D02E47A1E0B4A5D006451C7 /* upsteem-tvOS */,
-				2D02E48F1E0B4A5D006451C7 /* upsteem-tvOSTests */,
+				05B6C48C24C306CE00B7FA60 /* Upsteem */,
+				00E356ED1AD99517003FC87E /* UpsteemTests */,
+				2D02E47A1E0B4A5D006451C7 /* Upsteem-tvOS */,
+				2D02E48F1E0B4A5D006451C7 /* Upsteem-tvOSTests */,
 				0516470724D2C513005DE9C5 /* eshare */,
 			);
 		};
@@ -958,7 +958,7 @@
 		};
 		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2D02E47A1E0B4A5D006451C7 /* upsteem-tvOS */;
+			target = 2D02E47A1E0B4A5D006451C7 /* Upsteem-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1072,7 +1072,7 @@
 				MARKETING_VERSION = 3.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios.eshare;
+				PRODUCT_BUNDLE_IDENTIFIER = app.upsteem.mobile.eshare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "extension-dev";
 				SKIP_INSTALL = YES;
@@ -1108,7 +1108,7 @@
 				);
 				MARKETING_VERSION = 3.0.0;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios.eshare;
+				PRODUCT_BUNDLE_IDENTIFIER = app.upsteem.mobile.eshare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "extension-dev";
 				SKIP_INSTALL = YES;
@@ -1180,6 +1180,7 @@
 					"\"${PODS_ROOT}/../node_modules/react-native/Libraries/LinkingIOS\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/upsteem/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1191,7 +1192,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = app.upsteem.mobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = ios_dev_app;
 				SWIFT_OBJC_BRIDGING_HEADER = "upsteem-Bridging-Header.h";
@@ -1262,6 +1263,7 @@
 					"\"${PODS_ROOT}/../node_modules/react-native/Libraries/LinkingIOS\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/upsteem/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1273,7 +1275,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = app.upsteem.mobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = ios_dev_app;
 				SWIFT_OBJC_BRIDGING_HEADER = "upsteem-Bridging-Header.h";
@@ -1368,7 +1370,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.upsteem-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/upsteem-tvOS.app/upsteem-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Upsteem-tvOS.app/Upsteem-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
@@ -1398,7 +1400,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.upsteem-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/upsteem-tvOS.app/upsteem-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Upsteem-tvOS.app/Upsteem-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Release;
@@ -1518,7 +1520,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "upsteemTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "UpsteemTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -1536,7 +1538,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		05B6C4B424C306CE00B7FA60 /* Build configuration list for PBXNativeTarget "upsteem" */ = {
+		05B6C4B424C306CE00B7FA60 /* Build configuration list for PBXNativeTarget "Upsteem" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				05B6C4B524C306CE00B7FA60 /* Debug */,
@@ -1545,7 +1547,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "upsteem-tvOS" */ = {
+		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Upsteem-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4971E0B4A5E006451C7 /* Debug */,
@@ -1554,7 +1556,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "upsteem-tvOSTests" */ = {
+		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Upsteem-tvOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
@@ -1563,7 +1565,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "upsteem" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Upsteem" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
