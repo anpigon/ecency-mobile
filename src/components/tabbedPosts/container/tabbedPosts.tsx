@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+import React, {useState, useMemo} from 'react';
+import ScrollableTabView, {TabBarProps} from 'react-native-scrollable-tab-view';
 import {TabbedPostsProps} from '../services/tabbedPostsModels';
 import {StackedTabBar, TabItem} from '../view/stackedTabBar';
 import TabContent from '../view/tabContent';
 
-export function TabbedPosts({
+export const TabbedPosts: React.FC<TabbedPostsProps> = ({
   filterOptions,
   filterOptionsValue,
   selectedOptionIndex,
-  feedSubfilterOptions,
-  feedSubfilterOptionsValue,
+  feedSubfilterOptions = [],
+  feedSubfilterOptionsValue = [],
   isFeedScreen,
   feedUsername,
   pageType,
@@ -18,31 +18,34 @@ export function TabbedPosts({
   stackedTabs,
   onTabChange,
   ...props
-}: TabbedPostsProps) {
+}) => {
   // initialize state
-  const [initialTabIndex] = useState(
-    selectedOptionIndex == 0 && stackedTabs ? filterOptions.length : selectedOptionIndex,
+  const initialTabIndex = useMemo(
+    () => (selectedOptionIndex === 0 && stackedTabs ? filterOptions.length : selectedOptionIndex),
+    [selectedOptionIndex, stackedTabs, filterOptions.length],
   );
 
-  const mainFilters = filterOptions.map(
-    (label, index) =>
-      ({
+  const mainFilters = useMemo(
+    () =>
+      filterOptions.map<TabItem>((label, index) => ({
         filterKey: filterOptionsValue[index],
         label,
-      } as TabItem),
+      })),
+    [filterOptions, filterOptionsValue],
   );
 
-  const subFilters = feedSubfilterOptions
-    ? feedSubfilterOptions.map(
-        (label, index) =>
-          ({
+  const subFilters = useMemo(
+    () =>
+      feedSubfilterOptions
+        ? feedSubfilterOptions.map<TabItem>((label, index) => ({
             filterKey: feedSubfilterOptionsValue[index],
             label,
-          } as TabItem),
-      )
-    : [];
+          }))
+        : [],
+    [feedSubfilterOptions, feedSubfilterOptionsValue],
+  );
 
-  const combinedFilters = [...mainFilters, ...subFilters];
+  const combinedFilters = useMemo(() => [...mainFilters, ...subFilters], [mainFilters, subFilters]);
 
   const [selectedFilter, setSelectedFilter] = useState(combinedFilters[initialTabIndex].filterKey);
   const [filterScrollRequest, createFilterScrollRequest] = useState<string | null>(null);
@@ -65,36 +68,38 @@ export function TabbedPosts({
     if (tabContentOverrides && tabContentOverrides.has(index)) {
       return tabContentOverrides.get(index);
     }
-
     return (
       <TabContent
+        tag={props.tag ?? ''}
+        getFor={props.getFor}
+        forceLoadPosts={props.forceLoadPosts ?? false}
+        handleOnScroll={props.handleOnScroll ? props.handleOnScroll : () => {}}
         key={filter.filterKey}
         filterKey={filter.filterKey}
         isFeedScreen={isFeedScreen}
-        isInitialTab={initialTabIndex == index}
+        isInitialTab={initialTabIndex === index}
         feedUsername={feedUsername}
         pageType={pageType}
         filterScrollRequest={filterScrollRequest}
         onScrollRequestProcessed={_onScrollRequestProcessed}
-        {...props}
       />
     );
   });
 
   // render tab bar
-  const _renderTabBar = props => {
-    return (
-      <StackedTabBar
-        {...props}
-        firstStack={mainFilters}
-        secondStack={subFilters}
-        initialFirstStackIndex={selectedOptionIndex}
-        onFilterSelect={_onFilterSelect}
-        toggleHideImagesFlag={imagesToggleEnabled}
-        pageType={pageType}
-      />
-    );
-  };
+  const _renderTabBar = (tabBarProps: TabBarProps) => (
+    // @ts-expect-error
+    <StackedTabBar
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...tabBarProps}
+      firstStack={mainFilters}
+      secondStack={subFilters}
+      initialFirstStackIndex={selectedOptionIndex}
+      onFilterSelect={_onFilterSelect}
+      toggleHideImagesFlag={imagesToggleEnabled ?? false}
+      pageType={pageType}
+    />
+  );
 
   return (
     <ScrollableTabView
@@ -102,8 +107,9 @@ export function TabbedPosts({
       locked={true}
       initialPage={initialTabIndex}
       renderTabBar={_renderTabBar}
+      // @ts-expect-error
       onTabChange={onTabChange}>
       {pages}
     </ScrollableTabView>
   );
-}
+};

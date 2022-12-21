@@ -53,10 +53,10 @@ export const loadPosts = async ({
   setTabMeta({
     ...tabMeta,
     isLoading: true,
-    isRefreshing: refreshing,
+    isRefreshing: refreshing ?? false,
   });
 
-  let options = {};
+  let options: any = {};
   const limit = isLatestPostsCheck ? 5 : POSTS_FETCH_COUNT;
   let func = null;
 
@@ -141,7 +141,7 @@ export const loadPosts = async ({
       isRefreshing: false,
     });
 
-    const retData = {
+    const retData: any = {
       latestPosts: null,
       updatedPosts: null,
     };
@@ -153,7 +153,7 @@ export const loadPosts = async ({
       const updatedPosts = getUpdatedPosts(
         startAuthor && startPermlink ? prevPosts : [],
         result,
-        refreshing,
+        refreshing ?? false,
         tabMeta,
         setTabMeta,
       );

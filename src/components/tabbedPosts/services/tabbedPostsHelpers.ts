@@ -19,7 +19,7 @@ export const calculateTimeLeftForPostCheck = (firstPost: any) => {
 
 // filter posts that are not present in top 5 posts currently in list.
 export const filterLatestPosts = (fetchedPosts: any[], cachedPosts: any[]) => {
-  const latestPosts = [];
+  const latestPosts: any[] = [];
   fetchedPosts.forEach(post => {
     const newPostAuthPrem = post.author + post.permlink;
     const postExist = cachedPosts.find(cPost => cPost.author + post.permlink === newPostAuthPrem);

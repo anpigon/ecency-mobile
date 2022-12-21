@@ -14,7 +14,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import styles from './iconStyles';
 
 interface Props extends PropsWithChildren, IconProps {
-  iconType: string;
+  iconType?: string;
   name: string;
   androidName?: string;
   badgeCount?: number;
@@ -33,10 +33,10 @@ const IconView: React.FC<Props> = props => {
   // for ios its turn ios-eye-off-outline
   // for android its turn to md-off-outline
   const getIconName = (iconName: string) => {
-    if (Platform.OS === 'ios') {
-      return iconName;
+    if (Platform.OS === 'android') {
+      return androidName || (name && `md-${name.split('ios-')}`);
     }
-    return androidName || (name && `md-${name.split('ios-')}`);
+    return iconName;
   };
 
   const renderIcon = useMemo(() => {
@@ -56,8 +56,8 @@ const IconView: React.FC<Props> = props => {
       case 'MaterialCommunityIcons':
         return <MaterialCommunityIcons {...props}>{children}</MaterialCommunityIcons>;
       default:
-        const iconName = getIconName(name);
-        return <Ionicons {...props} name={iconName} />;
+        // const iconName = getIconName(name);
+        return <Ionicons {...props} />;
     }
   }, [iconType, name, androidName, children, badgeStyle, badgeTextStyle]);
 

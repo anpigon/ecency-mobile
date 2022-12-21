@@ -1,5 +1,5 @@
+/* eslint-disable max-len */
 import React, {useState, useEffect, useRef} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
 import {
   AppState,
   NativeEventSubscription,
@@ -7,7 +7,7 @@ import {
   NativeSyntheticEvent,
 } from 'react-native';
 import {debounce} from 'lodash';
-import PostsList from '../../postsList';
+import {PostsList} from '../../postsList';
 import {fetchPromotedEntries, loadPosts} from '../services/tabbedPostsFetch';
 import {LoadPostsOptions, TabContentProps, TabMeta} from '../services/tabbedPostsModels';
 import TabEmptyView from './listEmptyView';
@@ -16,6 +16,8 @@ import {showReplyModal} from '../../../redux/actions/uiAction';
 import {calculateTimeLeftForPostCheck} from '../services/tabbedPostsHelpers';
 import {PostsListRef} from '../../postsList/container/postsListContainer';
 import ScrollTopPopup from './scrollTopPopup';
+import {useAppDispatch, useAppSelector} from '../../../hooks';
+import {RootState} from '../../../redux/store/store';
 
 const DEFAULT_TAB_META = {
   startAuthor: '',
@@ -28,36 +30,37 @@ let scrollOffset = 0;
 let blockPopup = false;
 const SCROLL_POPUP_THRESHOLD = 5000;
 
-function TabContent({
-  filterKey,
-  isFeedScreen,
-  isInitialTab,
-  pageType,
-  forceLoadPosts,
-  filterScrollRequest,
-  feedUsername,
-  tag,
-  pinnedPermlink,
-  onScrollRequestProcessed,
-  handleOnScroll,
-  ...props
-}: TabContentProps) {
+const TabContent: React.FC<TabContentProps> = props => {
+  const {
+    filterKey,
+    isFeedScreen,
+    isInitialTab,
+    pageType,
+    forceLoadPosts,
+    filterScrollRequest,
+    feedUsername,
+    tag,
+    pinnedPermlink,
+    onScrollRequestProcessed,
+    handleOnScroll,
+    getFor,
+  } = props;
   let _isMounted = true;
 
   // redux properties
-  const dispatch = useDispatch();
-  const isLoggedIn = useSelector(state => state.application.isLoggedIn);
-  const nsfw = useSelector(state => state.application.nsfw);
-  const isConnected = useSelector(state => state.application.isConnected);
-  const currentAccount = useSelector(state => state.account.currentAccount);
-  const initPosts = useSelector(state => state.posts.initPosts);
+  const dispatch = useAppDispatch();
+  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
+  const nsfw = useAppSelector(state => state.application.nsfw);
+  const isConnected = useAppSelector(state => state.application.isConnected);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const initPosts = useAppSelector(state => state.posts.initPosts);
 
   const {username} = currentAccount;
   const userPinned = currentAccount.about?.profile?.pinned;
 
   // state
-  const [posts, setPosts] = useState([]);
-  const [promotedPosts, setPromotedPosts] = useState([]);
+  const [posts, setPosts] = useState<any[]>([]);
+  const [promotedPosts, setPromotedPosts] = useState<any[]>([]);
   const [sessionUser, setSessionUser] = useState(username);
   const [tabMeta, setTabMeta] = useState(DEFAULT_TAB_META);
   const [latestPosts, setLatestPosts] = useState<any[]>([]);
@@ -121,7 +124,7 @@ function TabContent({
   };
 
   // actions
-  const _handleAppStateChange = nextAppState => {
+  const _handleAppStateChange = (nextAppState: RootState) => {
     if (
       appState.current.match(/inactive|background/) &&
       nextAppState === 'active' &&
@@ -201,10 +204,11 @@ function TabContent({
       feedUsername: _feedUsername,
       pinnedPermlink: _pinnedPermlink,
       tag,
-      ...props,
+      getFor,
     } as LoadPostsOptions;
 
     const result = await loadPosts(options);
+    console.log(result)
     if (_isMounted && result) {
       if (shouldReset || isFirstCall) {
         setPosts([]);
@@ -231,7 +235,7 @@ function TabContent({
       }
 
       const timeLeft = calculateTimeLeftForPostCheck(firstPost);
-      const _postFetchTimer = setTimeout(() => {
+      const _postFetchTimer = window.setTimeout(() => {
         const isLatestPostsCheck = true;
         _loadPosts({
           shouldReset: false,
@@ -243,11 +247,11 @@ function TabContent({
   };
 
   // processes response from loadPost
-  const _postProcessLoadResult = ({updatedPosts, latestPosts}: any) => {
+  const _postProcessLoadResult = ({updatedPosts, latestPosts: _latestPosts}: any) => {
     // process new posts avatart
-    if (latestPosts && Array.isArray(latestPosts)) {
-      if (latestPosts.length > 0) {
-        setLatestPosts(latestPosts);
+    if (_latestPosts && Array.isArray(_latestPosts)) {
+      if (_latestPosts.length > 0) {
+        setLatestPosts(_latestPosts);
       } else {
         _scheduleLatestPostsCheck(posts[0]);
       }
@@ -258,7 +262,7 @@ function TabContent({
       if (updatedPosts.length) {
         // match new and old first post
         const firstPostChanged =
-          posts.length == 0 || posts[0].permlink !== updatedPosts[0].permlink;
+          posts.length === 0 || posts[0].permlink !== updatedPosts[0].permlink;
         if (isFeedScreen && firstPostChanged) {
           // schedule refetch of new posts by checking time of current post
           _scheduleLatestPostsCheck(updatedPosts[0]);
@@ -285,7 +289,7 @@ function TabContent({
   };
 
   const _scrollToTop = () => {
-    postsListRef.current.scrollToTop();
+    postsListRef.current?.scrollToTop();
     setEnableScrollTop(false);
     scrollPopupDebouce.cancel();
     blockPopup = true;
@@ -333,6 +337,13 @@ function TabContent({
     }
   };
 
+  const handleLoadPosts = (shouldReset: boolean) => {
+    _loadPosts({shouldReset});
+    if (shouldReset) {
+      _getPromotedPosts();
+    }
+  };
+
   return (
     <>
       <PostsList
@@ -340,12 +351,7 @@ function TabContent({
         data={posts}
         isFeedScreen={isFeedScreen}
         promotedPosts={promotedPosts}
-        onLoadPosts={shouldReset => {
-          _loadPosts({shouldReset});
-          if (shouldReset) {
-            _getPromotedPosts();
-          }
-        }}
+        onLoadPosts={handleLoadPosts}
         onScroll={_onScroll}
         onScrollEndDrag={_handleOnScroll}
         isRefreshing={tabMeta.isRefreshing}
@@ -365,6 +371,7 @@ function TabContent({
       />
     </>
   );
-}
+};
 
 export default TabContent;
+/* eslint-enable max-len */

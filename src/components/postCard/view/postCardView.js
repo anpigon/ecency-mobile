@@ -80,7 +80,7 @@ function PostCardView({
 
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
 
-  let images = {image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE};
+  let images = null;
   if (content.thumbnail) {
     if (isMuted || (nsfw !== '0' && content.nsfw)) {
       images = {image: NSFW_IMAGE, thumbnail: NSFW_IMAGE};
@@ -88,7 +88,7 @@ function PostCardView({
       images = {image: content.image, thumbnail: content.thumbnail};
     }
   } else {
-    images = {image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE};
+    // images = {image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE};
   }
 
   return (
@@ -135,7 +135,7 @@ function PostCardView({
           activeOpacity={1}
           style={styles.hiddenImages}
           onPress={_handleOnContentPress}>
-          {!isHideImage && (
+          {!isHideImage && images && (
             <FastImage
               source={{uri: images.image}}
               style={[

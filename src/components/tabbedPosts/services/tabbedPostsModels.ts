@@ -4,18 +4,18 @@ export interface TabbedPostsProps {
   isFeedScreen: boolean;
   feedUsername: string;
   selectedOptionIndex: number;
-  feedSubfilterOptions: string[];
-  feedSubfilterOptionsValue: string[];
+  feedSubfilterOptions?: string[];
+  feedSubfilterOptionsValue?: string[];
   getFor: string;
   pageType: 'main' | 'community' | 'profile' | 'ownProfile';
-  tag: string;
-  forceLoadPosts: boolean;
-  tabContentOverrides: Map<number, any>;
+  tag?: string;
+  forceLoadPosts?: boolean;
+  tabContentOverrides?: Map<number, any>;
   imagesToggleEnabled?: boolean;
-  stackedTabs: boolean;
+  stackedTabs?: boolean;
   pinnedPermlink?: string;
-  onTabChange: (index: number) => void;
-  handleOnScroll: () => void;
+  onTabChange?: (index: number) => void;
+  handleOnScroll?: () => void;
 }
 
 export interface TabMeta {
@@ -52,7 +52,7 @@ export interface TabContentProps {
   feedUsername: string;
   tag: string;
   forceLoadPosts: boolean;
-  filterScrollRequest: string;
+  filterScrollRequest: string | null;
   pinnedPermlink?: string;
   onScrollRequestProcessed: () => void;
   handleOnScroll: () => void;
